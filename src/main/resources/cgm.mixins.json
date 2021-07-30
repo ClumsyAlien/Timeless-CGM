@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.mrcrayfish.guns.mixin",
+  "package": "com.tac.guns.mixin",
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.8",
   "refmap": "cgm.refmap.json",
