@@ -5,7 +5,7 @@ license="GPL3"
 [[mods]]
 modId="cgm"
 version="1.0.0"
-displayName="MrCrayfish's Gun Mod"
+displayName="Timeless and Classics"
 updateJSONURL="https://raw.githubusercontent.com/MrCrayfish/ModUpdates/master/cgm/update.json"
 displayURL="https://mrcrayfish.com/"
 authors="MrCrayfish"
