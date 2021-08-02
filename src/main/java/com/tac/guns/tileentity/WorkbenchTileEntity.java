@@ -64,7 +64,7 @@ public class WorkbenchTileEntity extends SyncedTileEntity implements IStorageBlo
     @Override
     public ITextComponent getDisplayName()
     {
-        return new TranslationTextComponent("container.cgm.workbench");
+        return new TranslationTextComponent("container.tac.workbench");
     }
 
     @Nullable

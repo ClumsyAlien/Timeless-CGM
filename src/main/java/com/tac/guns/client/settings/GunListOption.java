@@ -108,7 +108,7 @@ public class GunListOption<E extends IResourceLocation> extends AbstractOption
 
     public ITextComponent getTitle()
     {
-        ITextComponent component = new TranslationTextComponent("cgm.option_list.no_items");
+        ITextComponent component = new TranslationTextComponent("tac.option_list.no_items");
         E e = this.get();
         if(e != null)
         {

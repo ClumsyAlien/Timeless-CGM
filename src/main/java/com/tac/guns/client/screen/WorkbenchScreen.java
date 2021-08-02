@@ -51,7 +51,7 @@ import java.util.stream.Collectors;
  */
 public class WorkbenchScreen extends ContainerScreen<WorkbenchContainer>
 {
-    private static final ResourceLocation GUI_BASE = new ResourceLocation("cgm:textures/gui/workbench.png");
+    private static final ResourceLocation GUI_BASE = new ResourceLocation("tac:textures/gui/workbench.png");
     private static boolean showRemaining = false;
 
     private Tab currentTab;
@@ -185,7 +185,7 @@ public class WorkbenchScreen extends ContainerScreen<WorkbenchContainer>
                 this.loadItem(index + 1);
             }
         }));
-        this.btnCraft = this.addButton(new Button(this.leftPos + 195, this.topPos + 16, 74, 20, new TranslationTextComponent("gui.cgm.workbench.assemble"), button ->
+        this.btnCraft = this.addButton(new Button(this.leftPos + 195, this.topPos + 16, 74, 20, new TranslationTextComponent("gui.tac.workbench.assemble"), button ->
         {
             int index = this.currentTab.getCurrentIndex();
             WorkbenchRecipe recipe = this.currentTab.getRecipes().get(index);
@@ -193,7 +193,7 @@ public class WorkbenchScreen extends ContainerScreen<WorkbenchContainer>
             PacketHandler.getPlayChannel().sendToServer(new MessageCraft(registryName, this.workbench.getBlockPos()));
         }));
         this.btnCraft.active = false;
-        this.checkBoxMaterials = this.addButton(new CheckBox(this.leftPos + 172, this.topPos + 51, new TranslationTextComponent("gui.cgm.workbench.show_remaining")));
+        this.checkBoxMaterials = this.addButton(new CheckBox(this.leftPos + 172, this.topPos + 51, new TranslationTextComponent("gui.tac.workbench.show_remaining")));
         this.checkBoxMaterials.setToggled(WorkbenchScreen.showRemaining);
         this.loadItem(this.currentTab.getCurrentIndex());
     }
@@ -544,7 +544,7 @@ public class WorkbenchScreen extends ContainerScreen<WorkbenchContainer>
 
         public String getTabKey()
         {
-            return "gui.cgm.workbench.tab." + this.id;
+            return "gui.tac.workbench.tab." + this.id;
         }
 
         public void setCurrentIndex(int currentIndex)

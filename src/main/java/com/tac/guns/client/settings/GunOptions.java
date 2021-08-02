@@ -20,17 +20,17 @@ public class GunOptions
 {
     private static final DecimalFormat FORMAT = new DecimalFormat("0.0#");
 
-    public static final SliderPercentageOption ADS_SENSITIVITY = new GunSliderPercentageOption("cgm.options.adsSensitivity", 0.0, 1.0, 0.01F, gameSettings -> {
+    public static final SliderPercentageOption ADS_SENSITIVITY = new GunSliderPercentageOption("tac.options.adsSensitivity", 0.0, 1.0, 0.01F, gameSettings -> {
         return Config.CLIENT.controls.aimDownSightSensitivity.get();
     }, (gameSettings, value) -> {
         Config.CLIENT.controls.aimDownSightSensitivity.set(MathHelper.clamp(value, 0.0, 1.0));
         Config.saveClientConfig();
     }, (gameSettings, option) -> {
         double adsSensitivity = Config.CLIENT.controls.aimDownSightSensitivity.get();
-        return new TranslationTextComponent("cgm.options.adsSensitivity.format", FORMAT.format(adsSensitivity));
+        return new TranslationTextComponent("tac.options.adsSensitivity.format", FORMAT.format(adsSensitivity));
     });
 
-    public static final AbstractOption CROSSHAIR = new GunListOption<>("cgm.options.crosshair", () -> {
+    public static final AbstractOption CROSSHAIR = new GunListOption<>("tac.options.crosshair", () -> {
         return CrosshairHandler.get().getRegisteredCrosshairs();
     }, () -> {
         return ResourceLocation.tryParse(Config.CLIENT.display.crosshair.get());

@@ -306,7 +306,7 @@ public class ServerPlayHandler
         ItemStack heldItem = player.getMainHandItem();
         if(heldItem.getItem() instanceof GunItem)
         {
-            NetworkHooks.openGui(player, new SimpleNamedContainerProvider((windowId, playerInventory, player1) -> new AttachmentContainer(windowId, playerInventory, heldItem), new TranslationTextComponent("container.cgm.attachments")));
+            NetworkHooks.openGui(player, new SimpleNamedContainerProvider((windowId, playerInventory, player1) -> new AttachmentContainer(windowId, playerInventory, heldItem), new TranslationTextComponent("container.tac.attachments")));
         }
     }
 }

@@ -2,7 +2,7 @@ package com.tac.guns;
 
 public class Reference
 {
-	public static final String MOD_ID = "cgm";
+	public static final String MOD_ID = "tac";
 	public static final String MOD_NAME = "MrCrayfish's Gun Mod";
 	public static final String MOD_VERSION = "0.15.3";
 	public static final String MC_VERSION = "[1.12.2]";

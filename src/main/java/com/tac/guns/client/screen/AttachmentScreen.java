@@ -29,7 +29,7 @@ import java.util.Collections;
  */
 public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
 {
-    private static final ResourceLocation GUI_TEXTURES = new ResourceLocation("cgm:textures/gui/attachments.png");
+    private static final ResourceLocation GUI_TEXTURES = new ResourceLocation("tac:textures/gui/attachments.png");
 
     private final PlayerInventory playerInventory;
     private final IInventory weaponInventory;
@@ -80,12 +80,12 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
                 IAttachment.Type type = IAttachment.Type.values()[i];
                 if(!this.menu.getSlot(i).isActive())
                 {
-                    this.renderComponentTooltip(matrixStack, Arrays.asList(new TranslationTextComponent("slot.cgm.attachment." + type.getTranslationKey()), new TranslationTextComponent("slot.cgm.attachment.not_applicable")), mouseX, mouseY);
+                    this.renderComponentTooltip(matrixStack, Arrays.asList(new TranslationTextComponent("slot.tac.attachment." + type.getTranslationKey()), new TranslationTextComponent("slot.tac.attachment.not_applicable")), mouseX, mouseY);
                 }
                 else if(this.weaponInventory.getItem(i).isEmpty())
                 {
 
-                    this.renderComponentTooltip(matrixStack, Collections.singletonList(new TranslationTextComponent("slot.cgm.attachment." + type.getTranslationKey())), mouseX, mouseY);
+                    this.renderComponentTooltip(matrixStack, Collections.singletonList(new TranslationTextComponent("slot.tac.attachment." + type.getTranslationKey())), mouseX, mouseY);
                 }
             }
         }
@@ -139,7 +139,7 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
         {
             RenderSystem.pushMatrix();
             RenderSystem.scalef(0.5F, 0.5F, 0.5F);
-            minecraft.font.draw(matrixStack, I18n.get("container.cgm.attachments.window_help"), 56, 38, 0xFFFFFF);
+            minecraft.font.draw(matrixStack, I18n.get("container.tac.attachments.window_help"), 56, 38, 0xFFFFFF);
             RenderSystem.popMatrix();
         }
     }

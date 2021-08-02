@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class CheckBox extends Widget
 {
-    private static final ResourceLocation GUI = new ResourceLocation("cgm:textures/gui/components.png");
+    private static final ResourceLocation GUI = new ResourceLocation("tac:textures/gui/components.png");
 
     private boolean toggled = false;
 

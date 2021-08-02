@@ -56,7 +56,7 @@ public class GunItem extends Item implements IColored
         Item ammo = ForgeRegistries.ITEMS.getValue(modifiedGun.getProjectile().getItem());
         if(ammo != null)
         {
-            tooltip.add(new TranslationTextComponent("info.cgm.ammo_type", new TranslationTextComponent(ammo.getDescriptionId()).withStyle(TextFormatting.WHITE)).withStyle(TextFormatting.GRAY));
+            tooltip.add(new TranslationTextComponent("info.tac.ammo_type", new TranslationTextComponent(ammo.getDescriptionId()).withStyle(TextFormatting.WHITE)).withStyle(TextFormatting.GRAY));
         }
 
         String additionalDamageText = "";
@@ -82,22 +82,22 @@ public class GunItem extends Item implements IColored
         float damage = modifiedGun.getProjectile().getDamage();
         damage = GunModifierHelper.getModifiedProjectileDamage(stack, damage);
         damage = GunEnchantmentHelper.getAcceleratorDamage(stack, damage);
-        tooltip.add(new TranslationTextComponent("info.cgm.damage", TextFormatting.WHITE + ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(damage) + additionalDamageText).withStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslationTextComponent("info.tac.damage", TextFormatting.WHITE + ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(damage) + additionalDamageText).withStyle(TextFormatting.GRAY));
 
         if(tagCompound != null)
         {
             if(tagCompound.getBoolean("IgnoreAmmo"))
             {
-                tooltip.add(new TranslationTextComponent("info.cgm.ignore_ammo").withStyle(TextFormatting.AQUA));
+                tooltip.add(new TranslationTextComponent("info.tac.ignore_ammo").withStyle(TextFormatting.AQUA));
             }
             else
             {
                 int ammoCount = tagCompound.getInt("AmmoCount");
-                tooltip.add(new TranslationTextComponent("info.cgm.ammo", TextFormatting.WHITE.toString() + ammoCount + "/" + GunEnchantmentHelper.getAmmoCapacity(stack, modifiedGun)).withStyle(TextFormatting.GRAY));
+                tooltip.add(new TranslationTextComponent("info.tac.ammo", TextFormatting.WHITE.toString() + ammoCount + "/" + GunEnchantmentHelper.getAmmoCapacity(stack, modifiedGun)).withStyle(TextFormatting.GRAY));
             }
         }
 
-        tooltip.add(new TranslationTextComponent("info.cgm.attachment_help", new KeybindTextComponent("key.cgm.attachments").getString().toUpperCase(Locale.ENGLISH)).withStyle(TextFormatting.YELLOW));
+        tooltip.add(new TranslationTextComponent("info.tac.attachment_help", new KeybindTextComponent("key.tac.attachments").getString().toUpperCase(Locale.ENGLISH)).withStyle(TextFormatting.YELLOW));
     }
 
     @Override

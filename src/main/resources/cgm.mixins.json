@@ -3,7 +3,7 @@
   "package": "com.tac.guns.mixin",
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.8",
-  "refmap": "cgm.refmap.json",
+  "refmap": "tac.refmap.json",
   "mixins": [
     "common.LivingEntityMixin",
     "common.PlayerListMixin",
