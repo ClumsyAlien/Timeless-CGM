@@ -33,7 +33,7 @@ public class GunMod
 {
     public static boolean controllableLoaded = false;
     public static final Logger LOGGER = LogManager.getLogger(Reference.MOD_ID);
-    public static final ItemGroup GROUP = new ItemGroup(Reference.MOD_ID)
+    public static final ItemGroup GROUP = new  ItemGroup(Reference.MOD_ID)
     {
         @Override
         public ItemStack makeIcon()

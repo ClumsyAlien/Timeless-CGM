@@ -5,8 +5,9 @@
         "gripType": "tac:two_handed",
         "maxAmmo": 40,
         "reloadAmount": 10,
-        "recoilKick": 0.25,
         "recoilAngle": 3.0,
+        "recoilKick": 0.25,
+        "horizontalRecoilAngle": 0.65,
         "spread": 4.0
     },
     "projectile": {

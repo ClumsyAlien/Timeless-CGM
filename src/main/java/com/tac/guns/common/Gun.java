@@ -65,6 +65,8 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         @Optional
         private float recoilKick;
         @Optional
+        private float horizontalRecoilAngle;
+        @Optional
         private float recoilDurationOffset;
         @Optional
         private float recoilAdsReduction = 0.2F;
@@ -86,6 +88,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             tag.putInt("ReloadSpeed", this.reloadAmount);
             tag.putFloat("RecoilAngle", this.recoilAngle);
             tag.putFloat("RecoilKick", this.recoilKick);
+            tag.putFloat("HorizontalRecoilAngle", this.horizontalRecoilAngle);
             tag.putFloat("RecoilDurationOffset", this.recoilDurationOffset);
             tag.putFloat("RecoilAdsReduction", this.recoilAdsReduction);
             tag.putInt("ProjectileAmount", this.projectileAmount);
@@ -125,6 +128,10 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             {
                 this.recoilKick = tag.getFloat("RecoilKick");
             }
+            if(tag.contains("HorizontalRecoilKick", Constants.NBT.TAG_ANY_NUMERIC))
+            {
+                this.recoilKick = tag.getFloat("HorizontalRecoilKick");
+            }
             if(tag.contains("RecoilDurationOffset", Constants.NBT.TAG_ANY_NUMERIC))
             {
                 this.recoilDurationOffset = tag.getFloat("RecoilDurationOffset");
@@ -160,6 +167,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             general.reloadAmount = this.reloadAmount;
             general.recoilAngle = this.recoilAngle;
             general.recoilKick = this.recoilKick;
+            general.horizontalRecoilAngle = this.horizontalRecoilAngle;
             general.recoilDurationOffset = this.recoilDurationOffset;
             general.recoilAdsReduction = this.recoilAdsReduction;
             general.projectileAmount = this.projectileAmount;
@@ -222,6 +230,14 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         public float getRecoilKick()
         {
             return this.recoilKick;
+        }
+
+        /**
+         * @return The amount of horizontal kick this gun produces upon firing
+         */
+        public float getHorizontalRecoilAngle()
+        {
+            return this.horizontalRecoilAngle;
         }
 
         /**

@@ -33,13 +33,24 @@ public class RecoilHandler
     }
 
     private Random random = new Random();
+    public int recoilRand;
     private double gunRecoilNormal;
     private double gunRecoilAngle;
     private float gunRecoilRandom;
     private float cameraRecoil;
     private float progressCameraRecoil;
+    private float horizontalCameraRecoil;
+    private float horizontalProgressCameraRecoil;
 
     private RecoilHandler() {}
+
+    @SubscribeEvent
+    public void preShoot(GunFireEvent.Pre event) {
+        if(!(event.getStack().getItem() instanceof GunItem))
+            return;
+        this.recoilRand = new Random().nextInt(2);
+        // System.out.println(recoilRand);
+    }
 
     @SubscribeEvent
     public void onGunFire(GunFireEvent.Post event)
@@ -58,8 +69,12 @@ public class RecoilHandler
         this.cameraRecoil = modifiedGun.getGeneral().getRecoilAngle() * recoilModifier;
         this.progressCameraRecoil = 0F;
         this.gunRecoilRandom = random.nextFloat();
+        // Horizontal Recoil
+        float HorizontalRecoilModifier = modifiedGun.getGeneral().getHorizontalRecoilAngle() - GunModifierHelper.getRecoilModifier(heldItem);
+        HorizontalRecoilModifier *= RecoilHandler.get().getAdsRecoilReduction(modifiedGun);
+        horizontalCameraRecoil = modifiedGun.getGeneral().getRecoilAngle() * recoilModifier;
+        horizontalProgressCameraRecoil = 0F;
     }
-
     @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent event)
     {
@@ -74,16 +89,27 @@ public class RecoilHandler
             return;
 
         float recoilAmount = this.cameraRecoil * mc.getDeltaFrameTime() * 0.1F;
+        float HorizontalRecoilAmount = this.horizontalCameraRecoil * mc.getDeltaFrameTime() * 0.1F;
         float startProgress = this.progressCameraRecoil / this.cameraRecoil;
         float endProgress = (this.progressCameraRecoil + recoilAmount) / this.cameraRecoil;
+        float HorizontalStartProgress = this.horizontalProgressCameraRecoil / this.horizontalCameraRecoil;
+        float HorizontalEndProgress = (this.horizontalProgressCameraRecoil + recoilAmount) / this.horizontalCameraRecoil;
 
         if(startProgress < 0.2F)
         {
             mc.player.xRot -= ((endProgress - startProgress) / 0.2F) * this.cameraRecoil;
+            if(recoilRand == 1)
+                mc.player.yRot -= ((endProgress - startProgress) / 0.2F) * this.horizontalCameraRecoil;
+            else
+                mc.player.yRot -= ((endProgress - startProgress) / 0.2F) * -this.horizontalCameraRecoil;
         }
         else
         {
             mc.player.xRot += ((endProgress - startProgress) / 0.8F) * this.cameraRecoil;
+            if(recoilRand == 1)
+                mc.player.yRot -= ((endProgress - startProgress) / 0.8F) * -this.horizontalCameraRecoil;
+            else
+                mc.player.yRot -= ((endProgress - startProgress) / 0.8F) * this.horizontalCameraRecoil;
         }
 
         this.progressCameraRecoil += recoilAmount;
@@ -93,6 +119,15 @@ public class RecoilHandler
             this.cameraRecoil = 0;
             this.progressCameraRecoil = 0;
         }
+
+        this.horizontalProgressCameraRecoil += recoilAmount;
+
+        if(this.horizontalProgressCameraRecoil >= this.horizontalCameraRecoil)
+        {
+            this.horizontalCameraRecoil = 0;
+            this.horizontalProgressCameraRecoil = 0;
+        }
+
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -143,4 +178,5 @@ public class RecoilHandler
     {
         return this.gunRecoilRandom;
     }
+
 }
