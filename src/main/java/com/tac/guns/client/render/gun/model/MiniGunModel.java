@@ -6,7 +6,7 @@ import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.Gun;
 import com.tac.guns.init.ModSyncedDataKeys;
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
+// import com.tac.obfuscate.*;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.LivingEntity;
@@ -31,7 +31,7 @@ public class MiniGunModel implements IOverrideModel
         Rotations rotations = this.rotationMap.get(entity);
         rotations.prevRotation = rotations.rotation;
 
-        boolean shooting = SyncedPlayerData.instance().get(entity, ModSyncedDataKeys.SHOOTING);
+        /*boolean shooting = SyncedPlayerData.instance().get(entity, ModSyncedDataKeys.SHOOTING);
         ItemStack heldItem = entity.getMainHandItem();
         if(!Gun.hasAmmo(heldItem) && !entity.isCreative())
         {
@@ -45,7 +45,7 @@ public class MiniGunModel implements IOverrideModel
         else
         {
             rotations.rotation += 1;
-        }
+        }*/
     }
 
     @Override

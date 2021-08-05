@@ -6,6 +6,7 @@
         "maxAmmo": 100,
         "reloadAmount": 10,
         "recoilAngle": 1.0,
+        "horizontalRecoilAngle": 0.65,
         "alwaysSpread": true,
         "spread": 5.0
     },

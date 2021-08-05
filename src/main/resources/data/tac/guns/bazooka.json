@@ -4,6 +4,7 @@
         "gripType": "tac:bazooka",
         "maxAmmo": 1,
         "recoilAngle": 10.0,
+        "horizontalRecoilAngle": 0.65,
         "recoilDurationOffset": 0.25
     },
     "projectile": {
