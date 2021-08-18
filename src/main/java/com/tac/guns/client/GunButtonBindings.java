@@ -1,12 +1,15 @@
 package com.tac.guns.client;
+/*
 
 import com.mrcrayfish.controllable.client.BindingRegistry;
 import com.mrcrayfish.controllable.client.ButtonBinding;
 import com.mrcrayfish.controllable.client.Buttons;
 
+*/
 /**
  * Author: MrCrayfish
- */
+ *//*
+
 public class GunButtonBindings
 {
     public static final ButtonBinding SHOOT = new ButtonBinding(Buttons.RIGHT_TRIGGER, "tac.button.shoot", "button.categories.tac", GunConflictContext.IN_GAME_HOLDING_WEAPON);
@@ -24,3 +27,4 @@ public class GunButtonBindings
         BindingRegistry.getInstance().register(STEADY_AIM);
     }
 }
+*/

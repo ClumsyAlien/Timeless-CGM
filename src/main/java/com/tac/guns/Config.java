@@ -10,7 +10,7 @@ import java.util.List;
 public class Config
 {
     /**
-     * Client related config options
+     * Client related config options, Original by Mr.Crayfish, extra config options added by ClumsyAlien
      */
     public static class Client
     {
@@ -18,6 +18,8 @@ public class Config
         public final Display display;
         public final Particle particle;
         public final Controls controls;
+
+
 
         public Client(ForgeConfigSpec.Builder builder)
         {
@@ -62,6 +64,7 @@ public class Config
     {
         public final ForgeConfigSpec.BooleanValue oldAnimations;
         public final ForgeConfigSpec.ConfigValue<String> crosshair;
+        public final ForgeConfigSpec.BooleanValue weaponAmmoBar;
 
         public Display(ForgeConfigSpec.Builder builder)
         {
@@ -69,6 +72,8 @@ public class Config
             {
                 this.oldAnimations = builder.comment("If true, uses the old animation poses for weapons. This is only for nostalgic reasons and not recommended to switch back.").define("oldAnimations", false);
                 this.crosshair = builder.comment("The custom crosshair to use for weapons. Go to (Options > Controls > Mouse Settings > Crosshair) in game to change this!").define("crosshair", Crosshair.DEFAULT.getLocation().toString());
+
+                this.weaponAmmoBar = builder.comment("Show % of your ammo in your gun via a colored durability bar!, Set to false to remove bar entirely for more realistic gameplay!").define("weaponAmmoBar", true);
             }
             builder.pop();
         }
@@ -124,6 +129,7 @@ public class Config
         public final StunGrenades stunGrenades;
         public final ProjectileSpread projectileSpread;
 
+
         public Common(ForgeConfigSpec.Builder builder)
         {
             builder.push("common");
@@ -135,6 +141,7 @@ public class Config
                 this.grenades = new Grenades(builder);
                 this.stunGrenades = new StunGrenades(builder);
                 this.projectileSpread = new ProjectileSpread(builder);
+
             }
             builder.pop();
         }
@@ -155,6 +162,8 @@ public class Config
         public final ForgeConfigSpec.DoubleValue knockbackStrength;
         public final ForgeConfigSpec.BooleanValue improvedHitboxes;
 
+        public final ForgeConfigSpec.BooleanValue fireModeSelection;
+
         public Gameplay(ForgeConfigSpec.Builder builder)
         {
             builder.comment("Properties relating to gameplay").push("gameplay");
@@ -168,6 +177,43 @@ public class Config
                 this.enableKnockback = builder.comment("If true, projectiles will cause knockback when an entity is hit. By default this is set to true to match the behaviour of Minecraft.").define("enableKnockback", true);
                 this.knockbackStrength = builder.comment("Sets the strengthof knockback when shot by a bullet projectile. Knockback must be enabled for this to take effect. If value is equal to zero, knockback will use default minecraft value").defineInRange("knockbackStrength", 0.15, 0.0, 1.0);
                 this.improvedHitboxes = builder.comment("If true, improves the accuracy of weapons by considering the ping of the player. This has no affect on singleplayer. This will add a little overhead if enabled.").define("improvedHitboxes", false);
+
+                this.fireModeSelection = builder.comment("Enables the players ability to change the fire mode of their weapon (for example from Auto to Semi-Auto mid battle)").define("fireModeSelection", true);
+
+            }
+            builder.pop();
+        }
+    }
+
+    public static class GunHandlingCustomization
+    {
+        public ForgeConfigSpec.IntValue M1928_trigMax;
+        public ForgeConfigSpec.IntValue AK47_trigMax;
+        public ForgeConfigSpec.IntValue M60_trigMax;
+        public ForgeConfigSpec.IntValue DP28_trigMax;
+        public ForgeConfigSpec.IntValue M16A1_trigMax;
+        public ForgeConfigSpec.IntValue AK74_trigMax;
+        public ForgeConfigSpec.IntValue AR15P_trigMax;
+        public ForgeConfigSpec.IntValue AR15HM_trigMax;
+        public ForgeConfigSpec.IntValue VECTOR45_trigMax;
+        public ForgeConfigSpec.IntValue MICROUZI_trigMax;
+        public ForgeConfigSpec.IntValue M4_trigMax;
+
+        public GunHandlingCustomization(ForgeConfigSpec.Builder builder)
+        {
+            builder.comment("Properties relating to gameplay").push("gameplay");
+            {
+                this.M1928_trigMax = builder.comment("Maximum level of the Trigger Finger enchantment allowed on a weapon").defineInRange("m1928_trigMax", 0, 0, 10);
+                this.AK47_trigMax = builder.comment("Maximum level of the Trigger Finger enchantment allowed on a weapon").defineInRange("ak47_trigMax", 1, 0, 10);
+                this.M60_trigMax = builder.comment("Maximum level of the Trigger Finger enchantment allowed on a weapon").defineInRange("m60_trigMax", 0, 0, 10);
+                this.DP28_trigMax = builder.comment("Maximum level of the Trigger Finger enchantment allowed on a weapon").defineInRange("dp28_trigMax", 1, 0, 10);
+                this.M16A1_trigMax = builder.comment("Maximum level of the Trigger Finger enchantment allowed on a weapon").defineInRange("m16a1_trigMax", 1, 0, 10);
+                this.AK74_trigMax = builder.comment("Maximum level of the Trigger Finger enchantment allowed on a weapon").defineInRange("ak74_trigMax", 1, 0, 10);
+                this.AR15HM_trigMax = builder.comment("Maximum level of the Trigger Finger enchantment allowed on a weapon").defineInRange("ar15hm_trigMax", 0, 0, 10);
+                this.AR15P_trigMax = builder.comment("Maximum level of the Trigger Finger enchantment allowed on a weapon").defineInRange("ar15p_trigMax", 0, 0, 10);
+                this.VECTOR45_trigMax = builder.comment("Maximum level of the Trigger Finger enchantment allowed on a weapon").defineInRange("vector45_trigMax", 0, 0, 10);
+                this.MICROUZI_trigMax = builder.comment("Maximum level of the Trigger Finger enchantment allowed on a weapon").defineInRange("microuzi_trigMax", 0, 0, 10);
+                this.M4_trigMax = builder.comment("Maximum level of the Trigger Finger enchantment allowed on a weapon").defineInRange("m4_trigMax", 0, 0, 10);
             }
             builder.pop();
         }
@@ -363,6 +409,8 @@ public class Config
         public final ForgeConfigSpec.DoubleValue gunShotMaxDistance;
         public final ForgeConfigSpec.BooleanValue enableCameraRecoil;
 
+        public final GunHandlingCustomization gunHandlingCustomization;
+
         public Server(ForgeConfigSpec.Builder builder)
         {
             builder.push("server");
@@ -374,6 +422,7 @@ public class Config
                     this.soundPercentage = builder.comment("Volume of most game sounds when deafened will play at this percent, before eventually fading back to %100.").defineInRange("soundPercentage", 0.05, 0.0, 1.0);
                     this.soundFadeThreshold = builder.comment("After the duration drops to this many ticks, the ringing volume will gradually fade to 0 and other sound volumes will fade back to %100.").defineInRange("soundFadeThreshold", 90, 0, Integer.MAX_VALUE);
                     this.ringVolume = builder.comment("Volume of the ringing sound when deafened will play at this volume, before eventually fading to 0.").defineInRange("ringVolume", 1.0, 0.0, 1.0);
+                    this.gunHandlingCustomization = new GunHandlingCustomization(builder);
                 }
                 builder.pop();
 

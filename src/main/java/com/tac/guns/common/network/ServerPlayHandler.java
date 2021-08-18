@@ -17,6 +17,7 @@ import com.tac.guns.init.ModSyncedDataKeys;
 import com.tac.guns.interfaces.IProjectileFactory;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.item.IColored;
+import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
 import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessageBulletTrail;
 import com.tac.guns.network.message.MessageGunSound;
@@ -49,9 +50,13 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+
 
 /**
  * Author: MrCrayfish
@@ -307,6 +312,37 @@ public class ServerPlayHandler
         if(heldItem.getItem() instanceof GunItem)
         {
             NetworkHooks.openGui(player, new SimpleNamedContainerProvider((windowId, playerInventory, player1) -> new AttachmentContainer(windowId, playerInventory, heldItem), new TranslationTextComponent("container.tac.attachments")));
+        }
+    }
+
+    /**
+     * @param player
+     */
+    public static void handleFireMode(ServerPlayerEntity player)
+    {
+        ItemStack heldItem = player.getMainHandItem();
+        if(heldItem.getItem() instanceof TimelessGunItem)
+        {
+            Gun gun = ((TimelessGunItem) heldItem.getItem()).getModifiedGun(heldItem.getStack());
+            int[] gunItemFireModes = heldItem.getTag().getIntArray("supportedFireModes");
+
+            // Check if the weapon is new, add in all supported modes
+            if(gunItemFireModes == null)
+            {
+                gunItemFireModes = gun.getGeneral().getRateSelector();
+                heldItem.getTag().putIntArray("supportedFireModes",gunItemFireModes);
+            }
+
+                if(heldItem.getTag().getInt("CurrentFireMode") == Arrays.stream(gun.getGeneral().getRateSelector()).max().getAsInt())
+                {
+                    heldItem.getTag().remove("CurrentFireMode");
+                    heldItem.getTag().putInt("CurrentFireMode", 0);
+                }
+                else
+                {
+                    int nextMode = gun.getGeneral().getRateSelector()[ArrayUtils.indexOf(gun.getGeneral().getRateSelector(),heldItem.getTag().getInt("CurrentFireMode"))+1];
+                    heldItem.getTag().putInt("CurrentFireMode", nextMode);
+                }
         }
     }
 }

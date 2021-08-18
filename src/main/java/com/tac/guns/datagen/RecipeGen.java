@@ -74,6 +74,7 @@ public class RecipeGen extends RecipeProvider
                 .save(consumer);
 
         // Guns
+        /*
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.PISTOL.get())
                 .addIngredient(Items.IRON_INGOT, 14)
                 .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
@@ -155,7 +156,7 @@ public class RecipeGen extends RecipeProvider
                 .addCriterion("has_gunpowder", has(Items.GUNPOWDER))
                 .addCriterion("has_glowstone", has(Items.GLOWSTONE_DUST))
                 .build(consumer);
-
+        */
         // Scope Attachments
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.SHORT_SCOPE.get())
                 .addIngredient(Items.IRON_INGOT, 2)

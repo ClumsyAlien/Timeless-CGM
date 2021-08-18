@@ -23,7 +23,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
 version = "1.0.1-1.16.4"
-group = "com.mrcrayfish"
+group = "com.tac"
 archivesBaseName = "gun-mod"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
@@ -31,7 +31,7 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 mixin {
-    add sourceSets.main, "cgm.refmap.json"
+    add sourceSets.main, "tac.refmap.json"
 }
 
 minecraft {
@@ -47,7 +47,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
             arg '-mixin.config=cgm.mixins.json'
             mods {
-                cgm {
+                tac {
                     source sourceSets.main
                 }
             }
@@ -62,7 +62,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
             arg '-mixin.config=cgm.mixins.json'
             mods {
-                cgm {
+                tac {
                     source sourceSets.main
                 }
             }
@@ -75,10 +75,10 @@ minecraft {
 //            property 'mixin.env.disableRefMap', 'true'
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
-            args '--mod', 'cgm', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'tac', '--all', '--output', file('src/generated/resources/')
             arg '-mixin.config=cgm.mixins.json'
             mods {
-                cgm {
+                tac {
                     source sourceSets.main
                 }
             }
@@ -104,7 +104,6 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
     implementation fg.deobf('curse.maven:obfuscate-289380:3169370')
-    implementation fg.deobf('curse.maven:controllable-317269:3196545')
 }
 
 jar {

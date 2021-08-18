@@ -4,7 +4,7 @@ import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
 import com.tac.guns.client.handler.AimingHandler;
 import com.tac.guns.client.handler.BulletTrailRenderingHandler;
-import com.tac.guns.client.handler.ControllerHandler;
+
 import com.tac.guns.client.handler.CrosshairHandler;
 import com.tac.guns.client.handler.GunRenderingHandler;
 import com.tac.guns.client.handler.RecoilHandler;
@@ -74,8 +74,8 @@ public class ClientHandler
         /* Only register controller events if Controllable is loaded otherwise it will crash */
         if(GunMod.controllableLoaded)
         {
-            MinecraftForge.EVENT_BUS.register(new ControllerHandler());
-            GunButtonBindings.register();
+            // MinecraftForge.EVENT_BUS.register(new ControllerHandler());
+            // GunButtonBindings.register();
         }
 
         KeyBinds.register();
@@ -124,12 +124,12 @@ public class ClientHandler
 
     private static void registerModelOverrides()
     {
-        ModelOverrides.register(ModItems.MINI_GUN.get(), new MiniGunModel());
+        //ModelOverrides.register(ModItems.MINI_GUN.get(), new MiniGunModel());
         ModelOverrides.register(ModItems.SHORT_SCOPE.get(), new ShortScopeModel());
         ModelOverrides.register(ModItems.MEDIUM_SCOPE.get(), new MediumScopeModel());
         ModelOverrides.register(ModItems.LONG_SCOPE.get(), new LongScopeModel());
-        ModelOverrides.register(ModItems.BAZOOKA.get(), new BazookaModel());
-        ModelOverrides.register(ModItems.GRENADE_LAUNCHER.get(), new GrenadeLauncherModel());
+        //ModelOverrides.register(ModItems.BAZOOKA.get(), new BazookaModel());
+        //ModelOverrides.register(ModItems.GRENADE_LAUNCHER.get(), new GrenadeLauncherModel());
     }
 
     private static void registerScreenFactories()

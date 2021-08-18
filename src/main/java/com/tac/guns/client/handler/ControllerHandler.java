@@ -1,14 +1,6 @@
 package com.tac.guns.client.handler;
 
-import com.mrcrayfish.controllable.Controllable;
-import com.mrcrayfish.controllable.client.Action;
-import com.mrcrayfish.controllable.client.Controller;
-import com.mrcrayfish.controllable.client.gui.navigation.BasicNavigationPoint;
-import com.mrcrayfish.controllable.event.ControllerEvent;
-import com.mrcrayfish.controllable.event.GatherActionsEvent;
-import com.mrcrayfish.controllable.event.GatherNavigationPointsEvent;
 import com.tac.guns.Config;
-import com.tac.guns.client.GunButtonBindings;
 import com.tac.guns.client.screen.WorkbenchScreen;
 import com.tac.guns.common.Gun;
 import com.tac.guns.init.ModSyncedDataKeys;
@@ -31,6 +23,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 /**
  * Author: MrCrayfish
  */
+
+/*
+
 public class ControllerHandler
 {
     private int reloadCounter = -1;
@@ -241,3 +236,4 @@ public class ControllerHandler
         }
     }
 }
+*/

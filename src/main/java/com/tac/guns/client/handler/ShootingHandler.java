@@ -108,7 +108,7 @@ public class ShootingHandler
                 boolean shooting = GLFW.glfwGetMouseButton(mc.getWindow().getWindow(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
                 if(GunMod.controllableLoaded)
                 {
-                    shooting |= ControllerHandler.isShooting();
+                    // shooting |= ControllerHandler.isShooting();
                 }
                 if(shooting)
                 {
@@ -160,6 +160,17 @@ public class ShootingHandler
                         fire(player, heldItem);
                     }
                 }
+                /*else // Added by ClumsyAlien, used for resetting for Burst fire, due to firing access being out of the "Pre Event"
+                {
+                    if (heldItem.getTag().get("BulletCounter") == null)
+                    {
+                        heldItem.getTag().putInt("BulletCounter",0);
+                    }
+                    else if (heldItem.getTag().getInt("BulletCounter") != 0)
+                    {
+                        heldItem.getTag().remove("BulletCounter");
+                    }
+                }*/
             }
         }
     }
@@ -176,6 +187,7 @@ public class ShootingHandler
             return;
 
         CooldownTracker tracker = player.getCooldowns();
+
         if(!tracker.isOnCooldown(heldItem.getItem()))
         {
             GunItem gunItem = (GunItem) heldItem.getItem();
