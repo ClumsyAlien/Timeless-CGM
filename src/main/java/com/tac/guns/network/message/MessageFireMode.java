@@ -1,5 +1,5 @@
 package com.tac.guns.network.message;
-/*
+
 
 import com.tac.guns.common.network.ServerPlayHandler;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -8,10 +8,12 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-*/
+
+
 /**
  * Author: MrCrayfish
- *//*
+ */
+
 
 public class MessageFireModeSwitch implements IMessage
 {
@@ -35,4 +37,5 @@ public class MessageFireModeSwitch implements IMessage
         supplier.get().setPacketHandled(true);
     }
 }
-*/
+
+
