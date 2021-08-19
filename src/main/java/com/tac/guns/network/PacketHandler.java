@@ -63,6 +63,7 @@ public class PacketHandler
         registerPlayMessage(MessageProjectileHitBlock.class, MessageProjectileHitBlock::new, LogicalSide.CLIENT);
         registerPlayMessage(MessageProjectileHitEntity.class, MessageProjectileHitEntity::new, LogicalSide.CLIENT);
         registerPlayMessage(MessageRemoveProjectile.class, MessageRemoveProjectile::new, LogicalSide.CLIENT);
+        registerPlayMessage(MessageFireMode.class, MessageFireMode::new, LogicalSide.SERVER);
     }
 
     /**

@@ -55,6 +55,11 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         @Optional
         private boolean auto = false;
         private int rate;
+<<<<<<< Updated upstream
+=======
+        @Optional
+        private int[] rateSelector = new int[]{0, 1};
+>>>>>>> Stashed changes
         @Ignored
         private GripType gripType = GripType.ONE_HANDED;
         private int maxAmmo;

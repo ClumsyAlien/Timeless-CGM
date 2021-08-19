@@ -1,5 +1,7 @@
 package com.tac.guns;
 
+import java.util.logging.Logger;
+
 public class Reference
 {
 	public static final String MOD_ID = "tac";

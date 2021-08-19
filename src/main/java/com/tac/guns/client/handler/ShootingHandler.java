@@ -22,7 +22,7 @@ import org.lwjgl.glfw.GLFW;
 /**
  * Author: MrCrayfish
  */
-public class ShootingHandler
+public class  ShootingHandler
 {
     private static ShootingHandler instance;
 
@@ -155,7 +155,7 @@ public class ShootingHandler
                 if(GLFW.glfwGetMouseButton(mc.getWindow().getWindow(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS)
                 {
                     Gun gun = ((GunItem) heldItem.getItem()).getModifiedGun(heldItem);
-                    if(gun.getGeneral().isAuto())
+                    if(gun.getGeneral().isAuto() && heldItem.getTag().getInt("CurrentFireMode") == 2)
                     {
                         fire(player, heldItem);
                     }

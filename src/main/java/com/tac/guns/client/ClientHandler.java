@@ -1,7 +1,7 @@
 package com.tac.guns.client;
 
-import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
+<<<<<<< Updated upstream
 import com.tac.guns.client.handler.AimingHandler;
 import com.tac.guns.client.handler.BulletTrailRenderingHandler;
 import com.tac.guns.client.handler.ControllerHandler;
@@ -11,16 +11,17 @@ import com.tac.guns.client.handler.RecoilHandler;
 import com.tac.guns.client.handler.ReloadHandler;
 import com.tac.guns.client.handler.ShootingHandler;
 import com.tac.guns.client.handler.SoundHandler;
+=======
+import com.tac.guns.client.handler.*;
+
+>>>>>>> Stashed changes
 import com.tac.guns.client.render.entity.GrenadeRenderer;
 import com.tac.guns.client.render.entity.MissileRenderer;
 import com.tac.guns.client.render.entity.ProjectileRenderer;
 import com.tac.guns.client.render.entity.ThrowableGrenadeRenderer;
 import com.tac.guns.client.render.gun.ModelOverrides;
-import com.tac.guns.client.render.gun.model.BazookaModel;
-import com.tac.guns.client.render.gun.model.GrenadeLauncherModel;
 import com.tac.guns.client.render.gun.model.LongScopeModel;
 import com.tac.guns.client.render.gun.model.MediumScopeModel;
-import com.tac.guns.client.render.gun.model.MiniGunModel;
 import com.tac.guns.client.render.gun.model.ShortScopeModel;
 import com.tac.guns.client.screen.AttachmentScreen;
 import com.tac.guns.client.screen.WorkbenchScreen;
@@ -70,6 +71,7 @@ public class ClientHandler
         MinecraftForge.EVENT_BUS.register(ReloadHandler.get());
         MinecraftForge.EVENT_BUS.register(ShootingHandler.get());
         MinecraftForge.EVENT_BUS.register(SoundHandler.get());
+<<<<<<< Updated upstream
 
         /* Only register controller events if Controllable is loaded otherwise it will crash */
         if(GunMod.controllableLoaded)
@@ -77,6 +79,9 @@ public class ClientHandler
             MinecraftForge.EVENT_BUS.register(new ControllerHandler());
             GunButtonBindings.register();
         }
+=======
+        MinecraftForge.EVENT_BUS.register(FireModeSwitchEvent.get()); // Technically now a handler but, yes I need some naming reworks
+>>>>>>> Stashed changes
 
         KeyBinds.register();
 

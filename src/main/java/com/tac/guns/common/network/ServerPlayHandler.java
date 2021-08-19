@@ -2,6 +2,7 @@ package com.tac.guns.common.network;
 
 import com.tac.guns.Config;
 import com.tac.guns.GunMod;
+import com.tac.guns.Reference;
 import com.tac.guns.common.Gun;
 import com.tac.guns.common.ProjectileManager;
 import com.tac.guns.common.ShootTracker;
@@ -49,6 +50,12 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
+<<<<<<< Updated upstream
+=======
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+>>>>>>> Stashed changes
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -58,6 +65,7 @@ import java.util.function.Predicate;
  */
 public class ServerPlayHandler
 {
+    public static final Logger LOGGER = LogManager.getLogger(Reference.MOD_ID);
     private static final Predicate<LivingEntity> HOSTILE_ENTITIES = entity -> entity.getSoundSource() == SoundCategory.HOSTILE && !Config.COMMON.aggroMobs.exemptEntities.get().contains(entity.getType().getRegistryName().toString());
 
     /**
@@ -309,4 +317,43 @@ public class ServerPlayHandler
             NetworkHooks.openGui(player, new SimpleNamedContainerProvider((windowId, playerInventory, player1) -> new AttachmentContainer(windowId, playerInventory, heldItem), new TranslationTextComponent("container.tac.attachments")));
         }
     }
+<<<<<<< Updated upstream
+=======
+
+    /**
+     * @param player
+     */
+    public static void handleFireMode(ServerPlayerEntity player)
+    {
+        LOGGER.warn("HandleFireMode Actually did something... at least");
+
+        ItemStack heldItem = player.getMainHandItem();
+        if(heldItem.getItem() instanceof TimelessGunItem)
+        {
+            Gun gun = ((TimelessGunItem) heldItem.getItem()).getModifiedGun(heldItem.getStack());
+            int[] gunItemFireModes = heldItem.getTag().getIntArray("supportedFireModes");
+
+            // Check if the weapon is new, add in all supported modes
+            if(ArrayUtils.isEmpty(gunItemFireModes))
+            {
+                gunItemFireModes = gun.getGeneral().getRateSelector();
+                heldItem.getTag().putIntArray("supportedFireModes", gunItemFireModes);
+            }
+
+            int locationInSupportedModes = heldItem.getTag().getIntArray("supportedFireModes")[ArrayUtils.indexOf(heldItem.getTag().getIntArray("supportedFireModes"), heldItem.getTag().getInt("CurrentFireMode"))];
+
+            if(locationInSupportedModes == (heldItem.getTag().getIntArray("supportedFireModes").length-1))
+            {
+                heldItem.getTag().remove("CurrentFireMode");
+                heldItem.getTag().putInt("CurrentFireMode",0);
+            }
+            else
+            {
+                heldItem.getTag().remove("CurrentFireMode");
+                heldItem.getTag().putInt("CurrentFireMode", heldItem.getTag().getIntArray("supportedFireModes")[locationInSupportedModes+1]);
+            }
+
+        }
+    }
+>>>>>>> Stashed changes
 }
