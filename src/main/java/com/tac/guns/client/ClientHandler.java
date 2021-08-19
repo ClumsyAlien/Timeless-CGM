@@ -1,20 +1,8 @@
 package com.tac.guns.client;
 
 import com.tac.guns.Reference;
-<<<<<<< Updated upstream
-import com.tac.guns.client.handler.AimingHandler;
-import com.tac.guns.client.handler.BulletTrailRenderingHandler;
-import com.tac.guns.client.handler.ControllerHandler;
-import com.tac.guns.client.handler.CrosshairHandler;
-import com.tac.guns.client.handler.GunRenderingHandler;
-import com.tac.guns.client.handler.RecoilHandler;
-import com.tac.guns.client.handler.ReloadHandler;
-import com.tac.guns.client.handler.ShootingHandler;
-import com.tac.guns.client.handler.SoundHandler;
-=======
 import com.tac.guns.client.handler.*;
 
->>>>>>> Stashed changes
 import com.tac.guns.client.render.entity.GrenadeRenderer;
 import com.tac.guns.client.render.entity.MissileRenderer;
 import com.tac.guns.client.render.entity.ProjectileRenderer;
@@ -71,17 +59,7 @@ public class ClientHandler
         MinecraftForge.EVENT_BUS.register(ReloadHandler.get());
         MinecraftForge.EVENT_BUS.register(ShootingHandler.get());
         MinecraftForge.EVENT_BUS.register(SoundHandler.get());
-<<<<<<< Updated upstream
-
-        /* Only register controller events if Controllable is loaded otherwise it will crash */
-        if(GunMod.controllableLoaded)
-        {
-            MinecraftForge.EVENT_BUS.register(new ControllerHandler());
-            GunButtonBindings.register();
-        }
-=======
         MinecraftForge.EVENT_BUS.register(FireModeSwitchEvent.get()); // Technically now a handler but, yes I need some naming reworks
->>>>>>> Stashed changes
 
         KeyBinds.register();
 
@@ -129,12 +107,12 @@ public class ClientHandler
 
     private static void registerModelOverrides()
     {
-        ModelOverrides.register(ModItems.MINI_GUN.get(), new MiniGunModel());
+        //ModelOverrides.register(ModItems.MINI_GUN.get(), new MiniGunModel());
         ModelOverrides.register(ModItems.SHORT_SCOPE.get(), new ShortScopeModel());
         ModelOverrides.register(ModItems.MEDIUM_SCOPE.get(), new MediumScopeModel());
         ModelOverrides.register(ModItems.LONG_SCOPE.get(), new LongScopeModel());
-        ModelOverrides.register(ModItems.BAZOOKA.get(), new BazookaModel());
-        ModelOverrides.register(ModItems.GRENADE_LAUNCHER.get(), new GrenadeLauncherModel());
+        //ModelOverrides.register(ModItems.BAZOOKA.get(), new BazookaModel());
+        //ModelOverrides.register(ModItems.GRENADE_LAUNCHER.get(), new GrenadeLauncherModel());
     }
 
     private static void registerScreenFactories()

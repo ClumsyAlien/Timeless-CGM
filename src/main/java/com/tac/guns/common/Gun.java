@@ -55,11 +55,8 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         @Optional
         private boolean auto = false;
         private int rate;
-<<<<<<< Updated upstream
-=======
         @Optional
         private int[] rateSelector = new int[]{0, 1};
->>>>>>> Stashed changes
         @Ignored
         private GripType gripType = GripType.ONE_HANDED;
         private int maxAmmo;
@@ -88,6 +85,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             CompoundNBT tag = new CompoundNBT();
             tag.putBoolean("Auto", this.auto);
             tag.putInt("Rate", this.rate);
+            tag.putIntArray("RateSelector", this.rateSelector);
             tag.putString("GripType", this.gripType.getId().toString());
             tag.putInt("MaxAmmo", this.maxAmmo);
             tag.putInt("ReloadSpeed", this.reloadAmount);
@@ -112,6 +110,10 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             if(tag.contains("Rate", Constants.NBT.TAG_ANY_NUMERIC))
             {
                 this.rate = tag.getInt("Rate");
+            }
+            if(tag.contains("RateSelector", Constants.NBT.TAG_ANY_NUMERIC))
+            {
+                this.rateSelector = tag.getIntArray("RateSelector");
             }
             if(tag.contains("GripType", Constants.NBT.TAG_STRING))
             {
@@ -167,6 +169,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             General general = new General();
             general.auto = this.auto;
             general.rate = this.rate;
+            general.rateSelector = this.rateSelector;
             general.gripType = this.gripType;
             general.maxAmmo = this.maxAmmo;
             general.reloadAmount = this.reloadAmount;
@@ -195,6 +198,14 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         public int getRate()
         {
             return this.rate;
+        }
+
+        /**
+         * @return The fire modes supported by the weapon, 0=False 1=True [Safety, Single, Three round burst, Auto, Special 1, Special 2]
+         */
+        public int[] getRateSelector()
+        {
+            return this.rateSelector;
         }
 
         /**

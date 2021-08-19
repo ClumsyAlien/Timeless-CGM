@@ -6,7 +6,7 @@ license="GPL3"
 modId="tac"
 version="1.0.0"
 displayName="Timeless and Classics"
-updateJSONURL="https://raw.githubusercontent.com/MrCrayfish/ModUpdates/master/tac/update.json"
+updateJSONURL=""
 displayURL="https://mrcrayfish.com/"
 authors="MrCrayfish"
 description='''
@@ -33,9 +33,3 @@ personal liking. This mod adds ten weapons into the game!
     versionRange="[0.6.0,)"
     ordering="NONE"
     side="BOTH"
-[[dependencies.tac]]
-    modId="controllable"
-    mandatory=false
-    versionRange="[0.10.3,)"
-    ordering="AFTER"
-    side="CLIENT"

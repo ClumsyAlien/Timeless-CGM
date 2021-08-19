@@ -147,12 +147,12 @@ public abstract class WeaponPose implements IHeldAnimation
             float translateZ = this.getValue(targetPose.getIdle().getItemTranslate().z(), targetPose.getAiming().getItemTranslate().z(), this.forwardPose.getIdle().getItemTranslate().z(), this.forwardPose.getAiming().getItemTranslate().z(), 0F, angleAbs, zoom, 1F);
             matrixStack.translate(translateX * 0.0625 * leftHanded, translateY * 0.0625, translateZ * 0.0625);
 
-            float rotateX = this.getValue(targetPose.getIdle().getItemRotation().x(), targetPose.getAiming().getItemRotation().x(), this.forwardPose.getIdle().getItemRotation().x(), this.forwardPose.getAiming().getItemRotation().x(), 0F, angleAbs, zoom, 1F);
-            float rotateY = this.getValue(targetPose.getIdle().getItemRotation().y(), targetPose.getAiming().getItemRotation().y(), this.forwardPose.getIdle().getItemRotation().y(), this.forwardPose.getAiming().getItemRotation().y(), 0F, angleAbs, zoom, 1F);
-            float rotateZ = this.getValue(targetPose.getIdle().getItemRotation().z(), targetPose.getAiming().getItemRotation().z(), this.forwardPose.getIdle().getItemRotation().z(), this.forwardPose.getAiming().getItemRotation().z(), 0F, angleAbs, zoom, 1F);
-            matrixStack.mulPose(Vector3f.XP.rotationDegrees(rotateX));
-            matrixStack.mulPose(Vector3f.YP.rotationDegrees(rotateY * leftHanded));
-            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(rotateZ * leftHanded));
+            float mulPoseX = this.getValue(targetPose.getIdle().getItemRotation().x(), targetPose.getAiming().getItemRotation().x(), this.forwardPose.getIdle().getItemRotation().x(), this.forwardPose.getAiming().getItemRotation().x(), 0F, angleAbs, zoom, 1F);
+            float mulPoseY = this.getValue(targetPose.getIdle().getItemRotation().y(), targetPose.getAiming().getItemRotation().y(), this.forwardPose.getIdle().getItemRotation().y(), this.forwardPose.getAiming().getItemRotation().y(), 0F, angleAbs, zoom, 1F);
+            float mulPoseZ = this.getValue(targetPose.getIdle().getItemRotation().z(), targetPose.getAiming().getItemRotation().z(), this.forwardPose.getIdle().getItemRotation().z(), this.forwardPose.getAiming().getItemRotation().z(), 0F, angleAbs, zoom, 1F);
+            matrixStack.mulPose(Vector3f.XP.rotationDegrees(mulPoseX));
+            matrixStack.mulPose(Vector3f.YP.rotationDegrees(mulPoseY * leftHanded));
+            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(mulPoseZ * leftHanded));
         }
     }
 }

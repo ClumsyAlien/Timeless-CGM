@@ -45,13 +45,13 @@ public class ThrowableStunGrenadeEntity extends ThrowableGrenadeEntity
     public ThrowableStunGrenadeEntity(EntityType<? extends ThrowableGrenadeEntity> entityType, World world, LivingEntity player)
     {
         super(entityType, world, player);
-        this.setItem(new ItemStack(ModItems.STUN_GRENADE.get()));
+        //this.setItem(new ItemStack(ModItems.STUN_GRENADE.get()));
     }
 
     public ThrowableStunGrenadeEntity(World world, LivingEntity player, int maxCookTime)
     {
         super(ModEntities.THROWABLE_STUN_GRENADE.get(), world, player);
-        this.setItem(new ItemStack(ModItems.STUN_GRENADE.get()));
+        //this.setItem(new ItemStack(ModItems.STUN_GRENADE.get()));
         this.setMaxLife(maxCookTime);
     }
 
