@@ -1,27 +1,116 @@
 {
-   "item.shotgun.fire":                 { "subtitle": "subtitle.tac.fire",           "sounds": [{ "name": "tac:item/shotgun/fire" }]},
-   "item.shotgun.silenced_fire":        { "subtitle": "subtitle.tac.fire.silenced",  "sounds": [{ "name": "tac:item/shotgun/silenced_fire" }]},
-   "item.shotgun.cock":                 { "subtitle": "subtitle.tac.cock",           "sounds": [{ "name": "tac:item/shotgun/cock" }]},
-   "item.rifle.fire":                   { "subtitle": "subtitle.tac.fire",           "sounds": [{ "name": "tac:item/rifle/fire" }]},
-   "item.rifle.silenced_fire":          { "subtitle": "subtitle.tac.fire.silenced",  "sounds": [{ "name": "tac:item/rifle/silenced_fire" }]},
-   "item.rifle.cock":                   { "subtitle": "subtitle.tac.cock",           "sounds": [{ "name": "tac:item/rifle/cock" }]},
-   "item.pistol.fire":                  { "subtitle": "subtitle.tac.fire",           "sounds": [{ "name": "tac:item/pistol/fire" }]},
-   "item.pistol.silenced_fire":         { "subtitle": "subtitle.tac.fire.silenced",  "sounds": [{ "name": "tac:item/pistol/silenced_fire" }]},
-   "item.pistol.reload":                { "subtitle": "subtitle.tac.reload",         "sounds": [{ "name": "tac:item/pistol/reload" }]},
-   "item.pistol.cock":                  { "subtitle": "subtitle.tac.cock",           "sounds": [{ "name": "tac:item/pistol/cock" }]},
-   "item.assault_rifle.fire":           { "subtitle": "subtitle.tac.fire",           "sounds": [{ "name": "tac:item/assault_rifle/fire" }]},
-   "item.assault_rifle.silenced_fire":  { "subtitle": "subtitle.tac.fire.silenced",  "sounds": [{ "name": "tac:item/assault_rifle/silenced_fire" }]},
-   "item.assault_rifle.cock":           { "subtitle": "subtitle.tac.cock",           "sounds": [{ "name": "tac:item/assault_rifle/cock" }]},
-   "item.grenade_launcher.fire":        { "subtitle": "subtitle.tac.fire",           "sounds": [{ "name": "tac:item/grenade_launcher/fire" }]},
-   "item.bazooka.fire":                 { "subtitle": "subtitle.tac.fire",           "sounds": [{ "name": "tac:item/bazooka/fire", "stream": true }]},
-   "item.mini_gun.fire":                { "subtitle": "subtitle.tac.fire",           "sounds": [{ "name": "tac:item/mini_gun/fire" }]},
-   "item.machine_pistol.fire":          { "subtitle": "subtitle.tac.fire",           "sounds": [{ "name": "tac:item/machine_pistol/fire" }]},
-   "item.machine_pistol.silenced_fire": { "subtitle": "subtitle.tac.fire.silenced",  "sounds": [{ "name": "tac:item/machine_pistol/silenced_fire" }]},
-   "item.heavy_rifle.fire":             { "subtitle": "subtitle.tac.fire",           "sounds": [{ "name": "tac:item/heavy_rifle/fire" }]},
-   "item.heavy_rifle.silenced_fire":    { "subtitle": "subtitle.tac.fire.silenced",  "sounds": [{ "name": "tac:item/heavy_rifle/silenced_fire" }]},
-   "item.heavy_rifle.cock":             { "subtitle": "subtitle.tac.cock",           "sounds": [{ "name": "tac:item/heavy_rifle/cock" }]},
-   "item.grenade.pin":                  { "subtitle": "subtitle.tac.grenade.pin",    "sounds": [{ "name": "tac:item/grenade/pin" }]},
-   "entity.stun_grenade.explosion":     { "subtitle": "subtitle.tac.stun.explosion", "sounds": [{ "name": "tac:entity/stun_grenade/explosion" }]},
-   "entity.stun_grenade.ring":          { "subtitle": "subtitle.tac.stun.ring",      "sounds": [{ "name": "tac:entity/stun_grenade/ring", "stream": true }]},
-   "ui.weapon.attach":                  { "subtitle": "subtitle.tac.attach",         "sounds": [{ "name": "tac:ui/weapon/attach" }]}
+   "item.fire_m1911": {
+      "subtitle": "subtitle.tac.fire_1911fire",
+      "sounds": [
+         { "name": "tac:item/1911_fire" }
+      ]
+   },
+   "item.fire_m1911s": {
+      "subtitle": "subtitle.tac.fire_1911fires",
+      "sounds": [
+         { "name": "tac:item/1911supressed_fire" }
+      ]
+   },
+   "item.fire_mosin-nagant": {
+      "subtitle": "subtitle.tac.fire_mosin-nagantfire",
+      "sounds": [
+         { "name": "tac:item/mosin-nagant_fire" }
+      ]
+   },
+   "item.fire_30-30": {
+      "subtitle": "subtitle.tac.fire_30-30fire",
+      "sounds": [
+         { "name": "tac:item/30-30_fire" }
+      ]
+   },
+   "item.fire_ak74": {
+      "subtitle": "subtitle.tac.fire_ak74fire",
+      "sounds": [
+         { "name": "tac:item/ak74_fire" }
+      ]
+   },
+   "item.fire_ak74s": {
+      "subtitle": "subtitle.tac.fire_ak74fires",
+      "sounds": [
+         { "name": "tac:item/ak74_fire_supressed" }
+      ]
+   },
+   "item.fire_ak47": {
+      "subtitle": "subtitle.tac.fire_ak47fire",
+      "sounds": [
+         { "name": "tac:item/ak_fire_47" }
+      ]
+   },
+   "item.fire_ak47s": {
+      "subtitle": "subtitle.tac.fire_ak47fires",
+      "sounds": [
+         { "name": "tac:item/ak_fire_supressed_47" }
+      ]
+   },
+   "item.fire_dp28": {
+      "subtitle": "subtitle.tac.fire_dp28fire",
+      "sounds": [
+         { "name": "tac:item/dp28_fire" }
+      ]
+   },
+   "item.fire_glock": {
+      "subtitle": "subtitle.tac.fire_glockfire",
+      "sounds": [
+         { "name": "tac:item/glock_fire" }
+      ]
+   },
+   "item.fire_glocks": {
+      "subtitle": "subtitle.tac.fire_glockfires",
+      "sounds": [
+         { "name": "tac:item/glock_suppressed_fire" }
+      ]
+   },
+   "item.fire_m16": {
+      "subtitle": "subtitle.tac.fire_m16fire",
+      "sounds": [
+         { "name": "tac:item/m16_fire" }
+      ]
+   },
+   "item.fire_m16s": {
+      "subtitle": "subtitle.tac.fire_m16fires",
+      "sounds": [
+         { "name": "tac:item/m16_fire_suppressed" }
+      ]
+   },
+   "item.fire_m60": {
+      "subtitle": "subtitle.tac.fire_m60fire",
+      "sounds": [
+         { "name": "tac:item/m60_fire_opt1" }
+      ]
+   },
+   "item.fire_m92fs": {
+      "subtitle": "subtitle.tac.fire_m92fsfire",
+      "sounds": [
+         { "name": "tac:item/m92fs_fire" }
+      ]
+   },
+   "item.fire_m92fss": {
+      "subtitle": "subtitle.tac.fire_m92fsfires",
+      "sounds": [
+         { "name": "tac:item/m92fs_fire_suppressed" }
+      ]
+   },
+   "item.fire_m1851": {
+      "subtitle": "subtitle.tac.fire_m1851fire",
+      "sounds": [
+         { "name": "tac:item/m1851_fire" }
+      ]
+   },
+   "item.fire_thompson": {
+      "subtitle": "subtitle.tac.fire_thompsonfire",
+      "sounds": [
+         { "name": "tac:item/thompson_fire" }
+      ]
+   },
+   "item.fire_db": {
+      "subtitle": "subtitle.tac.fire_dbfire",
+      "sounds": [
+         { "name": "tac:item/db_fire" }
+      ]
+   }
 }

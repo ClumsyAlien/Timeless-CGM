@@ -11,31 +11,31 @@ public class ModSounds
 {
 	public static final DeferredRegister<SoundEvent> REGISTER = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Reference.MOD_ID);
 
-	public static final RegistryObject<SoundEvent> ITEM_PISTOL_FIRE = register("item.pistol.fire");
-	public static final RegistryObject<SoundEvent> ITEM_PISTOL_SILENCED_FIRE = register("item.pistol.silenced_fire");
-	public static final RegistryObject<SoundEvent> ITEM_PISTOL_RELOAD = register("item.pistol.reload");
-	public static final RegistryObject<SoundEvent> ITEM_PISTOL_COCK = register("item.pistol.cock");
-	public static final RegistryObject<SoundEvent> ITEM_SHOTGUN_FIRE = register("item.shotgun.fire");
-	public static final RegistryObject<SoundEvent> ITEM_SHOTGUN_SILENCED_FIRE = register("item.shotgun.silenced_fire");
-	public static final RegistryObject<SoundEvent> ITEM_SHOTGUN_COCK = register("item.shotgun.cock");
-	public static final RegistryObject<SoundEvent> ITEM_RIFLE_FIRE = register("item.rifle.fire");
-	public static final RegistryObject<SoundEvent> ITEM_RIFLE_SILENCED_FIRE = register("item.rifle.silenced_fire");
-	public static final RegistryObject<SoundEvent> ITEM_RIFLE_COCK = register("item.rifle.cock");
-	public static final RegistryObject<SoundEvent> ITEM_ASSAULT_RIFLE_FIRE = register("item.assault_rifle.fire");
-	public static final RegistryObject<SoundEvent> ITEM_ASSAULT_RIFLE_SILENCED_FIRE = register("item.assault_rifle.silenced_fire");
-	public static final RegistryObject<SoundEvent> ITEM_ASSAULT_RIFLE_COCK = register("item.assault_rifle.cock");
-	public static final RegistryObject<SoundEvent> ITEM_GRENADE_LAUNCHER_FIRE = register("item.grenade_launcher.fire");
-	public static final RegistryObject<SoundEvent> ITEM_BAZOOKA_FIRE = register("item.bazooka.fire");
-	public static final RegistryObject<SoundEvent> ITEM_MINI_GUN_FIRE = register("item.mini_gun.fire");
-	public static final RegistryObject<SoundEvent> ITEM_MACHINE_PISTOL_FIRE = register("item.machine_pistol.fire");
-	public static final RegistryObject<SoundEvent> ITEM_MACHINE_PISTOL_SILENCED_FIRE = register("item.machine_pistol.silenced_fire");
-	public static final RegistryObject<SoundEvent> ITEM_HEAVY_RIFLE_FIRE = register("item.heavy_rifle.fire");
-	public static final RegistryObject<SoundEvent> ITEM_HEAVY_RIFLE_SILENCED_FIRE = register("item.heavy_rifle.silenced_fire");
-	public static final RegistryObject<SoundEvent> ITEM_HEAVY_RIFLE_COCK = register("item.heavy_rifle.cock");
 	public static final RegistryObject<SoundEvent> ITEM_GRENADE_PIN = register("item.grenade.pin");
 	public static final RegistryObject<SoundEvent> ENTITY_STUN_GRENADE_EXPLOSION = register("entity.stun_grenade.explosion");
 	public static final RegistryObject<SoundEvent> ENTITY_STUN_GRENADE_RING = register("entity.stun_grenade.ring");
 	public static final RegistryObject<SoundEvent> UI_WEAPON_ATTACH = register("ui.weapon.attach");
+
+	// Register the name of the sound via the Object name for each block in our sounds.json, these are all sounds for TaC, unlike above which remain from CGM
+	public static final RegistryObject<SoundEvent> M1911_FIRE = register("item.fire_m1911");
+	public static final RegistryObject<SoundEvent> M1911_FIRES = register("item.fire_m1911s");
+	public static final RegistryObject<SoundEvent> MOSIN_NAGANT_FIRE = register("item.fire_mosin-nagant");
+	public static final RegistryObject<SoundEvent> FIRE_30 = register("item.fire_30-30");
+	public static final RegistryObject<SoundEvent> AK74_FIRE = register("item.fire_ak74");
+	public static final RegistryObject<SoundEvent> AK74_FIREs = register("item.fire_ak74s");
+	public static final RegistryObject<SoundEvent> AK47_FIRE = register("item.fire_ak47");
+	public static final RegistryObject<SoundEvent> AK47_FIREs = register("item.fire_ak47s");
+	public static final RegistryObject<SoundEvent> DP28_FIRE = register("item.fire_dp28");
+	public static final RegistryObject<SoundEvent> GLOCK_FIRE = register("item.fire_glock");
+	public static final RegistryObject<SoundEvent> GLOCK_FIREs = register("item.fire_glocks");
+	public static final RegistryObject<SoundEvent> M16_FIRE = register("item.fire_m16");
+	public static final RegistryObject<SoundEvent> M16_FIREs = register("item.fire_m16s");
+	public static final RegistryObject<SoundEvent> M60_FIRE = register("item.fire_m60");
+	public static final RegistryObject<SoundEvent> M92FS_FIRE = register("item.fire_m92fs");
+	public static final RegistryObject<SoundEvent> M92FS_FIREs = register("item.fire_m92fss");
+	public static final RegistryObject<SoundEvent> M1851_FIRE = register("item.fire_m1851");
+	public static final RegistryObject<SoundEvent> THOMPSON_FIRE = register("item.fire_thompson");
+	public static final RegistryObject<SoundEvent> DB_FIRE = register("item.fire_db");
 
 	private static RegistryObject<SoundEvent> register(String key)
 	{

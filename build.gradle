@@ -1,5 +1,5 @@
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
+// import groovy.json.JsonOutput
+// import groovy.json.JsonSlurper
 
 buildscript {
     repositories {
@@ -31,7 +31,7 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 mixin {
-    add sourceSets.main, "tac.refmap.json"
+    add sourceSets.main, "cgm.refmap.json"
 }
 
 minecraft {
@@ -89,7 +89,7 @@ minecraft {
 processResources {
     doLast {
         fileTree(dir: outputs.files.asPath, include: "**/*.json").each {
-            File file -> file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
+            //File file -> file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
         }
     }
 }
