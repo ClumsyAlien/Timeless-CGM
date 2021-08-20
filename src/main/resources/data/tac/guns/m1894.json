@@ -1,6 +1,7 @@
 {
   "general": {
     "rate": 16,
+    "rateSelector": [0,1],
     "gripType":  "tac:two_handed_m1894",
     "maxAmmo": 9,
     "reloadAmount": 1,

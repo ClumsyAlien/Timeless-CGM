@@ -14,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
 
 import javax.annotation.Nullable;
 
@@ -56,7 +57,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         private boolean auto = false;
         private int rate;
         @Optional
-        private int[] rateSelector = new int[]{0, 1};
+        private int[] rateSelector = new int[]{0,1};
         @Ignored
         private GripType gripType = GripType.ONE_HANDED;
         private int maxAmmo;
@@ -111,7 +112,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             {
                 this.rate = tag.getInt("Rate");
             }
-            if(tag.contains("RateSelector", Constants.NBT.TAG_ANY_NUMERIC))
+            if(tag.contains("RateSelector", Constants.NBT.TAG_INT_ARRAY))
             {
                 this.rateSelector = tag.getIntArray("RateSelector");
             }

@@ -1,6 +1,7 @@
 {
   "general": {
     "rate": 48,
+    "rateSelector": [0,1],
     "gripType":  "tac:two_handed_mosin",
     "maxAmmo": 5,
     "reloadAmount": 1,

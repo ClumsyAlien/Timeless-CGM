@@ -2,6 +2,7 @@
   "general": {
     "auto": true,
     "rate": 3,
+    "rateSelector": [1,2],
     "gripType":  "tac:two_handed_ak47",
     "maxAmmo": 40,
     "reloadAmount": 5,

@@ -2,6 +2,7 @@
   "general": {
     "auto": true,
     "rate": 1,
+    "rateSelector": [0,2],
     "gripType":  "tac:two_handed_vector",
     "maxAmmo": 20,
     "reloadAmount": 5,

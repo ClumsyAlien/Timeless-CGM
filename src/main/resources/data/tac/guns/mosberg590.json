@@ -1,6 +1,7 @@
 {
   "general": {
     "rate": 22,
+    "rateSelector": [0,1],
     "gripType":  "tac:two_handed_ak47",
     "maxAmmo": 6,
     "reloadAmount": 1,

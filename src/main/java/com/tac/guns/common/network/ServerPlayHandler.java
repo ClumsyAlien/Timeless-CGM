@@ -324,8 +324,6 @@ public class ServerPlayHandler
      */
     public static void handleFireMode(ServerPlayerEntity player)
     {
-        LOGGER.warn("HandleFireMode Actually did something... at least");
-
         ItemStack heldItem = player.getMainHandItem();
         if(heldItem.getItem() instanceof TimelessGunItem)
         {
@@ -333,7 +331,7 @@ public class ServerPlayHandler
             int[] gunItemFireModes = heldItem.getTag().getIntArray("supportedFireModes");
 
             // Check if the weapon is new, add in all supported modes
-            if(ArrayUtils.isEmpty(gunItemFireModes))
+            if(ArrayUtils.isEmpty(gunItemFireModes) || gunItemFireModes == null)
             {
                 gunItemFireModes = gun.getGeneral().getRateSelector();
                 heldItem.getTag().putIntArray("supportedFireModes", gunItemFireModes);
@@ -344,7 +342,7 @@ public class ServerPlayHandler
             if(locationInSupportedModes == (heldItem.getTag().getIntArray("supportedFireModes").length-1))
             {
                 heldItem.getTag().remove("CurrentFireMode");
-                heldItem.getTag().putInt("CurrentFireMode",0);
+                heldItem.getTag().putInt("CurrentFireMode",gunItemFireModes[0]);
             }
             else
             {
