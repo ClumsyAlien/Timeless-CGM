@@ -69,16 +69,14 @@ public class TimelessGunItem extends GunItem {
                 tooltip.add((new TranslationTextComponent("info.tac.ammo", new Object[]{TextFormatting.GOLD.toString() + ammoCount + "/" + GunEnchantmentHelper.getAmmoCapacity(stack, modifiedGun)})).withStyle(TextFormatting.DARK_GRAY));
             }
         }
-        //boolean auto = modifiedGun.getGeneral().isAuto();
-        //int autoRate = modifiedGun.getGeneral().getRate();
 
-        // modifiedGun.serializeNBT().remove("rate"); putInt("rate",modifiedGun.serializeNBT().getInt("rate")+1).;
+        if(tagCompound.getInt("CurrentFireMode") == 0)
+            tooltip.add((new TranslationTextComponent("info.tac.firemode_safe", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).withStyle(TextFormatting.GREEN));
+        else if(tagCompound.getInt("CurrentFireMode") == 1)
+            tooltip.add((new TranslationTextComponent("info.tac.firemode_semi", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).withStyle(TextFormatting.RED));
+        else if(tagCompound.getInt("CurrentFireMode") == 2)
+            tooltip.add((new TranslationTextComponent("info.tac.firemode_auto", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).withStyle(TextFormatting.RED));
 
-        //if (auto)
-        if (true)
-        {
-            tooltip.add((new TranslationTextComponent("info.timeless_and_classic.auto", new Object[]{TextFormatting.GOLD.toString() + "This weapon is automatic!"})).withStyle(TextFormatting.RED));
-        }
         tooltip.add((new TranslationTextComponent("info.tac.attachment_help", new Object[]{(new KeybindTextComponent("key.tac.attachments")).getString().toUpperCase(Locale.ENGLISH)})).withStyle(TextFormatting.YELLOW));
 
     }
