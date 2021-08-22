@@ -4,12 +4,11 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.tac.guns.Config;
 import com.tac.guns.Reference;
-import com.tac.guns.client.render.crosshair.Crosshair;
-import com.tac.guns.client.render.crosshair.TechCrosshair;
-import com.tac.guns.client.render.crosshair.TexturedCrosshair;
+import com.tac.guns.client.render.crosshair.*;
 import com.tac.guns.event.GunFireEvent;
 import com.tac.guns.item.GunItem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -56,6 +55,7 @@ public class CrosshairHandler
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "line")));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "t")));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "smiley")));
+        this.register(new DynamicScalingTexturedCrosshair(new ResourceLocation(Reference.MOD_ID,"dynamic_default")));
         this.register(new TechCrosshair());
     }
 
@@ -146,6 +146,17 @@ public class CrosshairHandler
             return;
 
         crosshair.tick();
+
+        if(crosshair instanceof IDynamicScalable){
+            IDynamicScalable dynamicScalable = ((IDynamicScalable) crosshair);
+            float scale = dynamicScalable.getInitialScale();
+            Minecraft mc = Minecraft.getInstance();
+            ClientPlayerEntity playerEntity = mc.player;
+            if(playerEntity == null) return;
+            if(playerEntity.getX() != playerEntity.xo || playerEntity.getZ() != playerEntity.zo) scale = dynamicScalable.getHorizontalMovementScale();
+            if(playerEntity.getY() != playerEntity.yo) scale = dynamicScalable.getVerticalMovementScale();
+            dynamicScalable.scale(scale);
+        }
     }
 
     @SubscribeEvent
