@@ -108,8 +108,8 @@ public class GunMod
 
     private void onClientSetup(FMLClientSetupEvent event)
     {
-
         ClientHandler.setup();
+
         for (Field field : ModItems.class.getDeclaredFields()) {
             RegistryObject<?> object;
             try {

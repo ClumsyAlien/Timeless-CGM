@@ -118,7 +118,9 @@ public enum SpecialModels
     M4_TACTICAL_STOCK("m4_tactical_stock"),
     M24_BODY("m24_body"),
     M24_BOLT("m24_bolt"),
-    M24_RAIL("m24_rail");;
+    M24_RAIL("m24_rail"),
+    COYOTE_SIGHT("coyote_sight"),
+    MIDRANGE_DOT_SCOPE("midrange_dot_scope");
 
     /**
      * The location of an item model in the [MOD_ID]/models/special/[NAME] folder

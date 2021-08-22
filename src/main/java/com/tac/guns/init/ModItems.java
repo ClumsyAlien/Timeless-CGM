@@ -78,6 +78,10 @@ public class ModItems
     public static final RegistryObject<AmmoItem> BULLET_9 = REGISTER.register("9mm_round", TimelessAmmoItem::new);
     public static final RegistryObject<AmmoItem> BULLET_10g = REGISTER.register("10_gauge_round", TimelessAmmoItem::new);
 
+    public static final RegistryObject<Item> COYOTE_SIGHT = REGISTER.register("coyote_sight", () -> new ScopeItem(Scope.create(0.1F, 1.645F, GunModifiers.SLOW_ADS).viewFinderOffset(0.3), new Item.Properties().stacksTo(1).tab(GunMod.GROUP)));
+
+    public static final RegistryObject<Item> MIDRANGE_DOT_SCOPE = REGISTER.register("midrange_dot_scope", () -> new ScopeItem(Scope.create(0.35F, 1.485F, GunModifiers.SLOW_ADS).viewFinderOffset(0.3), new Item.Properties().stacksTo(1).tab(GunMod.GROUP)));
+
     // CGM ammo
     /*
     public static final RegistryObject<Item> BASIC_BULLET = REGISTER.register("basic_bullet", () -> new AmmoItem(new Item.Properties().tab(GunMod.GROUP)));

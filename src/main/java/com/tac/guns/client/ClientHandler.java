@@ -8,9 +8,7 @@ import com.tac.guns.client.render.entity.MissileRenderer;
 import com.tac.guns.client.render.entity.ProjectileRenderer;
 import com.tac.guns.client.render.entity.ThrowableGrenadeRenderer;
 import com.tac.guns.client.render.gun.ModelOverrides;
-import com.tac.guns.client.render.gun.model.LongScopeModel;
-import com.tac.guns.client.render.gun.model.MediumScopeModel;
-import com.tac.guns.client.render.gun.model.ShortScopeModel;
+import com.tac.guns.client.render.gun.model.*;
 import com.tac.guns.client.screen.AttachmentScreen;
 import com.tac.guns.client.screen.WorkbenchScreen;
 import com.tac.guns.client.settings.GunOptions;
@@ -111,6 +109,8 @@ public class ClientHandler
         ModelOverrides.register(ModItems.SHORT_SCOPE.get(), new ShortScopeModel());
         ModelOverrides.register(ModItems.MEDIUM_SCOPE.get(), new MediumScopeModel());
         ModelOverrides.register(ModItems.LONG_SCOPE.get(), new LongScopeModel());
+        ModelOverrides.register(ModItems.COYOTE_SIGHT.get(), new CoyoteSightModel());
+        ModelOverrides.register(ModItems.MIDRANGE_DOT_SCOPE.get(), new MidRangeDotScopeModel());
         //ModelOverrides.register(ModItems.BAZOOKA.get(), new BazookaModel());
         //ModelOverrides.register(ModItems.GRENADE_LAUNCHER.get(), new GrenadeLauncherModel());
     }
