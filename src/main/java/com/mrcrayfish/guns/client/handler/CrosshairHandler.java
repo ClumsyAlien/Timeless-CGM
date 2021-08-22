@@ -4,12 +4,11 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mrcrayfish.guns.Config;
 import com.mrcrayfish.guns.Reference;
-import com.mrcrayfish.guns.client.render.crosshair.Crosshair;
-import com.mrcrayfish.guns.client.render.crosshair.TechCrosshair;
-import com.mrcrayfish.guns.client.render.crosshair.TexturedCrosshair;
+import com.mrcrayfish.guns.client.render.crosshair.*;
 import com.mrcrayfish.guns.event.GunFireEvent;
 import com.mrcrayfish.guns.item.GunItem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -56,6 +55,7 @@ public class CrosshairHandler
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "line")));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "t")));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "smiley")));
+        this.register(new DynamicScalableTexturedCrosshair(new ResourceLocation(Reference.MOD_ID,"dynamic")));
         this.register(new TechCrosshair());
     }
 
@@ -149,10 +149,28 @@ public class CrosshairHandler
     }
 
     @SubscribeEvent
-    public void onGunFired(GunFireEvent.Post event)
-    {
+    public void onDynamicScale(TickEvent.ClientTickEvent event){
+
         Crosshair crosshair = this.getCurrentCrosshair();
         if(crosshair == null || crosshair.isDefault())
+            return;
+
+        if(crosshair instanceof IDynamicScalable) {
+            Minecraft mc = Minecraft.getInstance();
+            ClientPlayerEntity playerEntity = mc.player;
+            float scale = 0.6f;
+            if (playerEntity == null) return;
+            if (playerEntity.getX() != playerEntity.xo || playerEntity.getZ() != playerEntity.zo) scale = 1.3f;
+            if (playerEntity.getY() != playerEntity.yo) scale *= 1.5f;
+            ((IDynamicScalable) crosshair).scale(scale);
+        }
+
+    }
+
+    @SubscribeEvent
+    public void onGunFired(GunFireEvent.Post event) {
+        Crosshair crosshair = this.getCurrentCrosshair();
+        if (crosshair == null || crosshair.isDefault())
             return;
 
         crosshair.onGunFired();
