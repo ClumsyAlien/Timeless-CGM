@@ -3,8 +3,10 @@ package com.tac.guns.client.render.crosshair;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.tac.guns.annotation.Optional;
 import com.tac.guns.client.handler.AimingHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
@@ -77,5 +79,15 @@ public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implement
             WorldVertexBufferUploader.end(buffer);
         }
         stack.popPose();
+    }
+
+    public void tick() {
+            float scale = this.getInitialScale();
+            Minecraft mc = Minecraft.getInstance();
+            ClientPlayerEntity playerEntity = mc.player;
+            if(playerEntity == null) return;
+            if(playerEntity.getX() != playerEntity.xo || playerEntity.getZ() != playerEntity.zo) scale = this.getHorizontalMovementScale();
+            if(playerEntity.getY() != playerEntity.yo) scale = this.getVerticalMovementScale();
+            this.scale(scale);
     }
 }

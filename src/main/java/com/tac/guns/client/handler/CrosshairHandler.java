@@ -146,17 +146,6 @@ public class CrosshairHandler
             return;
 
         crosshair.tick();
-
-        if(crosshair instanceof IDynamicScalable){
-            IDynamicScalable dynamicScalable = ((IDynamicScalable) crosshair);
-            float scale = dynamicScalable.getInitialScale();
-            Minecraft mc = Minecraft.getInstance();
-            ClientPlayerEntity playerEntity = mc.player;
-            if(playerEntity == null) return;
-            if(playerEntity.getX() != playerEntity.xo || playerEntity.getZ() != playerEntity.zo) scale = dynamicScalable.getHorizontalMovementScale();
-            if(playerEntity.getY() != playerEntity.yo) scale = dynamicScalable.getVerticalMovementScale();
-            dynamicScalable.scale(scale);
-        }
     }
 
     @SubscribeEvent
