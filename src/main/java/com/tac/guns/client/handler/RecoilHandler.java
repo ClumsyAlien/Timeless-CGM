@@ -69,6 +69,7 @@ public class RecoilHandler
         this.cameraRecoil = modifiedGun.getGeneral().getRecoilAngle() * recoilModifier;
         this.progressCameraRecoil = 0F;
         this.gunRecoilRandom = random.nextFloat();
+
         // Horizontal Recoil
         float HorizontalRecoilModifier = modifiedGun.getGeneral().getHorizontalRecoilAngle() - GunModifierHelper.getRecoilModifier(heldItem);
         HorizontalRecoilModifier *= RecoilHandler.get().getAdsRecoilReduction(modifiedGun);

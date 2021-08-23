@@ -5,19 +5,25 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tac.guns.annotation.Optional;
 import com.tac.guns.client.handler.AimingHandler;
+import com.tac.guns.common.Gun;
+import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
+import com.tac.guns.util.GunModifierHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
+import java.sql.Time;
+
 public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implements IDynamicScalable{
-    private final float initial = 0.65f;
+    private final float initial = 0.75f;
     private final float horizontal = 1.2f;
     private final float vertical = 1.6f;
     private float scale = initial;
@@ -82,12 +88,41 @@ public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implement
     }
 
     public void tick() {
-            float scale = this.getInitialScale();
-            Minecraft mc = Minecraft.getInstance();
-            ClientPlayerEntity playerEntity = mc.player;
-            if(playerEntity == null) return;
-            if(playerEntity.getX() != playerEntity.xo || playerEntity.getZ() != playerEntity.zo) scale = this.getHorizontalMovementScale();
-            if(playerEntity.getY() != playerEntity.yo) scale = this.getVerticalMovementScale();
+        Minecraft mc = Minecraft.getInstance();
+        ClientPlayerEntity playerEntity = mc.player;
+
+        if(playerEntity == null) return;
+
+        float scale = this.getInitialScale();
+        TimelessGunItem gunItem;
+
+        if(playerEntity.getMainHandItem().getItem() instanceof TimelessGunItem)
+        {
+            gunItem = (TimelessGunItem) playerEntity.getMainHandItem().getItem();
+
+            if (playerEntity.getX() != playerEntity.xo || playerEntity.getZ() != playerEntity.zo)
+                scale = this.getHorizontalMovementScale();
+            if (playerEntity.getY() != playerEntity.yo) scale = this.getVerticalMovementScale();
+
+            scale = scale * GunModifierHelper.getModifiedSpread(playerEntity.getMainHandItem(), gunItem.getGun().getGeneral().getSpread());
             this.scale(scale);
+        }
+    }
+    @Override
+    public void onGunFired()
+    {
+        Minecraft mc = Minecraft.getInstance();
+        ClientPlayerEntity playerEntity = mc.player;
+
+        TimelessGunItem gunItem = (TimelessGunItem) playerEntity.getMainHandItem().getItem();
+        float gunRecoil = GunModifierHelper.getRecoilModifier(playerEntity.getMainHandItem());
+
+        // Calculating average Vertical and Horizontal recoil along with reducing modifier to a useful metric
+        float recoil = ( ( (gunItem.getGun().getGeneral().getRecoilAngle() - gunRecoil) +
+                (gunItem.getGun().getGeneral().getHorizontalRecoilAngle() - gunRecoil) ) / 10 )
+                + 1;
+        // The +1 is used to ensure we have a "Percentage", only for testing and may be reverted
+
+        this.scale = scale * recoil;
     }
 }

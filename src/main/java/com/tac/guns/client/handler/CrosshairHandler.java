@@ -56,6 +56,7 @@ public class CrosshairHandler
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "t")));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "smiley")));
         this.register(new DynamicScalingTexturedCrosshair(new ResourceLocation(Reference.MOD_ID,"dynamic_default")));
+        this.register(new DynamicScalingTexturedCrosshair(new ResourceLocation(Reference.MOD_ID,"clean_no_crosshair")));
         this.register(new TechCrosshair());
     }
 
