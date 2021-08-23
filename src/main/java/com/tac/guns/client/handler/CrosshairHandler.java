@@ -8,7 +8,6 @@ import com.tac.guns.client.render.crosshair.*;
 import com.tac.guns.event.GunFireEvent;
 import com.tac.guns.item.GunItem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
