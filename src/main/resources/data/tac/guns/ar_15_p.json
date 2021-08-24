@@ -8,6 +8,7 @@
     "reloadAmount": 5,
     "recoilAngle": 3.185,
     "recoilKick": 1.215,
+    "horizontalRecoilAngle": 2.35,
     "recoilAdsReduction": 0.35,
     "alwaysSpread": true,
     "spread": 3.75

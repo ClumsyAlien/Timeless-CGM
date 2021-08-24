@@ -136,9 +136,9 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             {
                 this.recoilKick = tag.getFloat("RecoilKick");
             }
-            if(tag.contains("HorizontalRecoilKick", Constants.NBT.TAG_ANY_NUMERIC))
+            if(tag.contains("HorizontalRecoilAngle", Constants.NBT.TAG_ANY_NUMERIC))
             {
-                this.recoilKick = tag.getFloat("HorizontalRecoilKick");
+                this.horizontalRecoilAngle = tag.getFloat("HorizontalRecoilAngle");
             }
             if(tag.contains("RecoilDurationOffset", Constants.NBT.TAG_ANY_NUMERIC))
             {

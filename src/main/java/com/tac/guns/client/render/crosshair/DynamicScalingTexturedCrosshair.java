@@ -22,7 +22,7 @@ import java.awt.*;
 
 
 public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implements IDynamicScalable{
-    private final float initial = 0.75f;
+    private final float initial = 0.95f;
     private final float horizontal = 1.2f;
     private final float vertical = 1.6f;
     private float scale = initial;
@@ -71,13 +71,15 @@ public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implement
         {
             stack.translate(windowWidth / 2F, windowHeight / 2F, 0);
             float scale = 1F + MathHelper.lerp(partialTicks, this.prevScale, this.scale);
+
             mc.getTextureManager().bind(this.texture);
             buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+
             for(int f = 0;f < getFractal();f++){
                 stack.pushPose();
                 {
                     stack.mulPose(Vector3f.ZP.rotationDegrees(360F*f/getFractal()));
-                    stack.translate(-size*scale / 2F, -size / 2F, 0);
+                    stack.translate(-size*scale/2F, -size / 2F, 0);
                     Matrix4f matrix = stack.last().pose();
                     buffer.vertex(matrix, 0, size, 0).uv(0, 1).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
                     buffer.vertex(matrix, size, size, 0).uv(1, 1).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
@@ -87,6 +89,7 @@ public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implement
                 }
                 stack.popPose();
             }
+
             buffer.end();
             RenderSystem.enableAlphaTest();
             WorldVertexBufferUploader.end(buffer);
@@ -108,11 +111,12 @@ public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implement
             gunItem = (TimelessGunItem) playerEntity.getMainHandItem().getItem();
 
             if (playerEntity.getX() != playerEntity.xo || playerEntity.getZ() != playerEntity.zo)
-                scale = this.getHorizontalMovementScale();
-            if (playerEntity.getY() != playerEntity.yo) scale = this.getVerticalMovementScale();
+                scale += this.getHorizontalMovementScale();
+            if (playerEntity.getY() != playerEntity.yo)
+                scale += this.getVerticalMovementScale();
 
-            scale = scale * GunModifierHelper.getModifiedSpread(playerEntity.getMainHandItem(), gunItem.getGun().getGeneral().getSpread());
-            this.scale(scale);
+            this.scale( (scale*GunModifierHelper.getModifiedSpread(playerEntity.getMainHandItem(), gunItem.getGun().getGeneral().getSpread())));
+            //this.scale *= GunModifierHelper.getModifiedSpread(playerEntity.getMainHandItem(), gunItem.getGun().getGeneral().getSpread());
         }
     }
     @Override
@@ -126,10 +130,9 @@ public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implement
 
         // Calculating average Vertical and Horizontal recoil along with reducing modifier to a useful metric
         float recoil = ( ( (gunItem.getGun().getGeneral().getRecoilAngle() - gunRecoil) +
-                (gunItem.getGun().getGeneral().getHorizontalRecoilAngle() - gunRecoil) ) / 10 )
-                + 1;
+                (gunItem.getGun().getGeneral().getHorizontalRecoilAngle() - gunRecoil) ) / 15 ) + 1F;
         // The +1 is used to ensure we have a "Percentage", only for testing and may be reverted
 
-        this.scale = scale * recoil;
+        this.scale *= recoil;
     }
 }
