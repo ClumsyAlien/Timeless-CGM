@@ -18,8 +18,8 @@ import org.lwjgl.opengl.GL11;
  */
 public class TexturedCrosshair extends Crosshair
 {
-    private ResourceLocation texture;
-    private boolean blend;
+    protected ResourceLocation texture;
+    protected boolean blend;
 
     public TexturedCrosshair(ResourceLocation id)
     {

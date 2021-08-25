@@ -31,7 +31,7 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 mixin {
-    add sourceSets.main, "cgm.refmap.json"
+    add sourceSets.main, "tac.refmap.json"
 }
 
 minecraft {
@@ -95,6 +95,7 @@ processResources {
 }
 
 repositories {
+    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
     maven {
         name = "CurseMaven"
         url = "https://www.cursemaven.com"
@@ -104,6 +105,7 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
     implementation fg.deobf('curse.maven:obfuscate-289380:3169370')
+    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.44')
 }
 
 jar {

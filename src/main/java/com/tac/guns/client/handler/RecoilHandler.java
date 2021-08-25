@@ -33,7 +33,7 @@ public class RecoilHandler
     }
 
     private Random random = new Random();
-    public int recoilRand;
+    private int recoilRand;
     private double gunRecoilNormal;
     private double gunRecoilAngle;
     private float gunRecoilRandom;
@@ -69,10 +69,11 @@ public class RecoilHandler
         this.cameraRecoil = modifiedGun.getGeneral().getRecoilAngle() * recoilModifier;
         this.progressCameraRecoil = 0F;
         this.gunRecoilRandom = random.nextFloat();
+
         // Horizontal Recoil
-        float HorizontalRecoilModifier = modifiedGun.getGeneral().getHorizontalRecoilAngle() - GunModifierHelper.getRecoilModifier(heldItem);
+        float HorizontalRecoilModifier = 1.0F - GunModifierHelper.getRecoilModifier(heldItem);
         HorizontalRecoilModifier *= RecoilHandler.get().getAdsRecoilReduction(modifiedGun);
-        horizontalCameraRecoil = modifiedGun.getGeneral().getRecoilAngle() * recoilModifier;
+        horizontalCameraRecoil = modifiedGun.getGeneral().getHorizontalRecoilAngle() * HorizontalRecoilModifier;
         horizontalProgressCameraRecoil = 0F;
     }
     @SubscribeEvent
@@ -92,8 +93,6 @@ public class RecoilHandler
         float HorizontalRecoilAmount = this.horizontalCameraRecoil * mc.getDeltaFrameTime() * 0.1F;
         float startProgress = this.progressCameraRecoil / this.cameraRecoil;
         float endProgress = (this.progressCameraRecoil + recoilAmount) / this.cameraRecoil;
-        float HorizontalStartProgress = this.horizontalProgressCameraRecoil / this.horizontalCameraRecoil;
-        float HorizontalEndProgress = (this.horizontalProgressCameraRecoil + recoilAmount) / this.horizontalCameraRecoil;
 
         if(startProgress < 0.2F)
         {
@@ -120,7 +119,7 @@ public class RecoilHandler
             this.progressCameraRecoil = 0;
         }
 
-        this.horizontalProgressCameraRecoil += recoilAmount;
+        this.horizontalProgressCameraRecoil += HorizontalRecoilAmount;
 
         if(this.horizontalProgressCameraRecoil >= this.horizontalCameraRecoil)
         {

@@ -4,9 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.tac.guns.Config;
 import com.tac.guns.Reference;
-import com.tac.guns.client.render.crosshair.Crosshair;
-import com.tac.guns.client.render.crosshair.TechCrosshair;
-import com.tac.guns.client.render.crosshair.TexturedCrosshair;
+import com.tac.guns.client.render.crosshair.*;
 import com.tac.guns.event.GunFireEvent;
 import com.tac.guns.item.GunItem;
 import net.minecraft.client.Minecraft;
@@ -56,6 +54,8 @@ public class CrosshairHandler
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "line")));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "t")));
         this.register(new TexturedCrosshair(new ResourceLocation(Reference.MOD_ID, "smiley")));
+        this.register(new DynamicScalingTexturedCrosshair(new ResourceLocation(Reference.MOD_ID,"dynamic_default")));
+        this.register(new DynamicScalingTexturedCrosshair(new ResourceLocation(Reference.MOD_ID,"clean_no_crosshair")));
         this.register(new TechCrosshair());
     }
 
