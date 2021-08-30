@@ -525,40 +525,53 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
     {
         if(modifiedGun == null)
             return;
+
+        BlockPos pos = blockRayTraceResult.getBlockPos();
+        BlockState state = this.level.getBlockState(pos);
+
         if(modifiedGun.getProjectile().isRicochet())
         {
-            Direction blockDirection = blockRayTraceResult.getDirection();
-            switch (blockDirection) {
-                case UP:
-                case DOWN:
-                    this.setDeltaMovement(this.getDeltaMovement().multiply(1, -1, 1));
-                    break;
-                case EAST:
-                case WEST:
-                    this.setDeltaMovement(this.getDeltaMovement().multiply(-1, 1, 1));
-                    break;
-                case NORTH:
-                case SOUTH:
-                    this.setDeltaMovement(this.getDeltaMovement().multiply(1, 1, -1));
-                    break;
-                default:
-                    break;
+            if
+            (
+                    state.getMaterial() == Material.STONE ||
+                    state.getMaterial() == Material.ICE_SOLID ||
+                    state.getMaterial() == Material.METAL ||
+                    state.getMaterial() == Material.HEAVY_METAL
+            )
+            {
+                Direction blockDirection = blockRayTraceResult.getDirection();
+                switch (blockDirection) {
+                    case UP:
+                    case DOWN:
+                        this.setDeltaMovement(this.getDeltaMovement().multiply(1, -1, 1));
+                        break;
+                    case EAST:
+                    case WEST:
+                        this.setDeltaMovement(this.getDeltaMovement().multiply(-1, 1, 1));
+                        break;
+                    case NORTH:
+                    case SOUTH:
+                        this.setDeltaMovement(this.getDeltaMovement().multiply(1, 1, -1));
+                        break;
+                    default:
+                        break;
+                }
+
+                Vector3d startVec = this.position();
+                Vector3d endVec = startVec.add(this.getDeltaMovement());
+
+                EntityResult entityResult = this.findEntityOnPath(startVec, endVec);
+
+                RayTraceResult result = rayTraceBlocks(this.level, new RayTraceContext(startVec, endVec, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this), IGNORE_LEAVES);
+
+                if (entityResult != null) {
+                    this.tick();
+                    return;
+                } else {
+                    this.teleportToHitPoint(result);
+                }
+                this.life -= 1;
             }
-
-            Vector3d startVec = this.position();
-            Vector3d endVec = startVec.add(this.getDeltaMovement());
-
-            EntityResult entityResult = this.findEntityOnPath(startVec, endVec);
-
-            RayTraceResult result = rayTraceBlocks(this.level, new RayTraceContext(startVec, endVec, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this), IGNORE_LEAVES);
-
-            if (entityResult != null) {
-                this.tick();
-                return;
-            } else {
-                this.teleportToHitPoint(result);
-            }
-            this.life -= 1;
         }
         //PacketHandler.getPlayChannel().send(PacketDistributor.TRACKING_CHUNK.with(() -> this.level.getChunkAt(blockRayTraceResult.getBlockPos())), new MessageProjectileHitBlock(blockRayTraceResult, projectileEntity));
 
