@@ -316,6 +316,8 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         private int trailColor = 0xFFD289;
         @Optional
         private double trailLengthMultiplier = 1.0;
+        @Optional
+        private boolean ricochet = false;
 
         @Override
         public CompoundNBT serializeNBT()
@@ -331,6 +333,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             tag.putBoolean("DamageReduceOverLife", this.damageReduceOverLife);
             tag.putInt("TrailColor", this.trailColor);
             tag.putDouble("TrailLengthMultiplier", this.trailLengthMultiplier);
+            tag.putBoolean("Ricochet", this.ricochet);
             return tag;
         }
 
@@ -377,6 +380,10 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             {
                 this.trailLengthMultiplier = tag.getDouble("TrailLengthMultiplier");
             }
+            if(tag.contains("Ricochet", Constants.NBT.TAG_ANY_NUMERIC))
+            {
+                this.ricochet = tag.getBoolean("Ricochet");
+            }
         }
 
         public Projectile copy()
@@ -392,6 +399,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             projectile.damageReduceOverLife = this.damageReduceOverLife;
             projectile.trailColor = this.trailColor;
             projectile.trailLengthMultiplier = this.trailLengthMultiplier;
+            projectile.ricochet = this.ricochet;
             return projectile;
         }
 
@@ -473,6 +481,13 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         public double getTrailLengthMultiplier()
         {
             return this.trailLengthMultiplier;
+        }
+        /**
+         * @return If the bullet will bounce off of hard blocks
+         */
+        public boolean isRicochet()
+        {
+            return this.ricochet;
         }
     }
 

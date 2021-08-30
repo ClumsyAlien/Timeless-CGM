@@ -17,8 +17,9 @@
     "visible": true,
     "damage": 8,
     "size": 0.2,
-    "speed": 14.5,
-    "life": 20
+    "speed": 1.5,
+    "life": 20,
+    "ricochet": true
   },
   "sounds": {
     "fire":  "tac:item.fire_m16",

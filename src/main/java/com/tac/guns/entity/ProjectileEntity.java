@@ -523,6 +523,10 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
 
     protected void onHitBlock(BlockRayTraceResult blockRayTraceResult)
     {
+        if(modifiedGun == null)
+            return;
+        if(modifiedGun.getProjectile().isRicochet())
+        {
             Direction blockDirection = blockRayTraceResult.getDirection();
             switch (blockDirection) {
                 case UP:
@@ -541,30 +545,27 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
                     break;
             }
 
-        Vector3d startVec = this.position();
-        Vector3d endVec = startVec.add(this.getDeltaMovement());
+            Vector3d startVec = this.position();
+            Vector3d endVec = startVec.add(this.getDeltaMovement());
 
-        EntityResult entityResult = this.findEntityOnPath(startVec, endVec);
+            EntityResult entityResult = this.findEntityOnPath(startVec, endVec);
 
-        RayTraceResult result = rayTraceBlocks(this.level, new RayTraceContext(startVec, endVec, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this), IGNORE_LEAVES);
+            RayTraceResult result = rayTraceBlocks(this.level, new RayTraceContext(startVec, endVec, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this), IGNORE_LEAVES);
 
-        if(entityResult != null)
-        {
-            this.tick();
-            return;
+            if (entityResult != null) {
+                this.tick();
+                return;
+            } else {
+                this.teleportToHitPoint(result);
+            }
+            this.life -= 1;
         }
-        else
-        {
-            this.teleportToHitPoint(result);
-        }
-        this.life -= 1;
-
         //PacketHandler.getPlayChannel().send(PacketDistributor.TRACKING_CHUNK.with(() -> this.level.getChunkAt(blockRayTraceResult.getBlockPos())), new MessageProjectileHitBlock(blockRayTraceResult, projectileEntity));
 
     }
 
-    protected void teleportToHitPoint(RayTraceResult rayTraceResult){
-        // necessary for proper ricochet behaviour
+    protected void teleportToHitPoint(RayTraceResult rayTraceResult)
+    {
         Vector3d hitResult = rayTraceResult.getLocation();
         this.setPos(hitResult.x, hitResult.y, hitResult.z);
     }
