@@ -33,11 +33,11 @@ public class GrenadeEntity extends ProjectileEntity
         createExplosion(this, this.getDamage() / 5F, true);
     }
 
-    @Override
+    /*@Override
     protected void onHitBlock(BlockState state, BlockPos pos, Direction face, double x, double y, double z)
     {
         createExplosion(this, this.getDamage() / 5F, true);
-    }
+    }*/
 
     @Override
     public void onExpired()

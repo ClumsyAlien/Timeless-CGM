@@ -161,6 +161,9 @@ public class  ShootingHandler
                     }
                 }
                 /*else // Added by ClumsyAlien, used for resetting for Burst fire, due to firing access being out of the "Pre Event"
+
+                // Might bring this back, but currently this is overloading MC tick listeners and is a pain to utilize
+
                 {
                     if (heldItem.getTag().get("BulletCounter") == null)
                     {

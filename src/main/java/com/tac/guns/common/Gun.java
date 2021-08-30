@@ -68,15 +68,15 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         @Optional
         private float recoilKick;
         @Optional
-        private float horizontalRecoilAngle;
+        private float horizontalRecoilAngle = 2.0F;
         @Optional
-        private float recoilDurationOffset;
+        private float recoilDurationOffset; // Anyone have a clue what this is?
         @Optional
         private float recoilAdsReduction = 0.2F;
         @Optional
         private int projectileAmount = 1;
         @Optional
-        private boolean alwaysSpread;
+        private boolean alwaysSpread = true;
         @Optional
         private float spread;
 
@@ -754,6 +754,9 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             @Optional
             @Nullable
             private ScaledPositioned underBarrel;
+            @Optional
+            @Nullable
+            private ScaledPositioned sideRail;
 
             @Nullable
             public ScaledPositioned getScope()
@@ -777,6 +780,11 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             public ScaledPositioned getUnderBarrel()
             {
                 return this.underBarrel;
+            }
+            @Nullable
+            public ScaledPositioned getSideRail()
+            {
+                return this.sideRail;
             }
 
             @Override

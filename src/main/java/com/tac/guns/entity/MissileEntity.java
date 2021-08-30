@@ -52,11 +52,11 @@ public class MissileEntity extends ProjectileEntity
         createExplosion(this, Config.COMMON.missiles.explosionRadius.get().floatValue(), false);
     }
 
-    @Override
+    /*@Override
     protected void onHitBlock(BlockState state, BlockPos pos, Direction face, double x, double y, double z)
     {
         createExplosion(this, Config.COMMON.missiles.explosionRadius.get().floatValue(), false);
-    }
+    }*/
 
     @Override
     public void onExpired()

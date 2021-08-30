@@ -49,7 +49,6 @@ public class RecoilHandler
         if(!(event.getStack().getItem() instanceof GunItem))
             return;
         this.recoilRand = new Random().nextInt(2);
-        // System.out.println(recoilRand);
     }
 
     @SubscribeEvent
@@ -64,15 +63,17 @@ public class RecoilHandler
         ItemStack heldItem = event.getStack();
         GunItem gunItem = (GunItem) heldItem.getItem();
         Gun modifiedGun = gunItem.getModifiedGun(heldItem);
+
         float recoilModifier = 1.0F - GunModifierHelper.getRecoilModifier(heldItem);
         recoilModifier *= this.getAdsRecoilReduction(modifiedGun);
         this.cameraRecoil = modifiedGun.getGeneral().getRecoilAngle() * recoilModifier;
         this.progressCameraRecoil = 0F;
-        this.gunRecoilRandom = random.nextFloat();
 
         // Horizontal Recoil
-        float HorizontalRecoilModifier = 1.0F - GunModifierHelper.getRecoilModifier(heldItem);
-        HorizontalRecoilModifier *= RecoilHandler.get().getAdsRecoilReduction(modifiedGun);
+        this.gunRecoilRandom = random.nextFloat();
+
+        float HorizontalRecoilModifier = 1.0F - GunModifierHelper.getHorizontalRecoilModifier(heldItem);
+        HorizontalRecoilModifier *= this.getAdsRecoilReduction(modifiedGun);
         horizontalCameraRecoil = modifiedGun.getGeneral().getHorizontalRecoilAngle() * HorizontalRecoilModifier;
         horizontalProgressCameraRecoil = 0F;
     }

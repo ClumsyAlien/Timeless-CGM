@@ -1,5 +1,6 @@
 package com.tac.guns.entity;
 
+import com.sun.tools.jdi.Packet;
 import com.tac.guns.Config;
 import com.tac.guns.common.BoundingBoxManager;
 import com.tac.guns.common.Gun;
@@ -23,13 +24,9 @@ import com.tac.guns.util.GunModifierHelper;
 import com.tac.guns.util.math.ExtendedEntityRayTraceResult;
 import com.tac.guns.world.ProjectileExplosion;
 import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
-import net.minecraft.block.AbstractFireBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BreakableBlock;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.PaneBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
@@ -38,6 +35,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -61,11 +59,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,6 +76,10 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import static com.tac.guns.GunMod.LOGGER;
+
+
+// Extended Entity at first, now ProjectileItemEntity
 public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnData
 {
     private static final Predicate<Entity> PROJECTILE_TARGETS = input -> input != null && input.isPickable() && !input.isSpectator();
@@ -91,7 +95,7 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
     protected float additionalDamage = 0.0F;
     protected EntitySize entitySize;
     protected double modifiedGravity;
-    protected int life;
+    public int life;
 
     public ProjectileEntity(EntityType<? extends Entity> entityType, World worldIn)
     {
@@ -195,6 +199,13 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
     {
         this.item = item;
     }
+
+/*
+    @Override
+    protected Item getDefaultItem() {
+        return null;
+    }
+*/
 
     public ItemStack getItem()
     {
@@ -315,8 +326,8 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
         double closestDistance = Double.MAX_VALUE;
         for(Entity entity : entities)
         {
-            if(!entity.equals(this.shooter))
-            {
+            //if(!entity.equals(this.shooter))
+            //{
                 EntityResult result = this.getHitResult(entity, startVec, endVec);
                 if(result == null)
                     continue;
@@ -329,7 +340,7 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
                     closestDistance = distanceToHit;
                     headshot = result.isHeadshot();
                 }
-            }
+            //}
         }
         return hitEntity != null ? new EntityResult(hitEntity, hitVec, headshot) : null;
     }
@@ -433,17 +444,17 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
                 this.level.destroyBlock(blockRayTraceResult.getBlockPos(), false);
             }
 
-            if(!state.getMaterial().isReplaceable())
-            {
-                this.remove();
-            }
+            //if(!state.getMaterial().isReplaceable())
+            //{
+            //    this.remove();
+            //}
 
             if(block instanceof IDamageable)
             {
                 ((IDamageable) block).onBlockDamaged(this.level, state, pos, this, this.getDamage(), (int) Math.ceil(this.getDamage() / 2.0) + 1);
             }
 
-            this.onHitBlock(state, pos, blockRayTraceResult.getDirection(), hitVec.x, hitVec.y, hitVec.z);
+            this.onHitBlock(blockRayTraceResult);
 
             int fireStarterLevel = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.FIRE_STARTER.get(), this.weapon);
             if(fireStarterLevel > 0 && Config.COMMON.gameplay.enableGunGriefing.get())
@@ -510,13 +521,56 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
         PacketHandler.getPlayChannel().send(PacketDistributor.TRACKING_ENTITY.with(() -> entity), new MessageBlood(hitVec.x, hitVec.y, hitVec.z));
     }
 
-    protected void onHitBlock(BlockState state, BlockPos pos, Direction face, double x, double y, double z)
+    protected void onHitBlock(BlockRayTraceResult blockRayTraceResult)
     {
-        PacketHandler.getPlayChannel().send(PacketDistributor.TRACKING_CHUNK.with(() -> this.level.getChunkAt(pos)), new MessageProjectileHitBlock(x, y, z, pos, face));
+            Direction blockDirection = blockRayTraceResult.getDirection();
+            switch (blockDirection) {
+                case UP:
+                case DOWN:
+                    this.setDeltaMovement(this.getDeltaMovement().multiply(1, -1, 1));
+                    break;
+                case EAST:
+                case WEST:
+                    this.setDeltaMovement(this.getDeltaMovement().multiply(-1, 1, 1));
+                    break;
+                case NORTH:
+                case SOUTH:
+                    this.setDeltaMovement(this.getDeltaMovement().multiply(1, 1, -1));
+                    break;
+                default:
+                    break;
+            }
+
+        Vector3d startVec = this.position();
+        Vector3d endVec = startVec.add(this.getDeltaMovement());
+
+        EntityResult entityResult = this.findEntityOnPath(startVec, endVec);
+
+        RayTraceResult result = rayTraceBlocks(this.level, new RayTraceContext(startVec, endVec, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this), IGNORE_LEAVES);
+
+        if(entityResult != null)
+        {
+            this.tick();
+            return;
+        }
+        else
+        {
+            this.teleportToHitPoint(result);
+        }
+        this.life -= 1;
+
+        //PacketHandler.getPlayChannel().send(PacketDistributor.TRACKING_CHUNK.with(() -> this.level.getChunkAt(blockRayTraceResult.getBlockPos())), new MessageProjectileHitBlock(blockRayTraceResult, projectileEntity));
+
+    }
+
+    protected void teleportToHitPoint(RayTraceResult rayTraceResult){
+        // necessary for proper ricochet behaviour
+        Vector3d hitResult = rayTraceResult.getLocation();
+        this.setPos(hitResult.x, hitResult.y, hitResult.z);
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundNBT compound)
+    public void readAdditionalSaveData(CompoundNBT compound)
     {
         this.projectile = new Gun.Projectile();
         this.projectile.deserializeNBT(compound.getCompound("Projectile"));
@@ -527,7 +581,7 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundNBT compound)
+    public void addAdditionalSaveData(CompoundNBT compound)
     {
         compound.put("Projectile", this.projectile.serializeNBT());
         compound.put("General", this.general.serializeNBT());
@@ -648,9 +702,8 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
     {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
-
     /**
-     * A custom implementation of {@link net.minecraft.world.IWorldReader#rayTraceBlocks(RayTraceContext)}
+     * A custom implementation of
      * that allows you to pass a predicate to ignore certain blocks when checking for collisions.
      *
      * @param world     the world to perform the ray trace

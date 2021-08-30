@@ -139,6 +139,20 @@ public class GunModifierHelper
         return 1.0F - recoilReduction;
     }
 
+    public static float getHorizontalRecoilModifier(ItemStack weapon)
+    {
+        float reduction = 1.0F;
+        for(int i = 0; i < IAttachment.Type.values().length; i++)
+        {
+            IGunModifier[] modifiers = getModifiers(weapon, IAttachment.Type.values()[i]);
+            for(IGunModifier modifier : modifiers)
+            {
+                reduction *= MathHelper.clamp(modifier.horizontalRecoilModifier(), 0.0F, 1.0F);
+            }
+        }
+        return 1.0F - reduction;
+    }
+
     public static boolean isSilencedFire(ItemStack weapon)
     {
         for(int i = 0; i < IAttachment.Type.values().length; i++)
