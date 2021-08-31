@@ -74,6 +74,10 @@ public class RecipeGen extends RecipeProvider
                 .save(consumer);
 
         // Guns
+        WorkbenchRecipeBuilder.workbenchRecipe(ModItems.AR15_HELLMOUTH.get())
+                .addIngredient(Items.IRON_INGOT, 74)
+                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .build(consumer);
         /*
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.PISTOL.get())
                 .addIngredient(Items.IRON_INGOT, 14)

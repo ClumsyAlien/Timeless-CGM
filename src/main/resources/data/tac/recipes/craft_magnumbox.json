@@ -1,0 +1,28 @@
+{
+  "type": "tac:workbench",
+  "result": {
+    "item": "tac:magnumbox"
+  },
+  "materials": [
+    {
+      "item": "minecraft:iron_ingot",
+      "count": 2
+    },
+    {
+      "item": "minecraft:paper",
+      "count": 4
+    },
+    {
+      "item": "minecraft:gunpowder",
+      "count": 3
+    },
+    {
+      "item": "minecraft:diamond",
+      "count": 1
+    },
+    {
+      "item": "minecraft:sunflower",
+      "count": 1
+    }
+  ]
+}

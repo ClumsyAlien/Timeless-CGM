@@ -70,7 +70,9 @@ public class TimelessGunItem extends GunItem {
             }
         }
 
-        if(tagCompound.getInt("CurrentFireMode") == 0)
+        if(tagCompound.get("CurrentFireMode") == null)
+        { }
+        else if(tagCompound.getInt("CurrentFireMode") == 0)
             tooltip.add((new TranslationTextComponent("info.tac.firemode_safe", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).withStyle(TextFormatting.GREEN));
         else if(tagCompound.getInt("CurrentFireMode") == 1)
             tooltip.add((new TranslationTextComponent("info.tac.firemode_semi", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).withStyle(TextFormatting.RED));
