@@ -1,7 +1,9 @@
 package com.tac.guns.init;
 
 import com.tac.guns.Reference;
+import com.tac.guns.client.screen.InspectScreen;
 import com.tac.guns.common.container.AttachmentContainer;
+import com.tac.guns.common.container.InspectionContainer;
 import com.tac.guns.common.container.WorkbenchContainer;
 import com.tac.guns.tileentity.WorkbenchTileEntity;
 import net.minecraft.inventory.container.Container;
@@ -24,6 +26,7 @@ public class ModContainers
     });
 
     public static final RegistryObject<ContainerType<AttachmentContainer>> ATTACHMENTS = register("attachments", AttachmentContainer::new);
+    public static final RegistryObject<ContainerType<InspectionContainer>> INSPECTION = register("inspection", InspectionContainer::new);
 
     private static <T extends Container> RegistryObject<ContainerType<T>> register(String id, ContainerType.IFactory<T> factory)
     {

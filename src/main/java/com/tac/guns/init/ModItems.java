@@ -72,7 +72,16 @@ public class ModItems
     public static final RegistryObject<TimelessGunItem> DB_LONG = REGISTER.register("db_long", TimelessGunItem::new);
     public static final RegistryObject<TimelessGunItem> WALTHER_PPK = REGISTER.register("walther_ppk", () -> new TimelessGunItem(properties -> properties.tab(GunMod.GROUP)));
     public static final RegistryObject<TimelessGunItem> M24 = REGISTER.register("m24", () -> new TimelessGunItem(properties -> properties.tab(GunMod.GROUP)));
-    // Here I also create some new Ammunition for my mod! Not a necessary piece as you can continue using the original "cgm:" ammo!
+    public static final RegistryObject<TimelessGunItem> PPSH_41 = REGISTER.register("ppsh_41", () -> new AutomaticTimelessGunItem(properties -> properties.tab(GunMod.GROUP), Config.SERVER.gunHandlingCustomization.AR15P_trigMax));
+    public static final RegistryObject<TimelessGunItem> QBZ_95 = REGISTER.register("qbz_95", () -> new AutomaticTimelessGunItem(properties -> properties.tab(GunMod.GROUP), Config.SERVER.gunHandlingCustomization.AR15P_trigMax));
+    public static final RegistryObject<TimelessGunItem> SPRINGFIELD_1903 = REGISTER.register("springfield_1903", TimelessGunItem::new);
+    public static final RegistryObject<TimelessGunItem> DEAGLE_50 = REGISTER.register("deagle_50", TimelessGunItem::new);
+    public static final RegistryObject<TimelessGunItem> AA_12 = REGISTER.register("aa_12", () -> new AutomaticTimelessGunItem(properties -> properties.tab(GunMod.GROUP), Config.SERVER.gunHandlingCustomization.AR15P_trigMax));
+    public static final RegistryObject<TimelessGunItem> X95R = REGISTER.register("x95r", () -> new AutomaticTimelessGunItem(properties -> properties.tab(GunMod.GROUP), Config.SERVER.gunHandlingCustomization.AR15P_trigMax));
+
+
+
+    // Here I also create some new Ammunition for the mod! Not a necessary piece as you can continue using the original "cgm:" ammo!
     public static final RegistryObject<AmmoItem> MAGNUM_BULLET = REGISTER.register("magnumround", TimelessAmmoItem::new);
     public static final RegistryObject<AmmoItem> BULLET_45 = REGISTER.register("round45", TimelessAmmoItem::new);
     public static final RegistryObject<AmmoItem> BULLET_30_WIN = REGISTER.register("win_30-30", TimelessAmmoItem::new);

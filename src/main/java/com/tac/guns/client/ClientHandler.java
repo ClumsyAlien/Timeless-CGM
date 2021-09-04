@@ -10,6 +10,7 @@ import com.tac.guns.client.render.entity.ThrowableGrenadeRenderer;
 import com.tac.guns.client.render.gun.ModelOverrides;
 import com.tac.guns.client.render.gun.model.*;
 import com.tac.guns.client.screen.AttachmentScreen;
+import com.tac.guns.client.screen.InspectScreen;
 import com.tac.guns.client.screen.WorkbenchScreen;
 import com.tac.guns.client.settings.GunOptions;
 import com.tac.guns.init.ModBlocks;
@@ -19,6 +20,7 @@ import com.tac.guns.init.ModItems;
 import com.tac.guns.item.IColored;
 import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessageAttachments;
+import com.tac.guns.network.message.MessageInspection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.MouseSettingsScreen;
@@ -119,6 +121,7 @@ public class ClientHandler
     {
         ScreenManager.register(ModContainers.WORKBENCH.get(), WorkbenchScreen::new);
         ScreenManager.register(ModContainers.ATTACHMENTS.get(), AttachmentScreen::new);
+        ScreenManager.register(ModContainers.INSPECTION.get(), InspectScreen::new);
     }
 
     @SubscribeEvent
@@ -153,6 +156,10 @@ public class ClientHandler
             if(KeyBinds.KEY_ATTACHMENTS.consumeClick())
             {
                 PacketHandler.getPlayChannel().sendToServer(new MessageAttachments());
+            }
+            else if(KeyBinds.KEY_INSPECT.consumeClick())
+            {
+                PacketHandler.getPlayChannel().sendToServer(new MessageInspection());
             }
         }
     }

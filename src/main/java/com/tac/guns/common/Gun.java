@@ -317,7 +317,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         @Optional
         private double trailLengthMultiplier = 1.0;
         @Optional
-        private boolean ricochet = false;
+        private boolean ricochet = true;
 
         @Override
         public CompoundNBT serializeNBT()

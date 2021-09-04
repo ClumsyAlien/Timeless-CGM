@@ -98,14 +98,9 @@ public class TimelessGunItem extends GunItem {
         else
             return false;
     }
-
-    // Testing for hasEffect mapping
     @Override
-    public boolean verifyTagAfterLoad(CompoundNBT p_179215_1_) {
+    public boolean isFoil(ItemStack gunItem)
+    {
         return false;
-    }
-    @Override
-    public boolean is(ITag<Item> p_206844_1_) {
-        return p_206844_1_.contains(this);
     }
 }

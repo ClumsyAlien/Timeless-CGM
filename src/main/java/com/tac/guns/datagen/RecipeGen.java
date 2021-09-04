@@ -27,7 +27,7 @@ public class RecipeGen extends RecipeProvider
     }
 
     @Override
-    protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer)
+    public void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer)
     {
         // Dye Item
         consumer.accept(new IFinishedRecipe()

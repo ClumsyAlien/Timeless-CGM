@@ -1,0 +1,12 @@
+{
+  "type": "tac:workbench",
+  "result": {
+    "item": "tac:deagle_50"
+  },
+  "materials": [
+    {
+      "item": "minecraft:iron_ingot",
+      "count": 50
+    }
+  ]
+}

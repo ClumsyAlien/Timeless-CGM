@@ -1,0 +1,61 @@
+{
+  "general": {
+    "auto": true,
+    "rate": 4,
+    "rateSelector": [0,1,2],
+    "gripType":  "tac:two_handed_ak47",
+    "maxAmmo": 7,
+    "reloadAmount": 1,
+    "recoilAngle": 3.385,
+    "recoilKick": 1.355,
+    "recoilAdsReduction": 0.28,
+    "alwaysSpread": true,
+    "spread": 7.75,
+    "projectileAmount": 14
+  },
+  "projectile": {
+    "item":  "tac:10_gauge_round",
+    "visible": false,
+    "damage": 16,
+    "size": 0.05,
+    "speed": 31.5,
+    "life": 2
+  },
+  "sounds": {
+    "fire":  "tac:item.fire_db",
+    "reload":  "tac:item.pistol.reload",
+    "cock":  "tac:item.pistol.cock",
+    "silencedFire":  "tac:item.fire_m16s"
+  },
+  "display": {
+    "flash": {
+      "yOffset": 5.75,
+      "zOffset": -23.55,
+      "size": 1.70
+    }
+  },
+  "modules": {
+    "zoom": {
+      "fovModifier": 0.65,
+      "yOffset": 16.18,
+      "zOffset": -1.2
+    },
+    "attachments": {
+      "barrel": {
+        "yOffset": -100829.84,
+        "zOffset": -11.55,
+        "scale": 1.00
+      },
+      "scope": {
+        "yOffset": 15.75,
+        "zOffset": 5.1,
+        "scale": 1.30
+      },
+      "underBarrel": {
+        "yOffset": 7.799,
+        "zOffset": -2.35,
+        "scale": 0.00
+      }
+    }
+  }
+}

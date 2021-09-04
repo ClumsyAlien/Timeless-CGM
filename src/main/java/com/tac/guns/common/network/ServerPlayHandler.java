@@ -8,6 +8,7 @@ import com.tac.guns.common.ProjectileManager;
 import com.tac.guns.common.ShootTracker;
 import com.tac.guns.common.SpreadTracker;
 import com.tac.guns.common.container.AttachmentContainer;
+import com.tac.guns.common.container.InspectionContainer;
 import com.tac.guns.common.container.WorkbenchContainer;
 import com.tac.guns.crafting.WorkbenchRecipe;
 import com.tac.guns.crafting.WorkbenchRecipes;
@@ -316,6 +317,18 @@ public class ServerPlayHandler
         if(heldItem.getItem() instanceof GunItem)
         {
             NetworkHooks.openGui(player, new SimpleNamedContainerProvider((windowId, playerInventory, player1) -> new AttachmentContainer(windowId, playerInventory, heldItem), new TranslationTextComponent("container.tac.attachments")));
+        }
+    }
+
+    /**
+     * @param player
+     */
+    public static void handleInspection(ServerPlayerEntity player)
+    {
+        ItemStack heldItem = player.getMainHandItem();
+        if(heldItem.getItem() instanceof GunItem)
+        {
+            NetworkHooks.openGui(player, new SimpleNamedContainerProvider((windowId, playerInventory, player1) -> new InspectionContainer(windowId, playerInventory, heldItem), new TranslationTextComponent("container.tac.inspection")));
         }
     }
 
