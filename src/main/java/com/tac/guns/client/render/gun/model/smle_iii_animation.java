@@ -4,7 +4,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.tac.guns.client.SpecialModels;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.util.RenderUtil;
-import com.tac.guns.common.Gun;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
@@ -21,7 +20,7 @@ import net.minecraft.util.math.vector.Vector3f;
 /**
  * Author: ClumsyAlien, codebase and design based off Mr.Pineapple's original addon
  */
-public class springfield_1903_animation implements IOverrideModel {
+public class smle_iii_animation implements IOverrideModel {
 
     /*
         I plan on making a very comprehensive description on my render / rendering methods, currently I am unable to give a good explanation on each part and will be supplying one later one in development!
@@ -31,7 +30,7 @@ public class springfield_1903_animation implements IOverrideModel {
     @Override
     public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay) {
 
-            RenderUtil.renderModel(SpecialModels.SPRINGFIELD_1903.getModel(), stack, matrices, renderBuffer, light, overlay);
+            RenderUtil.renderModel(SpecialModels.SMLE_III.getModel(), stack, matrices, renderBuffer, light, overlay);
             matrices.pushPose();
 
 
@@ -41,11 +40,6 @@ public class springfield_1903_animation implements IOverrideModel {
 
             if (cooldownOg != 0 && cooldownOg < 0.83)
             {
-                matrices.translate(-0.039, -0.038, 0.00);
-                matrices.mulPose(Vector3f.ZN.rotationDegrees(-90F));
-
-                // matrices.translate(0, 0, 0.318f * (-4.5 * Math.pow(cooldownOg +0.19 -0.5, 2) + 1));
-
                 if (cooldownOg < 0.822 && cooldownOg > 0.433)
                 {
                     matrices.translate(0, 0, -0.03 * -cooldown);
@@ -53,12 +47,18 @@ public class springfield_1903_animation implements IOverrideModel {
                 }
                 if (cooldownOg < 0.433 && cooldownOg > 0.02)
                 {
-                    matrices.translate(0, 0, 0.798f * ((1.0 * cooldownOg-0.07)));
+                    matrices.translate(0, 0, 0.788f * ((1.0 * cooldownOg-0.07)));
                 }
 
-            }
+                RenderUtil.renderModel(SpecialModels.SMLE_III_BOLT_EXTRA.getModel(), stack, matrices, renderBuffer, light, overlay);
 
-            RenderUtil.renderModel(SpecialModels.SPRINGFIELD_1903_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
+                matrices.translate(-0.039, -0.038, 0.00);
+                matrices.mulPose(Vector3f.ZN.rotationDegrees(-90F));
+            }
+            else
+                RenderUtil.renderModel(SpecialModels.SMLE_III_BOLT_EXTRA.getModel(), stack, matrices, renderBuffer, light, overlay);
+
+            RenderUtil.renderModel(SpecialModels.SMLE_III_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
             matrices.popPose();
     }
     //Same method from GrenadeLauncherModel, to make a smooth rotation of the chamber.

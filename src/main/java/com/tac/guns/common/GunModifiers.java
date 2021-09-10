@@ -260,25 +260,25 @@ public class GunModifiers
         @Override
         public float recoilModifier()
         {
-            return 0.15F;
+            return 0.25F;
         }
 
         @Override
         public float kickModifier()
         {
-            return 0.55F;
+            return 0.60F;
         }
 
         @Override
         public float modifyProjectileSpread(float spread)
         {
-            return spread * 0.25F;
+            return spread * 0.15F;
         }
 
         @Override
         public double modifyAimDownSightSpeed(double speed)
         {
-            return speed * 0.55F;
+            return speed * 0.45F;
         }
         @Override
         public float horizontalRecoilModifier()

@@ -71,26 +71,6 @@ public class InspectScreen extends ContainerScreen<InspectionContainer>
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrixStack, mouseX, mouseY); //Render tool tips
-
-        int startX = (this.width - this.imageWidth) / 2;
-        int startY = (this.height - this.imageHeight) / 2;
-
-        for(int i = 0; i < IAttachment.Type.values().length; i++)
-        {
-            if(RenderUtil.isMouseWithin(mouseX, mouseY, startX + 7, startY + 16 + i * 18, 650, 1600))
-            {
-                IAttachment.Type type = IAttachment.Type.values()[i];
-                if(!this.menu.getSlot(i).isActive())
-                {
-                    this.renderComponentTooltip(matrixStack, Arrays.asList(new TranslationTextComponent("slot.tac.attachment." + type.getTranslationKey()), new TranslationTextComponent("slot.tac.attachment.not_applicable")), mouseX, mouseY);
-                }
-                else if(this.weaponInventory.getItem(i).isEmpty())
-                {
-
-                    this.renderComponentTooltip(matrixStack, Collections.singletonList(new TranslationTextComponent("slot.tac.attachment." + type.getTranslationKey())), mouseX, mouseY);
-                }
-            }
-        }
     }
 
     @Override

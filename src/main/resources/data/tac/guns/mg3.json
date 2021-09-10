@@ -1,0 +1,45 @@
+{
+  "general": {
+    "auto": true,
+    "rate": 1,
+    "rateSelector": [0,2],
+    "gripType":  "tac:two_handed_m60",
+    "maxAmmo": 100,
+    "reloadAmount": 10,
+    "recoilAngle": 1.70,
+    "recoilKick": 0.5,
+    "recoilAdsReduction": 0.68,
+    "alwaysSpread": true,
+    "spread": 5.16
+  },
+  "projectile": {
+    "item":  "tac:bullet_308",
+    "visible": false,
+    "damage": 6.0,
+    "size": 0.2,
+    "speed": 32.5,
+    "life": 5
+  },
+  "sounds": {
+    "fire":  "tac:item.fire_m60",
+    "reload":  "tac:item.pistol.reload",
+    "cock":  "tac:item.pistol.cock",
+    "silencedFire":  "tac:item.pistol.silenced_fire"
+  },
+  "display": {
+    "flash": {
+      "yOffset": 5.3,
+      "zOffset": -19.95,
+      "size": 0.8
+    }
+  },
+  "modules": {
+    "zoom": {
+      "fovModifier": 0.7,
+      "yOffset": 8.58,
+      "zOffset": -5.7
+    },
+    "attachments": {
+    }
+  }
+}

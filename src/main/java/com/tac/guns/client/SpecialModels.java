@@ -148,7 +148,21 @@ public enum SpecialModels
     X95R("x95r"),
     X95R_BOLT("x95r_bolt"),
     X95R_SIGHT("x95r_sight"),
-    X95R_STANDARD_MAG("x95r_standard_mag"),;
+    X95R_STANDARD_MAG("x95r_standard_mag"),
+    FR_F2("fr_f2"),
+    FR_F2_BOLT("fr_f2_bolt"),
+    SMLE_III("smle_iii"),
+    SMLE_III_BOLT("smle_iii_bolt"),
+    SMLE_III_BOLT_EXTRA("smle_iii_bolt_extra"),
+    M870_CLASSIC("m870_classic"),
+    M870_CLASSIC_SLIDE("m870_classic_slide"),
+    M60_UNFOLDED_SIGHT("m60_unfolded_sight"),
+    M60_FOLDED_SIGHT("m60_folded_sight"),
+    M60_BOLT("m60_bolt"),
+    AK47_BUTT_HEAVY("ak47_heavy_stock"),
+    AK47_BUTT_LIGHTWEIGHT("ak47_light_stock"),
+    AK47_BUTT_TACTICAL("ak47_tactical_stock"),
+    AK47_SILENCER("ak47_silencer");
 
     /**
      * The location of an item model in the [MOD_ID]/models/special/[NAME] folder

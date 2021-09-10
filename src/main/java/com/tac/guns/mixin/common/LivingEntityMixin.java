@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
@@ -17,10 +18,11 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin
 {
-    private DamageSource source;
+    private float source;
 
-    @Inject(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;knockback(FDD)V"))
-    private void capture(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir)
+    //@Inject(method = "knockback(FDD)V", at = @At(value = "INVOKE", target = "net.minecraft.entity.LivingEntity/minecraft/entity/LivingEntity")) // net.minecraft.entity.LivingEntity/minecraft/entity/LivingEntity;knockback(FDD)V"))
+    @Inject(method = "knockback(FDD)V", at = @At("INVOKE"))
+    private void capture(float p_233627_1_, double p_233627_2_, double p_233627_4_, CallbackInfo ci)
     {
         this.source = source;
     }

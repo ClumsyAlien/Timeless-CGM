@@ -78,6 +78,11 @@ public class ModItems
     public static final RegistryObject<TimelessGunItem> DEAGLE_50 = REGISTER.register("deagle_50", TimelessGunItem::new);
     public static final RegistryObject<TimelessGunItem> AA_12 = REGISTER.register("aa_12", () -> new AutomaticTimelessGunItem(properties -> properties.tab(GunMod.GROUP), Config.SERVER.gunHandlingCustomization.AR15P_trigMax));
     public static final RegistryObject<TimelessGunItem> X95R = REGISTER.register("x95r", () -> new AutomaticTimelessGunItem(properties -> properties.tab(GunMod.GROUP), Config.SERVER.gunHandlingCustomization.AR15P_trigMax));
+    public static final RegistryObject<TimelessGunItem> FR_F2 = REGISTER.register("fr_f2", TimelessGunItem::new);
+    public static final RegistryObject<TimelessGunItem> SMLE_III = REGISTER.register("smle_iii", TimelessGunItem::new);
+    public static final RegistryObject<TimelessGunItem> M870_CLASSIC = REGISTER.register("m870_classic", () -> new TimelessGunItem(properties -> properties.tab(GunMod.GROUP)));
+    public static final RegistryObject<TimelessGunItem> MG3 = REGISTER.register("mg3", () -> new AutomaticTimelessGunItem(properties -> properties, Config.SERVER.gunHandlingCustomization.M60_trigMax));
+    public static final RegistryObject<TimelessGunItem> MG42 = REGISTER.register("mg42", () -> new AutomaticTimelessGunItem(properties -> properties, Config.SERVER.gunHandlingCustomization.M60_trigMax));
 
 
 

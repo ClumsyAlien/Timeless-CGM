@@ -2,8 +2,7 @@
   "required": true,
   "package": "com.tac.guns.mixin",
   "compatibilityLevel": "JAVA_8",
-  "minVersion": "0.8",
-  "refmap": "cgm.refmap.json",
+  "refmap": "tac.refmap.json",
   "mixins": [
     "common.LivingEntityMixin",
     "common.PlayerListMixin",
@@ -11,9 +10,9 @@
   ],
   "client": [
     "client.GameRendererMixin",
-    "client.MouseHelperMixin",
-    "client.WorldRendererMixin"
+    "client.MouseHelperMixin"
   ],
+  "minVersion": "0.8",
   "injectors": {
     "defaultRequire": 1
   }
