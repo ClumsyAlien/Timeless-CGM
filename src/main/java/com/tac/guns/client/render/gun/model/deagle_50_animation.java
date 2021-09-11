@@ -34,10 +34,10 @@ public class deagle_50_animation implements IOverrideModel {
         RenderUtil.renderModel(SpecialModels.DEAGLE_50.getModel(), stack, matrices, renderBuffer, light, overlay);
 
         //Always push
-        matrices.pushPose(); // push();
+        matrices.push(); // push();
 
-        CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns(); // getCooldownTracker();
-        float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime()); // getRenderPartialTicks()); // getCooldown(stack.getItem(), Minecraft.getInstance().getFrameTime());
+        CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker(); // getCooldownTracker();
+        float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks()); // getRenderPartialTicks()); // getCooldown(stack.getItem(), Minecraft.getInstance().getFrameTime());
         if(Gun.hasAmmo(stack))
         {
             // Math provided by Bomb787 on GitHub and Curseforge!!!
@@ -58,7 +58,7 @@ public class deagle_50_animation implements IOverrideModel {
             RenderUtil.renderModel(SpecialModels.DEAGLE_50_SLIDE.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always pop
-            matrices.popPose();
+            matrices.pop();
     }
 
      

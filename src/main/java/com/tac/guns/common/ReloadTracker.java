@@ -39,9 +39,9 @@ public class ReloadTracker
 
     private ReloadTracker(PlayerEntity player)
     {
-        this.startTick = player.tickCount;
-        this.slot = player.inventory.selected;
-        this.stack = player.inventory.getSelected();
+        this.startTick = player.ticksExisted;
+        this.slot = player.inventory.currentItem;
+        this.stack = player.inventory.getCurrentItem();
         this.gun = ((GunItem) stack.getItem()).getModifiedGun(stack);
     }
 
@@ -53,7 +53,7 @@ public class ReloadTracker
      */
     private boolean isSameWeapon(PlayerEntity player)
     {
-        return !this.stack.isEmpty() && player.inventory.selected == this.slot && player.inventory.getSelected() == this.stack;
+        return !this.stack.isEmpty() && player.inventory.currentItem == this.slot && player.inventory.getCurrentItem() == this.stack;
     }
 
     /**
@@ -72,7 +72,7 @@ public class ReloadTracker
 
     private boolean canReload(PlayerEntity player)
     {
-        int deltaTicks = player.tickCount - this.startTick;
+        int deltaTicks = player.ticksExisted - this.startTick;
         int interval = GunEnchantmentHelper.getReloadInterval(this.stack);
         return deltaTicks > 0 && deltaTicks % interval == 0;
     }
@@ -96,21 +96,21 @@ public class ReloadTracker
         ResourceLocation reloadSound = this.gun.getSounds().getReload();
         if(reloadSound != null)
         {
-            PacketHandler.getPlayChannel().send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new MessageGunSound(reloadSound, SoundCategory.PLAYERS, (float) player.getX(), (float) player.getY() + 1.0F, (float) player.getZ(), 1.0F, 1.0F, player.getId(), false));
+            PacketHandler.getPlayChannel().send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new MessageGunSound(reloadSound, SoundCategory.PLAYERS, (float) player.getPosX(), (float) player.getPosY() + 1.0F, (float) player.getPosZ(), 1.0F, 1.0F, player.getEntityId(), false));
         }
     }
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event)
     {
-        if(event.phase == TickEvent.Phase.START && !event.player.level.isClientSide)
+        if(event.phase == TickEvent.Phase.START && !event.player.world.isRemote)
         {
             PlayerEntity player = event.player;
             if(SyncedPlayerData.instance().get(player, ModSyncedDataKeys.RELOADING))
             {
                 if(!RELOAD_TRACKER_MAP.containsKey(player))
                 {
-                    if(!(player.inventory.getSelected().getItem() instanceof GunItem))
+                    if(!(player.inventory.getCurrentItem().getItem() instanceof GunItem))
                     {
                         SyncedPlayerData.instance().set(player, ModSyncedDataKeys.RELOADING, false);
                         return;
@@ -139,7 +139,7 @@ public class ReloadTracker
                             ResourceLocation cockSound = gun.getSounds().getCock();
                             if(cockSound != null && finalPlayer.isAlive())
                             {
-                                MessageGunSound messageSound = new MessageGunSound(cockSound, SoundCategory.PLAYERS, (float) finalPlayer.getX(), (float) (finalPlayer.getY() + 1.0), (float) finalPlayer.getZ(), 1.0F, 1.0F, finalPlayer.getId(), false);
+                                MessageGunSound messageSound = new MessageGunSound(cockSound, SoundCategory.PLAYERS, (float) finalPlayer.getPosX(), (float) (finalPlayer.getPosY() + 1.0), (float) finalPlayer.getPosZ(), 1.0F, 1.0F, finalPlayer.getEntityId(), false);
                                 PacketHandler.getPlayChannel().send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) finalPlayer), messageSound);
                             }
                         });

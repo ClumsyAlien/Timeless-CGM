@@ -42,24 +42,24 @@ public class RenderUtil
     public static void scissor(int x, int y, int width, int height)
     {
         Minecraft mc = Minecraft.getInstance();
-        int scale = (int) mc.getWindow().getGuiScale();
-        GL11.glScissor(x * scale, mc.getWindow().getScreenHeight() - y * scale - height * scale, Math.max(0, width * scale), Math.max(0, height * scale));
+        int scale = (int) mc.getMainWindow().getGuiScaleFactor();
+        GL11.glScissor(x * scale, mc.getMainWindow().getHeight() - y * scale - height * scale, Math.max(0, width * scale), Math.max(0, height * scale));
     }
 
     public static IBakedModel getModel(Item item)
     {
-        return Minecraft.getInstance().getItemRenderer().getItemModelShaper().getItemModel(new ItemStack(item));
+        return Minecraft.getInstance().getItemRenderer().getItemModelMesher().getItemModel(new ItemStack(item));
     }
 
     public static IBakedModel getModel(ItemStack item)
     {
-        return Minecraft.getInstance().getItemRenderer().getItemModelShaper().getItemModel(item);
+        return Minecraft.getInstance().getItemRenderer().getItemModelMesher().getItemModel(item);
     }
 
     public static void rotateZ(MatrixStack matrixStack, float xOffset, float yOffset, float rotation)
     {
         matrixStack.translate(xOffset, yOffset, 0);
-        matrixStack.mulPose(Vector3f.ZN.rotationDegrees(rotation));
+        matrixStack.rotate(Vector3f.ZN.rotationDegrees(rotation));
         matrixStack.translate(-xOffset, -yOffset, 0);
     }
 
@@ -70,23 +70,23 @@ public class RenderUtil
 
     public static void renderModel(ItemStack child, ItemStack parent, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay)
     {
-        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getItemModel(child);
+        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelMesher().getItemModel(child);
         renderModel(model, ItemCameraTransforms.TransformType.NONE, null, child, parent, matrixStack, buffer, light, overlay);
     }
 
     public static void renderModel(ItemStack stack, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay, @Nullable LivingEntity entity)
     {
-        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelShaper().getItemModel(stack);
+        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelMesher().getItemModel(stack);
         if(entity != null)
         {
-            model = Minecraft.getInstance().getItemRenderer().getModel(stack, entity.level, entity);
+            model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(stack, entity.world, entity);
         }
         renderModel(model, transformType, stack, matrixStack, buffer, light, overlay);
     }
 
     public static void renderModel(ItemStack stack, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay, @Nullable World world, @Nullable LivingEntity entity)
     {
-        IBakedModel model = Minecraft.getInstance().getItemRenderer().getModel(stack, world, entity);
+        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(stack, world, entity);
         renderModel(model, transformType, stack, matrixStack, buffer, light, overlay);
     }
 
@@ -104,7 +104,7 @@ public class RenderUtil
     {
         if(!stack.isEmpty())
         {
-            matrixStack.pushPose();
+            matrixStack.push();
             boolean flag = transformType == ItemCameraTransforms.TransformType.GUI || transformType == ItemCameraTransforms.TransformType.GROUND || transformType == ItemCameraTransforms.TransformType.FIXED;
             if(stack.getItem() == Items.TRIDENT && flag)
             {
@@ -113,10 +113,10 @@ public class RenderUtil
 
             model = net.minecraftforge.client.ForgeHooksClient.handleCameraTransforms(matrixStack, model, transformType, false);
             matrixStack.translate(-0.5D, -0.5D, -0.5D);
-            if(!model.isCustomRenderer() && (stack.getItem() != Items.TRIDENT || flag))
+            if(!model.isBuiltInRenderer() && (stack.getItem() != Items.TRIDENT || flag))
             {
                 boolean flag1;
-                if(transformType != ItemCameraTransforms.TransformType.GUI && !transformType.firstPerson() && stack.getItem() instanceof BlockItem)
+                if(transformType != ItemCameraTransforms.TransformType.GUI && !transformType.isFirstPerson() && stack.getItem() instanceof BlockItem)
                 {
                     Block block = ((BlockItem) stack.getItem()).getBlock();
                     flag1 = !(block instanceof BreakableBlock) && !(block instanceof StainedGlassPaneBlock);
@@ -134,37 +134,37 @@ public class RenderUtil
                 {
                     RenderType renderType = getRenderType(stack, !flag1);
                     IVertexBuilder builder;
-                    if(stack.getItem() == Items.COMPASS && stack.hasFoil())
+                    if(stack.getItem() == Items.COMPASS && stack.hasEffect())
                     {
-                        matrixStack.pushPose();
-                        MatrixStack.Entry entry = matrixStack.last();
+                        matrixStack.push();
+                        MatrixStack.Entry entry = matrixStack.getLast();
                         if(transformType == ItemCameraTransforms.TransformType.GUI)
                         {
-                            entry.pose().multiply(0.5F);
+                            entry.getMatrix().mul(0.5F);
                         }
-                        else if(transformType.firstPerson())
+                        else if(transformType.isFirstPerson())
                         {
-                            entry.pose().multiply(0.75F);
+                            entry.getMatrix().mul(0.75F);
                         }
 
                         if(flag1)
                         {
-                            builder = ItemRenderer.getCompassFoilBufferDirect(buffer, renderType, entry);
+                            builder = ItemRenderer.getDirectGlintVertexBuilder(buffer, renderType, entry);
                         }
                         else
                         {
-                            builder = ItemRenderer.getCompassFoilBuffer(buffer, renderType, entry);
+                            builder = ItemRenderer.getGlintVertexBuilder(buffer, renderType, entry);
                         }
 
-                        matrixStack.popPose();
+                        matrixStack.pop();
                     }
                     else if(flag1)
                     {
-                        builder = ItemRenderer.getFoilBufferDirect(buffer, renderType, true, stack.hasFoil() || parent.hasFoil());
+                        builder = ItemRenderer.getEntityGlintVertexBuilder(buffer, renderType, true, stack.hasEffect() || parent.hasEffect());
                     }
                     else
                     {
-                        builder = ItemRenderer.getFoilBuffer(buffer, renderType, true, stack.hasFoil() || parent.hasFoil());
+                        builder = ItemRenderer.getBuffer(buffer, renderType, true, stack.hasEffect() || parent.hasEffect());
                     }
 
                     renderModel(model, stack, parent, transform, matrixStack, builder, light, overlay);
@@ -172,10 +172,10 @@ public class RenderUtil
             }
             else
             {
-                stack.getItem().getItemStackTileEntityRenderer().renderByItem(stack, transformType, matrixStack, buffer, light, overlay);
+                stack.getItem().getItemStackTileEntityRenderer().func_239207_a_(stack, transformType, matrixStack, buffer, light, overlay);
             }
 
-            matrixStack.popPose();
+            matrixStack.pop();
         }
     }
 
@@ -216,11 +216,11 @@ public class RenderUtil
      */
     private static void renderQuads(MatrixStack matrixStack, IVertexBuilder buffer, List<BakedQuad> quads, ItemStack stack, ItemStack parent, int light, int overlay)
     {
-        MatrixStack.Entry entry = matrixStack.last();
+        MatrixStack.Entry entry = matrixStack.getLast();
         for(BakedQuad quad : quads)
         {
             int color = -1;
-            if(quad.isTinted())
+            if(quad.hasTintIndex())
             {
                 color = getItemStackColor(stack, parent, quad.getTintIndex());
             }
@@ -246,17 +246,17 @@ public class RenderUtil
 
     public static void applyTransformType(ItemStack stack, MatrixStack matrixStack, ItemCameraTransforms.TransformType transformType, LivingEntity entity)
     {
-        IBakedModel model = Minecraft.getInstance().getItemRenderer().getModel(stack, entity.level, entity);
+        IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(stack, entity.world, entity);
         boolean leftHanded = transformType == ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND || transformType == ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND;
         ForgeHooksClient.handleCameraTransforms(matrixStack, model, transformType, leftHanded);
 
         /* Flips the model and normals if left handed. */
         if(leftHanded)
         {
-            Matrix4f scale = Matrix4f.createScaleMatrix(-1, 1, 1);
+            Matrix4f scale = Matrix4f.makeScale(-1, 1, 1);
             Matrix3f normal = new Matrix3f(scale);
-            matrixStack.last().pose().multiply(scale);
-            matrixStack.last().normal().mul(normal);
+            matrixStack.getLast().getMatrix().mul(scale);
+            matrixStack.getLast().getNormal().mul(normal);
         }
     }
 
@@ -273,16 +273,16 @@ public class RenderUtil
     public static void renderFirstPersonArm(ClientPlayerEntity player, HandSide hand, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight)
     {
         Minecraft mc = Minecraft.getInstance();
-        EntityRendererManager renderManager = mc.getEntityRenderDispatcher();
+        EntityRendererManager renderManager = mc.getRenderManager();
         PlayerRenderer renderer = (PlayerRenderer) renderManager.getRenderer(player);
-        mc.getTextureManager().bind(player.getSkinTextureLocation());
+        mc.getTextureManager().bindTexture(player.getLocationSkin());
         if(hand == HandSide.RIGHT)
         {
-            renderer.renderRightHand(matrixStack, buffer, combinedLight, player);
+            renderer.renderRightArm(matrixStack, buffer, combinedLight, player);
         }
         else
         {
-            renderer.renderLeftHand(matrixStack, buffer, combinedLight, player);
+            renderer.renderLeftArm(matrixStack, buffer, combinedLight, player);
         }
     }
 
@@ -292,8 +292,8 @@ public class RenderUtil
         if(item instanceof BlockItem)
         {
             Block block = ((BlockItem) item).getBlock();
-            return RenderTypeLookup.getRenderType(block.defaultBlockState(), !entity);
+            return RenderTypeLookup.func_239220_a_(block.getDefaultState(), !entity);
         }
-        return entity ? Atlases.translucentItemSheet() : RenderType.entityTranslucent(PlayerContainer.BLOCK_ATLAS);
+        return entity ? Atlases.getItemEntityTranslucentCullType() : RenderType.getEntityTranslucent(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
     }
 }

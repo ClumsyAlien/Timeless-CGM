@@ -29,7 +29,7 @@ public class ppsh_41_animation implements IOverrideModel {
 
 
 
-        if(EnchantmentHelper.getEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
+        if(EnchantmentHelper.getMaxEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
         {
             RenderUtil.renderModel(SpecialModels.PPSH_41_EXTENDED_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
@@ -41,11 +41,11 @@ public class ppsh_41_animation implements IOverrideModel {
 
 
             //Always push
-            matrices.pushPose();
+            matrices.push();
 
             //We're getting the cooldown tracker for the item - items like the sword, ender pearl, and chorus fruit all have this too.
-            CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns();
-            float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
+            CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+            float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
              
 
             matrices.translate(0, 0, -0.04);
@@ -58,7 +58,7 @@ public class ppsh_41_animation implements IOverrideModel {
             RenderUtil.renderModel(SpecialModels.PPSH_41_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always pop
-            matrices.popPose();
+            matrices.pop();
     }
 
      

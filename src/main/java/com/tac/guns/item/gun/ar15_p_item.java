@@ -1,9 +1,12 @@
 package com.tac.guns.item.gun;
 
+/*
 import com.tac.guns.Config;
-import com.tac.guns.client.render.gun.model.ar15_p_renderer;
+import com.tac.guns.client.render.gun.modelGeckolib.ar15_p_renderer;
 import com.tac.guns.item.TransitionalTypes.AnimatedAutomaticTimelessGunItem;
 import com.tac.guns.util.Process;
+
+import net.minecraft.item.Item.Properties;
 
 public class ar15_p_item extends AnimatedAutomaticTimelessGunItem {
 
@@ -15,3 +18,4 @@ public class ar15_p_item extends AnimatedAutomaticTimelessGunItem {
         this(properties -> properties);
     }
 }
+*/

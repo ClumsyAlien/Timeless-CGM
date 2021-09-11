@@ -28,7 +28,7 @@ public class m92fs_animation implements IOverrideModel {
     @Override
     public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay) {
 
-        if(EnchantmentHelper.getEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
+        if(EnchantmentHelper.getMaxEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
         {
             RenderUtil.renderModel(SpecialModels.M92FS_EXTENDED_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
@@ -40,10 +40,10 @@ public class m92fs_animation implements IOverrideModel {
         RenderUtil.renderModel(SpecialModels.M92FS.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always push
-            matrices.pushPose();
+            matrices.push();
 
-            CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns();
-            float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
+            CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+            float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
              
 
         if(Gun.hasAmmo(stack))
@@ -67,7 +67,7 @@ public class m92fs_animation implements IOverrideModel {
         RenderUtil.renderModel(SpecialModels.M92FS_SLIDE.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always pop
-            matrices.popPose();
+            matrices.pop();
     }
 
      

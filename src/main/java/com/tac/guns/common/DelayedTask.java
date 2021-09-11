@@ -47,7 +47,7 @@ public class DelayedTask
             while(it.hasNext())
             {
                 Impl impl = it.next();
-                if(impl.executionTick <= server.getTickCount())
+                if(impl.executionTick <= server.getTickCounter())
                 {
                     impl.runnable.run();
                     it.remove();
@@ -65,11 +65,11 @@ public class DelayedTask
     public static void runAfter(int ticks, Runnable run)
     {
         MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        if(!server.isSameThread())
+        if(!server.isOnExecutionThread())
         {
             throw new IllegalStateException("Tried to add a delayed task off the main thread");
         }
-        tasks.add(new Impl(server.getTickCount() + ticks, run));
+        tasks.add(new Impl(server.getTickCounter() + ticks, run));
     }
 
     private static class Impl

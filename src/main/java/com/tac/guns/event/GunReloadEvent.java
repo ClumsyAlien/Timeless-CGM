@@ -33,7 +33,7 @@ public class GunReloadEvent extends PlayerEvent
      */
     public boolean isClient()
     {
-        return this.getPlayer().getCommandSenderWorld().isClientSide();
+        return this.getPlayer().getEntityWorld().isRemote();
     }
 
     /**

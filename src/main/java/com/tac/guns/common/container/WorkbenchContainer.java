@@ -23,20 +23,20 @@ public class WorkbenchContainer extends Container
     {
         super(ModContainers.WORKBENCH.get(), windowId);
         this.workbench = workbench;
-        this.pos = workbench.getBlockPos();
+        this.pos = workbench.getPos();
 
-        int offset = WorkbenchRecipes.isEmpty(workbench.getLevel()) ? 0 : 28;
+        int offset = WorkbenchRecipes.isEmpty(workbench.getWorld()) ? 0 : 28;
 
         this.addSlot(new Slot(workbench, 0, 174, 18)
         {
             @Override
-            public boolean mayPlace(ItemStack stack)
+            public boolean isItemValid(ItemStack stack)
             {
                 return stack.getItem() instanceof DyeItem;
             }
 
             @Override
-            public int getMaxStackSize()
+            public int getSlotStackLimit()
             {
                 return 1;
             }
@@ -57,25 +57,25 @@ public class WorkbenchContainer extends Container
     }
 
     @Override
-    public boolean stillValid(PlayerEntity playerIn)
+    public boolean canInteractWith(PlayerEntity playerIn)
     {
-        return workbench.stillValid(playerIn);
+        return workbench.isUsableByPlayer(playerIn);
     }
 
     @Override
-    public ItemStack quickMoveStack(PlayerEntity playerIn, int index)
+    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index)
     {
         ItemStack stack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
+        Slot slot = this.inventorySlots.get(index);
 
-        if(slot != null && slot.hasItem())
+        if(slot != null && slot.getHasStack())
         {
-            ItemStack slotStack = slot.getItem();
+            ItemStack slotStack = slot.getStack();
             stack = slotStack.copy();
 
             if(index == 0)
             {
-                if(!this.moveItemStackTo(slotStack, 1, 36, true))
+                if(!this.mergeItemStack(slotStack, 1, 36, true))
                 {
                     return ItemStack.EMPTY;
                 }
@@ -84,19 +84,19 @@ public class WorkbenchContainer extends Container
             {
                 if(slotStack.getItem() instanceof DyeItem)
                 {
-                    if(!this.moveItemStackTo(slotStack, 0, 1, false))
+                    if(!this.mergeItemStack(slotStack, 0, 1, false))
                     {
                         return ItemStack.EMPTY;
                     }
                 }
                 else if(index < 28)
                 {
-                    if(!this.moveItemStackTo(slotStack, 28, 36, false))
+                    if(!this.mergeItemStack(slotStack, 28, 36, false))
                     {
                         return ItemStack.EMPTY;
                     }
                 }
-                else if(index <= 36 && !this.moveItemStackTo(slotStack, 1, 28, false))
+                else if(index <= 36 && !this.mergeItemStack(slotStack, 1, 28, false))
                 {
                     return ItemStack.EMPTY;
                 }
@@ -104,11 +104,11 @@ public class WorkbenchContainer extends Container
 
             if(slotStack.isEmpty())
             {
-                slot.set(ItemStack.EMPTY);
+                slot.putStack(ItemStack.EMPTY);
             }
             else
             {
-                slot.setChanged();
+                slot.onSlotChanged();
             }
 
             if(slotStack.getCount() == stack.getCount())

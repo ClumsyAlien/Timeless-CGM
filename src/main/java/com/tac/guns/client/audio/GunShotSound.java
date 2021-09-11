@@ -21,12 +21,12 @@ public class GunShotSound extends LocatableSound
         this.y = y;
         this.z = z;
         this.pitch = pitch;
-        this.attenuation = AttenuationType.NONE;
+        this.attenuationType = AttenuationType.NONE;
 
         ClientPlayerEntity player = Minecraft.getInstance().player;
         if(player != null)
         {
-            this.volume = volume * (1.0F - ((float) Math.sqrt(player.distanceToSqr(x, y, z)) / Config.SERVER.gunShotMaxDistance.get().floatValue()));
+            this.volume = volume * (1.0F - ((float) Math.sqrt(player.getDistanceSq(x, y, z)) / Config.SERVER.gunShotMaxDistance.get().floatValue()));
             this.volume *= this.volume; //Ease the volume instead of linear
         }
     }

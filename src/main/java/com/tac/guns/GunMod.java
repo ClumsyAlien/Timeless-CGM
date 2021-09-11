@@ -35,6 +35,7 @@ import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import java.lang.reflect.Field;
 import java.util.Locale;
@@ -47,7 +48,7 @@ public class GunMod
     public static final ItemGroup GROUP = new  ItemGroup(Reference.MOD_ID)
     {
         @Override
-        public ItemStack makeIcon()
+        public ItemStack createIcon()
         {
             ItemStack stack = new ItemStack(ModItems.AK47.get());
             stack.getOrCreateTag().putInt("AmmoCount", ModItems.AK47.get().getGun().getGeneral().getMaxAmmo());
@@ -55,12 +56,12 @@ public class GunMod
         }
 
         @Override
-        public void fillItemList(NonNullList<ItemStack> items)
+        public void fill(NonNullList<ItemStack> items)
         {
-            super.fillItemList(items);
+            super.fill(items);
             CustomGunManager.fill(items);
         }
-    }.setEnchantmentCategories(EnchantmentTypes.GUN, EnchantmentTypes.SEMI_AUTO_GUN);
+    }.setRelevantEnchantmentTypes(EnchantmentTypes.GUN, EnchantmentTypes.SEMI_AUTO_GUN);
 
     public GunMod()
     {
@@ -83,6 +84,9 @@ public class GunMod
         bus.addListener(this::onClientSetup);
         bus.addListener(this::dataSetup);
         controllableLoaded = ModList.get().isLoaded("controllable");
+
+        MixinEnvironment.getDefaultEnvironment()
+                .addConfiguration("tac.mixins.json");
     }
 
     private void onCommonSetup(FMLCommonSetupEvent event)

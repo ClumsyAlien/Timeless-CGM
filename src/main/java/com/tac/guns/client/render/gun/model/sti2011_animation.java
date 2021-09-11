@@ -47,10 +47,10 @@ public class sti2011_animation implements IOverrideModel {
         RenderUtil.renderModel(SpecialModels.STI2011_BODY.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always push
-            matrices.pushPose();
+            matrices.push();
 
-            CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns();
-            float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
+            CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+            float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
 
             matrices.translate(0.00, 0.0, 0.035); // Issues with the slide starting out further forward, seems to be ~ a 0.035 movement
             if(Gun.hasAmmo(stack))
@@ -73,6 +73,6 @@ public class sti2011_animation implements IOverrideModel {
             RenderUtil.renderModel(SpecialModels.STI2011_SLIDE.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always pop
-            matrices.popPose();
+            matrices.pop();
     }
 }

@@ -18,38 +18,38 @@ public class TwoHandedPoseHighRes_mosin extends TwoHandedPose {
 	@Override
 	public void renderFirstPersonArms(ClientPlayerEntity player, HandSide hand, ItemStack stack, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, float partialTicks) {
 		matrixStack.translate(0, 0, -1);
-		matrixStack.mulPose(Vector3f.YP.rotationDegrees(180F));
+		matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
 		
-		matrixStack.pushPose();
+		matrixStack.push();
 		
 		float reloadProgress = ReloadHandler.get().getReloadProgress(partialTicks);
 		matrixStack.translate(reloadProgress * 1.5, -reloadProgress, -reloadProgress * 1.5);
 		
-		int side = hand.getOpposite() == HandSide.RIGHT ? 1 : -1;
+		int side = hand.opposite() == HandSide.RIGHT ? 1 : -1;
 		matrixStack.translate(8.0 * side * 0.0625, -0.795, -0.53);
 		
-		if (Minecraft.getInstance().player.getModelName().equals("slim") && hand.getOpposite() == HandSide.LEFT) {
+		if (Minecraft.getInstance().player.getSkinType().equals("slim") && hand.opposite() == HandSide.LEFT) {
 			matrixStack.translate(0.03125F * -side, 0, 0);
 		}
 		
-		matrixStack.mulPose(Vector3f.XP.rotationDegrees(80F));
-		matrixStack.mulPose(Vector3f.YP.rotationDegrees(15F * -side));
-		matrixStack.mulPose(Vector3f.ZP.rotationDegrees(15F * -side));
-		matrixStack.mulPose(Vector3f.XP.rotationDegrees(-15F));
+		matrixStack.rotate(Vector3f.XP.rotationDegrees(80F));
+		matrixStack.rotate(Vector3f.YP.rotationDegrees(15F * -side));
+		matrixStack.rotate(Vector3f.ZP.rotationDegrees(15F * -side));
+		matrixStack.rotate(Vector3f.XP.rotationDegrees(-15F));
 		matrixStack.scale(1.0F, 1.0F, 1.0F);
 		
-		RenderUtil.renderFirstPersonArm(player, hand.getOpposite(), matrixStack, buffer, light);
+		RenderUtil.renderFirstPersonArm(player, hand.opposite(), matrixStack, buffer, light);
 		
-		matrixStack.popPose();
+		matrixStack.pop();
 		
 		double centerOffset = 2.5;
-		if (Minecraft.getInstance().player.getModelName().equals("slim")) {
+		if (Minecraft.getInstance().player.getSkinType().equals("slim")) {
 			centerOffset += hand == HandSide.RIGHT ? 0.2 : 0.8;
 		}
 		centerOffset = hand == HandSide.RIGHT ? -centerOffset : centerOffset;
 		matrixStack.translate(centerOffset * 0.0855, -0.55, -1.575);
 		
-		matrixStack.mulPose(Vector3f.XP.rotationDegrees(80F));
+		matrixStack.rotate(Vector3f.XP.rotationDegrees(80F));
 		matrixStack.scale(0.5F, 0.5F, 0.5F);
 		
 		RenderUtil.renderFirstPersonArm(player, hand, matrixStack, buffer, light);

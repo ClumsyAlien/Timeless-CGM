@@ -31,13 +31,13 @@ public class MessageProjectileHitBlock implements IMessage
     @Override
     public void encode(PacketBuffer buffer)
     {
-        buffer.writeBlockHitResult(this.result);
+        buffer.writeBlockRay(this.result);
     }
 
     @Override
     public void decode(PacketBuffer buffer)
     {
-        this.result = buffer.readBlockHitResult();
+        this.result = buffer.readBlockRay();
     }
 
     @Override

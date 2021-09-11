@@ -20,13 +20,13 @@ public abstract class GunEnchantment extends Enchantment
     }
 
     @Override
-    protected boolean checkCompatibility(Enchantment enchantment)
+    protected boolean canApplyTogether(Enchantment enchantment)
     {
         if(enchantment instanceof GunEnchantment)
         {
             return ((GunEnchantment) enchantment).type != this.type;
         }
-        return super.checkCompatibility(enchantment);
+        return super.canApplyTogether(enchantment);
     }
 
     public enum Type

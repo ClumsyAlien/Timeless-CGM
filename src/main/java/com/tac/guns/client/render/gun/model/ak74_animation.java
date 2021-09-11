@@ -32,11 +32,11 @@ public class ak74_animation implements IOverrideModel {
         RenderUtil.renderModel(SpecialModels.AK74.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always push
-            matrices.pushPose();
+            matrices.push();
 
             //We're getting the cooldown tracker for the item - items like the sword, ender pearl, and chorus fruit all have this too.
-            CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns();
-            float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
+            CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+            float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
 
             if(Gun.hasAmmo(stack))
             {
@@ -57,7 +57,7 @@ public class ak74_animation implements IOverrideModel {
             RenderUtil.renderModel(SpecialModels.AK47_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always pop
-            matrices.popPose();
+            matrices.pop();
     }
 
      

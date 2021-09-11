@@ -47,20 +47,20 @@ public class CoyoteSightModel implements IOverrideModel
 
         matrixStack.scale(0.170f,0.170f,0.170f);
         matrixStack.translate(0,0.5,0);
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-90));
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(-90));
 
         RenderUtil.renderModel(stack, parent, matrixStack, renderTypeBuffer, light, overlay);
 
         matrixStack.translate(0, -1.5, 0);
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(90));
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(90));
         matrixStack.scale(6.96f,6.96f,6.96f);
 
-        if(transformType.firstPerson() && entity.equals(Minecraft.getInstance().player))
+        if(transformType.isFirstPerson() && entity.equals(Minecraft.getInstance().player))
         {
-            matrixStack.pushPose();
+            matrixStack.push();
             {
-                Matrix4f matrix = matrixStack.last().pose();
-                Matrix3f normal = matrixStack.last().normal();
+                Matrix4f matrix = matrixStack.getLast().getMatrix();
+                Matrix3f normal = matrixStack.getLast().getNormal();
 
                 float size = 1.4F / 16.0F;
                 matrixStack.translate(-size / 2, 0.85 * 0.0625, -0.3 * 0.0625);
@@ -89,13 +89,13 @@ public class CoyoteSightModel implements IOverrideModel
 
                 alpha = (float) (0.75F * AimingHandler.get().getNormalisedAdsProgress());
 
-                builder = renderTypeBuffer.getBuffer(RenderType.entityTranslucent(RED_DOT_RETICLE));
-                builder.vertex(matrix, 0, (float) (size / scale), 0).color(1.0F, 1.0F, 1.0F, alpha).uv(0.0F, 0.9375F).overlayCoords(overlay).uv2(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
-                builder.vertex(matrix, 0, 0, 0).color(1.0F, 1.0F, 1.0F, alpha).uv(0.0F, 0.0F).overlayCoords(overlay).uv2(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
-                builder.vertex(matrix, (float) (size / scale), 0, 0).color(1.0F, 1.0F, 1.0F, alpha).uv(0.9375F, 0.0F).overlayCoords(overlay).uv2(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
-                builder.vertex(matrix, (float) (size / scale), (float) (size / scale), 0).color(1.0F, 1.0F, 1.0F, alpha).uv(0.9375F, 0.9375F).overlayCoords(overlay).uv2(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+                builder = renderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(RED_DOT_RETICLE));
+                builder.pos(matrix, 0, (float) (size / scale), 0).color(1.0F, 1.0F, 1.0F, alpha).tex(0.0F, 0.9375F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+                builder.pos(matrix, 0, 0, 0).color(1.0F, 1.0F, 1.0F, alpha).tex(0.0F, 0.0F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+                builder.pos(matrix, (float) (size / scale), 0, 0).color(1.0F, 1.0F, 1.0F, alpha).tex(0.9375F, 0.0F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+                builder.pos(matrix, (float) (size / scale), (float) (size / scale), 0).color(1.0F, 1.0F, 1.0F, alpha).tex(0.9375F, 0.9375F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
             }
-            matrixStack.popPose();
+            matrixStack.pop();
         }
     }
 }

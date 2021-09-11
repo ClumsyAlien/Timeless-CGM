@@ -59,7 +59,7 @@ public class ReloadHandler
         {
             if(SyncedPlayerData.instance().get(player, ModSyncedDataKeys.RELOADING))
             {
-                if(this.reloadingSlot != player.inventory.selected)
+                if(this.reloadingSlot != player.inventory.currentItem)
                 {
                     this.setReloading(false);
                 }
@@ -77,7 +77,7 @@ public class ReloadHandler
             return;
         }
 
-        if(KeyBinds.KEY_RELOAD.isDown() && event.getAction() == GLFW.GLFW_PRESS)
+        if(KeyBinds.KEY_RELOAD.isKeyDown() && event.getAction() == GLFW.GLFW_PRESS)
         {
             if(!SyncedPlayerData.instance().get(Minecraft.getInstance().player, ModSyncedDataKeys.RELOADING))
             {
@@ -88,7 +88,7 @@ public class ReloadHandler
                 this.setReloading(false);
             }
         }
-        if(KeyBinds.KEY_UNLOAD.consumeClick() && event.getAction() == GLFW.GLFW_PRESS)
+        if(KeyBinds.KEY_UNLOAD.isPressed() && event.getAction() == GLFW.GLFW_PRESS)
         {
             this.setReloading(false);
             PacketHandler.getPlayChannel().sendToServer(new MessageUnload());
@@ -102,7 +102,7 @@ public class ReloadHandler
         {
             if(reloading)
             {
-                ItemStack stack = player.getMainHandItem();
+                ItemStack stack = player.getHeldItemMainhand();
                 if(stack.getItem() instanceof GunItem)
                 {
                     CompoundNBT tag = stack.getTag();
@@ -121,7 +121,7 @@ public class ReloadHandler
                             return;
                         SyncedPlayerData.instance().set(player, ModSyncedDataKeys.RELOADING, true);
                         PacketHandler.getPlayChannel().sendToServer(new MessageReload(true));
-                        this.reloadingSlot = player.inventory.selected;
+                        this.reloadingSlot = player.inventory.currentItem;
                         MinecraftForge.EVENT_BUS.post(new GunReloadEvent.Post(player, stack));
                     }
                 }
@@ -141,7 +141,7 @@ public class ReloadHandler
         {
             if(this.startReloadTick == -1)
             {
-                this.startReloadTick = player.tickCount + 5;
+                this.startReloadTick = player.ticksExisted + 5;
             }
             if(this.reloadTimer < 5)
             {

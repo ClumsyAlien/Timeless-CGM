@@ -15,7 +15,7 @@ public interface IStorageBlock extends IInventory, INamedContainerProvider
     NonNullList<ItemStack> getInventory();
 
     @Override
-    default int getContainerSize()
+    default int getSizeInventory()
     {
         return this.getInventory().size();
     }
@@ -34,24 +34,24 @@ public interface IStorageBlock extends IInventory, INamedContainerProvider
     }
 
     @Override
-    default ItemStack getItem(int index)
+    default ItemStack getStackInSlot(int index)
     {
         return index >= 0 && index < this.getInventory().size() ? this.getInventory().get(index) : ItemStack.EMPTY;
     }
 
     @Override
-    default ItemStack removeItem(int index, int count)
+    default ItemStack decrStackSize(int index, int count)
     {
-        ItemStack stack = ItemStackHelper.removeItem(this.getInventory(), index, count);
+        ItemStack stack = ItemStackHelper.getAndSplit(this.getInventory(), index, count);
         if (!stack.isEmpty())
         {
-            this.setChanged();
+            this.markDirty();
         }
         return stack;
     }
 
     @Override
-    default ItemStack removeItemNoUpdate(int index)
+    default ItemStack removeStackFromSlot(int index)
     {
         ItemStack stack = this.getInventory().get(index);
         if (stack.isEmpty())
@@ -66,42 +66,42 @@ public interface IStorageBlock extends IInventory, INamedContainerProvider
     }
 
     @Override
-    default void setItem(int index, ItemStack stack)
+    default void setInventorySlotContents(int index, ItemStack stack)
     {
         this.getInventory().set(index, stack);
-        if(!stack.isEmpty() && stack.getCount() > this.getMaxStackSize())
+        if(!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit())
         {
-            stack.setCount(this.getMaxStackSize());
+            stack.setCount(this.getInventoryStackLimit());
         }
-        this.setChanged();
+        this.markDirty();
     }
 
     @Override
-    default int getMaxStackSize()
+    default int getInventoryStackLimit()
     {
         return 64;
     }
 
     @Override
-    default boolean stillValid(PlayerEntity player)
+    default boolean isUsableByPlayer(PlayerEntity player)
     {
         return false;
     }
 
     @Override
-    default void startOpen(PlayerEntity player) {}
+    default void openInventory(PlayerEntity player) {}
 
     @Override
-    default void stopOpen(PlayerEntity player) {}
+    default void closeInventory(PlayerEntity player) {}
 
     @Override
-    default boolean canPlaceItem(int index, ItemStack stack)
+    default boolean isItemValidForSlot(int index, ItemStack stack)
     {
         return true;
     }
 
     @Override
-    default void clearContent()
+    default void clear()
     {
         this.getInventory().clear();
     }

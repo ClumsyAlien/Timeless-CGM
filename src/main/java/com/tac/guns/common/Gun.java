@@ -118,7 +118,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             }
             if(tag.contains("GripType", Constants.NBT.TAG_STRING))
             {
-                this.gripType = GripType.getType(ResourceLocation.tryParse(tag.getString("GripType")));
+                this.gripType = GripType.getType(ResourceLocation.tryCreate(tag.getString("GripType")));
             }
             if(tag.contains("MaxAmmo", Constants.NBT.TAG_ANY_NUMERIC))
             {
@@ -1130,7 +1130,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             CompoundNBT attachment = compound.getCompound("Attachments");
             if(attachment.contains("Scope", Constants.NBT.TAG_COMPOUND))
             {
-                return ItemStack.of(attachment.getCompound("Scope"));
+                return ItemStack.read(attachment.getCompound("Scope"));
             }
         }
         return ItemStack.EMPTY;
@@ -1159,7 +1159,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             CompoundNBT attachment = compound.getCompound("Attachments");
             if(attachment.contains("Scope", Constants.NBT.TAG_COMPOUND))
             {
-                ItemStack scopeStack = ItemStack.of(attachment.getCompound("Scope"));
+                ItemStack scopeStack = ItemStack.read(attachment.getCompound("Scope"));
                 Scope scope = null;
                 if(scopeStack.getItem() instanceof IScope)
                 {
@@ -1179,7 +1179,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             CompoundNBT attachment = compound.getCompound("Attachments");
             if(attachment.contains(type.getTagKey(), Constants.NBT.TAG_COMPOUND))
             {
-                return ItemStack.of(attachment.getCompound(type.getTagKey()));
+                return ItemStack.read(attachment.getCompound(type.getTagKey()));
             }
         }
         return ItemStack.EMPTY;
@@ -1198,9 +1198,9 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             Item item = ForgeRegistries.ITEMS.getValue(id);
             return item != null ? new ItemStack(item, Integer.MAX_VALUE) : ItemStack.EMPTY;
         }
-        for(int i = 0; i < player.inventory.getContainerSize(); ++i)
+        for(int i = 0; i < player.inventory.getSizeInventory(); ++i)
         {
-            ItemStack stack = player.inventory.getItem(i);
+            ItemStack stack = player.inventory.getStackInSlot(i);
             if(isAmmo(stack, id))
             {
                 return stack;

@@ -79,7 +79,7 @@ public class TacShootingEvent {
             if(Config.COMMON.gameplay.fireModeSelection.get())
             {
                 //event.getPlayer().sendMessage(new TranslationTextComponent("info." + Reference.MOD_ID + ".gun_safety_lock", new Object[]{(new KeybindTextComponent("key." + Reference.MOD_ID + ".fire_select")).getString().toUpperCase(Locale.ENGLISH)})).withStyle(TextFormatting.RED));
-                event.getPlayer().displayClientMessage(new TranslationTextComponent("info." + Reference.MOD_ID + ".gun_safety_lock"),true);
+                event.getPlayer().sendStatusMessage(new TranslationTextComponent("info." + Reference.MOD_ID + ".gun_safety_lock"),true);
             }
             event.setCanceled(true);
         }

@@ -41,8 +41,8 @@ public class MessageGunSound implements IMessage
     @Override
     public void encode(PacketBuffer buffer)
     {
-        buffer.writeUtf(this.id.toString());
-        buffer.writeEnum(this.category);
+        buffer.writeString(this.id.toString());
+        buffer.writeEnumValue(this.category);
         buffer.writeFloat(this.x);
         buffer.writeFloat(this.y);
         buffer.writeFloat(this.z);
@@ -55,8 +55,8 @@ public class MessageGunSound implements IMessage
     @Override
     public void decode(PacketBuffer buffer)
     {
-        this.id = ResourceLocation.tryParse(buffer.readUtf());
-        this.category = buffer.readEnum(SoundCategory.class);
+        this.id = ResourceLocation.tryCreate(buffer.readString());
+        this.category = buffer.readEnumValue(SoundCategory.class);
         this.x = buffer.readFloat();
         this.y = buffer.readFloat();
         this.z = buffer.readFloat();

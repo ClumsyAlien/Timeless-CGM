@@ -56,9 +56,9 @@ public class m4_animation implements IOverrideModel {
         RenderUtil.renderModel(SpecialModels.M4_BODY.getModel(), stack, matrices, renderBuffer, light, overlay);
         RenderUtil.renderModel(SpecialModels.M4_BOLT_HANDLE.getModel(), stack, matrices, renderBuffer, light, overlay);
 
-        matrices.pushPose();
-        CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns();
-        float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
+        matrices.push();
+        CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+        float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
 
         if(Gun.hasAmmo(stack))
         {
@@ -78,6 +78,6 @@ public class m4_animation implements IOverrideModel {
         }
 
         RenderUtil.renderModel(SpecialModels.M4_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
-        matrices.popPose();
+        matrices.pop();
     }
 }

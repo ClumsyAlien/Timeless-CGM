@@ -43,11 +43,11 @@ public class WorkbenchBlock extends RotatedObjectBlock
         {
             return SHAPES.get(state);
         }
-        Direction direction = state.getValue(FACING);
+        Direction direction = state.get(HORIZONTAL_FACING);
         List<VoxelShape> shapes = new ArrayList<>();
-        shapes.add(Block.box(0.5, 0, 0.5, 15.5, 13, 15.5));
-        shapes.add(Block.box(0, 13, 0, 16, 15, 16));
-        shapes.add(VoxelShapeHelper.getRotatedShapes(VoxelShapeHelper.rotate(Block.box(0, 15, 0, 16, 16, 2), Direction.SOUTH))[direction.get2DDataValue()]);
+        shapes.add(Block.makeCuboidShape(0.5, 0, 0.5, 15.5, 13, 15.5));
+        shapes.add(Block.makeCuboidShape(0, 13, 0, 16, 15, 16));
+        shapes.add(VoxelShapeHelper.getRotatedShapes(VoxelShapeHelper.rotate(Block.makeCuboidShape(0, 15, 0, 16, 16, 2), Direction.SOUTH))[direction.getHorizontalIndex()]);
         VoxelShape shape = VoxelShapeHelper.combineAll(shapes);
         SHAPES.put(state, shape);
         return shape;
@@ -60,17 +60,17 @@ public class WorkbenchBlock extends RotatedObjectBlock
     }
 
     @Override
-    public VoxelShape getOcclusionShape(BlockState state, IBlockReader reader, BlockPos pos)
+    public VoxelShape getRenderShape(BlockState state, IBlockReader reader, BlockPos pos)
     {
         return this.getShape(state);
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult result)
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult result)
     {
-        if(!world.isClientSide())
+        if(!world.isRemote())
         {
-            TileEntity tileEntity = world.getBlockEntity(pos);
+            TileEntity tileEntity = world.getTileEntity(pos);
             if(tileEntity instanceof INamedContainerProvider)
             {
                 NetworkHooks.openGui((ServerPlayerEntity) playerEntity, (INamedContainerProvider) tileEntity, pos);

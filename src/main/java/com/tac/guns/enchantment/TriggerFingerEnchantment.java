@@ -21,14 +21,14 @@ public class TriggerFingerEnchantment extends GunEnchantment
     }
 
     @Override
-    public int getMinCost(int level)
+    public int getMinEnchantability(int level)
     {
         return 15 + (level - 1) * 10;
     }
 
     @Override
-    public int getMaxCost(int level)
+    public int getMaxEnchantability(int level)
     {
-        return this.getMinCost(level) + 40;
+        return this.getMinEnchantability(level) + 40;
     }
 }

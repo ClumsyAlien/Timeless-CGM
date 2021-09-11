@@ -40,10 +40,10 @@ public class micro_uzi_animation implements IOverrideModel {
         RenderUtil.renderModel(SpecialModels.MICRO_UZI_BODY.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always push
-            matrices.pushPose();
+            matrices.push();
 
-            CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns();
-            float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
+            CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+            float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
              
 
         if(Gun.hasAmmo(stack))
@@ -66,7 +66,7 @@ public class micro_uzi_animation implements IOverrideModel {
             RenderUtil.renderModel(SpecialModels.MICRO_UZI_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always pop
-            matrices.popPose();
+            matrices.pop();
     }
 
      

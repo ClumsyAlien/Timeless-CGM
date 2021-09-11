@@ -27,56 +27,56 @@ public class RecipeGen extends RecipeProvider
     }
 
     @Override
-    public void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer)
+    public void registerRecipes(Consumer<IFinishedRecipe> consumer)
     {
         // Dye Item
         consumer.accept(new IFinishedRecipe()
         {
             @Override
-            public void serializeRecipeData(JsonObject json)
+            public void serialize(JsonObject json)
             {
             }
 
             @Override
-            public IRecipeSerializer<?> getType()
+            public IRecipeSerializer<?> getSerializer()
             {
                 return ModRecipeSerializers.DYE_ITEM.get();
             }
 
             @Override
-            public ResourceLocation getId()
+            public ResourceLocation getID()
             {
                 return new ResourceLocation(Reference.MOD_ID, "dye_item");
             }
 
             @Override
             @Nullable
-            public JsonObject serializeAdvancement()
+            public JsonObject getAdvancementJson()
             {
                 return null;
             }
 
             @Override
-            public ResourceLocation getAdvancementId()
+            public ResourceLocation getAdvancementID()
             {
                 return new ResourceLocation("");
             }
         });
 
-        ShapedRecipeBuilder.shaped(ModBlocks.WORKBENCH.get())
-                .pattern("CCC")
-                .pattern("III")
-                .pattern("I I")
-                .define('C', Blocks.LIGHT_GRAY_CONCRETE)
-                .define('I', Tags.Items.INGOTS_IRON)
-                .unlockedBy("has_concrete", has(Blocks.LIGHT_GRAY_CONCRETE))
-                .unlockedBy("has_iron", has(Tags.Items.INGOTS_IRON))
-                .save(consumer);
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.WORKBENCH.get())
+                .patternLine("CCC")
+                .patternLine("III")
+                .patternLine("I I")
+                .key('C', Blocks.LIGHT_GRAY_CONCRETE)
+                .key('I', Tags.Items.INGOTS_IRON)
+                .addCriterion("has_concrete", hasItem(Blocks.LIGHT_GRAY_CONCRETE))
+                .addCriterion("has_iron", hasItem(Tags.Items.INGOTS_IRON))
+                .build(consumer);
 
         // Guns
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.AR15_HELLMOUTH.get())
                 .addIngredient(Items.IRON_INGOT, 74)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
         /*
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.PISTOL.get())
@@ -166,57 +166,57 @@ public class RecipeGen extends RecipeProvider
                 .addIngredient(Items.IRON_INGOT, 2)
                 .addIngredient(Items.GLASS_PANE)
                 .addIngredient(Items.REDSTONE, 2)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
-                .addCriterion("has_redstone", has(Items.REDSTONE))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
+                .addCriterion("has_redstone", hasItem(Items.REDSTONE))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.MEDIUM_SCOPE.get())
                 .addIngredient(Items.IRON_INGOT, 4)
                 .addIngredient(Items.GLASS_PANE)
                 .addIngredient(Items.REDSTONE, 4)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
-                .addCriterion("has_redstone", has(Items.REDSTONE))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
+                .addCriterion("has_redstone", hasItem(Items.REDSTONE))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.LONG_SCOPE.get())
                 .addIngredient(Items.IRON_INGOT, 6)
                 .addIngredient(Items.GLASS_PANE, 2)
                 .addIngredient(Items.BLACK_DYE)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
 
         // Barrel Attachments
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.SILENCER.get())
                 .addIngredient(Items.IRON_INGOT, 4)
                 .addIngredient(Items.SPONGE)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
 
         // Stock Attachments
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.LIGHT_STOCK.get())
                 .addIngredient(Items.IRON_INGOT, 6)
                 .addIngredient(Items.GRAY_WOOL)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.TACTICAL_STOCK.get())
                 .addIngredient(Items.IRON_INGOT, 8)
                 .addIngredient(Items.GRAY_WOOL)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.WEIGHTED_STOCK.get())
                 .addIngredient(Items.IRON_INGOT, 12)
                 .addIngredient(Items.GRAY_WOOL)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
 
         // Under Barrel Attachments
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.LIGHT_GRIP.get())
                 .addIngredient(Items.IRON_INGOT, 4)
                 .addIngredient(Items.GRAY_WOOL)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.SPECIALISED_GRIP.get())
                 .addIngredient(Items.IRON_INGOT, 8)
                 .addIngredient(Items.GRAY_WOOL)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
     }
 }

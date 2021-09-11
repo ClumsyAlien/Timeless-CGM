@@ -31,11 +31,11 @@ public class smle_iii_animation implements IOverrideModel {
     public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay) {
 
             RenderUtil.renderModel(SpecialModels.SMLE_III.getModel(), stack, matrices, renderBuffer, light, overlay);
-            matrices.pushPose();
+            matrices.push();
 
 
-            CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns();
-            float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
+            CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+            float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
             float cooldown = (float) easeInOutBack(cooldownOg);
 
             if (cooldownOg != 0 && cooldownOg < 0.83)
@@ -53,13 +53,13 @@ public class smle_iii_animation implements IOverrideModel {
                 RenderUtil.renderModel(SpecialModels.SMLE_III_BOLT_EXTRA.getModel(), stack, matrices, renderBuffer, light, overlay);
 
                 matrices.translate(-0.039, -0.038, 0.00);
-                matrices.mulPose(Vector3f.ZN.rotationDegrees(-90F));
+                matrices.rotate(Vector3f.ZN.rotationDegrees(-90F));
             }
             else
                 RenderUtil.renderModel(SpecialModels.SMLE_III_BOLT_EXTRA.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             RenderUtil.renderModel(SpecialModels.SMLE_III_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
-            matrices.popPose();
+            matrices.pop();
     }
     //Same method from GrenadeLauncherModel, to make a smooth rotation of the chamber.
     private double easeInOutBack(double x) {

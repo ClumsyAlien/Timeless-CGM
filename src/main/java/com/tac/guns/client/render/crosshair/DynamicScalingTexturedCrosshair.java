@@ -65,36 +65,36 @@ public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implement
         RenderSystem.enableBlend();
         RenderSystem.enableAlphaTest();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        BufferBuilder buffer = Tessellator.getInstance().getBuilder();
+        BufferBuilder buffer = Tessellator.getInstance().getBuffer();
 
-        stack.pushPose();
+        stack.push();
         {
             stack.translate(windowWidth / 2F, windowHeight / 2F, 0);
             float scale = 1F + MathHelper.lerp(partialTicks, this.prevScale, this.scale);
 
-            mc.getTextureManager().bind(this.texture);
+            mc.getTextureManager().bindTexture(this.texture);
             buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 
             for(int f = 0;f < getFractal();f++){
-                stack.pushPose();
+                stack.push();
                 {
-                    stack.mulPose(Vector3f.ZP.rotationDegrees(360F*f/getFractal()));
+                    stack.rotate(Vector3f.ZP.rotationDegrees(360F*f/getFractal()));
                     stack.translate(-size*scale/2F, -size / 2F, 0);
-                    Matrix4f matrix = stack.last().pose();
-                    buffer.vertex(matrix, 0, size, 0).uv(0, 1).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
-                    buffer.vertex(matrix, size, size, 0).uv(1, 1).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
-                    buffer.vertex(matrix, size, 0, 0).uv(1, 0).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
-                    buffer.vertex(matrix, 0, 0, 0).uv(0, 0).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
+                    Matrix4f matrix = stack.getLast().getMatrix();
+                    buffer.pos(matrix, 0, size, 0).tex(0, 1).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
+                    buffer.pos(matrix, size, size, 0).tex(1, 1).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
+                    buffer.pos(matrix, size, 0, 0).tex(1, 0).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
+                    buffer.pos(matrix, 0, 0, 0).tex(0, 0).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
 
                 }
-                stack.popPose();
+                stack.pop();
             }
 
-            buffer.end();
+            buffer.finishDrawing();
             RenderSystem.enableAlphaTest();
-            WorldVertexBufferUploader.end(buffer);
+            WorldVertexBufferUploader.draw(buffer);
         }
-        stack.popPose();
+        stack.pop();
     }
 
     public void tick() {
@@ -106,16 +106,16 @@ public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implement
         float scale = this.getInitialScale();
         TimelessGunItem gunItem;
 
-        if(playerEntity.getMainHandItem().getItem() instanceof TimelessGunItem)
+        if(playerEntity.getHeldItemMainhand().getItem() instanceof TimelessGunItem)
         {
-            gunItem = (TimelessGunItem) playerEntity.getMainHandItem().getItem();
+            gunItem = (TimelessGunItem) playerEntity.getHeldItemMainhand().getItem();
 
-            if (playerEntity.getX() != playerEntity.xo || playerEntity.getZ() != playerEntity.zo)
+            if (playerEntity.getPosX() != playerEntity.prevPosX || playerEntity.getPosZ() != playerEntity.prevPosZ)
                 scale += this.getHorizontalMovementScale();
-            if (playerEntity.getY() != playerEntity.yo)
+            if (playerEntity.getPosY() != playerEntity.prevPosY)
                 scale += this.getVerticalMovementScale();
 
-            this.scale( (scale*GunModifierHelper.getModifiedSpread(playerEntity.getMainHandItem(), gunItem.getGun().getGeneral().getSpread())));
+            this.scale( (scale*GunModifierHelper.getModifiedSpread(playerEntity.getHeldItemMainhand(), gunItem.getGun().getGeneral().getSpread())));
             //this.scale *= GunModifierHelper.getModifiedSpread(playerEntity.getMainHandItem(), gunItem.getGun().getGeneral().getSpread());
         }
     }
@@ -125,8 +125,8 @@ public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implement
         Minecraft mc = Minecraft.getInstance();
         ClientPlayerEntity playerEntity = mc.player;
 
-        TimelessGunItem gunItem = (TimelessGunItem) playerEntity.getMainHandItem().getItem();
-        float gunRecoil = GunModifierHelper.getRecoilModifier(playerEntity.getMainHandItem());
+        TimelessGunItem gunItem = (TimelessGunItem) playerEntity.getHeldItemMainhand().getItem();
+        float gunRecoil = GunModifierHelper.getRecoilModifier(playerEntity.getHeldItemMainhand());
 
         // Calculating average Vertical and Horizontal recoil along with reducing modifier to a useful metric
         float recoil = ( ( (gunItem.getGun().getGeneral().getRecoilAngle() - gunRecoil) +

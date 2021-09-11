@@ -1,5 +1,6 @@
 package com.tac.guns.item.TransitionalTypes;
 
+/*
 import com.tac.guns.util.Process;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.item.Item;
@@ -17,6 +18,8 @@ import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
+
+import net.minecraft.item.Item.Properties;
 
 public class AnimatedAutomaticTimelessGunItem extends AutomaticTimelessGunItem implements IAnimatable,ITimelessAnimated {
     public static final String CONTROLLER_NAME = "gunStatusController";
@@ -49,3 +52,4 @@ public class AnimatedAutomaticTimelessGunItem extends AutomaticTimelessGunItem i
         }
     }
 }
+*/

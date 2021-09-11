@@ -21,14 +21,14 @@ public class PuncturingEnchantment extends GunEnchantment
     }
 
     @Override
-    public int getMinCost(int level)
+    public int getMinEnchantability(int level)
     {
         return 1 + (level - 1) * 10;
     }
 
     @Override
-    public int getMaxCost(int level)
+    public int getMaxEnchantability(int level)
     {
-        return this.getMinCost(level) + 10;
+        return this.getMinEnchantability(level) + 10;
     }
 }

@@ -17,11 +17,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerListMixin
 {
     @Inject(method = "reloadResources", at = @At(value = "TAIL"))
-    private void onReload(CallbackInfo ci)
-    {
+    private void onReload(CallbackInfo ci) {
         NetworkGunManager manager = NetworkGunManager.get();
-        if(manager != null)
-        {
+        if (manager != null) {
             PacketHandler.getPlayChannel().send(PacketDistributor.ALL.noArg(), new MessageUpdateGuns());
         }
     }

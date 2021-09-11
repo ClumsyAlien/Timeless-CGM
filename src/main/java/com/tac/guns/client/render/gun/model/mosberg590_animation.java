@@ -34,7 +34,7 @@ public class mosberg590_animation implements IOverrideModel {
             RenderUtil.renderModel(SpecialModels.MOSBERG590_SIGHTS.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
 
-        if(EnchantmentHelper.getEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
+        if(EnchantmentHelper.getMaxEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
         {
             RenderUtil.renderModel(SpecialModels.MOSBERG590_BULLETS.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
@@ -42,10 +42,10 @@ public class mosberg590_animation implements IOverrideModel {
         RenderUtil.renderModel(SpecialModels.MOSBERG590_BODY.getModel(), stack, matrices, renderBuffer, light, overlay);
 
         //Always push
-        matrices.pushPose();
+        matrices.push();
 
-        CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns();
-        float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
+        CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+        float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
 
         if (cooldownOg != 0 && cooldownOg < 0.66 || !Gun.hasAmmo(stack)) {
             double cooldownOgTmp = cooldownOg * 1.46;
@@ -71,6 +71,6 @@ public class mosberg590_animation implements IOverrideModel {
         }
 
         //Always pop
-        matrices.popPose();
+        matrices.pop();
     }
 }

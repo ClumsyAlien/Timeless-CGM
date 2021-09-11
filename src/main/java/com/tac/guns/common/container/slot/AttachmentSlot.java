@@ -32,7 +32,7 @@ public class AttachmentSlot extends Slot
     }
 
     @Override
-    public boolean isActive()
+    public boolean isEnabled()
     {
         if(!(this.weapon.getItem() instanceof GunItem))
         {
@@ -44,7 +44,7 @@ public class AttachmentSlot extends Slot
     }
 
     @Override
-    public boolean mayPlace(ItemStack stack)
+    public boolean isItemValid(ItemStack stack)
     {
         if(!(this.weapon.getItem() instanceof GunItem))
         {
@@ -56,24 +56,24 @@ public class AttachmentSlot extends Slot
     }
 
     @Override
-    public void setChanged()
+    public void onSlotChanged()
     {
         if(this.container.isLoaded())
         {
-            this.player.level.playSound(null, this.player.getX(), this.player.getY() + 1.0, this.player.getZ(), ModSounds.UI_WEAPON_ATTACH.get(), SoundCategory.PLAYERS, 0.5F, this.hasItem() ? 1.0F : 0.75F);
+            this.player.world.playSound(null, this.player.getPosX(), this.player.getPosY() + 1.0, this.player.getPosZ(), ModSounds.UI_WEAPON_ATTACH.get(), SoundCategory.PLAYERS, 0.5F, this.getHasStack() ? 1.0F : 0.75F);
         }
     }
 
     @Override
-    public int getMaxStackSize()
+    public int getSlotStackLimit()
     {
         return 1;
     }
 
     @Override
-    public boolean mayPickup(PlayerEntity player)
+    public boolean canTakeStack(PlayerEntity player)
     {
-        ItemStack itemstack = this.getItem();
-        return (itemstack.isEmpty() || player.isCreative() || !EnchantmentHelper.hasBindingCurse(itemstack)) && super.mayPickup(player);
+        ItemStack itemstack = this.getStack();
+        return (itemstack.isEmpty() || player.isCreative() || !EnchantmentHelper.hasBindingCurse(itemstack)) && super.canTakeStack(player);
     }
 }

@@ -31,7 +31,7 @@ public class m16a1_animation implements IOverrideModel {
             RenderUtil.renderModel(SpecialModels.M16_A1_FRONT_SIGHT.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
 
-        if(EnchantmentHelper.getEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
+        if(EnchantmentHelper.getMaxEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
         {
             RenderUtil.renderModel(SpecialModels.M16_A1_EXTENDED_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
         }

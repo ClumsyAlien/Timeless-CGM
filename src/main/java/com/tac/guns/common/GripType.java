@@ -51,30 +51,30 @@ public class GripType
      */
     public static boolean applyBackTransforms(PlayerEntity player, MatrixStack matrixStack)
     {
-        if(player.getItemBySlot(EquipmentSlotType.CHEST).getItem() == Items.ELYTRA)
+        if(player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == Items.ELYTRA)
         {
             return false;
         }
 
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(180F));
-        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180F));
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
+        matrixStack.rotate(Vector3f.ZP.rotationDegrees(180F));
 
         if(player.isCrouching())
         {
             matrixStack.translate(0 * 0.0625, -7 * 0.0625, -4 * 0.0625);
-            matrixStack.mulPose(Vector3f.XP.rotationDegrees(30F));
+            matrixStack.rotate(Vector3f.XP.rotationDegrees(30F));
         }
         else
         {
             matrixStack.translate(0 * 0.0625, -5 * 0.0625, -2 * 0.0625);
         }
 
-        if(!player.getItemBySlot(EquipmentSlotType.CHEST).isEmpty())
+        if(!player.getItemStackFromSlot(EquipmentSlotType.CHEST).isEmpty())
         {
             matrixStack.translate(0, 0, -1 * 0.0625);
         }
 
-        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-45F));
+        matrixStack.rotate(Vector3f.ZP.rotationDegrees(-45F));
         matrixStack.scale(0.5F, 0.5F, 0.5F);
 
         return true;

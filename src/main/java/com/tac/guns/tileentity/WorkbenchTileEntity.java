@@ -36,29 +36,29 @@ public class WorkbenchTileEntity extends SyncedTileEntity implements IStorageBlo
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT compound)
+    public CompoundNBT write(CompoundNBT compound)
     {
         ItemStackHelper.saveAllItems(compound, this.inventory);
-        return super.save(compound);
+        return super.write(compound);
     }
 
     @Override
-    public void load(BlockState state, CompoundNBT compound)
+    public void read(BlockState state, CompoundNBT compound)
     {
-        super.load(state, compound);
+        super.read(state, compound);
         ItemStackHelper.loadAllItems(compound, this.inventory);
     }
 
     @Override
-    public boolean canPlaceItem(int index, ItemStack stack)
+    public boolean isItemValidForSlot(int index, ItemStack stack)
     {
         return index != 0 || (stack.getItem() instanceof DyeItem && this.inventory.get(index).getCount() < 1);
     }
 
     @Override
-    public boolean stillValid(PlayerEntity player)
+    public boolean isUsableByPlayer(PlayerEntity player)
     {
-        return this.level.getBlockEntity(this.worldPosition) == this && player.distanceToSqr(this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.5, this.worldPosition.getZ() + 0.5) <= 64.0;
+        return this.world.getTileEntity(this.pos) == this && player.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) <= 64.0;
     }
 
     @Override

@@ -21,14 +21,14 @@ public class BulletHoleData implements IParticleData
         return builder.group(Codec.INT.fieldOf("dir").forGetter((data) -> {
             return data.direction.ordinal();
         }), Codec.LONG.fieldOf("pos").forGetter((p_239806_0_) -> {
-            return p_239806_0_.pos.asLong();
+            return p_239806_0_.pos.toLong();
         })).apply(builder, BulletHoleData::new);
     });
 
     public static final IParticleData.IDeserializer<BulletHoleData> DESERIALIZER = new IParticleData.IDeserializer<BulletHoleData>()
     {
         @Override
-        public BulletHoleData fromCommand(ParticleType<BulletHoleData> particleType, StringReader reader) throws CommandSyntaxException
+        public BulletHoleData deserialize(ParticleType<BulletHoleData> particleType, StringReader reader) throws CommandSyntaxException
         {
             reader.expect(' ');
             int dir = reader.readInt();
@@ -38,7 +38,7 @@ public class BulletHoleData implements IParticleData
         }
 
         @Override
-        public BulletHoleData fromNetwork(ParticleType<BulletHoleData> particleType, PacketBuffer buffer)
+        public BulletHoleData read(ParticleType<BulletHoleData> particleType, PacketBuffer buffer)
         {
             return new BulletHoleData(buffer.readInt(), buffer.readLong());
         }
@@ -50,7 +50,7 @@ public class BulletHoleData implements IParticleData
     public BulletHoleData(int dir, long pos)
     {
         this.direction = Direction.values()[dir];
-        this.pos = BlockPos.of(pos);
+        this.pos = BlockPos.fromLong(pos);
     }
 
     public BulletHoleData(Direction dir, BlockPos pos)
@@ -76,16 +76,16 @@ public class BulletHoleData implements IParticleData
     }
 
     @Override
-    public void writeToNetwork(PacketBuffer buffer)
+    public void write(PacketBuffer buffer)
     {
-        buffer.writeEnum(this.direction);
+        buffer.writeEnumValue(this.direction);
         buffer.writeBlockPos(this.pos);
     }
 
     @Override
-    public String writeToString()
+    public String getParameters()
     {
-        return ForgeRegistries.PARTICLE_TYPES.getKey(this.getType()) + " " + this.direction.getName();
+        return ForgeRegistries.PARTICLE_TYPES.getKey(this.getType()) + " " + this.direction.getName2();
     }
 
     public static Codec<BulletHoleData> codec(ParticleType<BulletHoleData> type)

@@ -38,9 +38,9 @@ public class m60_animation implements IOverrideModel {
         RenderUtil.renderModel(SpecialModels.M60.getModel(), stack, matrices, renderBuffer, light, overlay);
 
 
-        matrices.pushPose();
-        CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns();
-        float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
+        matrices.push();
+        CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+        float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
 
         if(Gun.hasAmmo(stack))
         {
@@ -60,7 +60,7 @@ public class m60_animation implements IOverrideModel {
         }
 
         RenderUtil.renderModel(SpecialModels.M60_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
-        matrices.popPose();
+        matrices.pop();
 
     }
 

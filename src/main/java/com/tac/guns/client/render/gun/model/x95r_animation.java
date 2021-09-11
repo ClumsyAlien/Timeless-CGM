@@ -55,9 +55,9 @@ public class x95r_animation implements IOverrideModel {
 
         RenderUtil.renderModel(SpecialModels.X95R_STANDARD_MAG.getModel(), stack, matrices, renderBuffer, light, overlay); // TMP
 
-        matrices.pushPose();
-        CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns();
-        float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
+        matrices.push();
+        CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+        float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
 
         if(Gun.hasAmmo(stack))
         {
@@ -77,6 +77,6 @@ public class x95r_animation implements IOverrideModel {
         }
 
         RenderUtil.renderModel(SpecialModels.X95R_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
-        matrices.popPose();
+        matrices.pop();
     }
 }

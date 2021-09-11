@@ -42,13 +42,13 @@ public class  ShootingHandler
     private boolean isInGame()
     {
         Minecraft mc = Minecraft.getInstance();
-        if(mc.overlay != null)
+        if(mc.loadingGui != null)
             return false;
-        if(mc.screen != null)
+        if(mc.currentScreen != null)
             return false;
-        if(!mc.mouseHandler.isMouseGrabbed())
+        if(!mc.mouseHelper.isMouseGrabbed())
             return false;
-        return mc.isWindowActive();
+        return mc.isGameFocused();
     }
 
     @SubscribeEvent
@@ -67,14 +67,14 @@ public class  ShootingHandler
 
         if(event.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT && AimingHandler.get().isLookingAtInteractableBlock())
         {
-            if(player.getMainHandItem().getItem() instanceof GunItem && !AimingHandler.get().isLookingAtInteractableBlock())
+            if(player.getHeldItemMainhand().getItem() instanceof GunItem && !AimingHandler.get().isLookingAtInteractableBlock())
             {
                 event.setCanceled(true);
             }
             return;
         }
 
-        ItemStack heldItem = player.getMainHandItem();
+        ItemStack heldItem = player.getHeldItemMainhand();
         if(heldItem.getItem() instanceof GunItem)
         {
             int button = event.getButton();
@@ -102,10 +102,10 @@ public class  ShootingHandler
         PlayerEntity player = mc.player;
         if(player != null)
         {
-            ItemStack heldItem = player.getMainHandItem();
+            ItemStack heldItem = player.getHeldItemMainhand();
             if(heldItem.getItem() instanceof GunItem && (Gun.hasAmmo(heldItem) || player.isCreative()))
             {
-                boolean shooting = GLFW.glfwGetMouseButton(mc.getWindow().getWindow(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
+                boolean shooting = GLFW.glfwGetMouseButton(mc.getMainWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
                 if(GunMod.controllableLoaded)
                 {
                     // shooting |= ControllerHandler.isShooting();
@@ -149,10 +149,10 @@ public class  ShootingHandler
         PlayerEntity player = mc.player;
         if(player != null)
         {
-            ItemStack heldItem = player.getMainHandItem();
+            ItemStack heldItem = player.getHeldItemMainhand();
             if(heldItem.getItem() instanceof GunItem)
             {
-                if(GLFW.glfwGetMouseButton(mc.getWindow().getWindow(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS)
+                if(GLFW.glfwGetMouseButton(mc.getMainWindow().getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS)
                 {
                     Gun gun = ((GunItem) heldItem.getItem()).getModifiedGun(heldItem);
                     if(gun.getGeneral().isAuto() && heldItem.getTag().getInt("CurrentFireMode") == 2)
@@ -189,9 +189,9 @@ public class  ShootingHandler
         if(player.isSpectator())
             return;
 
-        CooldownTracker tracker = player.getCooldowns();
+        CooldownTracker tracker = player.getCooldownTracker();
 
-        if(!tracker.isOnCooldown(heldItem.getItem()))
+        if(!tracker.hasCooldown(heldItem.getItem()))
         {
             GunItem gunItem = (GunItem) heldItem.getItem();
             Gun modifiedGun = gunItem.getModifiedGun(heldItem);
@@ -201,7 +201,7 @@ public class  ShootingHandler
 
             int rate = GunEnchantmentHelper.getRate(heldItem, modifiedGun);
             rate = GunModifierHelper.getModifiedRate(heldItem, rate);
-            tracker.addCooldown(heldItem.getItem(), rate);
+            tracker.setCooldown(heldItem.getItem(), rate);
             PacketHandler.getPlayChannel().sendToServer(new MessageShoot(player));
 
             MinecraftForge.EVENT_BUS.post(new GunFireEvent.Post(player, heldItem));

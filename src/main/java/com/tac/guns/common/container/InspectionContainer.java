@@ -23,10 +23,10 @@ public class InspectionContainer extends Container
     private IInventory weaponInventory = new Inventory(IAttachment.Type.values().length)
     {
         @Override
-        public void setChanged()
+        public void markDirty()
         {
-            super.setChanged();
-            InspectionContainer.this.slotsChanged(this);
+            super.markDirty();
+            InspectionContainer.this.onCraftMatrixChanged(this);
         }
     };
     private boolean loaded = false;
@@ -41,7 +41,7 @@ public class InspectionContainer extends Container
         }
         for(int i = 0; i < attachments.length; i++)
         {
-            this.weaponInventory.setItem(i, attachments[i]);
+            this.weaponInventory.setInventorySlotContents(i, attachments[i]);
         }
         this.loaded = true;
     }
@@ -91,7 +91,7 @@ public class InspectionContainer extends Container
     }
 
     @Override
-    public boolean stillValid(PlayerEntity playerIn)
+    public boolean canInteractWith(PlayerEntity playerIn)
     {
         return true;
     }

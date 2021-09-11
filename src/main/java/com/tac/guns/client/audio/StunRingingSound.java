@@ -16,8 +16,8 @@ public class StunRingingSound extends TickableSound
     public StunRingingSound()
     {
         super(ModSounds.ENTITY_STUN_GRENADE_RING.get(), SoundCategory.MASTER);
-        this.looping = true;
-        this.attenuation = AttenuationType.NONE;
+        this.repeat = true;
+        this.attenuationType = AttenuationType.NONE;
         this.tick();
     }
 
@@ -27,12 +27,12 @@ public class StunRingingSound extends TickableSound
         PlayerEntity player = Minecraft.getInstance().player;
         if(player != null && player.isAlive())
         {
-            EffectInstance effect = player.getEffect(ModEffects.DEAFENED.get());
+            EffectInstance effect = player.getActivePotionEffect(ModEffects.DEAFENED.get());
             if(effect != null)
             {
-                this.x = (float) player.getX();
-                this.y = (float) player.getY();
-                this.z = (float) player.getZ();
+                this.x = (float) player.getPosX();
+                this.y = (float) player.getPosY();
+                this.z = (float) player.getPosZ();
                 float percent = Math.min((effect.getDuration() / (float) Config.SERVER.soundFadeThreshold.get()), 1);
                 this.volume = (float) (percent * Config.SERVER.ringVolume.get());
                 return;
@@ -40,6 +40,6 @@ public class StunRingingSound extends TickableSound
         }
 
         //Stops playing the sound
-        this.stop();
+        this.finishPlaying();
     }
 }

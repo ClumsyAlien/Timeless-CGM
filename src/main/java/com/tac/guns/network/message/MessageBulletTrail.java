@@ -35,9 +35,9 @@ public class MessageBulletTrail implements IMessage
         for(int i = 0; i < spawnedProjectiles.length; i++)
         {
             ProjectileEntity projectile = spawnedProjectiles[i];
-            this.positions[i] = projectile.position();
-            this.motions[i] = projectile.getDeltaMovement();
-            this.entityIds[i] = projectile.getId();
+            this.positions[i] = projectile.getPositionVec();
+            this.motions[i] = projectile.getMotion();
+            this.entityIds[i] = projectile.getEntityId();
         }
         this.item = spawnedProjectiles[0].getItem();
         this.trailColor = projectileProps.getTrailColor();
@@ -65,7 +65,7 @@ public class MessageBulletTrail implements IMessage
             buffer.writeDouble(motion.y);
             buffer.writeDouble(motion.z);
         }
-        buffer.writeItem(this.item);
+        buffer.writeItemStack(this.item);
         buffer.writeVarInt(this.trailColor);
         buffer.writeDouble(this.trailLengthMultiplier);
         buffer.writeInt(this.life);
@@ -86,7 +86,7 @@ public class MessageBulletTrail implements IMessage
             this.positions[i] = new Vector3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
             this.motions[i] = new Vector3d(buffer.readDouble(), buffer.readDouble(), buffer.readDouble());
         }
-        this.item = buffer.readItem();
+        this.item = buffer.readItemStack();
         this.trailColor = buffer.readVarInt();
         this.trailLengthMultiplier = buffer.readDouble();
         this.life = buffer.readInt();

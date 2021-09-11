@@ -72,7 +72,7 @@ public class vector45_animation implements IOverrideModel {
             RenderUtil.renderModel(SpecialModels.VECTOR45_GRIP.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
 
-        if(EnchantmentHelper.getEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
+        if(EnchantmentHelper.getMaxEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
         {
             RenderUtil.renderModel(SpecialModels.VECTOR45_EXTENDED_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
@@ -82,9 +82,9 @@ public class vector45_animation implements IOverrideModel {
         }
 
         RenderUtil.renderModel(SpecialModels.VECTOR45_BODY.getModel(), stack, matrices, renderBuffer, light, overlay);
-        matrices.pushPose();
-        CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns();
-        float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
+        matrices.push();
+        CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+        float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
 
         if(Gun.hasAmmo(stack))
         {
@@ -104,6 +104,6 @@ public class vector45_animation implements IOverrideModel {
         }
 
         RenderUtil.renderModel(SpecialModels.VECTOR45_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
-        matrices.popPose();
+        matrices.pop();
     }
 }

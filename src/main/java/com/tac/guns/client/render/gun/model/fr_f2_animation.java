@@ -31,17 +31,17 @@ public class fr_f2_animation implements IOverrideModel {
     public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay) {
 
         RenderUtil.renderModel(SpecialModels.FR_F2.getModel(), stack, matrices, renderBuffer, light, overlay);
-        matrices.pushPose();
+        matrices.push();
 
 
-        CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns();
-        float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
+        CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+        float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
         float cooldown = (float) easeInOutBack(cooldownOg);
 
         if (cooldownOg != 0 && cooldownOg < 0.86)
         {
             matrices.translate(-0.136, -0.14, 0.00);
-            matrices.mulPose(Vector3f.ZN.rotationDegrees(-90F));
+            matrices.rotate(Vector3f.ZN.rotationDegrees(-90F));
 
             // matrices.translate(0, 0, 0.318f * (-4.5 * Math.pow(cooldownOg +0.19 -0.5, 2) + 1));
 
@@ -58,7 +58,7 @@ public class fr_f2_animation implements IOverrideModel {
         }
 
         RenderUtil.renderModel(SpecialModels.FR_F2_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
-        matrices.popPose();
+        matrices.pop();
     }
     //Same method from GrenadeLauncherModel, to make a smooth rotation of the chamber.
     private double easeInOutBack(double x) {

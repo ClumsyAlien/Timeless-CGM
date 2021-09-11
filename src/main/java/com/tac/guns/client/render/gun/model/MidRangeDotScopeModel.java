@@ -32,12 +32,12 @@ public class MidRangeDotScopeModel implements IOverrideModel
 
         matrixStack.scale(0.65f,0.65f,0.65f);
         matrixStack.translate(0,0.25,0);
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(90));
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(90));
 
         RenderUtil.renderModel(stack, parent, matrixStack, renderTypeBuffer, light, overlay);
 
         matrixStack.translate(0, -1.25, 0);
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-90));
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(-90));
         matrixStack.scale(1.45f,1.45f,1.45f);
     }
 }

@@ -23,10 +23,10 @@ public class AttachmentContainer extends Container
     private IInventory weaponInventory = new Inventory(IAttachment.Type.values().length)
     {
         @Override
-        public void setChanged()
+        public void markDirty()
         {
-            super.setChanged();
-            AttachmentContainer.this.slotsChanged(this);
+            super.markDirty();
+            AttachmentContainer.this.onCraftMatrixChanged(this);
         }
     };
     private boolean loaded = false;
@@ -41,7 +41,7 @@ public class AttachmentContainer extends Container
         }
         for(int i = 0; i < attachments.length; i++)
         {
-            this.weaponInventory.setItem(i, attachments[i]);
+            this.weaponInventory.setInventorySlotContents(i, attachments[i]);
         }
         this.loaded = true;
     }
@@ -49,7 +49,7 @@ public class AttachmentContainer extends Container
     public AttachmentContainer(int windowId, PlayerInventory playerInventory)
     {
         super(ModContainers.ATTACHMENTS.get(), windowId);
-        this.weapon = playerInventory.getSelected();
+        this.weapon = playerInventory.getCurrentItem();
         this.playerInventory = playerInventory;
 
         for(int i = 0; i < IAttachment.Type.values().length; i++)
@@ -67,12 +67,12 @@ public class AttachmentContainer extends Container
 
         for(int i = 0; i < 9; i++)
         {
-            if(i == playerInventory.selected)
+            if(i == playerInventory.currentItem)
             {
                 this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 160)
                 {
                     @Override
-                    public boolean mayPickup(PlayerEntity playerIn)
+                    public boolean canTakeStack(PlayerEntity playerIn)
                     {
                         return false;
                     }
@@ -91,58 +91,58 @@ public class AttachmentContainer extends Container
     }
 
     @Override
-    public boolean stillValid(PlayerEntity playerIn)
+    public boolean canInteractWith(PlayerEntity playerIn)
     {
         return true;
     }
 
     @Override
-    public void slotsChanged(IInventory inventoryIn)
+    public void onCraftMatrixChanged(IInventory inventoryIn)
     {
         CompoundNBT attachments = new CompoundNBT();
 
-        for(int i = 0; i < this.getWeaponInventory().getContainerSize(); i++)
+        for(int i = 0; i < this.getWeaponInventory().getSizeInventory(); i++)
         {
-            ItemStack attachment = this.getSlot(i).getItem();
+            ItemStack attachment = this.getSlot(i).getStack();
             if(attachment.getItem() instanceof IAttachment)
             {
-                attachments.put(((IAttachment) attachment.getItem()).getType().getTagKey(), attachment.save(new CompoundNBT()));
+                attachments.put(((IAttachment) attachment.getItem()).getType().getTagKey(), attachment.write(new CompoundNBT()));
             }
         }
 
         CompoundNBT tag = this.weapon.getOrCreateTag();
         tag.put("Attachments", attachments);
-        super.broadcastChanges();
+        super.detectAndSendChanges();
     }
 
     @Override
-    public ItemStack quickMoveStack(PlayerEntity playerIn, int index)
+    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index)
     {
         ItemStack copyStack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
-        if(slot != null && slot.hasItem())
+        Slot slot = this.inventorySlots.get(index);
+        if(slot != null && slot.getHasStack())
         {
-            ItemStack slotStack = slot.getItem();
+            ItemStack slotStack = slot.getStack();
             copyStack = slotStack.copy();
-            if(index < this.weaponInventory.getContainerSize())
+            if(index < this.weaponInventory.getSizeInventory())
             {
-                if(!this.moveItemStackTo(slotStack, this.weaponInventory.getContainerSize(), this.slots.size(), true))
+                if(!this.mergeItemStack(slotStack, this.weaponInventory.getSizeInventory(), this.inventorySlots.size(), true))
                 {
                     return ItemStack.EMPTY;
                 }
             }
-            else if(!this.moveItemStackTo(slotStack, 0, this.weaponInventory.getContainerSize(), false))
+            else if(!this.mergeItemStack(slotStack, 0, this.weaponInventory.getSizeInventory(), false))
             {
                 return ItemStack.EMPTY;
             }
 
             if(slotStack.isEmpty())
             {
-                slot.set(ItemStack.EMPTY);
+                slot.putStack(ItemStack.EMPTY);
             }
             else
             {
-                slot.setChanged();
+                slot.onSlotChanged();
             }
         }
 

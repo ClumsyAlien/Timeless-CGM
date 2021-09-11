@@ -72,7 +72,7 @@ public class ClientHandler
 
     private static void setupRenderLayers()
     {
-        RenderTypeLookup.setRenderLayer(ModBlocks.WORKBENCH.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.WORKBENCH.get(), RenderType.getCutout());
     }
 
     private static void registerEntityRenders()
@@ -119,9 +119,9 @@ public class ClientHandler
 
     private static void registerScreenFactories()
     {
-        ScreenManager.register(ModContainers.WORKBENCH.get(), WorkbenchScreen::new);
-        ScreenManager.register(ModContainers.ATTACHMENTS.get(), AttachmentScreen::new);
-        ScreenManager.register(ModContainers.INSPECTION.get(), InspectScreen::new);
+        ScreenManager.registerFactory(ModContainers.WORKBENCH.get(), WorkbenchScreen::new);
+        ScreenManager.registerFactory(ModContainers.ATTACHMENTS.get(), AttachmentScreen::new);
+        ScreenManager.registerFactory(ModContainers.INSPECTION.get(), InspectScreen::new);
     }
 
     @SubscribeEvent
@@ -132,13 +132,13 @@ public class ClientHandler
             MouseSettingsScreen screen = (MouseSettingsScreen) event.getGui();
             if(mouseOptionsField == null)
             {
-                mouseOptionsField = ObfuscationReflectionHelper.findField(MouseSettingsScreen.class, "list");
+                mouseOptionsField = ObfuscationReflectionHelper.findField(MouseSettingsScreen.class, "field_213045_b");
                 mouseOptionsField.setAccessible(true);
             }
             try
             {
                 OptionsRowList list = (OptionsRowList) mouseOptionsField.get(screen);
-                list.addSmall(GunOptions.ADS_SENSITIVITY, GunOptions.CROSSHAIR);
+                list.addOption(GunOptions.ADS_SENSITIVITY, GunOptions.CROSSHAIR);
             }
             catch(IllegalAccessException e)
             {
@@ -151,13 +151,13 @@ public class ClientHandler
     public static void onKeyPressed(InputEvent.KeyInputEvent event)
     {
         Minecraft mc = Minecraft.getInstance();
-        if(mc.player != null && mc.screen == null)
+        if(mc.player != null && mc.currentScreen == null)
         {
-            if(KeyBinds.KEY_ATTACHMENTS.consumeClick())
+            if(KeyBinds.KEY_ATTACHMENTS.isPressed())
             {
                 PacketHandler.getPlayChannel().sendToServer(new MessageAttachments());
             }
-            else if(KeyBinds.KEY_INSPECT.consumeClick())
+            else if(KeyBinds.KEY_INSPECT.isPressed())
             {
                 PacketHandler.getPlayChannel().sendToServer(new MessageInspection());
             }

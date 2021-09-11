@@ -90,26 +90,26 @@ public class RecoilHandler
         if(mc.player == null)
             return;
 
-        float recoilAmount = this.cameraRecoil * mc.getDeltaFrameTime() * 0.1F;
-        float HorizontalRecoilAmount = this.horizontalCameraRecoil * mc.getDeltaFrameTime() * 0.1F;
+        float recoilAmount = this.cameraRecoil * mc.getTickLength() * 0.1F;
+        float HorizontalRecoilAmount = this.horizontalCameraRecoil * mc.getTickLength() * 0.1F;
         float startProgress = this.progressCameraRecoil / this.cameraRecoil;
         float endProgress = (this.progressCameraRecoil + recoilAmount) / this.cameraRecoil;
 
         if(startProgress < 0.2F)
         {
-            mc.player.xRot -= ((endProgress - startProgress) / 0.2F) * this.cameraRecoil;
+            mc.player.rotationPitch -= ((endProgress - startProgress) / 0.2F) * this.cameraRecoil;
             if(recoilRand == 1)
-                mc.player.yRot -= ((endProgress - startProgress) / 0.2F) * this.horizontalCameraRecoil;
+                mc.player.rotationYaw -= ((endProgress - startProgress) / 0.2F) * this.horizontalCameraRecoil;
             else
-                mc.player.yRot -= ((endProgress - startProgress) / 0.2F) * -this.horizontalCameraRecoil;
+                mc.player.rotationYaw -= ((endProgress - startProgress) / 0.2F) * -this.horizontalCameraRecoil;
         }
         else
         {
-            mc.player.xRot += ((endProgress - startProgress) / 0.8F) * this.cameraRecoil;
+            mc.player.rotationPitch += ((endProgress - startProgress) / 0.8F) * this.cameraRecoil;
             if(recoilRand == 1)
-                mc.player.yRot -= ((endProgress - startProgress) / 0.8F) * -this.horizontalCameraRecoil;
+                mc.player.rotationYaw -= ((endProgress - startProgress) / 0.8F) * -this.horizontalCameraRecoil;
             else
-                mc.player.yRot -= ((endProgress - startProgress) / 0.8F) * this.horizontalCameraRecoil;
+                mc.player.rotationYaw -= ((endProgress - startProgress) / 0.8F) * this.horizontalCameraRecoil;
         }
 
         this.progressCameraRecoil += recoilAmount;
@@ -142,8 +142,8 @@ public class RecoilHandler
 
         GunItem gunItem = (GunItem) heldItem.getItem();
         Gun modifiedGun = gunItem.getModifiedGun(heldItem);
-        CooldownTracker tracker = Minecraft.getInstance().player.getCooldowns();
-        float cooldown = tracker.getCooldownPercent(gunItem, Minecraft.getInstance().getFrameTime());
+        CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+        float cooldown = tracker.getCooldown(gunItem, Minecraft.getInstance().getRenderPartialTicks());
         cooldown = cooldown >= modifiedGun.getGeneral().getRecoilDurationOffset() ? (cooldown - modifiedGun.getGeneral().getRecoilDurationOffset()) / (1.0F - modifiedGun.getGeneral().getRecoilDurationOffset()) : 0.0F;
         if(cooldown >= 0.8)
         {

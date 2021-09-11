@@ -24,10 +24,10 @@ public class AutomaticTimelessGunItem extends TimelessGunItem {
 	
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		Map<Enchantment, Integer> x = EnchantmentHelper.deserializeEnchantments(stack.getEnchantmentTags());
+		Map<Enchantment, Integer> x = EnchantmentHelper.deserializeEnchantments(stack.getEnchantmentTagList());
 		if (TRIG_MAX.get() == 0) {
 			x.remove(ModEnchantments.TRIGGER_FINGER.get());
-		} else if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.TRIGGER_FINGER.get(), (LivingEntity) entityIn) > TRIG_MAX.get()) {
+		} else if (EnchantmentHelper.getMaxEnchantmentLevel(ModEnchantments.TRIGGER_FINGER.get(), (LivingEntity) entityIn) > TRIG_MAX.get()) {
 			x.remove(ModEnchantments.TRIGGER_FINGER.get());
 			x.put(ModEnchantments.TRIGGER_FINGER.get(), TRIG_MAX.get());
 		}

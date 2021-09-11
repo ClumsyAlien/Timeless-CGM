@@ -9,8 +9,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
         classpath 'org.codehaus.groovy:groovy-all:2.4.15'
     }
 }
@@ -34,9 +34,9 @@ mixin {
 
 
 minecraft {
-    mappings channel: 'official', version: '1.16.5'
+    //mappings channel: 'official', version: '1.16.5'
 
-    // mappings channel: 'snapshot', version: '20201028-1.16.3'
+    mappings channel: 'snapshot', version: '20201028-1.16.3'
 
     runs {
         client {
@@ -92,16 +92,15 @@ processResources {
 repositories {
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
     maven {
-        name = "CurseMaven"
         url = "https://www.cursemaven.com"
     }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
+    minecraft 'net.minecraftforge:forge:1.16.5-36.2.0'
     implementation fg.deobf('curse.maven:obfuscate-289380:3169370')
-    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.44')
-    annotationProcessor 'org.spongepowered:mixin:0.8:processor'
+    //implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.44')
+    //annotationProcessor 'org.spongepowered:mixin:0.8:processor'
 }
 
 jar {
