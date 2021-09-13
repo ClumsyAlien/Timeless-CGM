@@ -14,7 +14,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
 
 import javax.annotation.Nullable;
 
@@ -303,15 +302,15 @@ public final class Gun implements INBTSerializable<CompoundNBT>
     {
         private ResourceLocation item = new ResourceLocation(Reference.MOD_ID, "basic_ammo");
         @Optional
-        private boolean visible;
+        private boolean visible = true;
         private float damage;
         private float size;
         private double speed;
         private int life;
         @Optional
-        private boolean gravity;
+        private boolean gravity = true;
         @Optional
-        private boolean damageReduceOverLife;
+        private boolean damageReduceOverLife = true;
         @Optional
         private int trailColor = 0xFFD289;
         @Optional
@@ -610,6 +609,46 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         @Nullable
         private Flash flash;
 
+        @Optional
+        @Nullable
+        private float hipfireScale = 1.0F;
+
+        @Optional
+        @Nullable
+        private float hipfireMoveScale = 1.0F;
+
+        @Optional
+        @Nullable
+        private float hipfireRecoilScale = 1.0F;
+
+        @Optional
+        @Nullable
+        private boolean showDynamicHipfire = true;
+
+        @Nullable
+        public float getHipfireScale()
+        {
+            return this.hipfireScale;
+        }
+
+        @Nullable
+        public float getHipfireMoveScale()
+        {
+            return this.hipfireMoveScale;
+        }
+
+        @Nullable
+        public float getHipfireRecoilScale()
+        {
+            return this.hipfireRecoilScale;
+        }
+
+        @Nullable
+        public boolean isDynamicHipfire()
+        {
+            return this.showDynamicHipfire;
+        }
+
         @Nullable
         public Flash getFlash()
         {
@@ -665,6 +704,10 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             {
                 tag.put("Flash", this.flash.serializeNBT());
             }
+            tag.putFloat("HipFireScale", this.hipfireScale);
+            tag.putFloat("HipFireMoveScale", this.hipfireMoveScale);
+            tag.putFloat("HipFireRecoilScale", this.hipfireRecoilScale);
+            tag.putBoolean("ShowDynamicHipfire", this.showDynamicHipfire);
             return tag;
         }
 
@@ -685,6 +728,22 @@ public final class Gun implements INBTSerializable<CompoundNBT>
                     this.flash = null;
                 }
             }
+            if(tag.contains("HipFireScale", Constants.NBT.TAG_ANY_NUMERIC))
+            {
+                this.hipfireScale = tag.getFloat("HipFireScale");
+            }
+            if(tag.contains("HipFireMoveScale", Constants.NBT.TAG_ANY_NUMERIC))
+            {
+                this.hipfireMoveScale = tag.getFloat("HipFireMoveScale");
+            }
+            if(tag.contains("HipFireRecoilScale", Constants.NBT.TAG_ANY_NUMERIC))
+            {
+                this.hipfireRecoilScale = tag.getFloat("HipFireRecoilScale");
+            }
+            if(tag.contains("ShowDynamicHipfire", Constants.NBT.TAG_ANY_NUMERIC))
+            {
+                this.showDynamicHipfire = tag.getBoolean("ShowDynamicHipfire");
+            }
         }
 
         public Display copy()
@@ -694,6 +753,22 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             {
                 display.flash = flash.copy();
             }
+            if(hipfireScale != 0)
+            {
+                display.hipfireScale = this.hipfireScale;
+            }
+            if(hipfireMoveScale != 0)
+            {
+                display.hipfireMoveScale = this.hipfireMoveScale;
+            }
+            if(hipfireRecoilScale != 0)
+            {
+                display.hipfireRecoilScale = this.hipfireRecoilScale;
+            }
+
+            // Should always contain a value, true or false, does not check for empty
+            display.hipfireRecoilScale = this.hipfireRecoilScale;
+
             return display;
         }
     }

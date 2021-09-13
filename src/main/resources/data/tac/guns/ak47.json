@@ -9,9 +9,9 @@
     "recoilAngle": 4.55,
     "horizontalRecoilAngle": 3.15,
     "recoilKick": 1.6,
-    "recoilAdsReduction": 0.50,
+    "recoilAdsReduction": 0.30,
     "alwaysSpread": true,
-    "spread": 5.05
+    "spread": 4.35
   },
   "projectile": {
     "item":  "tac:bullet_308",
@@ -32,7 +32,11 @@
       "yOffset": 11.3,
       "zOffset": -22.95,
       "size": 0.8
-    }
+    },
+    "hipfireScale": 1.45,
+    "hipfireMoveScale": 0.25,
+    "hipfireRecoilScale": 0.9,
+    "showDynamicHipfire": true
   },
   "modules": {
     "zoom": {
@@ -51,11 +55,12 @@
         "zOffset": -22.05,
         "scale": 0.00
       },
-        "scope": {
-          "yOffset": 13.65,
-          "zOffset": 4.6,
-          "scale": 1.35
+      "scope": {
+        "yOffset": 13.65,
+        "zOffset": 4.6,
+        "scale": 1.35
       }
     }
   }
 }
+

@@ -15,7 +15,7 @@ public class Scope extends Attachment
 {
     private float additionalZoom;
     private double centerOffset;
-    private boolean stable;
+    private boolean stable = false;
     private double viewFinderOffset;
 
     private Scope(float additionalZoom, double centerOffset, IGunModifier... modifier)

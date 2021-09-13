@@ -4,6 +4,8 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.Gun;
+import com.tac.guns.init.ModItems;
+import com.tac.guns.item.attachment.IAttachment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
@@ -28,6 +30,36 @@ public class ak74_animation implements IOverrideModel {
         if(Gun.getScope(stack) != null)
         {
             RenderUtil.renderModel(SpecialModels.AK47_OPTIC_MOUNT.getModel(), stack, matrices, renderBuffer, light, overlay);
+        }
+        if(Gun.getAttachment(IAttachment.Type.STOCK, stack).getItem() == ModItems.LIGHT_STOCK.orElse(ItemStack.EMPTY.getItem()))
+        {
+            RenderUtil.renderModel(SpecialModels.AK47_BUTT_LIGHTWEIGHT.getModel(), stack, matrices, renderBuffer, light, overlay);
+        }
+        if(Gun.getAttachment(IAttachment.Type.STOCK, stack).getItem() == ModItems.TACTICAL_STOCK.orElse(ItemStack.EMPTY.getItem()))
+        {
+            RenderUtil.renderModel(SpecialModels.AK74_BUTT_TACTICAL.getModel(), stack, matrices, renderBuffer, light, overlay);
+        }
+        if(Gun.getAttachment(IAttachment.Type.STOCK, stack).getItem() == ModItems.WEIGHTED_STOCK.orElse(ItemStack.EMPTY.getItem()))
+        {
+            RenderUtil.renderModel(SpecialModels.AK74_BUTT_HEAVY.getModel(), stack, matrices, renderBuffer, light, overlay);
+        }
+        if(Gun.getAttachment(IAttachment.Type.BARREL, stack).getItem() == ModItems.SILENCER.orElse(ItemStack.EMPTY.getItem()))
+        {
+            //int overlayTmp = Gun.getAttachment(IAttachment.Type.BARREL, stack).getStack().serializeNBT().getInt("Color");
+            //int overlayTmp = Minecraft.getInstance().getItemColors().getColor(Gun.getAttachment(IAttachment.Type.BARREL, stack).getStack(), 0);
+            //if(overlayTmp == -1)
+            //{
+            //    overlayTmp = overlay;
+            //}
+            /*
+                Hm, it seems like the getAttachment().stack() method chain does not actually grab the color of the specific attachment
+                I will be making a bug report as I don't think this behavior is correct and something wrong is on either side as this should be clearly possible
+            */
+            matrices.translate(0, 0, -0.450f);
+
+            RenderUtil.renderModel(SpecialModels.AK47_SILENCER.getModel(), stack, matrices, renderBuffer, light, overlay);
+
+            matrices.translate(0, 0, 0.450f);
         }
         RenderUtil.renderModel(SpecialModels.AK74.getModel(), stack, matrices, renderBuffer, light, overlay);
 

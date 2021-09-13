@@ -1,8 +1,11 @@
 {
   "general": {
     "rate": 4,
-    "rateSelector": [0,1],
-    "gripType":  "tac:one_handed_m1911",
+    "rateSelector": [
+      0,
+      1
+    ],
+    "gripType": "tac:one_handed_m1911",
     "maxAmmo": 10,
     "reloadAmount": 2,
     "recoilAngle": 6.0,
@@ -12,7 +15,7 @@
     "spread": 1.25
   },
   "projectile": {
-    "item":  "tac:round45",
+    "item": "tac:round45",
     "visible": false,
     "damage": 9.5,
     "size": 0.2,
@@ -20,10 +23,10 @@
     "life": 250
   },
   "sounds": {
-    "fire":  "tac:item.fire_m1911",
-    "reload":  "tac:item.pistol.reload",
-    "cock":  "tac:item.pistol.cock",
-    "silencedFire":  "tac:item.fire_m1911s"
+    "fire": "tac:item.fire_m1911",
+    "reload": "tac:item.pistol.reload",
+    "cock": "tac:item.pistol.cock",
+    "silencedFire": "tac:item.fire_m1911s"
   },
   "display": {
     "flash": {

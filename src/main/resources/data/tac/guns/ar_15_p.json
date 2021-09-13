@@ -2,8 +2,12 @@
   "general": {
     "auto": true,
     "rate": 2,
-    "rateSelector": [0,1,2],
-    "gripType":  "tac:two_handed_ak47",
+    "rateSelector": [
+      0,
+      1,
+      2
+    ],
+    "gripType": "tac:two_handed_ak47",
     "maxAmmo": 30,
     "reloadAmount": 5,
     "recoilAngle": 3.185,
@@ -14,7 +18,7 @@
     "spread": 3.75
   },
   "projectile": {
-    "item":  "tac:nato_556_bullet",
+    "item": "tac:nato_556_bullet",
     "visible": false,
     "damage": 6.5,
     "size": 0.2,
@@ -22,10 +26,10 @@
     "life": 85
   },
   "sounds": {
-    "fire":  "tac:item.fire_m16",
-    "reload":  "tac:item.pistol.reload",
-    "cock":  "tac:item.pistol.cock",
-    "silencedFire":  "tac:item.fire_m16s"
+    "fire": "tac:item.fire_m16",
+    "reload": "tac:item.pistol.reload",
+    "cock": "tac:item.pistol.cock",
+    "silencedFire": "tac:item.fire_m16s"
   },
   "display": {
     "flash": {
@@ -46,10 +50,10 @@
         "zOffset": -21.55,
         "scale": 1.00
       },
-        "scope": {
-          "yOffset": 10.25,
-          "zOffset": 7.4,
-          "scale": 1.50
+      "scope": {
+        "yOffset": 10.25,
+        "zOffset": 7.4,
+        "scale": 1.50
       },
       "stock": {
         "yOffset": 7.75,

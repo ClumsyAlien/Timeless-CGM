@@ -1,19 +1,23 @@
 {
   "general": {
     "auto": true,
-    "rate": 3,
-    "rateSelector": [0,2],
-    "gripType":  "tac:two_handed_m60",
+    "rate": 2,
+    "rateSelector": [
+      0,
+      2
+    ],
+    "gripType": "tac:two_handed_m60",
     "maxAmmo": 100,
     "reloadAmount": 10,
     "recoilAngle": 2.30,
-    "recoilKick": 0.6,
+    "recoilKick": 1.2,
+    "horizontalRecoilAngle": 0.25,
     "recoilAdsReduction": 0.64,
     "alwaysSpread": true,
     "spread": 4.16
   },
   "projectile": {
-    "item":  "tac:bullet_308",
+    "item": "tac:bullet_308",
     "visible": false,
     "damage": 6.5,
     "size": 0.2,
@@ -21,10 +25,10 @@
     "life": 550
   },
   "sounds": {
-    "fire":  "tac:item.fire_m60",
-    "reload":  "tac:item.pistol.reload",
-    "cock":  "tac:item.pistol.cock",
-    "silencedFire":  "tac:item.pistol.silenced_fire"
+    "fire": "tac:item.fire_m60",
+    "reload": "tac:item.pistol.reload",
+    "cock": "tac:item.pistol.cock",
+    "silencedFire": "tac:item.pistol.silenced_fire"
   },
   "display": {
     "flash": {
@@ -36,8 +40,8 @@
   "modules": {
     "zoom": {
       "fovModifier": 0.7,
-      "yOffset": 8.1,
-      "zOffset": -5.7
+      "yOffset": 10,
+      "zOffset": -3.7
     },
     "attachments": {
       "scope": {

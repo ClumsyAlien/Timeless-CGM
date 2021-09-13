@@ -210,7 +210,7 @@ public class GunModifiers
         @Override
         public float modifyProjectileSpread(float spread)
         {
-            return spread * 0.45F;
+            return spread * 0.50F;
         }
 
         @Override
@@ -241,7 +241,7 @@ public class GunModifiers
         @Override
         public float modifyProjectileSpread(float spread)
         {
-            return spread * 0.65F;
+            return spread * 0.70F;
         }
 
         @Override
@@ -272,7 +272,7 @@ public class GunModifiers
         @Override
         public float modifyProjectileSpread(float spread)
         {
-            return spread * 0.15F;
+            return spread * 0.30F;
         }
 
         @Override

@@ -1,30 +1,33 @@
 {
   "general": {
     "rate": 6,
-    "rateSelector": [0,1],
-    "gripType":  "tac:one_handed_m1911",
+    "rateSelector": [
+      0,
+      1
+    ],
+    "gripType": "tac:one_handed_m1911",
     "maxAmmo": 7,
     "reloadAmount": 2,
-    "recoilAngle": 9.0,
-    "recoilKick": 2.25,
-    "horizontalRecoilAngle": 0.45,
+    "recoilAngle": 7.0,
+    "recoilKick": 3.25,
+    "horizontalRecoilAngle": 0.25,
     "recoilAdsReduction": 0.45,
     "alwaysSpread": true,
-    "spread": 4.5
+    "spread": 2.5
   },
   "projectile": {
-    "item":  "tac:round45",
+    "item": "tac:round45",
     "visible": false,
-    "damage": 13.5,
+    "damage": 15.5,
     "size": 0.2,
     "speed": 12.0,
     "life": 10
   },
   "sounds": {
-    "fire":  "tac:item.fire_m1911",
-    "reload":  "tac:item.pistol.reload",
-    "cock":  "tac:item.pistol.cock",
-    "silencedFire":  "tac:item.fire_m1911s"
+    "fire": "tac:item.fire_m1911",
+    "reload": "tac:item.pistol.reload",
+    "cock": "tac:item.pistol.cock",
+    "silencedFire": "tac:item.fire_m1911s"
   },
   "display": {
     "flash": {
@@ -36,12 +39,12 @@
   "modules": {
     "zoom": {
       "fovModifier": 0.8,
-      "yOffset": 11.1,
-      "zOffset": -12.6
+      "yOffset": 13.7,
+      "zOffset": -16
     },
     "attachments": {
       "barrel": {
-        "yOffset": 9.88,
+        "yOffset": 17.5,
         "zOffset": -11.02,
         "scale": 0.83
       }

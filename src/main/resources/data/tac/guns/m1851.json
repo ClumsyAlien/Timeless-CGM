@@ -1,8 +1,11 @@
 {
   "general": {
     "rate": 28,
-    "rateSelector": [0,1],
-    "gripType":  "tac:one_handed_m1851",
+    "rateSelector": [
+      0,
+      1
+    ],
+    "gripType": "tac:one_handed_m1851",
     "maxAmmo": 6,
     "reloadAmount": 1,
     "recoilAngle": 12.5,
@@ -12,7 +15,7 @@
     "spread": 2.4
   },
   "projectile": {
-    "item":  "tac:magnumround",
+    "item": "tac:magnumround",
     "visible": false,
     "damage": 18.5,
     "size": 0.2,
@@ -20,10 +23,10 @@
     "life": 300
   },
   "sounds": {
-    "fire":  "tac:item.fire_m1851",
-    "reload":  "tac:item.pistol.reload",
-    "cock":  "tac:item.pistol.cock",
-    "silencedFire":  "tac:item.pistol.silenced_fire"
+    "fire": "tac:item.fire_m1851",
+    "reload": "tac:item.pistol.reload",
+    "cock": "tac:item.pistol.cock",
+    "silencedFire": "tac:item.pistol.silenced_fire"
   },
   "display": {
     "flash": {

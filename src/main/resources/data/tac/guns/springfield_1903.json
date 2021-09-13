@@ -1,19 +1,22 @@
 {
   "general": {
-    "rate": 40,
-    "rateSelector": [0,1],
-    "gripType":  "tac:two_handed_mosin",
+    "rate": 25,
+    "rateSelector": [
+      0,
+      1
+    ],
+    "gripType": "tac:two_handed_mosin",
     "maxAmmo": 6,
     "reloadAmount": 1,
-    "recoilAngle": 12.0,
-    "recoilKick": 1.5,
+    "recoilAngle": 8.0,
+    "recoilKick": 1.8,
     "horizontalRecoilAngle": 0.35,
-    "recoilAdsReduction": 0.65,
+    "recoilAdsReduction": 0.75,
     "alwaysSpread": true,
     "spread": 1.00
   },
   "projectile": {
-    "item":  "tac:win_30-30",
+    "item": "tac:win_30-30",
     "visible": false,
     "gravity": true,
     "damage": 20,
@@ -22,10 +25,10 @@
     "life": 6
   },
   "sounds": {
-    "fire":  "tac:item.fire_mosin-nagant",
-    "reload":  "tac:item.pistol.reload",
-    "cock":  "tac:item.assault_rifle.cock",
-    "silencedFire":  "tac:item.assault_rifle.silenced_fire"
+    "fire": "tac:item.fire_mosin-nagant",
+    "reload": "tac:item.pistol.reload",
+    "cock": "tac:item.assault_rifle.cock",
+    "silencedFire": "tac:item.assault_rifle.silenced_fire"
   },
   "display": {
     "flash": {
@@ -38,7 +41,7 @@
     "zoom": {
       "fovModifier": 0.60,
       "yOffset": 8.45,
-      "zOffset": -4.7
+      "zOffset": -5.7
     }
   }
 }

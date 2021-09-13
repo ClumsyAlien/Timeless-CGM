@@ -2,8 +2,11 @@
   "general": {
     "auto": true,
     "rate": 1,
-    "rateSelector": [0,2],
-    "gripType":  "tac:two_handed_vector",
+    "rateSelector": [
+      0,
+      2
+    ],
+    "gripType": "tac:two_handed_vector",
     "maxAmmo": 20,
     "reloadAmount": 5,
     "recoilAngle": 6.445,
@@ -13,7 +16,7 @@
     "spread": 10.65
   },
   "projectile": {
-    "item":  "tac:round45",
+    "item": "tac:round45",
     "visible": false,
     "damage": 3.75,
     "size": 0.2,
@@ -21,10 +24,10 @@
     "life": 2
   },
   "sounds": {
-    "fire":  "tac:item.fire_m16",
-    "reload":  "tac:item.pistol.reload",
-    "cock":  "tac:item.pistol.cock",
-    "silencedFire":  "tac:item.fire_m16s"
+    "fire": "tac:item.fire_m16",
+    "reload": "tac:item.pistol.reload",
+    "cock": "tac:item.pistol.cock",
+    "silencedFire": "tac:item.fire_m16s"
   },
   "display": {
     "flash": {
@@ -45,10 +48,10 @@
         "zOffset": -11.55,
         "scale": 1.00
       },
-        "scope": {
-          "yOffset": 13.35,
-          "zOffset": -1.8,
-          "scale": 1.30
+      "scope": {
+        "yOffset": 13.35,
+        "zOffset": -1.8,
+        "scale": 1.30
       },
       "stock": {
         "yOffset": 7.75,

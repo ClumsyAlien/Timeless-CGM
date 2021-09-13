@@ -1,8 +1,11 @@
 {
   "general": {
     "rate": 48,
-    "rateSelector": [0,1],
-    "gripType":  "tac:two_handed_mosin",
+    "rateSelector": [
+      0,
+      1
+    ],
+    "gripType": "tac:two_handed_mosin",
     "maxAmmo": 5,
     "reloadAmount": 1,
     "recoilAngle": 18.0,
@@ -12,7 +15,7 @@
     "spread": 0.2
   },
   "projectile": {
-    "item":  "tac:win_30-30",
+    "item": "tac:win_30-30",
     "visible": false,
     "gravity": true,
     "damage": 20,
@@ -21,10 +24,10 @@
     "life": 700
   },
   "sounds": {
-    "fire":  "tac:item.fire_mosin-nagant",
-    "reload":  "tac:item.pistol.reload",
-    "cock":  "tac:item.assault_rifle.cock",
-    "silencedFire":  "tac:item.assault_rifle.silenced_fire"
+    "fire": "tac:item.fire_mosin-nagant",
+    "reload": "tac:item.pistol.reload",
+    "cock": "tac:item.assault_rifle.cock",
+    "silencedFire": "tac:item.assault_rifle.silenced_fire"
   },
   "display": {
     "flash": {

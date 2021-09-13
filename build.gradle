@@ -20,9 +20,9 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 //apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
-version = "1.0.1-1.16.4"
+version = "0.0.2-1.16.5"
 group = "com.tac"
-archivesBaseName = "gun-mod"
+archivesBaseName = "tac-mod"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
@@ -106,12 +106,12 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "Gun Mod",
-            "Specification-Vendor": "MrCrayfish",
-            "Specification-Version": "1",
-            "Implementation-Title": "Gun Mod",
+            "Specification-Title": "Timeless and Classics",
+            "Specification-Vendor": "ClumsyAlien",
+            "Specification-Version": "0.02",
+            "Implementation-Title": "Timeless and Classics",
             "Implementation-Version": project.version,
-            "Implementation-Vendor" : "MrCrayfish",
+            "Implementation-Vendor" : "ClummsyAlien",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
             "MixinConfigs": "tac.mixins.json"
         ])

@@ -1,31 +1,31 @@
 {
-    "general": {
-        "auto": true,
-        "rate": 2,
-        "gripType": "tac:mini_gun",
-        "maxAmmo": 100,
-        "reloadAmount": 10,
-        "recoilAngle": 1.0,
-        "horizontalRecoilAngle": 0.65,
-        "alwaysSpread": true,
-        "spread": 5.0
-    },
-    "projectile": {
-        "item": "tac:basic_bullet",
-        "visible": false,
-        "damage": 3.0,
-        "size": 0.2,
-        "speed": 15.0,
-        "life": 10
-    },
-    "sounds": {
-        "fire": "tac:item.mini_gun.fire",
-        "reload": "tac:item.pistol.reload"
-    },
-    "display": {
-        "flash": {
-            "yOffset": 2.7,
-            "zOffset": -11.51
-        }
+  "general": {
+    "auto": true,
+    "rate": 2,
+    "gripType": "tac:mini_gun",
+    "maxAmmo": 100,
+    "reloadAmount": 10,
+    "recoilAngle": 1.0,
+    "horizontalRecoilAngle": 0.65,
+    "alwaysSpread": true,
+    "spread": 5.0
+  },
+  "projectile": {
+    "item": "tac:basic_bullet",
+    "visible": false,
+    "damage": 3.0,
+    "size": 0.2,
+    "speed": 15.0,
+    "life": 10
+  },
+  "sounds": {
+    "fire": "tac:item.mini_gun.fire",
+    "reload": "tac:item.pistol.reload"
+  },
+  "display": {
+    "flash": {
+      "yOffset": 2.7,
+      "zOffset": -11.51
     }
+  }
 }

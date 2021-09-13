@@ -2,8 +2,12 @@
   "general": {
     "auto": true,
     "rate": 2,
-    "rateSelector": [0,1,2],
-    "gripType":  "tac:two_handed_m1928",
+    "rateSelector": [
+      0,
+      1,
+      2
+    ],
+    "gripType": "tac:two_handed_m1928",
     "maxAmmo": 30,
     "reloadAmount": 5,
     "recoilAngle": 1.35,
@@ -13,7 +17,7 @@
     "spread": 4.45
   },
   "projectile": {
-    "item":  "tac:round45",
+    "item": "tac:round45",
     "visible": false,
     "damage": 4.5,
     "size": 0.2,
@@ -21,10 +25,10 @@
     "life": 350
   },
   "sounds": {
-    "fire":  "tac:item.fire_m1911",
-    "reload":  "tac:item.pistol.reload",
-    "cock":  "tac:item.pistol.cock",
-    "silencedFire":  "tac:item.fire_m1911s"
+    "fire": "tac:item.fire_m1911",
+    "reload": "tac:item.pistol.reload",
+    "cock": "tac:item.pistol.cock",
+    "silencedFire": "tac:item.fire_m1911s"
   },
   "display": {
     "flash": {

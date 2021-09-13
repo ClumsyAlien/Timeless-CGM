@@ -1,8 +1,11 @@
 {
   "general": {
     "rate": 16,
-    "rateSelector": [0,1],
-    "gripType":  "tac:two_handed_m1894",
+    "rateSelector": [
+      0,
+      1
+    ],
+    "gripType": "tac:two_handed_m1894",
     "maxAmmo": 9,
     "reloadAmount": 1,
     "recoilAngle": 9.7,
@@ -12,7 +15,7 @@
     "spread": 1.0
   },
   "projectile": {
-    "item":  "tac:win_30-30",
+    "item": "tac:win_30-30",
     "visible": false,
     "gravity": true,
     "damage": 14,
@@ -21,10 +24,10 @@
     "life": 250
   },
   "sounds": {
-    "fire":  "tac:item.fire_30-30",
-    "reload":  "tac:item.pistol.reload",
-    "cock":  "tac:item.assault_rifle.cock",
-    "silencedFire":  "tac:item.assault_rifle.silenced_fire"
+    "fire": "tac:item.fire_30-30",
+    "reload": "tac:item.pistol.reload",
+    "cock": "tac:item.assault_rifle.cock",
+    "silencedFire": "tac:item.assault_rifle.silenced_fire"
   },
   "display": {
     "flash": {

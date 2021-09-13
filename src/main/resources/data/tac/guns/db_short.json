@@ -31,7 +31,10 @@
       "yOffset": 5.45,
       "zOffset": -12.55,
       "size": 1.70
-    }
+    },
+    "hipfireScale": 0.15,
+    "hipfireMoveScale": 0.55,
+    "hipfireRecoilScale": 0.5
   },
   "modules": {
     "zoom": {

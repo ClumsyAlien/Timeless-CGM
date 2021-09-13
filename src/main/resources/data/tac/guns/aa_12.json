@@ -2,8 +2,12 @@
   "general": {
     "auto": true,
     "rate": 4,
-    "rateSelector": [0,1,2],
-    "gripType":  "tac:two_handed_ak47",
+    "rateSelector": [
+      0,
+      1,
+      2
+    ],
+    "gripType": "tac:two_handed_ak47",
     "maxAmmo": 7,
     "reloadAmount": 1,
     "recoilAngle": 3.385,
@@ -14,18 +18,18 @@
     "projectileAmount": 14
   },
   "projectile": {
-    "item":  "tac:10_gauge_round",
+    "item": "tac:10_gauge_round",
     "visible": false,
-    "damage": 16,
+    "damage": 22,
     "size": 0.05,
     "speed": 31.5,
     "life": 2
   },
   "sounds": {
-    "fire":  "tac:item.fire_db",
-    "reload":  "tac:item.pistol.reload",
-    "cock":  "tac:item.pistol.cock",
-    "silencedFire":  "tac:item.fire_m16s"
+    "fire": "tac:item.fire_db",
+    "reload": "tac:item.pistol.reload",
+    "cock": "tac:item.pistol.cock",
+    "silencedFire": "tac:item.fire_m16s"
   },
   "display": {
     "flash": {
