@@ -37,11 +37,11 @@
     }
   },
   "modules": {
-    "zoom": {
+    "zoom":[{
       "fovModifier": 0.6,
       "yOffset": 3.8,
       "zOffset": 3.2
-    },
+    }],
     "attachments": {
       "scope": {
         "yOffset": 3.1,

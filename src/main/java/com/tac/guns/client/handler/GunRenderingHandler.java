@@ -60,6 +60,8 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.lang3.ArrayUtils;
+import sun.security.util.ArrayUtil;
 //import software.bernie.geckolib3.core.IAnimatable;
 
 import java.lang.reflect.Field;
@@ -270,10 +272,10 @@ public class GunRenderingHandler {
                     xOffset = -translateX + scaledPos.getXOffset() * 0.0625 * scaleX;
                     yOffset = -translateY + (8 - scaledPos.getYOffset()) * 0.0625 * scaleY - scope.getCenterOffset() * scaleY * 0.0625 * scaledPos.getScale();
                     zOffset = -translateZ - scaledPos.getZOffset() * 0.0625 * scaleZ + 0.72 - viewFinderOffset * scaleZ * scaledPos.getScale();
-                } else if (modifiedGun.getModules().getZoom() != null) {
-                    xOffset = -translateX + modifiedGun.getModules().getZoom().getXOffset() * 0.0625 * scaleX;
-                    yOffset = -translateY + (8 - modifiedGun.getModules().getZoom().getYOffset()) * 0.0625 * scaleY;
-                    zOffset = -translateZ + modifiedGun.getModules().getZoom().getZOffset() * 0.0625 * scaleZ;
+                } else if (modifiedGun.getModules().getZoom().isEmpty()) {
+                    xOffset = -translateX + modifiedGun.getModules().getZoom().get(0).getXOffset() * 0.0625 * scaleX;
+                    yOffset = -translateY + (8 - modifiedGun.getModules().getZoom().get(0).getYOffset()) * 0.0625 * scaleY;
+                    zOffset = -translateZ + modifiedGun.getModules().getZoom().get(0).getZOffset() * 0.0625 * scaleZ;
                 }
 
                 /* Controls the direction of the following translations, changes depending on the main hand. */

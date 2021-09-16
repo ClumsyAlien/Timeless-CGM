@@ -36,11 +36,11 @@
     }
   },
   "modules": {
-    "zoom": {
+    "zoom": [{
       "fovModifier": 0.75,
       "yOffset": 8.18,
       "zOffset": 1.2
-    },
+    }],
     "attachments": {}
   }
 }

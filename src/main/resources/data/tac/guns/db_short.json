@@ -37,11 +37,11 @@
     "hipfireRecoilScale": 0.5
   },
   "modules": {
-    "zoom": {
+    "zoom": [{
       "fovModifier": 0.75,
       "yOffset": 8.18,
       "zOffset": -2.2
-    },
+    }],
     "attachments": {
 
     }

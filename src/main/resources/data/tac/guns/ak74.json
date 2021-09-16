@@ -38,11 +38,11 @@
     "hipfireRecoilScale": 1.1
   },
   "modules": {
-    "zoom": {
+    "zoom": [{
       "fovModifier": 0.65,
       "yOffset": 14.1,
       "zOffset": -4.2
-    },
+    }],
     "attachments": {
       "barrel": {
         "yOffset": -100829.84,
