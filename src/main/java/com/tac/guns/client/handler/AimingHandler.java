@@ -31,6 +31,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.Level;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
@@ -146,9 +148,9 @@ public class AimingHandler
                 if(AimingHandler.get().isAiming() && !SyncedPlayerData.instance().get(mc.player, ModSyncedDataKeys.RELOADING))
                 {
                     Gun modifiedGun = gunItem.getModifiedGun(heldItem);
-                    if(modifiedGun.getModules().getZoom() != null)
+                    if(modifiedGun.getModules().getZoom().isEmpty())
                     {
-                        float newFov = modifiedGun.getModules().getZoom().getFovModifier();
+                        float newFov = modifiedGun.getModules().getZoom().get(0).getFovModifier();
                         Scope scope = Gun.getScope(heldItem);
                         if(scope != null)
                         {
@@ -199,8 +201,10 @@ public class AimingHandler
 
         Gun gun = ((GunItem) heldItem.getItem()).getModifiedGun(heldItem);
         if(gun.getModules().getZoom() == null)
+        {
+            GunMod.LOGGER.log(Level.FATAL, "Zoom is empty for some fucking reason");
             return false;
-
+        }
         if(!this.localTracker.isAiming() && this.isLookingAtInteractableBlock())
             return false;
 

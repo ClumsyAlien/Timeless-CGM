@@ -39,11 +39,11 @@
     }
   },
   "modules": {
-    "zoom": {
+    "zoom":[ {
       "fovModifier": 0.65,
       "yOffset": 16.18,
       "zOffset": -1.2
-    },
+    }],
     "attachments": {
       "barrel": {
         "yOffset": -100829.84,

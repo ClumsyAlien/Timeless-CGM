@@ -38,10 +38,10 @@
     }
   },
   "modules": {
-    "zoom": {
+    "zoom": [{
       "fovModifier": 0.60,
       "yOffset": 8.45,
       "zOffset": -5.7
-    }
+    }]
   }
 }

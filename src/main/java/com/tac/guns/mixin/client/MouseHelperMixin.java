@@ -12,10 +12,12 @@ import net.minecraft.client.MouseHelper;
 import net.minecraft.client.settings.PointOfView;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
+import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import sun.security.util.ArrayUtil;
 
 /**
  * Author: MrCrayfish
@@ -36,8 +38,8 @@ public class MouseHelperMixin
                 GunItem gunItem = (GunItem) heldItem.getItem();
                 if (AimingHandler.get().isAiming() && !SyncedPlayerData.instance().get(mc.player, ModSyncedDataKeys.RELOADING)) {
                     Gun modifiedGun = gunItem.getModifiedGun(heldItem);
-                    if (modifiedGun.getModules().getZoom() != null) {
-                        float newFov = modifiedGun.getModules().getZoom().getFovModifier();
+                    if (modifiedGun.getModules().getZoom().isEmpty()) {
+                        float newFov = modifiedGun.getModules().getZoom().get(0).getFovModifier();
                         Scope scope = Gun.getScope(heldItem);
                         if (scope != null) {
                             newFov -= scope.getAdditionalZoom();
