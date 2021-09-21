@@ -1,7 +1,6 @@
 package com.tac.guns.client.network;
 
 import com.tac.guns.Config;
-import com.tac.guns.Reference;
 import com.tac.guns.client.BulletTrail;
 import com.tac.guns.client.CustomGunManager;
 import com.tac.guns.client.audio.GunShotSound;
@@ -9,16 +8,8 @@ import com.tac.guns.client.handler.BulletTrailRenderingHandler;
 import com.tac.guns.client.handler.GunRenderingHandler;
 import com.tac.guns.common.NetworkGunManager;
 import com.tac.guns.init.ModParticleTypes;
-import com.tac.guns.network.message.MessageBlood;
-import com.tac.guns.network.message.MessageBulletTrail;
-import com.tac.guns.network.message.MessageGunSound;
-import com.tac.guns.network.message.MessageProjectileHitBlock;
-import com.tac.guns.network.message.MessageProjectileHitEntity;
-import com.tac.guns.network.message.MessageRemoveProjectile;
-import com.tac.guns.network.message.MessageStunGrenade;
-import com.tac.guns.network.message.MessageUpdateGuns;
+import com.tac.guns.network.message.*;
 import com.tac.guns.particles.BulletHoleData;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
@@ -29,17 +20,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.*;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraft.entity.projectile.ProjectileHelper;
 
 import javax.annotation.Nullable;
 import java.util.Random;
-
-import static com.tac.guns.GunMod.LOGGER;
 
 /**
  * Author: MrCrayfish
@@ -135,42 +125,23 @@ public class ClientPlayHandler
 
     public static void handleProjectileHitBlock(MessageProjectileHitBlock message)
     {
-        //}
-        /*else {
-            world.destroyBlock(message.getResult().getBlockPos(), true);
-            message.getBullet().life -= 1;
-        }*/
-
-        // this.piercedEntities.clear();
-        /*
         Minecraft mc = Minecraft.getInstance();
-        World world = mc.level;
-        if(world != null)
-        {
+        World world = mc.world;
+        if (world != null) {
             BlockState state = world.getBlockState(message.getPos());
-            double holeX = message.getX() + 0.005 * message.getFace().getStepX();
-            double holeY = message.getY() + 0.005 * message.getFace().getStepY();
-            double holeZ = message.getZ() + 0.005 * message.getFace().getStepZ();
-            double distance = Math.sqrt(mc.player.distanceToSqr(message.getX(), message.getY(), message.getZ()));
+            double holeX = message.getX() + 0.005 * message.getFace().getXOffset();
+            double holeY = message.getY() + 0.005 * message.getFace().getYOffset();
+            double holeZ = message.getZ() + 0.005 * message.getFace().getZOffset();
+            double distance = Math.sqrt(mc.player.getDistanceSq(message.getX(), message.getY(), message.getZ()));
             world.addParticle(new BulletHoleData(message.getFace(), message.getPos()), false, holeX, holeY, holeZ, 0, 0, 0);
-            if(distance < 16.0)
-            {
+            if (distance < 16.0) {
                 world.addParticle(new BlockParticleData(ParticleTypes.BLOCK, state), false, message.getX(), message.getY(), message.getZ(), 0, 0, 0);
             }
-            if(distance < 32.0)
-            {
-                world.playLocalSound(message.getX(), message.getY(), message.getZ(), state.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 0.75F, 2.0F, false);
+            if (distance < 32.0) {
+                world.playSound(message.getX(), message.getY(), message.getZ(), state.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 0.75F, 2.0F, false);
             }
-        }*/
+        }
     }
-
-/*
-    protected void teleportToHitPoint(RayTraceResult rayTraceResult){
-        // necessary for proper ricochet behaviour
-        Vector3d hitResult = rayTraceResult.getLocation();
-        this.setPos(hitResult.x, hitResult.y, hitResult.z);
-    }
-*/
 
     public static void handleProjectileHitEntity(MessageProjectileHitEntity message)
     {

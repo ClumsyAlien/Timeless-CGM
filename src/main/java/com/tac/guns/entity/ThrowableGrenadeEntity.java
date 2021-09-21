@@ -2,10 +2,8 @@ package com.tac.guns.entity;
 
 import com.tac.guns.Config;
 import com.tac.guns.init.ModEntities;
-import com.tac.guns.init.ModItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.world.World;
 

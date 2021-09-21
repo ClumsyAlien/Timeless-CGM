@@ -1,7 +1,6 @@
 package com.tac.guns.init;
 
 import com.tac.guns.Reference;
-import com.tac.guns.client.screen.InspectScreen;
 import com.tac.guns.common.container.AttachmentContainer;
 import com.tac.guns.common.container.InspectionContainer;
 import com.tac.guns.common.container.WorkbenchContainer;

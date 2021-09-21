@@ -7,8 +7,6 @@ import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 
-import net.minecraft.client.audio.ISound.AttenuationType;
-
 /**
  * Author: MrCrayfish
  */

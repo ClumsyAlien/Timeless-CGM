@@ -23,7 +23,8 @@
     "damage": 22,
     "size": 0.05,
     "speed": 31.5,
-    "life": 2
+    "life": 2,
+    "ricochet": false
   },
   "sounds": {
     "fire": "tac:item.fire_db",
@@ -36,14 +37,15 @@
       "yOffset": 5.75,
       "zOffset": -23.55,
       "size": 1.70
-    }
+    },
+    "weaponType": 3
   },
   "modules": {
-    "zoom": {
+    "zoom": [{
       "fovModifier": 0.65,
       "yOffset": 16.18,
       "zOffset": -1.2
-    },
+    }],
     "attachments": {
       "barrel": {
         "yOffset": -100829.84,

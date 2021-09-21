@@ -34,14 +34,15 @@
       "yOffset": 11.35,
       "zOffset": -11.0,
       "size": 1.10
-    }
+    },
+    "weaponType": 4
   },
   "modules": {
-    "zoom": {
+    "zoom": [{
       "fovModifier": 0.60,
       "yOffset": 14.80,
       "zOffset": 3.75
-    },
+    }],
     "attachments": {
       "barrel": {
         "yOffset": -100829.84,

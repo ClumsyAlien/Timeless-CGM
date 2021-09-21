@@ -1,11 +1,7 @@
 package com.tac.guns.init;
 
 import com.tac.guns.Reference;
-import com.tac.guns.entity.GrenadeEntity;
-import com.tac.guns.entity.MissileEntity;
-import com.tac.guns.entity.ProjectileEntity;
-import com.tac.guns.entity.ThrowableGrenadeEntity;
-import com.tac.guns.entity.ThrowableStunGrenadeEntity;
+import com.tac.guns.entity.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;

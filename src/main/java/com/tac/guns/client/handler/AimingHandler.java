@@ -1,5 +1,6 @@
 package com.tac.guns.client.handler;
 
+import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.GunMod;
 import com.tac.guns.client.render.crosshair.Crosshair;
 import com.tac.guns.common.Gun;
@@ -11,7 +12,6 @@ import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessageAim;
 import com.tac.guns.util.GunEnchantmentHelper;
 import com.tac.guns.util.GunModifierHelper;
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -31,6 +31,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
@@ -146,9 +147,9 @@ public class AimingHandler
                 if(AimingHandler.get().isAiming() && !SyncedPlayerData.instance().get(mc.player, ModSyncedDataKeys.RELOADING))
                 {
                     Gun modifiedGun = gunItem.getModifiedGun(heldItem);
-                    if(modifiedGun.getModules().getZoom() != null)
+                    if(!ArrayUtils.isEmpty(modifiedGun.getModules().getZoom()))
                     {
-                        float newFov = modifiedGun.getModules().getZoom().getFovModifier();
+                        float newFov = modifiedGun.getModules().getZoom()[heldItem.getTag().getInt("currentZoom")].getFovModifier();
                         Scope scope = Gun.getScope(heldItem);
                         if(scope != null)
                         {
@@ -198,9 +199,10 @@ public class AimingHandler
             return false;
 
         Gun gun = ((GunItem) heldItem.getItem()).getModifiedGun(heldItem);
-        if(gun.getModules().getZoom() == null)
+        if(ArrayUtils.isEmpty(gun.getModules().getZoom()))
+        {
             return false;
-
+        }
         if(!this.localTracker.isAiming() && this.isLookingAtInteractableBlock())
             return false;
 

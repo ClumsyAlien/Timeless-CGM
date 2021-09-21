@@ -1,6 +1,7 @@
 package com.tac.guns.client.render.gun.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.tac.guns.client.SpecialModels;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.Gun;
@@ -12,7 +13,6 @@ import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.CooldownTracker;
-import com.tac.guns.client.SpecialModels;
 
 /*
  * Because the revolver has a rotating chamber, we need to render it in a
@@ -27,6 +27,13 @@ public class ar15_hellmouth_animation implements IOverrideModel {
     @Override
     public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay)
     {
+        if(Gun.getScope(stack) == null)
+        {
+            if(stack.getTag().getInt("currentZoom") == 0)
+                RenderUtil.renderModel(SpecialModels.AR_15_CQB_IRONS.getModel(), stack, matrices, renderBuffer, light, overlay);
+            else if(stack.getTag().getInt("currentZoom") == 1)
+                RenderUtil.renderModel(SpecialModels.AR_15_CQB_IRONS_2.getModel(), stack, matrices, renderBuffer, light, overlay);
+        }
         if(Gun.getAttachment(IAttachment.Type.STOCK, stack).getItem() == ModItems.LIGHT_STOCK.orElse(ItemStack.EMPTY.getItem()))
         {
             RenderUtil.renderModel(SpecialModels.AR15_HELLMOUTH_BUTT_LIGHTWEIGHT.getModel(), stack, matrices, renderBuffer, light, overlay);

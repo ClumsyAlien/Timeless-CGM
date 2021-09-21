@@ -164,7 +164,9 @@ public enum SpecialModels
     AK47_BUTT_TACTICAL("ak47_tactical_stock"),
     AK47_SILENCER("ak47_silencer"),
     AK74_BUTT_HEAVY("ak74_heavy_stock"),
-    AK74_BUTT_TACTICAL("ak74_tactical_stock");
+    AK74_BUTT_TACTICAL("ak74_tactical_stock"),
+    AR_15_CQB_IRONS("ar_15_cqb_irons"),
+    AR_15_CQB_IRONS_2("ar_15_cqb_irons_2");
 
     /**
      * The location of an item model in the [MOD_ID]/models/special/[NAME] folder

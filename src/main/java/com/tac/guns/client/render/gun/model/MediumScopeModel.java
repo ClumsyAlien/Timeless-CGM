@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.tac.guns.Reference;
 import com.tac.guns.client.GunRenderType;
 import com.tac.guns.client.handler.AimingHandler;
+import com.tac.guns.client.handler.RecoilHandler;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.util.OptifineHelper;
@@ -55,6 +56,8 @@ public class MediumScopeModel implements IOverrideModel
             float crop = 0.4F;
             Minecraft mc = Minecraft.getInstance();
             MainWindow window = mc.getMainWindow();
+
+
             float texU = ((window.getWidth() - window.getHeight() + window.getHeight() * crop * 2.0F) / 2.0F) / window.getWidth();
 
             matrixStack.push();

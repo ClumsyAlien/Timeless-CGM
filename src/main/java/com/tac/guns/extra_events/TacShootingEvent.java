@@ -6,26 +6,16 @@ package com.tac.guns.extra_events;
  */
 
 
-
 import com.tac.guns.Config;
-import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
-import com.tac.guns.client.handler.ShootingHandler;
 import com.tac.guns.common.Gun;
 import com.tac.guns.event.GunFireEvent;
-import com.tac.guns.init.ModSounds;
-import com.tac.guns.item.GunItem;
 import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.*;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.commons.lang3.ArrayUtils;
-
-import java.sql.Array;
-import java.util.*;
 
 
 

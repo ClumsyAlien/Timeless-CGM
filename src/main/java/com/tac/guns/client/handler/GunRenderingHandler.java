@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mrcrayfish.obfuscate.client.event.PlayerModelEvent;
 import com.mrcrayfish.obfuscate.client.event.RenderItemEvent;
 import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
+import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
 import com.tac.guns.client.GunRenderType;
 import com.tac.guns.client.render.gun.IOverrideModel;
@@ -22,7 +23,6 @@ import com.tac.guns.item.attachment.IAttachment;
 import com.tac.guns.item.attachment.IBarrel;
 import com.tac.guns.item.attachment.impl.Barrel;
 import com.tac.guns.item.attachment.impl.Scope;
-/*import com.tac.guns.item.TransitionalTypes.AnimatedTimelessGunItem;*/
 import com.tac.guns.util.GunEnchantmentHelper;
 import com.tac.guns.util.GunModifierHelper;
 import com.tac.guns.util.OptifineHelper;
@@ -60,7 +60,8 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-//import software.bernie.geckolib3.core.IAnimatable;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.Level;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -254,6 +255,7 @@ public class GunRenderingHandler {
 
         GunItem gunItem = (GunItem) heldItem.getItem();
         Gun modifiedGun = gunItem.getModifiedGun(heldItem);
+        int gunZoom = heldItem.getTag().getInt("currentZoom");
 
         if (AimingHandler.get().getNormalisedAdsProgress() > 0 && modifiedGun.canAimDownSight()) {
             if (event.getHand() == Hand.MAIN_HAND) {
@@ -270,10 +272,12 @@ public class GunRenderingHandler {
                     xOffset = -translateX + scaledPos.getXOffset() * 0.0625 * scaleX;
                     yOffset = -translateY + (8 - scaledPos.getYOffset()) * 0.0625 * scaleY - scope.getCenterOffset() * scaleY * 0.0625 * scaledPos.getScale();
                     zOffset = -translateZ - scaledPos.getZOffset() * 0.0625 * scaleZ + 0.72 - viewFinderOffset * scaleZ * scaledPos.getScale();
-                } else if (modifiedGun.getModules().getZoom() != null) {
-                    xOffset = -translateX + modifiedGun.getModules().getZoom().getXOffset() * 0.0625 * scaleX;
-                    yOffset = -translateY + (8 - modifiedGun.getModules().getZoom().getYOffset()) * 0.0625 * scaleY;
-                    zOffset = -translateZ + modifiedGun.getModules().getZoom().getZOffset() * 0.0625 * scaleZ;
+                }
+                else if (!ArrayUtils.isEmpty(modifiedGun.getModules().getZoom()))
+                {
+                    xOffset = -translateX + modifiedGun.getModules().getZoom()[gunZoom].getXOffset() * 0.0625 * scaleX;
+                    yOffset = -translateY + (8 - modifiedGun.getModules().getZoom()[gunZoom].getYOffset()) * 0.0625 * scaleY;
+                    zOffset = -translateZ + modifiedGun.getModules().getZoom()[gunZoom].getZOffset() * 0.0625 * scaleZ;
                 }
 
                 /* Controls the direction of the following translations, changes depending on the main hand. */

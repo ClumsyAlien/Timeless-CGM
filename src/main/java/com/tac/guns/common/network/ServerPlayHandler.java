@@ -1,5 +1,6 @@
 package com.tac.guns.common.network;
 
+import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.Config;
 import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
@@ -27,7 +28,7 @@ import com.tac.guns.network.message.MessageShoot;
 import com.tac.guns.tileentity.WorkbenchTileEntity;
 import com.tac.guns.util.GunModifierHelper;
 import com.tac.guns.util.InventoryUtil;
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
+import com.tac.guns.common.Gun.Modules.Zoom;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
@@ -56,8 +57,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -344,7 +343,7 @@ public class ServerPlayHandler
             int[] gunItemFireModes = heldItem.getTag().getIntArray("supportedFireModes");
 
             // Check if the weapon is new, add in all supported modes
-            if(ArrayUtils.isEmpty(gunItemFireModes) || gunItemFireModes == null)
+            if(ArrayUtils.isEmpty(gunItemFireModes))
             {
                 gunItemFireModes = gun.getGeneral().getRateSelector();
                 heldItem.getTag().putIntArray("supportedFireModes", gunItemFireModes);
@@ -363,6 +362,32 @@ public class ServerPlayHandler
                 heldItem.getTag().putInt("CurrentFireMode", heldItem.getTag().getIntArray("supportedFireModes")[locationInSupportedModes+1]);
             }
 
+        }
+    }
+    /**
+     * @param player
+     */
+    public static void handleIronSightSwitch(ServerPlayerEntity player)
+    {
+        ItemStack heldItem = player.getHeldItemMainhand();
+        if(heldItem.getItem() instanceof TimelessGunItem)
+        {
+            Gun gun = ((TimelessGunItem) heldItem.getItem()).getModifiedGun(heldItem.getStack());
+
+            if(!ArrayUtils.isEmpty(gun.getModules().getZoom()))
+            {
+                int currentZoom = heldItem.getTag().getInt("currentZoom");
+
+                if(currentZoom == (gun.getModules().getZoom().length-2))
+                {
+                    heldItem.getTag().remove("currentZoom");
+                }
+                else
+                {
+                    heldItem.getTag().remove("currentZoom");
+                    heldItem.getTag().putInt("currentZoom",currentZoom+1);
+                }
+            }
         }
     }
 }

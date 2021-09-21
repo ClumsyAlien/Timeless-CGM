@@ -1,5 +1,6 @@
 package com.tac.guns.client.handler;
 
+import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.client.KeyBinds;
 import com.tac.guns.common.Gun;
 import com.tac.guns.event.GunReloadEvent;
@@ -9,7 +10,6 @@ import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessageReload;
 import com.tac.guns.network.message.MessageUnload;
 import com.tac.guns.util.GunEnchantmentHelper;
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

@@ -36,14 +36,15 @@
       "yOffset": 9.35,
       "zOffset": -19.55,
       "size": 1.10
-    }
+    },
+    "weaponType": 0
   },
   "modules": {
-    "zoom": {
+    "zoom": [{
       "fovModifier": 0.60,
       "yOffset": 12.9,
       "zOffset": 1.45
-    },
+    }],
     "attachments": {
       "scope": {
         "yOffset": 11.05,

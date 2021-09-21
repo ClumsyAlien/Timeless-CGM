@@ -1,21 +1,24 @@
 package com.tac.guns.mixin.client;
 
+import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.Config;
 import com.tac.guns.client.handler.AimingHandler;
 import com.tac.guns.common.Gun;
 import com.tac.guns.init.ModSyncedDataKeys;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.item.attachment.impl.Scope;
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHelper;
 import net.minecraft.client.settings.PointOfView;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
+import org.apache.commons.lang3.ArrayUtils;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+
+import javax.lang.model.type.ArrayType;
 
 /**
  * Author: MrCrayfish
@@ -36,8 +39,8 @@ public class MouseHelperMixin
                 GunItem gunItem = (GunItem) heldItem.getItem();
                 if (AimingHandler.get().isAiming() && !SyncedPlayerData.instance().get(mc.player, ModSyncedDataKeys.RELOADING)) {
                     Gun modifiedGun = gunItem.getModifiedGun(heldItem);
-                    if (modifiedGun.getModules().getZoom() != null) {
-                        float newFov = modifiedGun.getModules().getZoom().getFovModifier();
+                    if (!ArrayUtils.isEmpty(modifiedGun.getModules().getZoom() )) {
+                        float newFov = modifiedGun.getModules().getZoom()[heldItem.getTag().getInt("currentZoom")].getFovModifier();
                         Scope scope = Gun.getScope(heldItem);
                         if (scope != null) {
                             newFov -= scope.getAdditionalZoom();

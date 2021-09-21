@@ -4,14 +4,8 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.tac.guns.Reference;
 import com.tac.guns.client.handler.AimingHandler;
-import com.tac.guns.client.handler.GunRenderingHandler;
 import com.tac.guns.client.render.gun.IOverrideModel;
-import com.tac.guns.client.settings.GunEnumOption;
-import com.tac.guns.client.settings.GunOptions;
 import com.tac.guns.client.util.RenderUtil;
-import com.tac.guns.common.Gun;
-import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
-import com.tac.guns.util.GunModifierHelper;
 import com.tac.guns.util.OptifineHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -31,7 +25,7 @@ import net.minecraftforge.common.util.Constants;
  */
 public class CoyoteSightModel implements IOverrideModel
 {
-    private static final ResourceLocation RED_DOT_RETICLE = new ResourceLocation(Reference.MOD_ID, "textures/items/timeless_scopes/red_dot_reticle.png");
+    private static final ResourceLocation RED_DOT_RETICLE = new ResourceLocation(Reference.MOD_ID, "textures/items/timeless_scopes/dot_reticle.png");
     //private static final ResourceLocation RED_DOT_RETICLE_GLOW = new ResourceLocation(Reference.MOD_ID, "textures/effect/red_dot_reticle_glow.png");
     //private static final ResourceLocation VIGNETTE = new ResourceLocation(Reference.MOD_ID, "textures/effect/scope_vignette.png");
 
@@ -43,17 +37,11 @@ public class CoyoteSightModel implements IOverrideModel
             matrixStack.scale(1.0F, 1.0F, (float)zScale);
         }
 
-        //Gun.ScaledPositioned
-
-        matrixStack.scale(0.170f,0.170f,0.170f);
-        matrixStack.translate(0,0.5,0);
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(-90));
+        matrixStack.translate(0, 0.074, 0);
 
         RenderUtil.renderModel(stack, parent, matrixStack, renderTypeBuffer, light, overlay);
 
-        matrixStack.translate(0, -1.5, 0);
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(90));
-        matrixStack.scale(6.96f,6.96f,6.96f);
+        matrixStack.translate(0, -0.030, 0);
 
         if(transformType.isFirstPerson() && entity.equals(Minecraft.getInstance().player))
         {
@@ -70,7 +58,7 @@ public class CoyoteSightModel implements IOverrideModel
                 double invertProgress = (1.0 - AimingHandler.get().getNormalisedAdsProgress());
                 matrixStack.translate(-0.04 * invertProgress, 0.01 * invertProgress, 0);
 
-                double scale = 6.0;
+                double scale = 4.0;
                 matrixStack.translate(size / 2, size / 2, 0);
                 matrixStack.translate(-(size / scale) / 2, -(size / scale) / 2, 0);
                 matrixStack.translate(0, 0, 0.0001);
@@ -89,6 +77,7 @@ public class CoyoteSightModel implements IOverrideModel
 
                 alpha = (float) (0.75F * AimingHandler.get().getNormalisedAdsProgress());
 
+                //matrixStack.scale(1.5f,1.5f,1.5f);
                 builder = renderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(RED_DOT_RETICLE));
                 builder.pos(matrix, 0, (float) (size / scale), 0).color(1.0F, 1.0F, 1.0F, alpha).tex(0.0F, 0.9375F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
                 builder.pos(matrix, 0, 0, 0).color(1.0F, 1.0F, 1.0F, alpha).tex(0.0F, 0.0F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();

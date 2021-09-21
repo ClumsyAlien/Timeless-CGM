@@ -11,7 +11,7 @@
     "horizontalRecoilAngle": 2.75,
     "recoilAdsReduction": 0.35,
     "alwaysSpread": true,
-    "spread": 3.65
+    "spread": 1.85
   },
   "projectile": {
     "item":  "tac:nato_556_bullet",
@@ -35,14 +35,15 @@
     },
     "hipfireScale": 1.55,
     "hipfireMoveScale": 0.35,
-    "hipfireRecoilScale": 1.1
+    "hipfireRecoilScale": 1.1,
+    "weaponType": 0
   },
   "modules": {
-    "zoom": {
+    "zoom": [{
       "fovModifier": 0.65,
       "yOffset": 14.1,
       "zOffset": -4.2
-    },
+    }],
     "attachments": {
       "barrel": {
         "yOffset": -100829.84,
@@ -57,7 +58,7 @@
       "scope": {
         "yOffset": 13.65,
         "zOffset": 4.6,
-        "scale": 1.35
+        "scale": 1.0
       }
     }
   }

@@ -162,7 +162,7 @@ public class RecipeGen extends RecipeProvider
                 .build(consumer);
         */
         // Scope Attachments
-        WorkbenchRecipeBuilder.workbenchRecipe(ModItems.SHORT_SCOPE.get())
+        /*WorkbenchRecipeBuilder.workbenchRecipe(ModItems.SHORT_SCOPE.get())
                 .addIngredient(Items.IRON_INGOT, 2)
                 .addIngredient(Items.GLASS_PANE)
                 .addIngredient(Items.REDSTONE, 2)
@@ -181,7 +181,7 @@ public class RecipeGen extends RecipeProvider
                 .addIngredient(Items.GLASS_PANE, 2)
                 .addIngredient(Items.BLACK_DYE)
                 .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
-                .build(consumer);
+                .build(consumer);*/
 
         // Barrel Attachments
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.SILENCER.get())
