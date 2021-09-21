@@ -41,7 +41,8 @@
     "weaponType": 3
   },
   "modules": {
-    "zoom": [{
+
+    "zoom":[ {
       "fovModifier": 0.65,
       "yOffset": 16.18,
       "zOffset": -1.2
