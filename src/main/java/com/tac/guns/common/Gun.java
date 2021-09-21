@@ -23,6 +23,9 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.util.List;
+
+
 public final class Gun implements INBTSerializable<CompoundNBT>
 {
     private General general = new General();
@@ -801,17 +804,14 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         @Optional
         @Nullable
         private Zoom[] zoom = new Zoom[]{};
-
-/*        @Optional
-        @Nullable
-        private List<Zoom> zoom;*/
-
+        
         private Attachments attachments = new Attachments();
 
         @Ignored
         private int zoomOptions;
 
         @Nullable
+
         public Zoom[] getZoom()
         {
             return this.zoom.clone();
@@ -862,7 +862,6 @@ public final class Gun implements INBTSerializable<CompoundNBT>
                 return this.fovModifier;
             }
         }
-
 
 
         public static class Attachments implements INBTSerializable<CompoundNBT>
@@ -985,6 +984,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
                 return attachment.isEmpty() ? null : new ScaledPositioned(attachment);
             }
         }
+
         /*@Override
         public CompoundNBT serializeNBT()
         {
@@ -1116,7 +1116,6 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             modules.attachments = this.attachments.copy();
             return modules;
         }
-
     }
 
     public static class Positioned implements INBTSerializable<CompoundNBT>

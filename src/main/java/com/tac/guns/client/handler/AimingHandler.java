@@ -32,6 +32,7 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.Level;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
@@ -147,6 +148,7 @@ public class AimingHandler
                 if(AimingHandler.get().isAiming() && !SyncedPlayerData.instance().get(mc.player, ModSyncedDataKeys.RELOADING))
                 {
                     Gun modifiedGun = gunItem.getModifiedGun(heldItem);
+
                     if(!ArrayUtils.isEmpty(modifiedGun.getModules().getZoom()))
                     {
                         float newFov = modifiedGun.getModules().getZoom()[heldItem.getTag().getInt("currentZoom")].getFovModifier();
@@ -199,6 +201,7 @@ public class AimingHandler
             return false;
 
         Gun gun = ((GunItem) heldItem.getItem()).getModifiedGun(heldItem);
+
         if(ArrayUtils.isEmpty(gun.getModules().getZoom()))
         {
             return false;

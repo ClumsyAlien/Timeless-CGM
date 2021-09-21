@@ -17,6 +17,7 @@ import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import sun.security.util.ArrayUtil;
 
 import javax.lang.model.type.ArrayType;
 
@@ -41,6 +42,7 @@ public class MouseHelperMixin
                     Gun modifiedGun = gunItem.getModifiedGun(heldItem);
                     if (!ArrayUtils.isEmpty(modifiedGun.getModules().getZoom() )) {
                         float newFov = modifiedGun.getModules().getZoom()[heldItem.getTag().getInt("currentZoom")].getFovModifier();
+
                         Scope scope = Gun.getScope(heldItem);
                         if (scope != null) {
                             newFov -= scope.getAdditionalZoom();
