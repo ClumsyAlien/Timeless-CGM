@@ -3,6 +3,7 @@ package com.tac.guns.mixin.client;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mrcrayfish.obfuscate.client.event.RenderItemEvent;
 import com.tac.guns.Config;
+import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
 import com.tac.guns.common.Gun;
 import com.tac.guns.init.ModEffects;
@@ -19,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 import org.apache.http.client.utils.HttpClientUtils;
+import org.apache.logging.log4j.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -73,10 +75,24 @@ public class GameRendererMixin
             // Ammunition rendering
 
             MatrixStack counterStack = new MatrixStack();
+
+            float scaler = 1.0f;
+            double guiScale = window.getGuiScaleFactor();
+
+            if(guiScale == 1.0d)
+                scaler = 4.0f;
+            else if(guiScale == 2.0d)
+                scaler = 2.0f;
+            else if(guiScale == 3.0d)
+                scaler = 1.35f;
+
+            int counterX = 310 ;/// (int)(5-window.getGuiScaleFactor());
+            int counterY = 182 ;/// (int)(5-window.getGuiScaleFactor());
+
+            counterStack.scale(scaler,scaler,scaler);
             counterStack.scale(1.25f,1.25f,1.25f);
 
-            int counterX = 310;
-            int counterY = 182;
+            //counterStack.scale(5f - (float) window.getGuiScaleFactor(),5f -  (float) window.getGuiScaleFactor(),5f -  (float) window.getGuiScaleFactor());
 
             if(GunEnchantmentHelper.getAmmoCapacity(heldItem, gun) < 10)
                 counterX+=7;
@@ -86,13 +102,14 @@ public class GameRendererMixin
             Minecraft.getInstance().fontRenderer.drawString(
                     counterStack,
                     player.getHeldItemMainhand().getTag().getInt("AmmoCount") +" / " + GunEnchantmentHelper.getAmmoCapacity(heldItem, gun),
-                    window.getWindowX() + counterX,
-                    window.getWindowX() + counterY,
+                    counterX,
+                    counterY,
                     16777215);
 
             // Weapon icon rendering
 
             MatrixStack counterIconStack = new MatrixStack();
+            counterIconStack.scale(scaler,scaler,scaler);
             counterIconStack.scale(0.18f,0.18f,0.18f);
 
             if(gun.getDisplay().getWeaponType() > 5 || gun.getDisplay().getWeaponType() < 0)
@@ -105,6 +122,7 @@ public class GameRendererMixin
             // FireMode rendering
 
             MatrixStack firemodeStack = new MatrixStack();
+            firemodeStack.scale(scaler,scaler,scaler);
             firemodeStack.scale(0.08f,0.08f,0.08f);
 
             int fireMode = player.getHeldItemMainhand().getTag().getInt("CurrentFireMode");
