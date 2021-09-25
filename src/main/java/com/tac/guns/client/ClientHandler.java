@@ -1,6 +1,5 @@
 package com.tac.guns.client;
 
-import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
 import com.tac.guns.client.handler.*;
 import com.tac.guns.client.render.entity.GrenadeRenderer;
@@ -11,6 +10,7 @@ import com.tac.guns.client.render.gun.ModelOverrides;
 import com.tac.guns.client.render.gun.model.*;
 import com.tac.guns.client.screen.AttachmentScreen;
 import com.tac.guns.client.screen.InspectScreen;
+import com.tac.guns.client.screen.ScopeAttachmentScreen;
 import com.tac.guns.client.screen.WorkbenchScreen;
 import com.tac.guns.client.settings.GunOptions;
 import com.tac.guns.init.ModBlocks;
@@ -39,7 +39,6 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.Level;
 
 import java.lang.reflect.Field;
 
@@ -63,6 +62,8 @@ public class ClientHandler
         MinecraftForge.EVENT_BUS.register(SoundHandler.get());
         MinecraftForge.EVENT_BUS.register(FireModeSwitchEvent.get()); // Technically now a handler but, yes I need some naming reworks
         MinecraftForge.EVENT_BUS.register(IronSightSwitchEvent.get()); // Still, as well an event, am uncertain on what to name it, in short handles upcoming advanced iron sights
+
+        MinecraftForge.EVENT_BUS.register(ScopeJitterHandler.getInstance()); // All built by MayDay memory part of the Timeless dev team, amazing work!!!!!!!!!!!
 
         KeyBinds.register();
 
@@ -152,7 +153,11 @@ public class ClientHandler
         Minecraft mc = Minecraft.getInstance();
         if(mc.player != null && mc.currentScreen == null)
         {
-            if(KeyBinds.KEY_ATTACHMENTS.isPressed())
+            if(KeyBinds.KEY_SIGHT_SWITCH.isPressed())
+            {
+                PacketHandler.getPlayChannel().sendToServer(new MessageIronSightSwitch());
+            }
+            else if(KeyBinds.KEY_ATTACHMENTS.isPressed())
             {
                 PacketHandler.getPlayChannel().sendToServer(new MessageAttachments());
             }
@@ -160,10 +165,7 @@ public class ClientHandler
             {
                 PacketHandler.getPlayChannel().sendToServer(new MessageInspection());
             }
-            else if(KeyBinds.KEY_SIGHT_SWITCH.isPressed())
-            {
-                PacketHandler.getPlayChannel().sendToServer(new MessageIronSightSwitch());
-            }
+
         }
     }
 

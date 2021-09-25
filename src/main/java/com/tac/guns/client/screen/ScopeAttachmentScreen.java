@@ -3,7 +3,6 @@ package com.tac.guns.client.screen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.tac.guns.GunMod;
 import com.tac.guns.client.handler.GunRenderingHandler;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.container.AttachmentContainer;
@@ -20,7 +19,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import org.apache.logging.log4j.Level;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -30,23 +28,22 @@ import java.util.Collections;
 /**
  * Author: MrCrayfish
  */
-public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
+public class ScopeAttachmentScreen extends ContainerScreen<AttachmentContainer>
 {
-    private static final ResourceLocation GUN_GUI_TEXTURES = new ResourceLocation("tac:textures/gui/attachments.png");
-    private static final ResourceLocation SCOPE_GUI_TEXTURES = new ResourceLocation("tac:textures/gui/scope_attachments.png");
+    private static final ResourceLocation GUI_TEXTURES = new ResourceLocation("tac:textures/gui/attachments.png");
 
     private final PlayerInventory playerInventory;
     private final IInventory weaponInventory;
 
     private boolean showHelp = true;
-    private int windowZoom = 14;
+    private int windowZoom = 10;
     private int windowX, windowY;
     private float windowRotationX, windowRotationY;
     private boolean mouseGrabbed;
     private int mouseGrabbedButton;
     private int mouseClickedX, mouseClickedY;
 
-    public AttachmentScreen(AttachmentContainer screenContainer, PlayerInventory playerInventory, ITextComponent titleIn)
+    public ScopeAttachmentScreen(AttachmentContainer screenContainer, PlayerInventory playerInventory, ITextComponent titleIn)
     {
         super(screenContainer, playerInventory, titleIn);
         this.playerInventory = playerInventory;
@@ -60,7 +57,7 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
         super.tick();
         if(this.minecraft != null && this.minecraft.player != null)
         {
-            if(!(this.minecraft.player.getHeldItemMainhand().getItem() instanceof GunItem) && !(this.minecraft.player.getHeldItemMainhand().getItem() instanceof ScopeItem))
+            if(!(this.minecraft.player.getHeldItemMainhand().getItem() instanceof GunItem || this.minecraft.player.getHeldItemMainhand().getItem() instanceof ScopeItem))
             {
                 Minecraft.getInstance().displayGuiScreen(null);
             }
@@ -106,11 +103,8 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         int left = (this.width - this.xSize) / 2;
         int top = (this.height - this.ySize) / 2;
+        RenderUtil.scissor(left + 26, top + 17, 142, 70);
 
-        if((this.minecraft.player.getHeldItemMainhand().getItem() instanceof ScopeItem))
-            RenderUtil.scissor(left + 98, top + 17, 70, 65);
-        else
-            RenderUtil.scissor(left + 26, top + 17, 142, 70);
         RenderSystem.pushMatrix();
         {
             RenderSystem.translatef(96, 50, 100);
@@ -133,10 +127,7 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
             IRenderTypeBuffer.Impl buffer = this.minecraft.getRenderTypeBuffers().getBufferSource();
-            if(!(this.minecraft.player.getHeldItemMainhand().getItem() instanceof ScopeItem))
-                GunRenderingHandler.get().renderWeapon(this.minecraft.player, this.minecraft.player.getHeldItemMainhand(), ItemCameraTransforms.TransformType.GROUND, matrixStack, buffer, 15728880, 0F);
-            else
-                GunRenderingHandler.get().renderScope(this.minecraft.player, this.minecraft.player.getHeldItemMainhand(), ItemCameraTransforms.TransformType.GROUND, matrixStack, buffer, 15728880, 0F);
+            //GunRenderingHandler.get().renderWeapon(this.minecraft.player, this.minecraft.player.getHeldItemMainhand(), ItemCameraTransforms.TransformType.GROUND, matrixStack, buffer, 15728880, 0F);
             buffer.finish();
 
             RenderSystem.disableAlphaTest();
@@ -160,53 +151,24 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
     {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft minecraft = Minecraft.getInstance();
-        if(!(this.minecraft.player.getHeldItemMainhand().getItem() instanceof ScopeItem))
-            minecraft.getTextureManager().bindTexture(GUN_GUI_TEXTURES);
-        else
-            minecraft.getTextureManager().bindTexture(SCOPE_GUI_TEXTURES);
-
+        minecraft.getTextureManager().bindTexture(GUI_TEXTURES);
         int left = (this.width - this.xSize) / 2;
         int top = (this.height - this.ySize) / 2;
         this.blit(matrixStack, left, top, 0, 0, this.xSize, this.ySize);
 
-        if(!(this.minecraft.player.getHeldItemMainhand().getItem() instanceof ScopeItem))
-            for(int i = 0; i < IAttachment.Type.values().length-3; i++)
-            {
-                if(!this.container.getSlot(i).isEnabled())
-                {
-                    this.blit(matrixStack, left + 11, top + 17 + i * 18, 176, 0, 16, 16);
-                }
-                else if(this.weaponInventory.getStackInSlot(i).isEmpty())
-                {
-                    this.blit(matrixStack, left + 11, top + 17 + i * 18, 176, 16 + i * 16, 16, 16);
-                }
-            }
-        else
-            for(int i = 0; i < IAttachment.Type.values().length-3; i++)
-            {
-                if(!this.container.getSlot(i).isEnabled())
-                {
-                    this.blit(matrixStack, left + 11, top + 17 + i * 18, 176, 0, 16, 16);
-                }
-                else if(this.weaponInventory.getStackInSlot(i).isEmpty())
-                {
-                    this.blit(matrixStack, left + 11, top + 17 + i * 18, 176, 16 + i * 16, 16, 16);
-                }
-            }
-
         /* Draws the icons for each attachment slot. If not applicable
          * for the weapon, it will draw a cross instead. */
-        /*for(int i = 0; i < IAttachment.Type.values().length-1; i++)
+        for(int i = 0; i < IAttachment.Type.values().length; i++)
         {
             if(!this.container.getSlot(i).isEnabled())
             {
-                this.blit(matrixStack, left + 11, top + 17 + i * 18, 176, 0, 16, 16);
+                this.blit(matrixStack, left + 8, top + 17 + i * 18, 176, 0, 16, 16);
             }
             else if(this.weaponInventory.getStackInSlot(i).isEmpty())
             {
-                this.blit(matrixStack, left + 11, top + 17 + i * 18, 176, 16 + i * 16, 16, 16);
+                this.blit(matrixStack, left + 8, top + 17 + i * 18, 176, 16 + i * 16, 16, 16);
             }
-        }*/
+        }
     }
 
     @Override

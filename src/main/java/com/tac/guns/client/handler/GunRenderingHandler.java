@@ -18,6 +18,7 @@ import com.tac.guns.event.GunReloadEvent;
 import com.tac.guns.init.ModSyncedDataKeys;
 import com.tac.guns.item.GrenadeItem;
 import com.tac.guns.item.GunItem;
+import com.tac.guns.item.ScopeItem;
 import com.tac.guns.item.TransitionalTypes.ITimelessAnimated;
 import com.tac.guns.item.attachment.IAttachment;
 import com.tac.guns.item.attachment.IBarrel;
@@ -294,6 +295,12 @@ public class GunRenderingHandler {
 
                 /* Reverses the first person translations of the item in order to position it in the center of the screen */
                 matrixStack.translate(xOffset * side * transition, yOffset * transition, zOffset * transition);
+
+                /* Apply scope jitter*/
+                double yOffsetRatio = ScopeJitterHandler.getInstance().getYOffsetRatio()*0.015;
+                double xOffsetRatio = ScopeJitterHandler.getInstance().getXOffsetRatio()*0.010;
+                Objects.requireNonNull(Minecraft.getInstance().player).rotationPitch += yOffsetRatio;
+                Objects.requireNonNull(Minecraft.getInstance().player).rotationYaw += xOffsetRatio;
             }
         }
 
@@ -603,6 +610,24 @@ public class GunRenderingHandler {
             this.renderGun(entity, transformType, model.isEmpty() ? stack : model, matrixStack, renderTypeBuffer, light, partialTicks);
             this.renderAttachments(entity, transformType, stack, matrixStack, renderTypeBuffer, light, partialTicks);
             this.renderMuzzleFlash(entity, matrixStack, renderTypeBuffer, stack, transformType);
+
+            matrixStack.pop();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean renderScope(LivingEntity entity, ItemStack stack, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int light, float partialTicks) {
+        if (stack.getItem() instanceof ScopeItem) {
+            matrixStack.push();
+
+            ItemStack model = ItemStack.EMPTY;
+
+            RenderUtil.applyTransformType(model.isEmpty() ? stack : model, matrixStack, transformType, entity);
+
+            this.renderGun(entity, transformType, model.isEmpty() ? stack : model, matrixStack, renderTypeBuffer, light, partialTicks);
+            //this.renderAttachments(entity, transformType, stack, matrixStack, renderTypeBuffer, light, partialTicks);
+            //this.renderMuzzleFlash(entity, matrixStack, renderTypeBuffer, stack, transformType);
 
             matrixStack.pop();
             return true;

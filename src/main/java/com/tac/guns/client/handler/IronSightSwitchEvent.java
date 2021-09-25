@@ -42,7 +42,7 @@ public class IronSightSwitchEvent
         {
             return;
         }
-        if(KeyBinds.KEY_FIRESELECT.isPressed() && event.getAction() == GLFW.GLFW_PRESS)
+        if(KeyBinds.KEY_SIGHT_SWITCH.isPressed() && event.getAction() == GLFW.GLFW_PRESS)
         {
             PacketHandler.getPlayChannel().sendToServer(new MessageIronSightSwitch());
         }
