@@ -297,8 +297,20 @@ public class GunRenderingHandler {
                 matrixStack.translate(xOffset * side * transition, yOffset * transition, zOffset * transition);
 
                 /* Apply scope jitter*/
-                double yOffsetRatio = ScopeJitterHandler.getInstance().getYOffsetRatio()*0.015;
-                double xOffsetRatio = ScopeJitterHandler.getInstance().getXOffsetRatio()*0.010;
+                double scopeJitterOffset = 1.0;
+                if(entity.isCrouching())
+                    scopeJitterOffset*=0.25;
+                if(entity.isSprinting())
+                    scopeJitterOffset*=2;
+                if(entity.getMotion().getX() != 0.0 || entity.getMotion().getY() != 0.0 || entity.getMotion().getZ() != 0.0)
+                    scopeJitterOffset*=2;
+                if(scope == null)
+                    scopeJitterOffset*=modifiedGun.getModules().getZoom()[gunZoom].getStabilityOffset();
+                else
+                    scopeJitterOffset*=scope.getStabilityOffset();
+
+                double yOffsetRatio = ScopeJitterHandler.getInstance().getYOffsetRatio()*(0.015 * scopeJitterOffset);
+                double xOffsetRatio = ScopeJitterHandler.getInstance().getXOffsetRatio()*(0.010 * scopeJitterOffset);
                 Objects.requireNonNull(Minecraft.getInstance().player).rotationPitch += yOffsetRatio;
                 Objects.requireNonNull(Minecraft.getInstance().player).rotationYaw += xOffsetRatio;
             }

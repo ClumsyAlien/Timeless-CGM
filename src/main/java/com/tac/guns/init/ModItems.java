@@ -74,12 +74,12 @@ public class ModItems
     public static final RegistryObject<AmmoItem> BULLET_9 = REGISTER.register("9mm_round", TimelessAmmoItem::new);
     public static final RegistryObject<AmmoItem> BULLET_10g = REGISTER.register("10_gauge_round", TimelessAmmoItem::new);
 
-    public static final RegistryObject<ScopeItem> COYOTE_SIGHT = REGISTER.register("coyote_sight", () -> new ScopeItem(Scope.create(0.10F, 2.275F, GunModifiers.SLOW_ADS).viewFinderOffset(0.35), new Item.Properties().maxStackSize(1).group(GunMod.GROUP)));
-    public static final RegistryObject<ScopeItem> MICRO_HOLO_SIGHT = REGISTER.register("micro_holo_sight", () -> new ScopeItem(Scope.create(0.10F, 1.645F, GunModifiers.SLOW_ADS).viewFinderOffset(0.3), new Item.Properties().maxStackSize(1).group(GunMod.GROUP)));
-    public static final RegistryObject<ScopeItem> AIMPOINT_T1_SIGHT = REGISTER.register("aimpoint_t1", () -> new ScopeItem(Scope.create(0.10F, 1.825F, GunModifiers.SLOW_ADS).viewFinderOffset(0.35), new Item.Properties().maxStackSize(1).group(GunMod.GROUP)));
+    public static final RegistryObject<ScopeItem> COYOTE_SIGHT = REGISTER.register("coyote_sight", () -> new ScopeItem(Scope.create(0.10F, 2.275F, 0.75, GunModifiers.SLOW_ADS).viewFinderOffset(0.35), new Item.Properties().maxStackSize(1).group(GunMod.GROUP)));
+    public static final RegistryObject<ScopeItem> MICRO_HOLO_SIGHT = REGISTER.register("micro_holo_sight", () -> new ScopeItem(Scope.create(0.10F, 1.645F,0.75, GunModifiers.SLOW_ADS).viewFinderOffset(0.3), new Item.Properties().maxStackSize(1).group(GunMod.GROUP)));
+    public static final RegistryObject<ScopeItem> AIMPOINT_T1_SIGHT = REGISTER.register("aimpoint_t1", () -> new ScopeItem(Scope.create(0.10F, 1.825F,0.75, GunModifiers.SLOW_ADS).viewFinderOffset(0.35), new Item.Properties().maxStackSize(1).group(GunMod.GROUP)));
 
     /*public static final RegistryObject<Item> MIDRANGE_DOT_SCOPE = REGISTER.register("midrange_dot_scope", () -> new ScopeItem(Scope.create(0.23F, 1.445F, GunModifiers.SLOW_ADS).viewFinderOffset(0.3), new Item.Properties().maxStackSize(1).group(GunMod.GROUP)));*/
-    public static final RegistryObject<ScopeItem> LONGRANGE_8x_SCOPE = REGISTER.register("8x_scope", () -> new ScopeItem(Scope.create(0.4F, 1.530F, GunModifiers.SLOW_ADS).viewFinderOffset(0.45), new Item.Properties().maxStackSize(1).group(GunMod.GROUP)));
+    public static final RegistryObject<ScopeItem> LONGRANGE_8x_SCOPE = REGISTER.register("8x_scope", () -> new ScopeItem(Scope.create(0.4F, 1.530F,1.25, GunModifiers.SLOW_ADS).viewFinderOffset(0.45), new Item.Properties().maxStackSize(1).group(GunMod.GROUP)));
 
     /* Barrel Attachments */
     public static final RegistryObject<Item> SILENCER = REGISTER.register("silencer", () -> new BarrelItem(Barrel.create(8.0F, GunModifiers.TACTICAL_SILENCER), new Item.Properties().maxStackSize(1).group(GunMod.GROUP)));

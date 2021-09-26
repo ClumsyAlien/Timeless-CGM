@@ -7,7 +7,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 /**
  * An attachment class related to scopes. Scopes need to at least specify the additional zoom (or fov)
  * they provide and the y-offset to the center of the scope for them to render correctly. Use
- * {@link #create(float, double, IGunModifier...)} to create an get.
+ * {@link #create(float, double, double, IGunModifier...)} to create an get.
  * <p>
  * Author: MrCrayfish
  */
@@ -16,13 +16,15 @@ public class Scope extends Attachment
     private float additionalZoom;
     private double centerOffset;
     private boolean stable = false;
+    private double stabilityOffset = 0d;
     private double viewFinderOffset;
 
-    private Scope(float additionalZoom, double centerOffset, IGunModifier... modifier)
+    private Scope(float additionalZoom, double centerOffset, double stabilityOffset, IGunModifier... modifier)
     {
         super(modifier);
         this.additionalZoom = additionalZoom;
         this.centerOffset = centerOffset;
+        this.stabilityOffset = stabilityOffset;
     }
 
     /**
@@ -86,6 +88,14 @@ public class Scope extends Attachment
     {
         return this.viewFinderOffset;
     }
+    /**
+     * @return The view finder offset of this scope
+     */
+    @OnlyIn(Dist.CLIENT)
+    public double getStabilityOffset()
+    {
+        return this.stabilityOffset;
+    }
 
     /**
      * Creates a scope get
@@ -95,8 +105,8 @@ public class Scope extends Attachment
      * @param modifiers      an array of gun modifiers
      * @return a scope get
      */
-    public static Scope create(float additionalZoom, double centerOffset, IGunModifier... modifiers)
+    public static Scope create(float additionalZoom, double centerOffset, double stabilityOffset, IGunModifier... modifiers)
     {
-        return new Scope(additionalZoom, centerOffset, modifiers);
+        return new Scope(additionalZoom, centerOffset, stabilityOffset, modifiers);
     }
 }

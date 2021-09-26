@@ -829,11 +829,15 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             @Optional
             private float fovModifier;
 
+            @Optional
+            private double stabilityOffset = 1.0;
+
             @Override
             public CompoundNBT serializeNBT()
             {
                 CompoundNBT tag = super.serializeNBT();
                 tag.putFloat("FovModifier", this.fovModifier);
+                tag.putDouble("StabilityOffset", this.stabilityOffset);
                 return tag;
             }
 
@@ -845,12 +849,17 @@ public final class Gun implements INBTSerializable<CompoundNBT>
                 {
                     this.fovModifier = tag.getFloat("FovModifier");
                 }
+                if(tag.contains("StabilityOffset", Constants.NBT.TAG_ANY_NUMERIC))
+                {
+                    this.stabilityOffset = tag.getDouble("StabilityOffset");
+                }
             }
 
             public Zoom copy()
             {
                 Zoom zoom = new Zoom();
                 zoom.fovModifier = this.fovModifier;
+                zoom.stabilityOffset = this.stabilityOffset;
                 zoom.xOffset = this.xOffset;
                 zoom.yOffset = this.yOffset;
                 zoom.zOffset = this.zOffset;
@@ -860,6 +869,10 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             public float getFovModifier()
             {
                 return this.fovModifier;
+            }
+            public double getStabilityOffset()
+            {
+                return this.stabilityOffset;
             }
         }
 
