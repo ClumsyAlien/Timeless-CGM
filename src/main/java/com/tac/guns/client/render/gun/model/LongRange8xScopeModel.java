@@ -52,9 +52,9 @@ public class LongRange8xScopeModel implements IOverrideModel
                 matrixStack.scale(-1, 1, 1);
             }
 
-            float scopeSize = 1.30F;
+            float scopeSize = 1.20F;
             float size = scopeSize / 16.0F;
-            float crop = 0.40F;
+            float crop = 0.410F;
             Minecraft mc = Minecraft.getInstance();
             MainWindow window = mc.getMainWindow();
 

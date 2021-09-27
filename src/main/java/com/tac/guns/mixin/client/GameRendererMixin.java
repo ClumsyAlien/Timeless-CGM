@@ -52,7 +52,8 @@ public class GameRendererMixin
 
 
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/IProfiler;endStartSection(Ljava/lang/String;)V", shift = At.Shift.AFTER))
-    public void updateCameraAndRender(float partialTicks, long nanoTime, boolean renderWorldIn, CallbackInfo ci) {
+    public void updateCameraAndRender(float partialTicks, long nanoTime, boolean renderWorldIn, CallbackInfo ci)
+    {
         Minecraft minecraft = Minecraft.getInstance();
         PlayerEntity player = minecraft.player;
         if (player == null) {
@@ -86,13 +87,11 @@ public class GameRendererMixin
             else if(guiScale == 3.0d)
                 scaler = 1.35f;
 
-            int counterX = 310 ;/// (int)(5-window.getGuiScaleFactor());
-            int counterY = 182 ;/// (int)(5-window.getGuiScaleFactor());
+            int counterX = 310 ;
+            int counterY = 182 ;
 
             counterStack.scale(scaler,scaler,scaler);
             counterStack.scale(1.25f,1.25f,1.25f);
-
-            //counterStack.scale(5f - (float) window.getGuiScaleFactor(),5f -  (float) window.getGuiScaleFactor(),5f -  (float) window.getGuiScaleFactor());
 
             if(GunEnchantmentHelper.getAmmoCapacity(heldItem, gun) < 10)
                 counterX+=7;

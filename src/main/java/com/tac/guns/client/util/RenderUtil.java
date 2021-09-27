@@ -2,6 +2,8 @@ package com.tac.guns.client.util;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.tac.guns.common.Gun;
+import com.tac.guns.item.attachment.IAttachment;
 import net.minecraft.block.Block;
 import net.minecraft.block.BreakableBlock;
 import net.minecraft.block.StainedGlassPaneBlock;
@@ -16,10 +18,7 @@ import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.container.PlayerContainer;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.util.Direction;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.math.vector.Matrix3f;
@@ -218,7 +217,7 @@ public class RenderUtil
             int color = -1;
             if(quad.hasTintIndex())
             {
-                color = getItemStackColor(stack, parent, quad.getTintIndex());
+                color = getItemStackColor(stack, parent, IAttachment.Type.SCOPE_BODY_COLOR, quad.getTintIndex());
             }
             float red = (float) (color >> 16 & 255) / 255.0F;
             float green = (float) (color >> 8 & 255) / 255.0F;
@@ -236,6 +235,21 @@ public class RenderUtil
             {
                 return getItemStackColor(parent, ItemStack.EMPTY, tintIndex);
             }
+        }
+        if(stack != null && !Gun.getAttachment(IAttachment.Type.SCOPE_BODY_COLOR, stack).isEmpty())
+        {
+            color = ((DyeItem)Gun.getAttachment(IAttachment.Type.SCOPE_BODY_COLOR, stack).getItem()).getDyeColor().getColorValue();
+        }
+        return color;
+    }
+    public static int getItemStackColor(ItemStack stack, ItemStack parent, IAttachment.Type attachmentType, int tintIndex)
+    {
+        int color = getItemStackColor(stack,parent,tintIndex);
+
+        if(stack != null && !Gun.getAttachment(attachmentType, stack).isEmpty())
+        {
+            if(Gun.getAttachment(attachmentType, stack).getItem() instanceof DyeItem)
+                color = ((DyeItem)Gun.getAttachment(attachmentType, stack).getItem()).getDyeColor().getColorValue();
         }
         return color;
     }

@@ -27,6 +27,7 @@ public interface IAttachment<T extends Attachment>
         BARREL("barrel", "Barrel"),
         STOCK("stock", "Stock"),
         UNDER_BARREL("under_barrel", "Under_Barrel"),
+
         SCOPE_RETICLE_COLOR("reticle_color", "Reticle_Color"),
         SCOPE_BODY_COLOR("body_color", "Body_Color"),
         SCOPE_GLASS_COLOR("glass_color", "Glass_Color");

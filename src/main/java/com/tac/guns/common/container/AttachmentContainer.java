@@ -68,8 +68,15 @@ public class AttachmentContainer extends Container
 
         if(this.weapon.getItem() instanceof ScopeItem)
         {
-            for (int i = 4; i < IAttachment.Type.values().length; i++) {
-                this.addSlot(new AttachmentSlot(this, this.weaponInventory, this.weapon, IAttachment.Type.values()[i], playerInventory.player, i, 5, 17 + (i-4) * 18));
+            for (int i = 4; i < IAttachment.Type.values().length; i++)
+            {
+                if(i==4)
+                    this.addSlot(new AttachmentSlot(this, this.weaponInventory, this.weapon, IAttachment.Type.values()[i], playerInventory.player, i, 70, 32 + (i-2) * 18));
+                if(i==6)
+                    this.addSlot(new AttachmentSlot(this, this.weaponInventory, this.weapon, IAttachment.Type.values()[i], playerInventory.player, i, 40, -1 + (i-5) * 18));
+                if(i==5)
+                    this.addSlot(new AttachmentSlot(this, this.weaponInventory, this.weapon, IAttachment.Type.values()[i], playerInventory.player, i, 10, 32 + (i-3) * 18));
+
             }
         }
         else

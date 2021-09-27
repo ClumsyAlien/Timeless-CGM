@@ -73,9 +73,9 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
     {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrixStack, mouseX, mouseY); //Render tool tips
+        //this.renderHoveredTooltip(matrixStack, mouseX, mouseY); //Render tool tips
 
-        int startX = (this.width - this.xSize) / 2;
+        /*int startX = (this.width - this.xSize) / 2;
         int startY = (this.height - this.ySize) / 2;
 
         for(int i = 0; i < IAttachment.Type.values().length; i++)
@@ -93,7 +93,7 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
                     this.func_243308_b(matrixStack, Collections.singletonList(new TranslationTextComponent("slot.tac.attachment." + type.getTranslationKey())), mouseX, mouseY);
                 }
             }
-        }
+        }*/
     }
 
 
@@ -108,7 +108,7 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
         int top = (this.height - this.ySize) / 2;
 
         if((this.minecraft.player.getHeldItemMainhand().getItem() instanceof ScopeItem))
-            RenderUtil.scissor(left + 98, top + 17, 70, 65);
+            RenderUtil.scissor(left + 106, top + 16, 55, 66);
         else
             RenderUtil.scissor(left + 26, top + 17, 142, 70);
         RenderSystem.pushMatrix();
@@ -134,9 +134,14 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
 
             IRenderTypeBuffer.Impl buffer = this.minecraft.getRenderTypeBuffers().getBufferSource();
             if(!(this.minecraft.player.getHeldItemMainhand().getItem() instanceof ScopeItem))
+            {
                 GunRenderingHandler.get().renderWeapon(this.minecraft.player, this.minecraft.player.getHeldItemMainhand(), ItemCameraTransforms.TransformType.GROUND, matrixStack, buffer, 15728880, 0F);
+            }
             else
+            {
+                matrixStack.translate(0.0,0.0,-0.4);
                 GunRenderingHandler.get().renderScope(this.minecraft.player, this.minecraft.player.getHeldItemMainhand(), ItemCameraTransforms.TransformType.GROUND, matrixStack, buffer, 15728880, 0F);
+            }
             buffer.finish();
 
             RenderSystem.disableAlphaTest();
@@ -169,16 +174,40 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
         int top = (this.height - this.ySize) / 2;
         this.blit(matrixStack, left, top, 0, 0, this.xSize, this.ySize);
 
-        if(!(this.minecraft.player.getHeldItemMainhand().getItem() instanceof ScopeItem))
-            for(int i = 0; i < IAttachment.Type.values().length-3; i++)
+        if((this.minecraft.player.getHeldItemMainhand().getItem() instanceof ScopeItem))
+            for(int i = 0; i < IAttachment.Type.values().length-4; i++)
             {
-                if(!this.container.getSlot(i).isEnabled())
+                if(!this.container.getSlot(i+4).isEnabled() && i == 0)
                 {
-                    this.blit(matrixStack, left + 11, top + 17 + i * 18, 176, 0, 16, 16);
+                    this.blit(matrixStack, left + 70, top + 32 + (i+2) * 18, 176, 0, 16, 16);
                 }
-                else if(this.weaponInventory.getStackInSlot(i).isEmpty())
+                else if(this.weaponInventory.getStackInSlot(i+4).isEmpty() && i == 0)
                 {
-                    this.blit(matrixStack, left + 11, top + 17 + i * 18, 176, 16 + i * 16, 16, 16);
+                    this.blit(matrixStack, left + 70, top + 32 + (i+2) * 18, 176, 16 + i * 16, 16, 16);
+                }
+                if(!this.container.getSlot(i+4).isEnabled() && i == 1)
+                {
+                    this.blit(matrixStack, left + 40, top + 0 + i * 18, 176, 0, 16, 16);
+                }
+                else if(this.weaponInventory.getStackInSlot(i+4).isEmpty() && i == 1)
+                {
+                    this.blit(matrixStack, left + 10, top + 32 + (i+1) * 18, 176, 0, 16, 16);
+                }
+                if(!this.container.getSlot(i+4).isEnabled() && i == 2)
+                {
+                    this.blit(matrixStack, left + 10, top + 32 + i * 18, 176, 0, 16, 16);
+                }
+                else if(this.weaponInventory.getStackInSlot(i+4).isEmpty() && i == 2)
+                {
+                    this.blit(matrixStack, left + 40, top - 1 + (i-1) * 18, 176, 16 + (i-1) * 16, 16, 16);
+                }
+                if(!this.container.getSlot(i+4).isEnabled() && i == 3)
+                {
+                    //this.blit(matrixStack, left + 10, top + 32 + i * 18, 176, 0, 16, 16);
+                }
+                else if(this.weaponInventory.getStackInSlot(i+4).isEmpty() && i == 3)
+                {
+                    //this.blit(matrixStack, left + 10, top + 32 + i * 18, 176, 16 + i * 16, 16, 16);
                 }
             }
         else
@@ -186,11 +215,11 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
             {
                 if(!this.container.getSlot(i).isEnabled())
                 {
-                    this.blit(matrixStack, left + 11, top + 17 + i * 18, 176, 0, 16, 16);
+                    this.blit(matrixStack, left + 5, top + 17 + i * 18, 176, 0, 16, 16);
                 }
                 else if(this.weaponInventory.getStackInSlot(i).isEmpty())
                 {
-                    this.blit(matrixStack, left + 11, top + 17 + i * 18, 176, 16 + i * 16, 16, 16);
+                    this.blit(matrixStack, left + 5, top + 17 + i * 18, 176, 16 + i * 16, 16, 16);
                 }
             }
 
@@ -235,17 +264,29 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
     {
         int startX = (this.width - this.xSize) / 2;
         int startY = (this.height - this.ySize) / 2;
-
-        if(RenderUtil.isMouseWithin((int) mouseX, (int) mouseY, startX + 26, startY + 17, 142, 70))
-        {
-            if(!this.mouseGrabbed && (button == GLFW.GLFW_MOUSE_BUTTON_LEFT || button == GLFW.GLFW_MOUSE_BUTTON_RIGHT))
+        if((this.minecraft.player.getHeldItemMainhand().getItem() instanceof ScopeItem)) {
+            if (RenderUtil.isMouseWithin((int) mouseX, (int) mouseY, startX + 106, startY + 16, 55, 66)) {
+                if (!this.mouseGrabbed && (button == GLFW.GLFW_MOUSE_BUTTON_LEFT || button == GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
+                    this.mouseGrabbed = true;
+                    this.mouseGrabbedButton = button == GLFW.GLFW_MOUSE_BUTTON_RIGHT ? 1 : 0;
+                    this.mouseClickedX = (int) mouseX;
+                    this.mouseClickedY = (int) mouseY;
+                    this.showHelp = false;
+                    return true;
+                }
+            }
+        }
+        else{
+            if(RenderUtil.isMouseWithin((int) mouseX, (int) mouseY, startX + 26, startY + 17, 142, 70))
             {
-                this.mouseGrabbed = true;
-                this.mouseGrabbedButton = button == GLFW.GLFW_MOUSE_BUTTON_RIGHT ? 1 : 0;
-                this.mouseClickedX = (int) mouseX;
-                this.mouseClickedY = (int) mouseY;
-                this.showHelp = false;
-                return true;
+                if(!this.mouseGrabbed && (button == GLFW.GLFW_MOUSE_BUTTON_LEFT || button == GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
+                    this.mouseGrabbed = true;
+                    this.mouseGrabbedButton = button == GLFW.GLFW_MOUSE_BUTTON_RIGHT ? 1 : 0;
+                    this.mouseClickedX = (int) mouseX;
+                    this.mouseClickedY = (int) mouseY;
+                    this.showHelp = false;
+                    return true;
+                }
             }
         }
         return super.mouseClicked(mouseX, mouseY, button);

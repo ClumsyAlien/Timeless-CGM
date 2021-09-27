@@ -830,7 +830,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             private float fovModifier;
 
             @Optional
-            private double stabilityOffset = 1.0;
+            private double stabilityOffset = 0.5;
 
             @Override
             public CompoundNBT serializeNBT()

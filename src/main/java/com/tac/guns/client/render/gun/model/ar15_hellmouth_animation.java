@@ -27,7 +27,7 @@ public class ar15_hellmouth_animation implements IOverrideModel {
     @Override
     public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay)
     {
-        if(Gun.getScope(stack) == null)
+        if(Gun.getScope(stack) == null && stack.hasTag())
         {
             if(stack.getTag().getInt("currentZoom") == 0)
                 RenderUtil.renderModel(SpecialModels.AR_15_CQB_IRONS.getModel(), stack, matrices, renderBuffer, light, overlay);

@@ -303,7 +303,7 @@ public class GunRenderingHandler {
                 if(entity.isSprinting())
                     scopeJitterOffset*=2;
                 if(entity.getMotion().getX() != 0.0 || entity.getMotion().getY() != 0.0 || entity.getMotion().getZ() != 0.0)
-                    scopeJitterOffset*=2;
+                    scopeJitterOffset*=3.5;
                 if(scope == null)
                     scopeJitterOffset*=modifiedGun.getModules().getZoom()[gunZoom].getStabilityOffset();
                 else
