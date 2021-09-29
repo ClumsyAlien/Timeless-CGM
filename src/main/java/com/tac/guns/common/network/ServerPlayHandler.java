@@ -354,7 +354,7 @@ public class ServerPlayHandler
             if(locationInSupportedModes == (heldItem.getTag().getIntArray("supportedFireModes").length-1))
             {
                 heldItem.getTag().remove("CurrentFireMode");
-                heldItem.getTag().putInt("CurrentFireMode",gunItemFireModes[0]);
+                heldItem.getTag().putInt("CurrentFireMode", gunItemFireModes[0]);
             }
             else
             {
@@ -362,8 +362,14 @@ public class ServerPlayHandler
                 heldItem.getTag().putInt("CurrentFireMode", heldItem.getTag().getIntArray("supportedFireModes")[locationInSupportedModes+1]);
             }
 
+            if(heldItem.getTag().getInt("CurrentFireMode") == 0 && !Config.COMMON.gameplay.safetyExistence.get())
+            {
+                heldItem.getTag().remove("CurrentFireMode");
+                heldItem.getTag().putInt("CurrentFireMode", heldItem.getTag().getIntArray("supportedFireModes")[1]);
+            }
         }
     }
+
     /**
      * @param player
      */

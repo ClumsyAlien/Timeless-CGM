@@ -41,10 +41,7 @@ public class TacShootingEvent {
         if(!(event.getStack().getItem() instanceof TimelessGunItem))
             return;
 
-        if(Config.COMMON.gameplay.fireModeSelection.get())
-        {
-            HandleFireMode(event);
-        }
+        HandleFireMode(event);
     }
 
     private static void HandleFireMode(GunFireEvent.Pre event)
@@ -66,12 +63,16 @@ public class TacShootingEvent {
         int currentFireMode = gunItem.getTag().getInt("CurrentFireMode");
         if(currentFireMode == 0)
         {
-            if(Config.COMMON.gameplay.fireModeSelection.get())
+            if(!Config.COMMON.gameplay.safetyExistence.get())
             {
-                //event.getPlayer().sendMessage(new TranslationTextComponent("info." + Reference.MOD_ID + ".gun_safety_lock", new Object[]{(new KeybindTextComponent("key." + Reference.MOD_ID + ".fire_select")).getString().toUpperCase(Locale.ENGLISH)})).withStyle(TextFormatting.RED));
-                event.getPlayer().sendStatusMessage(new TranslationTextComponent("info." + Reference.MOD_ID + ".gun_safety_lock"),true);
+                gunItem.getTag().remove("CurrentFireMode");
+                gunItem.getTag().putInt("CurrentFireMode", gunItemFireModes[currentFireMode+1]);
             }
-            event.setCanceled(true);
+            else
+            {
+                event.getPlayer().sendStatusMessage(new TranslationTextComponent("info." + Reference.MOD_ID + ".gun_safety_lock"),true);
+                event.setCanceled(true);
+            }
         }
     }
 }

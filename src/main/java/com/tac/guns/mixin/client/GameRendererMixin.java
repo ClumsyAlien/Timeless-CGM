@@ -1,9 +1,7 @@
 package com.tac.guns.mixin.client;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mrcrayfish.obfuscate.client.event.RenderItemEvent;
 import com.tac.guns.Config;
-import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
 import com.tac.guns.common.Gun;
 import com.tac.guns.init.ModEffects;
@@ -13,21 +11,15 @@ import com.tac.guns.util.GunEnchantmentHelper;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
-import org.apache.http.client.utils.HttpClientUtils;
-import org.apache.logging.log4j.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.awt.*;
-import java.sql.Time;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin
@@ -69,72 +61,76 @@ public class GameRendererMixin
         }
 
         ItemStack heldItem = player.getHeldItemMainhand();
-        if((heldItem.getItem() instanceof GunItem))
-        {
-            Gun gun = ((TimelessGunItem) heldItem.getItem()).getGun();
 
-            // Ammunition rendering
+        if(Config.CLIENT.display.weaponGui.get()) {
+            if ((heldItem.getItem() instanceof GunItem)) {
+                Gun gun = ((TimelessGunItem) heldItem.getItem()).getGun();
 
-            MatrixStack counterStack = new MatrixStack();
+                // Ammunition rendering
 
-            float scaler = 1.0f;
-            double guiScale = window.getGuiScaleFactor();
+                MatrixStack counterStack = new MatrixStack();
 
-            if(guiScale == 1.0d)
-                scaler = 4.0f;
-            else if(guiScale == 2.0d)
-                scaler = 2.0f;
-            else if(guiScale == 3.0d)
-                scaler = 1.35f;
+                float scaler = 1.0f;
+                double guiScale = window.getGuiScaleFactor();
 
-            int counterX = 310 ;
-            int counterY = 182 ;
+                if (guiScale == 1.0d)
+                    scaler = 4.0f;
+                else if (guiScale == 2.0d)
+                    scaler = 2.0f;
+                else if (guiScale == 3.0d)
+                    scaler = 1.35f;
 
-            counterStack.scale(scaler,scaler,scaler);
-            counterStack.scale(1.25f,1.25f,1.25f);
+                int counterX = 310;
+                int counterY = 182;
 
-            if(GunEnchantmentHelper.getAmmoCapacity(heldItem, gun) < 10)
-                counterX+=7;
-            else if(GunEnchantmentHelper.getAmmoCapacity(heldItem, gun) > 99)
-                counterX-=7;
+                counterStack.scale(scaler, scaler, scaler);
+                counterStack.scale(1.25f, 1.25f, 1.25f);
 
-            Minecraft.getInstance().fontRenderer.drawString(
-                    counterStack,
-                    player.getHeldItemMainhand().getTag().getInt("AmmoCount") +" / " + GunEnchantmentHelper.getAmmoCapacity(heldItem, gun),
-                    counterX,
-                    counterY,
-                    16777215);
+                if (GunEnchantmentHelper.getAmmoCapacity(heldItem, gun) < 10)
+                    counterX += 7;
+                else if (GunEnchantmentHelper.getAmmoCapacity(heldItem, gun) > 99)
+                    counterX -= 7;
 
-            // Weapon icon rendering
+                Minecraft.getInstance().fontRenderer.drawString(
+                        counterStack,
+                        player.getHeldItemMainhand().getTag().getInt("AmmoCount") + " / " + GunEnchantmentHelper.getAmmoCapacity(heldItem, gun),
+                        counterX,
+                        counterY,
+                        16777215);
 
-            MatrixStack counterIconStack = new MatrixStack();
-            counterIconStack.scale(scaler,scaler,scaler);
-            counterIconStack.scale(0.18f,0.18f,0.18f);
+                // Weapon icon rendering
 
-            if(gun.getDisplay().getWeaponType() > 5 || gun.getDisplay().getWeaponType() < 0)
-                Minecraft.getInstance().getTextureManager().bindTexture(AMMO_ICONS[0]);
-            else
-                Minecraft.getInstance().getTextureManager().bindTexture(AMMO_ICONS[gun.getDisplay().getWeaponType()]);
+                MatrixStack counterIconStack = new MatrixStack();
+                counterIconStack.scale(scaler, scaler, scaler);
+                counterIconStack.scale(0.18f, 0.18f, 0.18f);
 
-            Minecraft.getInstance().ingameGUI.blit(counterIconStack, window.getWindowX() + 2150, window.getWindowX()+1051, 0, 0,256,256);
+                if (gun.getDisplay().getWeaponType() > 5 || gun.getDisplay().getWeaponType() < 0)
+                    Minecraft.getInstance().getTextureManager().bindTexture(AMMO_ICONS[0]);
+                else
+                    Minecraft.getInstance().getTextureManager().bindTexture(AMMO_ICONS[gun.getDisplay().getWeaponType()]);
 
-            // FireMode rendering
+                Minecraft.getInstance().ingameGUI.blit(counterIconStack, window.getWindowX() + 2150, window.getWindowX() + 1051, 0, 0, 256, 256);
 
-            MatrixStack firemodeStack = new MatrixStack();
-            firemodeStack.scale(scaler,scaler,scaler);
-            firemodeStack.scale(0.08f,0.08f,0.08f);
+                // FireMode rendering
 
-            int fireMode = player.getHeldItemMainhand().getTag().getInt("CurrentFireMode");
+                MatrixStack firemodeStack = new MatrixStack();
+                firemodeStack.scale(scaler, scaler, scaler);
+                firemodeStack.scale(0.08f, 0.08f, 0.08f);
 
-            if(player.getHeldItemMainhand().getTag().get("CurrentFireMode") == null)
-                Minecraft.getInstance().getTextureManager().bindTexture(FIREMODE_ICONS[gun.getGeneral().getRateSelector()[0]]);
-            else if(fireMode > 2 || fireMode < 0)
-                Minecraft.getInstance().getTextureManager().bindTexture(FIREMODE_ICONS[0]);
-            else
-                Minecraft.getInstance().getTextureManager().bindTexture(FIREMODE_ICONS[fireMode]);
+                int fireMode = player.getHeldItemMainhand().getTag().getInt("CurrentFireMode");
+
+                if (player.getHeldItemMainhand().getTag().get("CurrentFireMode") == null)
+                    Minecraft.getInstance().getTextureManager().bindTexture(FIREMODE_ICONS[gun.getGeneral().getRateSelector()[0]]);
+                else if (fireMode > 2 || fireMode < 0) // Weapons with unsupported modes will render as "default"
+                    Minecraft.getInstance().getTextureManager().bindTexture(FIREMODE_ICONS[2]);
+                if(!Config.COMMON.gameplay.safetyExistence.get() && fireMode == 0)
+                    Minecraft.getInstance().getTextureManager().bindTexture(FIREMODE_ICONS[fireMode+1]); // Render true firemode
+                else
+                    Minecraft.getInstance().getTextureManager().bindTexture(FIREMODE_ICONS[fireMode]); // Render true firemode
 
 
-            Minecraft.getInstance().ingameGUI.blit(firemodeStack, window.getWindowX()+5000, window.getWindowX()+2301, 0, 0, 256,256);
+                Minecraft.getInstance().ingameGUI.blit(firemodeStack, window.getWindowX() + 5000, window.getWindowX() + 2301, 0, 0, 256, 256);
+            }
         }
     }
 }

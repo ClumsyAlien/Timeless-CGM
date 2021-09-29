@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mrcrayfish.obfuscate.client.event.PlayerModelEvent;
 import com.mrcrayfish.obfuscate.client.event.RenderItemEvent;
 import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
+import com.tac.guns.Config;
 import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
 import com.tac.guns.client.GunRenderType;
@@ -296,23 +297,25 @@ public class GunRenderingHandler {
                 /* Reverses the first person translations of the item in order to position it in the center of the screen */
                 matrixStack.translate(xOffset * side * transition, yOffset * transition, zOffset * transition);
 
-                /* Apply scope jitter*/
-                double scopeJitterOffset = 1.0;
-                if(entity.isCrouching())
-                    scopeJitterOffset*=0.25;
-                if(entity.isSprinting())
-                    scopeJitterOffset*=2;
-                if(entity.getMotion().getX() != 0.0 || entity.getMotion().getY() != 0.0 || entity.getMotion().getZ() != 0.0)
-                    scopeJitterOffset*=3.5;
-                if(scope == null)
-                    scopeJitterOffset*=modifiedGun.getModules().getZoom()[gunZoom].getStabilityOffset();
-                else
-                    scopeJitterOffset*=scope.getStabilityOffset();
+                if(Config.COMMON.gameplay.realisticAimedBreathing.get()) {
+                    /* Apply scope jitter*/
+                    double scopeJitterOffset = 0.8;
+                    if (entity.isCrouching())
+                        scopeJitterOffset *= 0.30;
+                    if (entity.isSprinting())
+                        scopeJitterOffset *= 2;
+                    if (entity.getMotion().getX() != 0.0 || entity.getMotion().getY() != 0.0 || entity.getMotion().getZ() != 0.0)
+                        scopeJitterOffset *= 3.5;
+                    if (scope == null)
+                        scopeJitterOffset *= modifiedGun.getModules().getZoom()[gunZoom].getStabilityOffset();
+                    else
+                        scopeJitterOffset *= scope.getStabilityOffset();
 
-                double yOffsetRatio = ScopeJitterHandler.getInstance().getYOffsetRatio()*(0.015 * scopeJitterOffset);
-                double xOffsetRatio = ScopeJitterHandler.getInstance().getXOffsetRatio()*(0.010 * scopeJitterOffset);
-                Objects.requireNonNull(Minecraft.getInstance().player).rotationPitch += yOffsetRatio;
-                Objects.requireNonNull(Minecraft.getInstance().player).rotationYaw += xOffsetRatio;
+                    double yOffsetRatio = ScopeJitterHandler.getInstance().getYOffsetRatio() * (0.015 * scopeJitterOffset);
+                    double xOffsetRatio = ScopeJitterHandler.getInstance().getXOffsetRatio() * (0.010 * scopeJitterOffset);
+                    Objects.requireNonNull(Minecraft.getInstance().player).rotationPitch += yOffsetRatio;
+                    Objects.requireNonNull(Minecraft.getInstance().player).rotationYaw += xOffsetRatio;
+                }
             }
         }
 

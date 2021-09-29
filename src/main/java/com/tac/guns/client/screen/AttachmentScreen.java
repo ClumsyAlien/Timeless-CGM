@@ -73,27 +73,7 @@ public class AttachmentScreen extends ContainerScreen<AttachmentContainer>
     {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        //this.renderHoveredTooltip(matrixStack, mouseX, mouseY); //Render tool tips
-
-        /*int startX = (this.width - this.xSize) / 2;
-        int startY = (this.height - this.ySize) / 2;
-
-        for(int i = 0; i < IAttachment.Type.values().length; i++)
-        {
-            if(RenderUtil.isMouseWithin(mouseX, mouseY, startX + 7, startY + 16 + i * 18, 18, 18))
-            {
-                IAttachment.Type type = IAttachment.Type.values()[i];
-                if(!this.container.getSlot(i).isEnabled())
-                {
-                    this.func_243308_b(matrixStack, Arrays.asList(new TranslationTextComponent("slot.tac.attachment." + type.getTranslationKey()), new TranslationTextComponent("slot.tac.attachment.not_applicable")), mouseX, mouseY);
-                }
-                else if(this.weaponInventory.getStackInSlot(i).isEmpty())
-                {
-
-                    this.func_243308_b(matrixStack, Collections.singletonList(new TranslationTextComponent("slot.tac.attachment." + type.getTranslationKey())), mouseX, mouseY);
-                }
-            }
-        }*/
+        this.renderHoveredTooltip(matrixStack, mouseX, mouseY); //Render tool tips
     }
 
 

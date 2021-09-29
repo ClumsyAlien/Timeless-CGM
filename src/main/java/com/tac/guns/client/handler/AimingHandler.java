@@ -1,6 +1,6 @@
 package com.tac.guns.client.handler;
 
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
+import com.tac.guns.Config;
 import com.tac.guns.GunMod;
 import com.tac.guns.client.render.crosshair.Crosshair;
 import com.tac.guns.common.Gun;
@@ -12,6 +12,7 @@ import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessageAim;
 import com.tac.guns.util.GunEnchantmentHelper;
 import com.tac.guns.util.GunModifierHelper;
+import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -148,16 +149,17 @@ public class AimingHandler
                 if(AimingHandler.get().isAiming() && !SyncedPlayerData.instance().get(mc.player, ModSyncedDataKeys.RELOADING))
                 {
                     Gun modifiedGun = gunItem.getModifiedGun(heldItem);
-
                     if(!ArrayUtils.isEmpty(modifiedGun.getModules().getZoom()))
                     {
                         float newFov = modifiedGun.getModules().getZoom()[heldItem.getTag().getInt("currentZoom")].getFovModifier();
                         Scope scope = Gun.getScope(heldItem);
                         if(scope != null)
                         {
-                            newFov -= scope.getAdditionalZoom();
+                            if(!Config.COMMON.gameplay.realisticLowPowerFovHandling.get() || (scope.getAdditionalZoom() > 0 && Config.COMMON.gameplay.realisticLowPowerFovHandling.get()))
+                            {    newFov -= scope.getAdditionalZoom(); event.setNewfov(newFov + (1.0F - newFov) * (1.0F - (float) this.normalisedAdsProgress));}
                         }
-                        event.setNewfov(newFov + (1.0F - newFov) * (1.0F - (float) this.normalisedAdsProgress));
+                        else if(!Config.COMMON.gameplay.realisticIronSightFovHandling.get())
+                            event.setNewfov(newFov + (1.0F - newFov) * (1.0F - (float) this.normalisedAdsProgress));
                     }
                 }
             }
@@ -201,9 +203,9 @@ public class AimingHandler
             return false;
 
         Gun gun = ((GunItem) heldItem.getItem()).getModifiedGun(heldItem);
-
-        if(ArrayUtils.isEmpty(gun.getModules().getZoom()))
+        if(gun.getModules().getZoom() == null)
         {
+            GunMod.LOGGER.log(Level.FATAL, "Zoom is empty for some fucking reason");
             return false;
         }
         if(!this.localTracker.isAiming() && this.isLookingAtInteractableBlock())
