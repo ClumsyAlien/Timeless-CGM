@@ -64,9 +64,7 @@ public class Config
     {
         public final ForgeConfigSpec.BooleanValue oldAnimations;
         public final ForgeConfigSpec.ConfigValue<String> crosshair;
-
         public final ForgeConfigSpec.BooleanValue weaponAmmoBar;
-        public final ForgeConfigSpec.BooleanValue weaponGui;
 
         public Display(ForgeConfigSpec.Builder builder)
         {
@@ -76,7 +74,6 @@ public class Config
                 this.crosshair = builder.comment("The custom crosshair to use for weapons. Go to (Options > Controls > Mouse Settings > Crosshair) in game to change this!").define("crosshair", Crosshair.DEFAULT.getLocation().toString());
 
                 this.weaponAmmoBar = builder.comment("Show % of your ammo in your gun via a colored durability bar!, Set to false to remove bar entirely for more realistic gameplay!").define("weaponAmmoBar", true);
-                this.weaponGui = builder.comment("Show your ammunition as a number, weapon icon, and firemode all on the HUD!").define("weaponGui", true);
             }
             builder.pop();
         }
@@ -165,12 +162,7 @@ public class Config
         public final ForgeConfigSpec.DoubleValue knockbackStrength;
         public final ForgeConfigSpec.BooleanValue improvedHitboxes;
 
-        public final ForgeConfigSpec.BooleanValue realisticLowPowerFovHandling;
-        public final ForgeConfigSpec.BooleanValue realisticIronSightFovHandling;
-
-        public final ForgeConfigSpec.BooleanValue realisticAimedBreathing;
-
-        public final ForgeConfigSpec.BooleanValue safetyExistence;
+        public final ForgeConfigSpec.BooleanValue fireModeSelection;
 
         public Gameplay(ForgeConfigSpec.Builder builder)
         {
@@ -183,16 +175,10 @@ public class Config
                 this.criticalDamageMultiplier = builder.comment("The value to multiply the damage by if projectile is a critical hit").defineInRange("criticalDamageMultiplier", 1.5, 1.0, Double.MAX_VALUE);
                 this.ignoreLeaves = builder.comment("If true, projectiles will ignore leaves when checking for collision").define("ignoreLeaves", true);
                 this.enableKnockback = builder.comment("If true, projectiles will cause knockback when an entity is hit. By default this is set to true to match the behaviour of Minecraft.").define("enableKnockback", true);
-                this.knockbackStrength = builder.comment("Sets the strength of knockback when shot by a bullet projectile. Knockback must be enabled for this to take effect. If value is equal to zero, knockback will use default minecraft value").defineInRange("knockbackStrength", 0.15, 0.0, 1.0);
+                this.knockbackStrength = builder.comment("Sets the strengthof knockback when shot by a bullet projectile. Knockback must be enabled for this to take effect. If value is equal to zero, knockback will use default minecraft value").defineInRange("knockbackStrength", 0.15, 0.0, 1.0);
                 this.improvedHitboxes = builder.comment("If true, improves the accuracy of weapons by considering the ping of the player. This has no affect on singleplayer. This will add a little overhead if enabled.").define("improvedHitboxes", false);
 
-                this.safetyExistence = builder.comment("Enables the safe mode on weapons, false completely nullifies the existence of the safety").define("safetyExistence", true);
-
-                this.realisticLowPowerFovHandling = builder.comment("Optics with 0 fov modification will not affect the players fov at all").define("realisticLowPowerFovHandling", false);
-                this.realisticIronSightFovHandling = builder.comment("Iron sights fov modification will not affect the players fov at all").define("realisticIronSightFovHandling", false);
-
-                this.realisticAimedBreathing = builder.comment("Aiming will present a breathing animation, moving the weapon over time, crouch to lower it's effects").define("realisticAimedBreathing", true);
-
+                this.fireModeSelection = builder.comment("Enables the players ability to change the fire mode of their weapon (for example from Auto to Semi-Auto mid battle)").define("fireModeSelection", true);
 
             }
             builder.pop();
