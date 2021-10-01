@@ -8,9 +8,10 @@
     "gripType": "tac:one_handed_m1911",
     "maxAmmo": 16,
     "reloadAmount": 4,
-    "recoilAngle": 3.8,
+    "recoilAngle": 3.4,
+    "horizontalRecoilAngle": 1.125,
     "recoilKick": 1.75,
-    "recoilAdsReduction": 0.40,
+    "recoilAdsReduction": 0.45,
     "alwaysSpread": true,
     "spread": 1.8
   },
@@ -19,8 +20,8 @@
     "visible": false,
     "damage": 5.0,
     "size": 0.2,
-    "speed": 28.0,
-    "life": 350
+    "speed": 17.0,
+    "life": 4
   },
   "sounds": {
     "fire": "tac:item.fire_glock",

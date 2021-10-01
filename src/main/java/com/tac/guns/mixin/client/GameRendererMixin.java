@@ -62,7 +62,7 @@ public class GameRendererMixin
 
         ItemStack heldItem = player.getHeldItemMainhand();
 
-        if(Config.CLIENT.display.weaponGui.get()) {
+        /*if(Config.CLIENT.display.weaponGui.get()) {
             if ((heldItem.getItem() instanceof GunItem)) {
                 Gun gun = ((TimelessGunItem) heldItem.getItem()).getGun();
 
@@ -131,6 +131,6 @@ public class GameRendererMixin
 
                 Minecraft.getInstance().ingameGUI.blit(firemodeStack, window.getWindowX() + 5000, window.getWindowX() + 2301, 0, 0, 256, 256);
             }
-        }
+        }*/
     }
 }

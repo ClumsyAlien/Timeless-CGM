@@ -14,15 +14,15 @@
     "recoilKick": 1.355,
     "recoilAdsReduction": 0.28,
     "alwaysSpread": true,
-    "spread": 7.75,
+    "spread": 9.75,
     "projectileAmount": 14
   },
   "projectile": {
     "item": "tac:10_gauge_round",
     "visible": false,
-    "damage": 22,
+    "damage": 23,
     "size": 0.05,
-    "speed": 31.5,
+    "speed": 28.5,
     "life": 2,
     "ricochet": false
   },
@@ -54,9 +54,9 @@
         "scale": 1.00
       },
       "scope": {
-        "yOffset": 15.75,
+        "yOffset": 14.75,
         "zOffset": 5.1,
-        "scale": 1.30
+        "scale": 1.0
       },
       "underBarrel": {
         "yOffset": 7.799,

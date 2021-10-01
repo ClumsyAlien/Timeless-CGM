@@ -11,6 +11,7 @@
     "maxAmmo": 30,
     "reloadAmount": 5,
     "recoilAngle": 1.35,
+    "horizontalRecoilAngle": 0.925,
     "recoilKick": 0.25,
     "recoilAdsReduction": 0.68,
     "alwaysSpread": true,

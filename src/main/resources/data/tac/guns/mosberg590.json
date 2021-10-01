@@ -1,6 +1,6 @@
 {
   "general": {
-    "rate": 22,
+    "rate": 20,
     "rateSelector": [
       0,
       1
@@ -12,14 +12,14 @@
     "recoilKick": 1.255,
     "recoilAdsReduction": 0.12,
     "alwaysSpread": true,
-    "spread": 17.25,
-    "projectileAmount": 9
+    "spread": 17.75,
+    "projectileAmount": 10
   },
   "projectile": {
     "item": "tac:10_gauge_round",
     "visible": false,
-    "damage": 21,
-    "size": 1.0,
+    "damage": 22.5,
+    "size": 0.5,
     "speed": 20.5,
     "life": 3,
     "ricochet": false
@@ -48,7 +48,7 @@
       "scope": {
         "yOffset": 8.45,
         "zOffset": 10.4,
-        "scale": 1.30
+        "scale": 1.00
       },
       "underBarrel": {
         "yOffset": 7.799,

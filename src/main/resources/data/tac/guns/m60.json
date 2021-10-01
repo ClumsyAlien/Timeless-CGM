@@ -9,7 +9,7 @@
     "gripType": "tac:two_handed_m60",
     "maxAmmo": 100,
     "reloadAmount": 10,
-    "recoilAngle": 2.30,
+    "recoilAngle": 2.10,
     "recoilKick": 1.2,
     "horizontalRecoilAngle": 0.25,
     "recoilAdsReduction": 0.64,
@@ -21,8 +21,8 @@
     "visible": false,
     "damage": 6.5,
     "size": 0.2,
-    "speed": 22.5,
-    "life": 550
+    "speed": 28.5,
+    "life": 4
   },
   "sounds": {
     "fire": "tac:item.fire_m60",

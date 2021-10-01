@@ -12,18 +12,18 @@
     "reloadAmount": 5,
     "recoilAngle": 1.775,
     "recoilKick": 1.225,
-    "horizontalRecoilAngle": 0.95,
+    "horizontalRecoilAngle": 0.75,
     "recoilAdsReduction": 0.60,
     "alwaysSpread": true,
-    "spread": 4.95
+    "spread": 4.45
   },
   "projectile": {
-    "item": "tac:bullet_308",
+    "item": "tac:nato_556_bullet",
     "visible": false,
-    "damage": 9,
+    "damage": 7,
     "size": 0.2,
-    "speed": 23.5,
-    "life": 3
+    "speed": 38.5,
+    "life": 6
   },
   "sounds": {
     "fire": "tac:item.fire_m16",
@@ -47,9 +47,9 @@
     }],
     "attachments": {
       "scope": {
-        "yOffset": 11.05,
+        "yOffset": 11.30,
         "zOffset": -1.4,
-        "scale": 1.50
+        "scale": 1.00
       }
     }
   }

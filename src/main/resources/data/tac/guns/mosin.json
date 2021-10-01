@@ -8,7 +8,7 @@
     "gripType": "tac:two_handed_mosin",
     "maxAmmo": 5,
     "reloadAmount": 1,
-    "recoilAngle": 18.0,
+    "recoilAngle": 13.5,
     "recoilKick": 1.5,
     "recoilAdsReduction": 0.75,
     "alwaysSpread": true,
@@ -21,7 +21,7 @@
     "damage": 20,
     "size": 0.2,
     "speed": 80.0,
-    "life": 700
+    "life": 6
   },
   "sounds": {
     "fire": "tac:item.fire_mosin-nagant",
@@ -45,7 +45,7 @@
     }],
     "attachments": {
       "scope": {
-        "yOffset": 9.40,
+        "yOffset": 9.48,
         "zOffset": 2.8,
         "scale": 1.0
       }

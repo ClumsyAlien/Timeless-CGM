@@ -8,18 +8,19 @@
     "gripType": "tac:one_handed_m1911",
     "maxAmmo": 25,
     "reloadAmount": 5,
-    "recoilAngle": 1.565,
-    "recoilKick": 0.385,
-    "recoilAdsReduction": 0.48,
+    "recoilAngle": 1.465,
+    "horizontalRecoilAngle": 1.100,
+    "recoilKick": 0.485,
+    "recoilAdsReduction": 0.42,
     "alwaysSpread": true,
-    "spread": 7.25
+    "spread": 6.75
   },
   "projectile": {
     "item": "tac:9mm_round",
     "visible": false,
-    "damage": 2.25,
+    "damage": 2.5,
     "size": 0.2,
-    "speed": 16.5,
+    "speed": 21.5,
     "life": 3
   },
   "sounds": {
@@ -49,9 +50,9 @@
         "scale": 1.00
       },
       "scope": {
-        "yOffset": 19.95,
+        "yOffset": 18.95,
         "zOffset": 5.8,
-        "scale": 1.850
+        "scale": 1.00
       }
     }
   }
