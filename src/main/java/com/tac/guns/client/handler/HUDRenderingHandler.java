@@ -1,6 +1,7 @@
 package com.tac.guns.client.handler;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.tac.guns.Reference;
 import com.tac.guns.common.Gun;
 import com.tac.guns.item.GunItem;
@@ -69,6 +70,7 @@ public class HUDRenderingHandler extends AbstractGui {
         float fireModeSize = 32.0F;
 
         // Weapon icon rendering
+        RenderSystem.enableAlphaTest();
         BufferBuilder buffer = Tessellator.getInstance().getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
         stack.push();
@@ -92,6 +94,7 @@ public class HUDRenderingHandler extends AbstractGui {
         WorldVertexBufferUploader.draw(buffer);
 
         // FireMode rendering
+        RenderSystem.enableAlphaTest();
         buffer = Tessellator.getInstance().getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
         stack.push();

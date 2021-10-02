@@ -3,25 +3,25 @@
     "auto": true,
     "rate": 3,
     "rateSelector": [
-      1,
+      0,
       2
     ],
     "gripType": "tac:two_handed_ak47",
     "maxAmmo": 40,
     "reloadAmount": 5,
-    "recoilAngle": 2.9,
+    "recoilAngle": 3.6,
     "recoilKick": 0.6,
-    "recoilAdsReduction": 0.72,
+    "recoilAdsReduction": 0.55,
     "alwaysSpread": true,
-    "spread": 5.2
+    "spread": 5.23
   },
   "projectile": {
     "item": "tac:bullet_308",
     "visible": false,
     "damage": 9,
     "size": 0.2,
-    "speed": 18.5,
-    "life": 250
+    "speed": 24.5,
+    "life": 6
   },
   "sounds": {
     "fire": "tac:item.fire_dp28",

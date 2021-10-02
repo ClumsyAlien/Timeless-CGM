@@ -4,7 +4,8 @@
     "gripType": "tac:two_handed_mosin",
     "maxAmmo": 5,
     "reloadAmount": 1,
-    "recoilAngle": 15.5,
+    "recoilAngle": 12.5,
+    "horizontalRecoilAngle": 0.125,
     "recoilKick": 1.35,
     "recoilAdsReduction": 0.75,
     "alwaysSpread": true,
@@ -42,7 +43,7 @@
       }],
     "attachments": {
       "scope": {
-        "yOffset": 6.55,
+        "yOffset": 6.65,
         "zOffset": 6.0,
         "scale": 1.0
       }

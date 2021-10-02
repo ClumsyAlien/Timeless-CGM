@@ -2,19 +2,23 @@ package com.tac.guns.client.render.gun.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.tac.guns.Reference;
 import com.tac.guns.client.GunRenderType;
 import com.tac.guns.client.handler.AimingHandler;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.util.RenderUtil;
+import com.tac.guns.item.attachment.IAttachment;
 import com.tac.guns.util.OptifineHelper;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.HandSide;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
@@ -25,7 +29,7 @@ import net.minecraftforge.common.util.Constants;
  */
 public class LongRange8xScopeModel implements IOverrideModel
 {
-    //private static final ResourceLocation RED_DOT_RETICLE = new ResourceLocation(Reference.MOD_ID, "textures/effect/red_dot_reticle.png");
+    private static final ResourceLocation RED_DOT_RETICLE = new ResourceLocation(Reference.MOD_ID, "textures/items/timeless_scopes/bushnell_revised.png");
     //private static final ResourceLocation RED_DOT_RETICLE_GLOW = new ResourceLocation(Reference.MOD_ID, "textures/effect/red_dot_reticle_glow.png");
     //private static final ResourceLocation VIGNETTE = new ResourceLocation(Reference.MOD_ID, "textures/effect/scope_vignette.png");
 
@@ -91,12 +95,23 @@ public class LongRange8xScopeModel implements IOverrideModel
                 matrixStack.translate(-(size / scale) / 2, -(size / scale) / 2, 0);
                 matrixStack.translate(0, 0, 0.0001);
 
-                int reticleGlowColor = RenderUtil.getItemStackColor(stack, parent, 0);
-                CompoundNBT tag = stack.getTag();
-                if(tag != null && tag.contains("ReticleColor", Constants.NBT.TAG_INT))
-                {
-                    reticleGlowColor = tag.getInt("ReticleColor");
-                }
+                int reticleGlowColor = RenderUtil.getItemStackColor(stack, parent, IAttachment.Type.SCOPE_RETICLE_COLOR, 1);
+
+                float red = ((reticleGlowColor >> 16) & 0xFF) / 255F;
+                float green = ((reticleGlowColor >> 8) & 0xFF) / 255F;
+                float blue = ((reticleGlowColor >> 0) & 0xFF) / 255F;
+                float alpha = (float) AimingHandler.get().getNormalisedAdsProgress();
+
+                alpha = (float) (0.75F * AimingHandler.get().getNormalisedAdsProgress());
+
+                matrixStack.scale(10.0f,10.0f,10.0f);
+                matrixStack.translate(-0.00455715, -0.00456, 0.0000);
+                builder = renderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(RED_DOT_RETICLE));
+                builder.pos(matrix, 0, (float) (size / scale), 0).color(red, green, blue, alpha).tex(0.0F, 0.9375F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+                builder.pos(matrix, 0, 0, 0).color(red, green, blue, alpha).tex(0.0F, 0.0F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+                builder.pos(matrix, (float) (size / scale), 0, 0).color(red, green, blue, alpha).tex(0.9375F, 0.0F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+                builder.pos(matrix, (float) (size / scale), (float) (size / scale), 0).color(red, green, blue, alpha).tex(0.9375F, 0.9375F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+
 
             }
             matrixStack.pop();

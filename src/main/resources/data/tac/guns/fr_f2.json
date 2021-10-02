@@ -4,9 +4,10 @@
     "gripType": "tac:two_handed_mosin",
     "maxAmmo": 10,
     "reloadAmount": 1,
-    "recoilAngle": 18.5,
-    "recoilKick": 1.35,
-    "recoilAdsReduction": 0.75,
+    "recoilAngle": 15.5,
+    "horizontalRecoilAngle": 0.125,
+    "recoilKick": 1.25,
+    "recoilAdsReduction": 0.85,
     "alwaysSpread": true,
     "spread": 0.15
   },
@@ -14,7 +15,7 @@
     "item": "tac:win_30-30",
     "visible": false,
     "gravity": true,
-    "damage": 26,
+    "damage": 27.5,
     "size": 0.3,
     "speed": 110.0,
     "life": 6

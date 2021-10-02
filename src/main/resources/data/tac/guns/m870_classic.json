@@ -1,6 +1,6 @@
 {
   "general": {
-    "rate": 10,
+    "rate": 20,
     "rateSelector": [
       0,
       1
@@ -9,10 +9,11 @@
     "maxAmmo": 8,
     "reloadAmount": 1,
     "recoilAngle": 4.985,
+    "horizontalRecoilAngle": 0.725,
     "recoilKick": 1.055,
     "recoilAdsReduction": 0.22,
     "alwaysSpread": true,
-    "spread": 12,
+    "spread": 11,
     "projectileAmount": 9
   },
   "projectile": {
@@ -20,7 +21,7 @@
     "visible": false,
     "damage": 26,
     "size": 0.3,
-    "speed": 20.5,
+    "speed": 23.5,
     "life": 3,
     "ricochet": false
   },

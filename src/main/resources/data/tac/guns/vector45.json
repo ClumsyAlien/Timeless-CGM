@@ -9,11 +9,12 @@
     "gripType": "tac:two_handed_vector",
     "maxAmmo": 20,
     "reloadAmount": 5,
-    "recoilAngle": 6.445,
-    "recoilKick": 1.365,
+    "recoilAngle": 6.545,
+    "horizontalRecoilAngle": 0.85,
+    "recoilKick": 1.285,
     "recoilAdsReduction": 0.28,
     "alwaysSpread": true,
-    "spread": 10.65
+    "spread": 8.65
   },
   "projectile": {
     "item": "tac:round45",
@@ -21,7 +22,7 @@
     "damage": 3.75,
     "size": 0.2,
     "speed": 28.5,
-    "life": 2
+    "life": 3
   },
   "sounds": {
     "fire": "tac:item.fire_m16",
@@ -52,7 +53,7 @@
       "scope": {
         "yOffset": 13.35,
         "zOffset": -1.8,
-        "scale": 1.30
+        "scale": 1.00
       },
       "stock": {
         "yOffset": 7.75,
