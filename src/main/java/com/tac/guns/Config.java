@@ -18,8 +18,7 @@ public class Config
         public final Display display;
         public final Particle particle;
         public final Controls controls;
-
-
+        public final WeaponGUI weaponGUI;
 
         public Client(ForgeConfigSpec.Builder builder)
         {
@@ -29,6 +28,7 @@ public class Config
                 this.display = new Display(builder);
                 this.particle = new Particle(builder);
                 this.controls = new Controls(builder);
+                this.weaponGUI = new WeaponGUI(builder);
             }
             builder.pop();
         }
@@ -66,7 +66,7 @@ public class Config
         public final ForgeConfigSpec.ConfigValue<String> crosshair;
 
         public final ForgeConfigSpec.BooleanValue weaponAmmoBar;
-        public final ForgeConfigSpec.BooleanValue weaponGui;
+
 
         public Display(ForgeConfigSpec.Builder builder)
         {
@@ -76,8 +76,91 @@ public class Config
                 this.crosshair = builder.comment("The custom crosshair to use for weapons. Go to (Options > Controls > Mouse Settings > Crosshair) in game to change this!").define("crosshair", Crosshair.DEFAULT.getLocation().toString());
 
                 this.weaponAmmoBar = builder.comment("Show % of your ammo in your gun via a colored durability bar!, Set to false to remove bar entirely for more realistic gameplay!").define("weaponAmmoBar", true);
-                this.weaponGui = builder.comment("Show your ammunition as a number, weapon icon, and firemode all on the HUD!").define("weaponGui", true);
             }
+            builder.pop();
+        }
+    }
+
+    public static class WeaponGUI
+    {
+        public final ForgeConfigSpec.BooleanValue weaponGui;
+
+        public final WeaponTypeIcon weaponTypeIcon;
+        public final WeaponFireMode weaponFireMode;
+        public final WeaponAmmoCounter weaponAmmoCounter;
+
+        public WeaponGUI(ForgeConfigSpec.Builder builder)
+        {
+            builder.comment("Configuration for HUD additions").push("weaponGui");
+            {
+                this.weaponGui = builder.comment("Show your ammunition as a number, weapon icon, and fire mode all on the HUD.").define("weaponGui", true);
+
+                this.weaponTypeIcon = new WeaponTypeIcon(builder);
+                this.weaponFireMode = new WeaponFireMode(builder);
+                this.weaponAmmoCounter = new WeaponAmmoCounter(builder);
+            }
+            builder.pop();
+        }
+    }
+    public static class WeaponTypeIcon
+    {
+        public final ForgeConfigSpec.BooleanValue showWeaponIcon;
+        public final ForgeConfigSpec.DoubleValue weaponIconSize;
+
+        public final ForgeConfigSpec.IntValue x;
+        public final ForgeConfigSpec.IntValue y;
+
+        public WeaponTypeIcon(ForgeConfigSpec.Builder builder)
+        {
+            builder.comment("Configuration for HUD additions").push("weaponTypeIcon");
+            {
+                this.showWeaponIcon = builder.comment("Display the weapon type Icon on your HUD.").define("showWeaponIcon", true);
+                this.weaponIconSize = builder.comment("Size of the weapon type Icon on your HUD").defineInRange("weaponIconSize", 1.0, 0.01, 4.0);
+
+                this.x = builder.comment("X Position on your HUD.").defineInRange("XLocation", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                this.y = builder.comment("Y Position on your HUD.").defineInRange("YLocation", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            }
+            builder.pop();
+        }
+    }
+    public static class WeaponAmmoCounter
+    {
+        public final ForgeConfigSpec.BooleanValue showWeaponAmmoCounter;
+        public final ForgeConfigSpec.DoubleValue weaponAmmoCounterSize;
+
+        public final ForgeConfigSpec.IntValue x;
+        public final ForgeConfigSpec.IntValue y;
+
+        public WeaponAmmoCounter(ForgeConfigSpec.Builder builder)
+        {
+            builder.comment("Configuration for HUD additions").push("weaponAmmoCounter");
+            {
+                this.showWeaponAmmoCounter = builder.comment("Display the amount of ammunition your weapon holds and can hold on your HUD.").define("showWeaponAmmoCounter", true);
+                this.weaponAmmoCounterSize = builder.comment("Size of the weapon ammunition counter on your HUD").defineInRange("weaponAmmoCounterSize", 1.0, 0.01, 4.0);
+
+                this.x = builder.comment("X Position on your HUD.").defineInRange("XLocation", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                this.y = builder.comment("Y Position on your HUD.").defineInRange("YLocation", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            }
+            builder.pop();
+        }
+    }
+    public static class WeaponFireMode
+    {
+        public final ForgeConfigSpec.BooleanValue showWeaponFireMode;
+        public final ForgeConfigSpec.DoubleValue weaponFireModeSize;
+
+        public final ForgeConfigSpec.IntValue x;
+        public final ForgeConfigSpec.IntValue y;
+
+        public WeaponFireMode(ForgeConfigSpec.Builder builder)
+        {
+            builder.comment("Configuration for HUD additions").push("weaponFireMode");
+            {
+                this.showWeaponFireMode = builder.comment("Display the weapon's fire mode on your HUD.").define("showWeaponFireMode", true);
+                this.weaponFireModeSize = builder.comment("Size of the weapon's fire mode on your HUD").defineInRange("weaponFireModeSize", 1.0, 0.01, 4.0);
+
+                this.x = builder.comment("X Position on your HUD.").defineInRange("XLocation", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                this.y = builder.comment("Y Position on your HUD.").defineInRange("YLocation", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);}
             builder.pop();
         }
     }
@@ -96,8 +179,8 @@ public class Config
         {
             builder.comment("Properties relating to particles").push("particle");
             {
-                this.bulletHoleLifeMin = builder.comment("The minimum duration in ticks before bullet holes will disappear").defineInRange("bulletHoleLifeMin", 150, 0, Integer.MAX_VALUE);
-                this.bulletHoleLifeMax = builder.comment("The maximum duration in ticks before bullet holes will disappear").defineInRange("bulletHoleLifeMax", 200, 0, Integer.MAX_VALUE);
+                this.bulletHoleLifeMin = builder.comment("The minimum duration in ticks before bullet holes will disappear").defineInRange("bulletHoleLifeMin", 250, 0, Integer.MAX_VALUE);
+                this.bulletHoleLifeMax = builder.comment("The maximum duration in ticks before bullet holes will disappear").defineInRange("bulletHoleLifeMax", 800, 0, Integer.MAX_VALUE);
                 this.bulletHoleFadeThreshold = builder.comment("The percentage of the maximum life that must pass before particles begin fading away. 0 makes the particles always fade and 1 removes facing completely").defineInRange("bulletHoleFadeThreshold", 0.98, 0, 1.0);
                 this.enableBlood = builder.comment("If true, blood will will spawn from entities that are hit from a projectile").define("enableBlood", false);
             }

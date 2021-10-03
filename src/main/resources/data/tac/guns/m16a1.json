@@ -43,7 +43,7 @@
     "zoom": [{
       "fovModifier": 0.65,
       "yOffset": 10.85,
-      "zOffset": -4.2
+      "zOffset": -4.0
     }],
     "attachments": {
       "barrel": {

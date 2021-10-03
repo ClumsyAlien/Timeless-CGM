@@ -1,5 +1,5 @@
 {
-	"credit": "Made with Blockbench",
+	"credit": "Models are primarially made by NekoCrane and adjusted by ClumsyAlien!",
 	"textures": {
 		"3": "tac:items/glock_slide_17",
 		"particle": "tac:items/glock_slide_17"
@@ -554,7 +554,7 @@
 		{
 			"name": "octagon",
 			"from": [7.875, 10.79197, 16.5],
-			"to": [7.9575, 10.89553, 16.75],
+			"to": [7.92625, 10.89553, 16.75],
 			"rotation": {"angle": 45, "axis": "z", "origin": [8, 10.84375, 16.25]},
 			"faces": {
 				"north": {"uv": [0, 0, 1, 1], "texture": "#3"},
@@ -568,7 +568,7 @@
 		{
 			"name": "octagon",
 			"from": [7.94822, 10.71875, 16.5],
-			"to": [8.05178, 10.80125, 16.75],
+			"to": [8.05178, 10.77, 16.75],
 			"rotation": {"angle": 45, "axis": "z", "origin": [8, 10.84375, 16.25]},
 			"faces": {
 				"north": {"uv": [0, 0, 1, 1], "texture": "#3"},
@@ -582,7 +582,7 @@
 		{
 			"name": "octagon",
 			"from": [7.94822, 10.46875, 16.5],
-			"to": [8.05178, 10.80125, 16.8125],
+			"to": [8.05178, 10.77, 16.8125],
 			"rotation": {"angle": 0, "axis": "z", "origin": [8, 10.84375, 16.25]},
 			"faces": {
 				"north": {"uv": [0, 0, 1, 1], "texture": "#3"},
@@ -595,7 +595,7 @@
 		},
 		{
 			"name": "octagon",
-			"from": [8.0425, 10.79197, 16.5],
+			"from": [8.07375, 10.79197, 16.5],
 			"to": [8.125, 10.89553, 16.75],
 			"rotation": {"angle": 45, "axis": "z", "origin": [8, 10.84375, 16.25]},
 			"faces": {
@@ -609,7 +609,7 @@
 		},
 		{
 			"name": "octagon",
-			"from": [8.0425, 10.79197, 16.5],
+			"from": [8.07375, 10.79197, 16.5],
 			"to": [8.125, 10.89553, 16.75],
 			"rotation": {"angle": 0, "axis": "z", "origin": [8, 10.84375, 16.25]},
 			"faces": {
@@ -623,7 +623,7 @@
 		},
 		{
 			"name": "octagon",
-			"from": [7.94822, 10.88625, 16.5],
+			"from": [7.94822, 10.9175, 16.5],
 			"to": [8.05178, 10.96875, 16.75],
 			"rotation": {"angle": 0, "axis": "z", "origin": [8, 10.84375, 16.25]},
 			"faces": {
@@ -781,7 +781,7 @@
 		{
 			"name": "octagon",
 			"from": [7.875, 10.79197, 16.5],
-			"to": [7.9575, 10.89553, 16.75],
+			"to": [7.92625, 10.89553, 16.75],
 			"rotation": {"angle": 0, "axis": "z", "origin": [8, 10.84375, 16.25]},
 			"faces": {
 				"north": {"uv": [0, 0, 1, 1], "texture": "#3"},
@@ -794,7 +794,7 @@
 		},
 		{
 			"name": "octagon",
-			"from": [7.94822, 10.88625, 16.5],
+			"from": [7.94822, 10.9175, 16.5],
 			"to": [8.05178, 10.96875, 16.75],
 			"rotation": {"angle": 45, "axis": "z", "origin": [8, 10.84375, 16.25]},
 			"faces": {
