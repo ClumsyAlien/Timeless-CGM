@@ -16,20 +16,18 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraftforge.common.util.Constants;
 
 /**
  * Author: MrCrayfish
  */
-public class LongRange8xScopeModel implements IOverrideModel
+public class VortexLPVO_1_4xScopeModel implements IOverrideModel
 {
-    private static final ResourceLocation RED_DOT_RETICLE = new ResourceLocation(Reference.MOD_ID, "textures/items/timeless_scopes/bushnell_revised.png");
+    private static final ResourceLocation RED_DOT_RETICLE = new ResourceLocation(Reference.MOD_ID, "textures/items/timeless_scopes/bushnell_cqb.png");
     //private static final ResourceLocation RED_DOT_RETICLE_GLOW = new ResourceLocation(Reference.MOD_ID, "textures/effect/red_dot_reticle_glow.png");
     //private static final ResourceLocation VIGNETTE = new ResourceLocation(Reference.MOD_ID, "textures/effect/scope_vignette.png");
 
@@ -42,11 +40,13 @@ public class LongRange8xScopeModel implements IOverrideModel
             matrixStack.scale(1.0F, 1.0F, (float)zScale);
         }
 
-        matrixStack.translate(0, -0.15, -0.42);
+        matrixStack.translate(0, 0.074, 0);
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
 
         RenderUtil.renderModel(stack, parent, matrixStack, renderTypeBuffer, light, overlay);
 
-        matrixStack.translate(0, 0.15, 0.42);
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
+        matrixStack.translate(0, -0.057, 0);
 
         if(transformType.isFirstPerson() && entity.equals(Minecraft.getInstance().player))
         {
@@ -56,9 +56,11 @@ public class LongRange8xScopeModel implements IOverrideModel
                 matrixStack.scale(-1, 1, 1);
             }
 
-            float scopeSize = 1.20F;
+            float scopePrevSize = 0.955F;
+            float scopeSize = 1.041F;
             float size = scopeSize / 16.0F;
-            float crop = 0.410F;
+            float reticleSize = scopePrevSize / 16.0F;
+            float crop = 0.435F;
             Minecraft mc = Minecraft.getInstance();
             MainWindow window = mc.getMainWindow();
 
@@ -70,7 +72,7 @@ public class LongRange8xScopeModel implements IOverrideModel
                 Matrix4f matrix = matrixStack.getLast().getMatrix();
                 Matrix3f normal = matrixStack.getLast().getNormal();
 
-                matrixStack.translate(-size / 2, 0.0595 , 4.55 * 0.0625);
+                matrixStack.translate(-size / 2, 0.0637825 , 3.45 * 0.0625);
 
                 float color = (float) AimingHandler.get().getNormalisedAdsProgress() * 0.8F + 0.2F;
 
@@ -104,17 +106,17 @@ public class LongRange8xScopeModel implements IOverrideModel
 
                 alpha = (float) (0.75F * AimingHandler.get().getNormalisedAdsProgress());
 
-                matrixStack.scale(10.0f,10.0f,10.0f);
-                matrixStack.translate(-0.00455715, -0.00456, 0.0000);
+                matrixStack.scale(7.5f,7.5f,7.5f);
+                matrixStack.translate(-0.00335715, -0.003355, 0.0000);
                 builder = renderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(RED_DOT_RETICLE));
-                builder.pos(matrix, 0, (float) (size / scale), 0).color(red, green, blue, alpha).tex(0.0F, 0.9375F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+                builder.pos(matrix, 0, (float) (reticleSize / scale), 0).color(red, green, blue, alpha).tex(0.0F, 0.9375F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
                 builder.pos(matrix, 0, 0, 0).color(red, green, blue, alpha).tex(0.0F, 0.0F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
-                builder.pos(matrix, (float) (size / scale), 0, 0).color(red, green, blue, alpha).tex(0.9375F, 0.0F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
-                builder.pos(matrix, (float) (size / scale), (float) (size / scale), 0).color(red, green, blue, alpha).tex(0.9375F, 0.9375F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+                builder.pos(matrix, (float) (reticleSize / scale), 0, 0).color(red, green, blue, alpha).tex(0.9375F, 0.0F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+                builder.pos(matrix, (float) (reticleSize / scale), (float) (reticleSize / scale), 0).color(red, green, blue, alpha).tex(0.9375F, 0.9375F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
 
 
             }
             matrixStack.pop();
-        }//float scopeSize = 1.095F;matrixStack.translate(-size / 2, 0.0645 , 3.45 * 0.0625);
+        }
     }
 }

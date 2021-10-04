@@ -675,12 +675,14 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         public static class Flash extends Positioned
         {
             private double size = 0.5;
+            private double smokeSize = 2.0;
 
             @Override
             public CompoundNBT serializeNBT()
             {
                 CompoundNBT tag = super.serializeNBT();
                 tag.putDouble("Size", this.size);
+                tag.putDouble("SmokeSize", this.smokeSize);
                 return tag;
             }
 
@@ -692,12 +694,17 @@ public final class Gun implements INBTSerializable<CompoundNBT>
                 {
                     this.size = tag.getDouble("Size");
                 }
+                if(tag.contains("SmokeSize", Constants.NBT.TAG_ANY_NUMERIC))
+                {
+                    this.smokeSize = tag.getDouble("SmokeSize");
+                }
             }
 
             public Flash copy()
             {
                 Flash flash = new Flash();
                 flash.size = this.size;
+                flash.smokeSize = this.smokeSize;
                 flash.xOffset = this.xOffset;
                 flash.yOffset = this.yOffset;
                 flash.zOffset = this.zOffset;
@@ -711,6 +718,11 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             {
                 return this.size;
             }
+
+            /**
+             * @return The size/scale of the muzzle smoke render
+             */
+            public double getSmokeSize() { return this.smokeSize;}
         }
 
         @Override

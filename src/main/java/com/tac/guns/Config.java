@@ -160,7 +160,8 @@ public class Config
                 this.weaponFireModeSize = builder.comment("Size of the weapon's fire mode on your HUD").defineInRange("weaponFireModeSize", 1.0, 0.01, 4.0);
 
                 this.x = builder.comment("X Position on your HUD.").defineInRange("XLocation", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
-                this.y = builder.comment("Y Position on your HUD.").defineInRange("YLocation", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);}
+                this.y = builder.comment("Y Position on your HUD.").defineInRange("YLocation", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            }
             builder.pop();
         }
     }
