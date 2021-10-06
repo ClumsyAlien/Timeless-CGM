@@ -166,7 +166,11 @@ public enum SpecialModels
     AK74_BUTT_HEAVY("ak74_heavy_stock"),
     AK74_BUTT_TACTICAL("ak74_tactical_stock"),
     AR_15_CQB_IRONS("ar_15_cqb_irons"),
-    AR_15_CQB_IRONS_2("ar_15_cqb_irons_2");
+    AR_15_CQB_IRONS_2("ar_15_cqb_irons_2"),
+    AR_15_CQB_DEFAULT_BARREL("ar_15_cqb_default_barrel"),
+    AR_15_CQB_BRAKE("ar_15_cqb_brake"),
+    AR_15_CQB_COMPENSATOR("ar_15_cqb_compensator"),
+    ;
 
     /**
      * The location of an item model in the [MOD_ID]/models/special/[NAME] folder

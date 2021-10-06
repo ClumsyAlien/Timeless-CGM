@@ -84,8 +84,6 @@ public class RecoilHandler
         horizontalRecoilModifier *= horizontalRandomAmount;
         horizontalCameraRecoil = modifiedGun.getGeneral().getHorizontalRecoilAngle() * horizontalRecoilModifier;
         horizontalProgressCameraRecoil = 0F;
-        GunMod.LOGGER.log(Level.FATAL,"v!! " + verticalRandomAmount);
-        GunMod.LOGGER.log(Level.FATAL,"h!! " + horizontalRandomAmount);
     }
     @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent event)
