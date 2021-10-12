@@ -86,7 +86,16 @@
     "item.minecraft.potion.effect.deafening": "Potion of Deafening",
     "item.minecraft.lingering_potion.effect.blinding": "Lingering Potion of Blinding",
     "item.minecraft.lingering_potion.effect.deafening": "Lingering Potion of Deafening",
-    "itemGroup.tac": "TaC",
+
+    "itemGroup.tac": "Misc",
+    "itemGroup.Pistols": "Pistols",
+    "itemGroup.SMGs": "SMG's",
+    "itemGroup.AssaultRifles": "Assault Rifles",
+    "itemGroup.MarksmanRifles": "Sniper Rifles",
+    "itemGroup.Shotguns": "Shotguns",
+    "itemGroup.HeavyWeapons": "Heavy Weapons",
+    "itemGroup.Ammo": "Ammo",
+
     "death.attack.tac.bullet.killed": "%1$s was taken down by %2$s",
     "death.attack.tac.bullet.eliminated": "%1$s was eliminated by %2$s",
     "death.attack.tac.bullet.executed": "%1$s was executed by %2$s",

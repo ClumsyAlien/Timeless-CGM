@@ -29,7 +29,7 @@ public class OneHandedPose implements IHeldAnimation
         boolean right = Minecraft.getInstance().gameSettings.mainHand == HandSide.RIGHT ? hand == Hand.MAIN_HAND : hand == Hand.OFF_HAND;
         ModelRenderer arm = right ? model.bipedRightArm : model.bipedLeftArm;
         IHeldAnimation.copyModelAngles(model.bipedHead, arm);
-        arm.rotateAngleX += Math.toRadians(-70F);
+        arm.rotateAngleX += Math.toRadians(-90F);
     }
 
     @Override

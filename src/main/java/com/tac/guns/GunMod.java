@@ -47,6 +47,56 @@ public class GunMod
         @Override
         public ItemStack createIcon()
         {
+            ItemStack stack = new ItemStack(ModItems.VORTEX_LPVO_1_6.get());
+            return stack;
+        }
+
+        @Override
+        public void fill(NonNullList<ItemStack> items)
+        {
+            super.fill(items);
+            CustomGunManager.fill(items);
+        }
+    }.setRelevantEnchantmentTypes(EnchantmentTypes.GUN, EnchantmentTypes.SEMI_AUTO_GUN);
+    public static final ItemGroup PISTOL = new  ItemGroup("Pistols")
+    {
+        @Override
+        public ItemStack createIcon()
+        {
+            ItemStack stack = new ItemStack(ModItems.M1911.get());
+            stack.getOrCreateTag().putInt("AmmoCount", ModItems.M1911.get().getGun().getGeneral().getMaxAmmo());
+            return stack;
+        }
+
+        @Override
+        public void fill(NonNullList<ItemStack> items)
+        {
+            super.fill(items);
+            CustomGunManager.fill(items);
+        }
+    };
+    public static final ItemGroup SMG = new  ItemGroup("SMGs")
+    {
+        @Override
+        public ItemStack createIcon()
+        {
+            ItemStack stack = new ItemStack(ModItems.VECTOR45.get());
+            stack.getOrCreateTag().putInt("AmmoCount", ModItems.VECTOR45.get().getGun().getGeneral().getMaxAmmo());
+            return stack;
+        }
+
+        @Override
+        public void fill(NonNullList<ItemStack> items)
+        {
+            super.fill(items);
+            CustomGunManager.fill(items);
+        }
+    };
+    public static final ItemGroup RIFLE = new  ItemGroup("AssaultRifles")
+    {
+        @Override
+        public ItemStack createIcon()
+        {
             ItemStack stack = new ItemStack(ModItems.AK47.get());
             stack.getOrCreateTag().putInt("AmmoCount", ModItems.AK47.get().getGun().getGeneral().getMaxAmmo());
             return stack;
@@ -58,8 +108,74 @@ public class GunMod
             super.fill(items);
             CustomGunManager.fill(items);
         }
-    }.setRelevantEnchantmentTypes(EnchantmentTypes.GUN, EnchantmentTypes.SEMI_AUTO_GUN);
+    };
+    public static final ItemGroup SNIPER = new  ItemGroup("MarksmanRifles")
+    {
+        @Override
+        public ItemStack createIcon()
+        {
+            ItemStack stack = new ItemStack(ModItems.M24.get());
+            stack.getOrCreateTag().putInt("AmmoCount", ModItems.M24.get().getGun().getGeneral().getMaxAmmo());
+            return stack;
+        }
 
+        @Override
+        public void fill(NonNullList<ItemStack> items)
+        {
+            super.fill(items);
+            CustomGunManager.fill(items);
+        }
+    };
+    public static final ItemGroup SHOTGUN = new  ItemGroup("Shotguns")
+    {
+        @Override
+        public ItemStack createIcon()
+        {
+            ItemStack stack = new ItemStack(ModItems.MOSBERG590.get());
+            stack.getOrCreateTag().putInt("AmmoCount", ModItems.MOSBERG590.get().getGun().getGeneral().getMaxAmmo());
+            return stack;
+        }
+
+        @Override
+        public void fill(NonNullList<ItemStack> items)
+        {
+            super.fill(items);
+            CustomGunManager.fill(items);
+        }
+    };
+    public static final ItemGroup HEAVY_MATERIAL = new  ItemGroup("HeavyWeapons")
+    {
+        @Override
+        public ItemStack createIcon()
+        {
+            ItemStack stack = new ItemStack(ModItems.M60.get());
+            stack.getOrCreateTag().putInt("AmmoCount", ModItems.M60.get().getGun().getGeneral().getMaxAmmo());
+            return stack;
+        }
+
+        @Override
+        public void fill(NonNullList<ItemStack> items)
+        {
+            super.fill(items);
+            CustomGunManager.fill(items);
+        }
+    };
+    public static final ItemGroup AMMO = new  ItemGroup("Ammo")
+    {
+        @Override
+        public ItemStack createIcon()
+        {
+            ItemStack stack = new ItemStack(ModItems.BULLET_308.get());
+            return stack;
+        }
+
+        @Override
+        public void fill(NonNullList<ItemStack> items)
+        {
+            super.fill(items);
+            CustomGunManager.fill(items);
+        }
+    };
     public GunMod()
     {
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.clientSpec);

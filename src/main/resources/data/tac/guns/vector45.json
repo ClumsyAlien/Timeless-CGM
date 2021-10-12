@@ -19,9 +19,9 @@
   "projectile": {
     "item": "tac:round45",
     "visible": false,
-    "damage": 3.75,
+    "damage": 3.0,
     "size": 0.2,
-    "speed": 28.5,
+    "speed": 22.5,
     "life": 3
   },
   "sounds": {

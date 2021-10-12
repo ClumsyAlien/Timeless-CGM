@@ -40,15 +40,9 @@
   "modules": {
     "zoom": [{
       "fovModifier": 0.8,
-      "yOffset": 11.72,
+      "yOffset": 12.22,
       "zOffset": -12.6
     }],
-    "attachments": {
-      "barrel": {
-        "yOffset": 10.36,
-        "zOffset": -6.84,
-        "scale": 0.83
-      }
-    }
+    "attachments": {}
   }
 }

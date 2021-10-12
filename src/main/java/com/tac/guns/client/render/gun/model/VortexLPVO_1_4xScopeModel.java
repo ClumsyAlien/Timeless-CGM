@@ -36,7 +36,7 @@ public class VortexLPVO_1_4xScopeModel implements IOverrideModel
 
         if (OptifineHelper.isShadersEnabled()) {
             double transition = 1.0D - Math.pow(1.0D - AimingHandler.get().getNormalisedAdsProgress(), 2.0D);
-            double zScale = 0.05D + 0.95D * (1.0D - transition);
+            double zScale = 0.05D + 0.75D * (1.0D - transition);
             matrixStack.scale(1.0F, 1.0F, (float)zScale);
         }
 
@@ -56,14 +56,13 @@ public class VortexLPVO_1_4xScopeModel implements IOverrideModel
                 matrixStack.scale(-1, 1, 1);
             }
 
-            float scopePrevSize = 0.955F;
-            float scopeSize = 1.041F;
+            float scopePrevSize = 0.965F;
+            float scopeSize = 1.03400F;
             float size = scopeSize / 16.0F;
             float reticleSize = scopePrevSize / 16.0F;
-            float crop = 0.435F;
+            float crop = 0.4525F;
             Minecraft mc = Minecraft.getInstance();
             MainWindow window = mc.getMainWindow();
-
 
             float texU = ((window.getWidth() - window.getHeight() + window.getHeight() * crop * 2.0F) / 2.0F) / window.getWidth();
 
@@ -72,7 +71,7 @@ public class VortexLPVO_1_4xScopeModel implements IOverrideModel
                 Matrix4f matrix = matrixStack.getLast().getMatrix();
                 Matrix3f normal = matrixStack.getLast().getNormal();
 
-                matrixStack.translate(-size / 2, 0.0637825 , 3.45 * 0.0625);
+                matrixStack.translate(-size / 2, 0.0635075 , 3.55 * 0.0625);
 
                 float color = (float) AimingHandler.get().getNormalisedAdsProgress() * 0.8F + 0.2F;
 

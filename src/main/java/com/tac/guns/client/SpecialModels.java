@@ -170,7 +170,14 @@ public enum SpecialModels
     AR_15_CQB_DEFAULT_BARREL("ar_15_cqb_default_barrel"),
     AR_15_CQB_BRAKE("ar_15_cqb_brake"),
     AR_15_CQB_COMPENSATOR("ar_15_cqb_compensator"),
-    ;
+    AK47_BRAKE("ak47_brake"),
+    AK47_COMPENSATOR("ak47_compensator"),
+    AR_10_BODY("ar_10_body"),
+    AR_10_DEFAULT_BARREL("ar_10_default_muzzle"),
+    AR_10_BRAKE("ar_10_brake"),
+    AR_10_COMPENSATOR("ar_10_compensator"),
+    AR_10_BOLT("ar_10_bolt"),
+    AR_10_SUPPRESSOR("ar_10_suppressor");
 
     /**
      * The location of an item model in the [MOD_ID]/models/special/[NAME] folder

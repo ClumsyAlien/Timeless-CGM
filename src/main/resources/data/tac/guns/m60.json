@@ -40,15 +40,15 @@
   },
   "modules": {
     "zoom": [{
-      "fovModifier": 0.7,
+      "fovModifier": 0.65,
       "yOffset": 10,
       "zOffset": -3.7
     }],
     "attachments": {
       "scope": {
-        "yOffset": 7.1,
+        "yOffset": 8.45,
         "zOffset": 7.6,
-        "scale": 1.35
+        "scale": 1.00
       }
     }
   }

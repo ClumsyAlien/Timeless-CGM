@@ -69,15 +69,15 @@ public class TimelessGunItem extends GunItem {
             }
         }
 
-        if(tagCompound.get("CurrentFireMode") == null)
-        { }
-        else if(tagCompound.getInt("CurrentFireMode") == 0)
-            tooltip.add((new TranslationTextComponent("info.tac.firemode_safe", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.GREEN));
-        else if(tagCompound.getInt("CurrentFireMode") == 1)
-            tooltip.add((new TranslationTextComponent("info.tac.firemode_semi", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.RED));
-        else if(tagCompound.getInt("CurrentFireMode") == 2)
-            tooltip.add((new TranslationTextComponent("info.tac.firemode_auto", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.RED));
-
+        if(tagCompound != null) {
+            if (tagCompound.get("CurrentFireMode") == null) {
+            } else if (tagCompound.getInt("CurrentFireMode") == 0)
+                tooltip.add((new TranslationTextComponent("info.tac.firemode_safe", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.GREEN));
+            else if (tagCompound.getInt("CurrentFireMode") == 1)
+                tooltip.add((new TranslationTextComponent("info.tac.firemode_semi", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.RED));
+            else if (tagCompound.getInt("CurrentFireMode") == 2)
+                tooltip.add((new TranslationTextComponent("info.tac.firemode_auto", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.RED));
+        }
         tooltip.add((new TranslationTextComponent("info.tac.attachment_help", new Object[]{(new KeybindTextComponent("key.tac.attachments")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.YELLOW));
 
     }

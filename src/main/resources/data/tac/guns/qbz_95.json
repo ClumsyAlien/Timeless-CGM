@@ -10,12 +10,12 @@
     "gripType": "tac:two_handed_ak47",
     "maxAmmo": 30,
     "reloadAmount": 5,
-    "recoilAngle": 1.195,
+    "recoilAngle": 1.215,
     "recoilKick": 0.915,
-    "horizontalRecoilAngle": 0.30,
-    "recoilAdsReduction": 0.35,
+    "horizontalRecoilAngle": 0.345,
+    "recoilAdsReduction": 0.3,
     "alwaysSpread": true,
-    "spread": 1.65
+    "spread": 1.10
   },
   "projectile": {
     "item": "tac:nato_556_bullet",
@@ -33,7 +33,7 @@
   },
   "display": {
     "flash": {
-      "yOffset": 9.35,
+      "yOffset": 9.75,
       "zOffset": -19.55,
       "size": 1.10
     },

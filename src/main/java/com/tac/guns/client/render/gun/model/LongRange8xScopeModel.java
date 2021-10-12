@@ -17,12 +17,16 @@ import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.common.util.Constants;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Author: MrCrayfish
@@ -42,6 +46,12 @@ public class LongRange8xScopeModel implements IOverrideModel
             matrixStack.scale(1.0F, 1.0F, (float)zScale);
         }
 
+        try {
+            Minecraft.getInstance().getResourceManager().getResource(new ResourceLocation(Reference.MOD_ID, "textures/items/timeless_scopes/bushnell_revised.png")).getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         matrixStack.translate(0, -0.15, -0.42);
 
         RenderUtil.renderModel(stack, parent, matrixStack, renderTypeBuffer, light, overlay);
@@ -58,7 +68,7 @@ public class LongRange8xScopeModel implements IOverrideModel
 
             float scopeSize = 1.20F;
             float size = scopeSize / 16.0F;
-            float crop = 0.410F;
+            float crop = 0.4375F;
             Minecraft mc = Minecraft.getInstance();
             MainWindow window = mc.getMainWindow();
 

@@ -26,7 +26,7 @@ public class GameRendererMixin
 {
     // Make Mixin resources/util file to house these puppies as public dictionaries type collections, expect people add new data since we simply iterate
 
-    @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/IProfiler;endStartSection(Ljava/lang/String;)V", shift = At.Shift.AFTER))
+    /*@Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/IProfiler;endStartSection(Ljava/lang/String;)V", shift = At.Shift.AFTER))
     public void updateCameraAndRender(float partialTicks, long nanoTime, boolean renderWorldIn, CallbackInfo ci)
     {
         Minecraft minecraft = Minecraft.getInstance();
@@ -42,5 +42,5 @@ public class GameRendererMixin
             float percent = Math.min((blindedEffect.getDuration() / (float) Config.SERVER.alphaFadeThreshold.get()), 1);
             AbstractGui.fill(new MatrixStack(), 0, 0, window.getWidth(), window.getHeight(), ((int) (percent * Config.SERVER.alphaOverlay.get() + 0.5) << 24) | 16777215);
         }
-    }
+    }*/
 }
