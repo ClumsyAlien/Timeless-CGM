@@ -15,6 +15,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
@@ -99,8 +103,15 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.0'
     implementation fg.deobf('curse.maven:obfuscate-289380:3169370')
+    compile ('com.fasterxml.jackson.core:jackson-databind:2.12.4')
     //implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.44')
     //annotationProcessor 'org.spongepowered:mixin:0.8:processor'
+}
+
+shadowJar {
+    dependencies {
+        it.include(it.dependency('com.fasterxml.jackson.core:jackson-databind:2.12.4'))
+    }
 }
 
 jar {

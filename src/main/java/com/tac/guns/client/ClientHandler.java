@@ -1,5 +1,6 @@
 package com.tac.guns.client;
 
+import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
 import com.tac.guns.client.handler.*;
 import com.tac.guns.client.render.entity.GrenadeRenderer;
@@ -22,6 +23,11 @@ import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessageAttachments;
 import com.tac.guns.network.message.MessageInspection;
 import com.tac.guns.network.message.MessageIronSightSwitch;
+import de.javagl.jgltf.model.GltfModel;
+import de.javagl.jgltf.model.io.GltfAsset;
+import de.javagl.jgltf.model.io.GltfAssetReader;
+import de.javagl.jgltf.model.io.v2.GltfAssetV2;
+import de.javagl.jgltf.model.v2.GltfModelV2;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.MouseSettingsScreen;
@@ -29,6 +35,8 @@ import net.minecraft.client.gui.widget.list.OptionsRowList;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.resources.IResource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
@@ -40,6 +48,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 
 /**
@@ -65,6 +75,20 @@ public class ClientHandler
         MinecraftForge.EVENT_BUS.register(IronSightSwitchEvent.get()); // Still, as well an event, am uncertain on what to name it, in short handles upcoming advanced iron sights
 
         MinecraftForge.EVENT_BUS.register(ScopeJitterHandler.getInstance()); // All built by MayDay memory part of the Timeless dev team, amazing work!!!!!!!!!!!
+        try {
+            IResource resource = Minecraft.getInstance().getResourceManager().getResource(new ResourceLocation(Reference.MOD_ID,"animations/glock_17.gltf"));
+            InputStream inputStream = resource.getInputStream();
+            GltfAssetReader reader = new GltfAssetReader();
+            GltfAsset asset = reader.readWithoutReferences(inputStream);
+            if(asset instanceof GltfAssetV2) {
+                GltfModelV2 model = new GltfModelV2((GltfAssetV2) asset);
+                float[] translation = model.getNodeModels().get(1).getTranslation();
+                if(translation.length>0) GunMod.LOGGER.debug(translation[0]);
+            }
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         KeyBinds.register();
 
