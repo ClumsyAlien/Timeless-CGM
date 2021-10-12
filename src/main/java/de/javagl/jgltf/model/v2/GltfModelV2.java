@@ -269,7 +269,7 @@ public final class GltfModelV2 implements GltfModel
         initTextureModels();
         
         instantiateCameraModels();
-        instantiateMaterialModels();
+        //instantiateMaterialModels();
     }
     
     
