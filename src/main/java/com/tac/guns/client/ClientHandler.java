@@ -3,6 +3,7 @@ package com.tac.guns.client;
 import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
 import com.tac.guns.client.handler.*;
+import com.tac.guns.client.render.Animations;
 import com.tac.guns.client.render.entity.GrenadeRenderer;
 import com.tac.guns.client.render.entity.MissileRenderer;
 import com.tac.guns.client.render.entity.ProjectileRenderer;
@@ -75,20 +76,6 @@ public class ClientHandler
         MinecraftForge.EVENT_BUS.register(IronSightSwitchEvent.get()); // Still, as well an event, am uncertain on what to name it, in short handles upcoming advanced iron sights
 
         MinecraftForge.EVENT_BUS.register(ScopeJitterHandler.getInstance()); // All built by MayDay memory part of the Timeless dev team, amazing work!!!!!!!!!!!
-        try {
-            IResource resource = Minecraft.getInstance().getResourceManager().getResource(new ResourceLocation(Reference.MOD_ID,"animations/glock_17.gltf"));
-            InputStream inputStream = resource.getInputStream();
-            GltfAssetReader reader = new GltfAssetReader();
-            GltfAsset asset = reader.readWithoutReferences(inputStream);
-            if(asset instanceof GltfAssetV2) {
-                GltfModelV2 model = new GltfModelV2((GltfAssetV2) asset);
-                float[] translation = model.getNodeModels().get(1).getTranslation();
-                if(translation.length>0) GunMod.LOGGER.debug(translation[0]);
-            }
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         KeyBinds.register();
 

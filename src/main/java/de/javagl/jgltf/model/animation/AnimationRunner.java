@@ -100,7 +100,7 @@ public final class AnimationRunner
      * 
      * @return Whether this runner is currently running 
      */
-    boolean isRunning()
+    public boolean isRunning()
     {
         return running;
     }
