@@ -5,6 +5,7 @@ import com.tac.guns.Config;
 import com.tac.guns.GunMod;
 import com.tac.guns.common.Gun;
 import com.tac.guns.item.GunItem;
+import com.tac.guns.item.IColored;
 import com.tac.guns.util.GunEnchantmentHelper;
 import com.tac.guns.util.GunModifierHelper;
 import com.tac.guns.util.Process;
@@ -25,7 +26,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 
-public class TimelessGunItem extends GunItem {
+public class TimelessGunItem extends GunItem implements IColored {
     public TimelessGunItem(Process<Item.Properties> properties)
     {
         super(properties.process(new Item.Properties().maxStackSize(1).group(GunMod.GROUP)));

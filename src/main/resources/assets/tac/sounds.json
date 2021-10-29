@@ -112,5 +112,41 @@
       "sounds": [
          { "name": "tac:item/db_fire" }
       ]
+   },
+   "item.dmr_fire": {
+      "subtitle": "subtitle.tac.dmr_fire",
+      "sounds": [
+         { "name": "tac:item/dmr_fire" }
+      ]
+   },
+   "item.dmr_fire_s": {
+      "subtitle": "subtitle.tac.dmr_fire_s",
+      "sounds": [
+         { "name": "tac:item/dmr_fire_s" }
+      ]
+   },
+   "item.modern_sniper_fire": {
+      "subtitle": "subtitle.modern_sniper_fire",
+      "sounds": [
+         { "name": "tac:item/modern_sniper_fire" }
+      ]
+   },
+   "item.mtar_fire": {
+      "subtitle": "subtitle.tac.mtar_fire",
+      "sounds": [
+         { "name": "tac:item/mtar_fire" }
+      ]
+   },
+   "item.mtar_fire_s": {
+      "subtitle": "subtitle.tac.mtar_fire_s",
+      "sounds": [
+         { "name": "tac:item/mtar_fire_s" }
+      ]
+   },
+   "item.headshot": {
+      "subtitle": "subtitle.tac.headshot",
+      "sounds": [
+         { "name": "tac:item/headshot" }
+      ]
    }
 }

@@ -23,6 +23,7 @@ import net.minecraft.entity.item.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -67,9 +68,13 @@ public class AimingHandler
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event)
     {
+
         if(event.phase != TickEvent.Phase.START)
             return;
 
+        /*if(!this.aiming)
+            ScopeJitterHandler.getInstance().resetBreathingTickBuffer();
+*/
         PlayerEntity player = event.player;
         AimTracker tracker = getAimTracker(player);
         if(tracker != null)
@@ -205,9 +210,17 @@ public class AimingHandler
         Gun gun = ((GunItem) heldItem.getItem()).getModifiedGun(heldItem);
         if(gun.getModules().getZoom() == null)
         {
-            GunMod.LOGGER.log(Level.FATAL, "Zoom is empty for some fucking reason");
             return false;
         }
+
+        CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+        float cooldown = tracker.getCooldown(heldItem.getItem(), Minecraft.getInstance().getRenderPartialTicks());
+
+        if(gun.getGeneral().isBoltAction() && (cooldown < 0.8 && cooldown > 0))
+        {
+            return false;
+        }
+
         if(!this.localTracker.isAiming() && this.isLookingAtInteractableBlock())
             return false;
 

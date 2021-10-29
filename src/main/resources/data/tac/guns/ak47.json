@@ -6,20 +6,20 @@
     "gripType":  "tac:two_handed_ak47",
     "maxAmmo": 30,
     "reloadAmount": 5,
-    "recoilAngle": 4.85,
-    "horizontalRecoilAngle": 3.15,
+    "recoilAngle": 4.985,
+    "horizontalRecoilAngle": 3.05,
     "recoilKick": 1.65,
-    "recoilAdsReduction": 0.45,
+    "recoilAdsReduction": 0.5,
     "alwaysSpread": true,
-    "spread": 5.65
+    "spread": 6.65
   },
   "projectile": {
-    "item":  "tac:bullet_308",
-    "visible": false,
-    "damage": 8.5,
+    "item":  "tac:762x39",
+    "visible": true,
+    "damage": 9.5,
     "size": 0.2,
-    "speed": 20.5,
-    "life": 16
+    "speed": 21.5,
+    "life": 11
   },
   "sounds": {
     "fire":  "tac:item.fire_ak47",
@@ -30,12 +30,12 @@
   "display": {
     "flash": {
       "yOffset": 11.3,
-      "zOffset": -22.95,
+      "zOffset": -20.75,
       "size": 0.8
     },
-    "hipfireScale": 1.45,
-    "hipfireMoveScale": 0.25,
-    "hipfireRecoilScale": 0.9,
+    "hipfireScale": 0.575,
+    "hipfireMoveScale": 0.41,
+    "hipfireRecoilScale": 0.75,
     "showDynamicHipfire": true,
     "weaponType": 0
   },

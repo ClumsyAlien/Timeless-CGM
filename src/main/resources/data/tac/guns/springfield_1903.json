@@ -1,6 +1,7 @@
 {
   "general": {
-    "rate": 25,
+    "boltAction": true,
+    "rate": 27,
     "rateSelector": [
       0,
       1
@@ -22,7 +23,7 @@
     "damage": 20,
     "size": 0.3,
     "speed": 95.0,
-    "life": 6
+    "life": 4
   },
   "sounds": {
     "fire": "tac:item.fire_mosin-nagant",
@@ -41,7 +42,7 @@
   "modules": {
     "zoom": [{
       "fovModifier": 0.60,
-      "yOffset": 8.45,
+      "yOffset": 8.4,
       "zOffset": -5.7
     }]
   }

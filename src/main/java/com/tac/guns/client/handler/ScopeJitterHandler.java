@@ -1,6 +1,11 @@
 package com.tac.guns.client.handler;
 
+import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
+import com.tac.guns.init.ModSyncedDataKeys;
+import com.tac.guns.util.GunEnchantmentHelper;
+import com.tac.guns.util.GunModifierHelper;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,8 +22,11 @@ public class ScopeJitterHandler {
     private Long radix = 0L;
     private int respiratoryQuotient = 0;
     private final int component = 85;
+    //private final int component = 85;
     private double xTarget = Math.random()*2-1;
+    /*private final double duration = 5.5;*/
     private final double duration = 5.5;
+    private int ticksBeforeBreathing = 500;
 
     public static ScopeJitterHandler getInstance() {
         return instance == null ? instance = new ScopeJitterHandler() : instance;
@@ -41,18 +49,30 @@ public class ScopeJitterHandler {
     }
 
     @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event) { tick();}
+    public void onPlayerTick(TickEvent.PlayerTickEvent event)
+    {
+        /*if(!SyncedPlayerData.instance().get(event.player, ModSyncedDataKeys.AIMING))
+            ScopeJitterHandler.getInstance().resetBreathingTickBuffer();*/
+        tick();
+    }
 
-    public void tick(){
-        double suffocationPoint = 20.0;
-        if(!isStabilizing()||forceBreathing){
-            radix += respiratoryQuotient/(int)(suffocationPoint*component)*2 + 1;
-            if(radix % (long)(duration *component / 2) <= 2) xTarget = Math.random()*2-1;
-            if(respiratoryQuotient > 0) respiratoryQuotient-=5;
-            if(respiratoryQuotient <= 0) forceBreathing = false;
-        }else {
-            respiratoryQuotient ++;
-            if(respiratoryQuotient >= suffocationPoint*component) forceBreathing = true;
+    public void tick()
+    {
+        if(ticksBeforeBreathing > 0)
+        {
+            ticksBeforeBreathing-=5;
+        }
+        else {
+            double suffocationPoint = 120.0;
+            if (!isStabilizing() || forceBreathing) {
+                radix += respiratoryQuotient / (int) (suffocationPoint * component) * 2 + 1;
+                if (radix % (long) (duration * component / 2) <= 2) xTarget = Math.random() * 2 - 1;
+                if (respiratoryQuotient > 0) respiratoryQuotient -= 5;
+                if (respiratoryQuotient <= 0) forceBreathing = false;
+            } else {
+                respiratoryQuotient++;
+                if (respiratoryQuotient >= suffocationPoint * component) forceBreathing = true;
+            }
         }
     }
 
@@ -65,4 +85,18 @@ public class ScopeJitterHandler {
         double degree = ((radix % (long)(duration *component / 2)) / (duration *component / 2)) * PI;
         return Math.sin(degree)*xTarget;
     }
+
+    public class BreathAimTracker {
+        private double currentBreath;
+        private double previousBreath;
+
+        public void resetBreathingTickBuffer()
+        {
+            /*this.
+            if(this.getInstance().ticksBeforeBreathing < 600)
+                this.getInstance().ticksBeforeBreathing += 50;*/
+        }
+
+    }
+
 }

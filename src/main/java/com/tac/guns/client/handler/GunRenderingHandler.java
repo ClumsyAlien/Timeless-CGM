@@ -312,8 +312,8 @@ public class GunRenderingHandler {
                     else
                         scopeJitterOffset *= scope.getStabilityOffset();
 
-                    double yOffsetRatio = ScopeJitterHandler.getInstance().getYOffsetRatio() * (0.015 * scopeJitterOffset);
-                    double xOffsetRatio = ScopeJitterHandler.getInstance().getXOffsetRatio() * (0.010 * scopeJitterOffset);
+                    double yOffsetRatio = ScopeJitterHandler.getInstance().getYOffsetRatio() * (0.0125 * scopeJitterOffset);
+                    double xOffsetRatio = ScopeJitterHandler.getInstance().getXOffsetRatio() * (0.0085 * scopeJitterOffset);
                     Objects.requireNonNull(Minecraft.getInstance().player).rotationPitch += yOffsetRatio;
                     Objects.requireNonNull(Minecraft.getInstance().player).rotationYaw += xOffsetRatio;
                 }
@@ -341,6 +341,7 @@ public class GunRenderingHandler {
 
 
         this.applySprintingTransforms(modifiedGun, hand, matrixStack, event.getPartialTicks());
+
         /* Applies recoil and reload rotations */
         this.applyRecoilTransforms(matrixStack, heldItem, modifiedGun);
         if(!isAnimated) this.applyReloadTransforms(matrixStack, hand, event.getPartialTicks());

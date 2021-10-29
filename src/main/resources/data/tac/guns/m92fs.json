@@ -44,11 +44,7 @@
       "zOffset": -14.3
     }],
     "attachments": {
-      "barrel": {
-        "yOffset": -100829.84,
-        "zOffset": -9.50,
-        "scale": 1.00
-      }
+
     }
   }
 }

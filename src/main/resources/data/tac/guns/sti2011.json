@@ -31,9 +31,9 @@
   },
   "display": {
     "flash": {
-      "yOffset": 10.54,
-      "zOffset": -11.68,
-      "size": 0.75
+      "yOffset": 12.3,
+      "zOffset": -13.32,
+      "size": 1.1
     },
     "weaponType": 2
   },
@@ -42,18 +42,7 @@
       "fovModifier": 0.7,
       "yOffset": 13.685,
       "zOffset": -12.6
-    }],
-    "attachments": {
-      "scope": {
-        "yOffset": 12.3,
-        "zOffset": -0.5,
-        "scale": 1.0
-      },
-      "barrel": {
-        "yOffset": -100829.84,
-        "zOffset": -11.02,
-        "scale": 1.00
-      }
-    }
+    }]
+
   }
 }

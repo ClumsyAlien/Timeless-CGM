@@ -18,9 +18,9 @@
     "spread": 3.25
   },
   "projectile": {
-    "item": "tac:round45",
+    "item": "tac:762x25",
     "visible": false,
-    "damage": 3.0,
+    "damage": 2.5,
     "size": 0.2,
     "speed": 28.5,
     "life": 3
@@ -34,7 +34,7 @@
   "display": {
     "flash": {
       "yOffset": 8.8,
-      "zOffset": -17.95,
+      "zOffset": -21.15,
       "size": 0.7
     },
     "weaponType": 4
@@ -43,7 +43,7 @@
     "zoom": [{
       "fovModifier": 0.6,
       "yOffset": 10.42,
-      "zOffset": 4.6
+      "zOffset": 1.6
     }],
     "attachments": {}
   }

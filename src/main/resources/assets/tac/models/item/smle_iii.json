@@ -4,7 +4,7 @@
 		"0": "tac:items/light_enfield_barrel",
 		"1": "tac:items/ppsh_bolt",
 		"2": "tac:items/dark_enfield_barrel",
-		"3": "tac:items/detailed_dark_wood",
+		"3": "tac:items/detailed_wood",
 		"particle": "tac:items/light_enfield_barrel"
 	},
 	"elements": [

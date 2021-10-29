@@ -63,7 +63,7 @@ public class m92fs_animation implements IOverrideModel {
             }
         }
 
-        matrices.translate(0.00, 0.0, -0.09);
+        matrices.translate(0.00, 0.0, -0.0745);
         RenderUtil.renderModel(SpecialModels.M92FS_SLIDE.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always pop

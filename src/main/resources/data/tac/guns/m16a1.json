@@ -11,11 +11,11 @@
     "maxAmmo": 20,
     "reloadAmount": 5,
     "recoilAngle": 1.15,
-    "horizontalRecoilAngle": 1.225,
-    "recoilKick": 0.75,
-    "recoilAdsReduction": 0.55,
+    "horizontalRecoilAngle": 0.725,
+    "recoilKick": 0.55,
+    "recoilAdsReduction": 0.585,
     "alwaysSpread": true,
-    "spread": 1.25
+    "spread": 1.15
   },
   "projectile": {
     "item": "tac:nato_556_bullet",
@@ -23,7 +23,7 @@
     "damage": 7,
     "size": 0.2,
     "speed": 44.5,
-    "life": 8
+    "life": 6
   },
   "sounds": {
     "fire": "tac:item.fire_m16",
@@ -49,11 +49,6 @@
       "barrel": {
         "yOffset": -100829.84,
         "zOffset": -22.05,
-        "scale": 1.00
-      },
-      "scope": {
-        "yOffset": 8.65,
-        "zOffset": 7.4,
         "scale": 1.00
       }
     }

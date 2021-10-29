@@ -114,7 +114,7 @@ public class ClientHandler
     {
         ModelOverrides.register(ModItems.COYOTE_SIGHT.get(), new CoyoteSightModel());
         ModelOverrides.register(ModItems.MICRO_HOLO_SIGHT.get(), new MicroHoloSightModel());
-        ModelOverrides.register(ModItems.LONGRANGE_8x_SCOPE.get(), new LongRange8xScopeModel());
+        //ModelOverrides.register(ModItems.LONGRANGE_8x_SCOPE.get(), new LongRange8xScopeModel());
         ModelOverrides.register(ModItems.VORTEX_LPVO_1_6.get(), new VortexLPVO_1_4xScopeModel());
         ModelOverrides.register(ModItems.ACOG_4.get(), new ACOG_4x_ScopeModel());
         ModelOverrides.register(ModItems.AIMPOINT_T1_SIGHT.get(), new AimpointT1SightModel());

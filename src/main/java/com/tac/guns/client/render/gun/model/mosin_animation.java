@@ -30,15 +30,15 @@ public class mosin_animation implements IOverrideModel {
     @Override
     public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay) {
 
-            RenderUtil.renderModel(SpecialModels.MOSIN.getModel(), stack, matrices, renderBuffer, light, overlay);
-            matrices.push();
+        RenderUtil.renderModel(SpecialModels.MOSIN.getModel(), stack, matrices, renderBuffer, light, overlay);
+        matrices.push();
 
 
-            CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
-            float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
-            float cooldown = (float) easeInOutBack(cooldownOg);
+        CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+        float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
+        float cooldown = (float) easeInOutBack(cooldownOg);
 
-            if (cooldownOg != 0 && cooldownOg < 0.81)
+/*            if (cooldownOg != 0 && cooldownOg < 0.81)
             {
                 matrices.translate(0.088, 0.08, 0.00);
                 matrices.rotate(Vector3f.ZN.rotationDegrees(-90F));
@@ -54,10 +54,29 @@ public class mosin_animation implements IOverrideModel {
                     matrices.translate(0, 0, 0.898f * ((1.0 * cooldownOg)));
                 }
 
+            }*/
+
+        if (cooldownOg != 0 && cooldownOg < 0.86)
+        {
+            matrices.translate(0.088, 0.08, 0.00);
+            matrices.rotate(Vector3f.ZN.rotationDegrees(-90F));
+
+            // matrices.translate(0, 0, 0.318f * (-4.5 * Math.pow(cooldownOg +0.19 -0.5, 2) + 1));
+
+            if (cooldownOg < 0.74 && cooldownOg > 0.42)
+            {
+                matrices.translate(0, 0, -0.03 * -cooldown);
+                matrices.translate(0, 0, 0.318f * ((1.0 * -cooldown)+1));
+            }
+            if (cooldownOg < 0.42 && cooldownOg > 0.07)
+            {
+                matrices.translate(0, 0, 0.798f * ((1.0 * cooldownOg-0.07)));
             }
 
-            RenderUtil.renderModel(SpecialModels.MOSIN_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
-            matrices.pop();
+        }
+
+        RenderUtil.renderModel(SpecialModels.MOSIN_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
+        matrices.pop();
     }
     //Same method from GrenadeLauncherModel, to make a smooth rotation of the chamber.
     private double easeInOutBack(double x) {

@@ -48,7 +48,7 @@ public class m870_classic_animation implements IOverrideModel {
                 }
             }
         }
-        matrices.translate(0.00, 0.0, 0.04);
+        //matrices.translate(0.00, 0.0, 0.085);
         RenderUtil.renderModel(SpecialModels.M870_CLASSIC_SLIDE.getModel(), stack, matrices, renderBuffer, light, overlay);
 
         //Always pop

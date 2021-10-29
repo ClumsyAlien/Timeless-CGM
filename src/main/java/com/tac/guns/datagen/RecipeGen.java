@@ -2,9 +2,7 @@ package com.tac.guns.datagen;
 
 import com.google.gson.JsonObject;
 import com.tac.guns.Reference;
-import com.tac.guns.crafting.WorkbenchRecipeBuilder;
 import com.tac.guns.init.ModBlocks;
-import com.tac.guns.init.ModItems;
 import com.tac.guns.init.ModRecipeSerializers;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
@@ -27,7 +25,7 @@ public class RecipeGen extends RecipeProvider
     }
 
     @Override
-    public void registerRecipes(Consumer<IFinishedRecipe> consumer)
+    protected void registerRecipes(Consumer<IFinishedRecipe> consumer)
     {
         // Dye Item
         consumer.accept(new IFinishedRecipe()
@@ -73,96 +71,91 @@ public class RecipeGen extends RecipeProvider
                 .addCriterion("has_iron", hasItem(Tags.Items.INGOTS_IRON))
                 .build(consumer);
 
-        // Guns
-        WorkbenchRecipeBuilder.workbenchRecipe(ModItems.AR15_HELLMOUTH.get())
-                .addIngredient(Items.IRON_INGOT, 74)
-                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
-                .build(consumer);
-        /*
+       /* // Guns
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.PISTOL.get())
                 .addIngredient(Items.IRON_INGOT, 14)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.SHOTGUN.get())
                 .addIngredient(Items.IRON_INGOT, 24)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.RIFLE.get())
                 .addIngredient(Items.IRON_INGOT, 24)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.GRENADE_LAUNCHER.get())
                 .addIngredient(Items.IRON_INGOT, 32)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.BAZOOKA.get())
                 .addIngredient(Items.IRON_INGOT, 44)
                 .addIngredient(Items.REDSTONE, 4)
                 .addIngredient(Items.RED_DYE)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
-                .addCriterion("has_redstone", has(Items.REDSTONE))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
+                .addCriterion("has_redstone", hasItem(Items.REDSTONE))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.MINI_GUN.get())
                 .addIngredient(Items.IRON_INGOT, 38)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.ASSAULT_RIFLE.get())
                 .addIngredient(Items.IRON_INGOT, 28)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.MACHINE_PISTOL.get())
                 .addIngredient(Items.IRON_INGOT, 20)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.HEAVY_RIFLE.get())
                 .addIngredient(Items.IRON_INGOT, 36)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
                 .build(consumer);
 
         // Ammo
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.BASIC_BULLET.get(), 32) // Why is the basic bullet the same price as the advanced?
                 .addIngredient(Items.IRON_NUGGET, 4)
                 .addIngredient(Items.GUNPOWDER)
-                .addCriterion("has_iron_nugget", has(Items.IRON_NUGGET))
-                .addCriterion("has_gunpowder", has(Items.GUNPOWDER))
+                .addCriterion("has_iron_nugget", hasItem(Items.IRON_NUGGET))
+                .addCriterion("has_gunpowder", hasItem(Items.GUNPOWDER))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.ADVANCED_AMMO.get(), 16)
                 .addIngredient(Items.IRON_NUGGET, 4)
                 .addIngredient(Items.GUNPOWDER)
-                .addCriterion("has_iron_nugget", has(Items.IRON_NUGGET))
-                .addCriterion("has_gunpowder", has(Items.GUNPOWDER))
+                .addCriterion("has_iron_nugget", hasItem(Items.IRON_NUGGET))
+                .addCriterion("has_gunpowder", hasItem(Items.GUNPOWDER))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.SHELL.get(), 24)
                 .addIngredient(Items.IRON_NUGGET, 4)
                 .addIngredient(Items.GOLD_NUGGET)
                 .addIngredient(Items.GUNPOWDER)
-                .addCriterion("has_iron_nugget", has(Items.IRON_NUGGET))
-                .addCriterion("has_gold_nugget", has(Items.GOLD_NUGGET))
-                .addCriterion("has_gunpowder", has(Items.GUNPOWDER))
+                .addCriterion("has_iron_nugget", hasItem(Items.IRON_NUGGET))
+                .addCriterion("has_gold_nugget", hasItem(Items.GOLD_NUGGET))
+                .addCriterion("has_gunpowder", hasItem(Items.GUNPOWDER))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.MISSILE.get())
                 .addIngredient(Items.IRON_INGOT, 2)
                 .addIngredient(Items.GUNPOWDER, 4)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
-                .addCriterion("has_gunpowder", has(Items.GUNPOWDER))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
+                .addCriterion("has_gunpowder", hasItem(Items.GUNPOWDER))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.GRENADE.get(), 2)
                 .addIngredient(Items.IRON_INGOT)
                 .addIngredient(Items.GUNPOWDER, 4)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
-                .addCriterion("has_gunpowder", has(Items.GUNPOWDER))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
+                .addCriterion("has_gunpowder", hasItem(Items.GUNPOWDER))
                 .build(consumer);
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.STUN_GRENADE.get(), 2)
                 .addIngredient(Items.IRON_INGOT)
                 .addIngredient(Items.GUNPOWDER, 2)
                 .addIngredient(Items.GLOWSTONE_DUST, 4)
-                .addCriterion("has_iron_ingot", has(Items.IRON_INGOT))
-                .addCriterion("has_gunpowder", has(Items.GUNPOWDER))
-                .addCriterion("has_glowstone", has(Items.GLOWSTONE_DUST))
+                .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
+                .addCriterion("has_gunpowder", hasItem(Items.GUNPOWDER))
+                .addCriterion("has_glowstone", hasItem(Items.GLOWSTONE_DUST))
                 .build(consumer);
-        */
+
         // Scope Attachments
-        /*WorkbenchRecipeBuilder.workbenchRecipe(ModItems.SHORT_SCOPE.get())
+        WorkbenchRecipeBuilder.workbenchRecipe(ModItems.SHORT_SCOPE.get())
                 .addIngredient(Items.IRON_INGOT, 2)
                 .addIngredient(Items.GLASS_PANE)
                 .addIngredient(Items.REDSTONE, 2)
@@ -181,7 +174,7 @@ public class RecipeGen extends RecipeProvider
                 .addIngredient(Items.GLASS_PANE, 2)
                 .addIngredient(Items.BLACK_DYE)
                 .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
-                .build(consumer);*/
+                .build(consumer);
 
         // Barrel Attachments
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.SILENCER.get())
@@ -217,6 +210,6 @@ public class RecipeGen extends RecipeProvider
                 .addIngredient(Items.IRON_INGOT, 8)
                 .addIngredient(Items.GRAY_WOOL)
                 .addCriterion("has_iron_ingot", hasItem(Items.IRON_INGOT))
-                .build(consumer);
+                .build(consumer);*/
     }
 }

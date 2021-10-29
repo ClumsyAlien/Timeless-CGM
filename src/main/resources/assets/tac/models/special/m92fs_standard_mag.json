@@ -1,5 +1,5 @@
 {
-	"credit": "Made with Blockbench",
+	"credit": "Models are primarially made by NekoCrane and adjusted by ClumsyAlien!",
 	"textures": {
 		"3": "tac:items/m92fs_body",
 		"particle": "tac:items/m92fs_body"
@@ -23,7 +23,6 @@
 			"to": [8.875, 10.84375, 15.9375],
 			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 0.59375, 15.9375]},
 			"faces": {
-				"north": {"uv": [0, 0, 1.75, 10.4375], "texture": "#3", "tintindex": 0},
 				"east": {"uv": [0, 0, 0.875, 10.4375], "texture": "#3", "tintindex": 0},
 				"south": {"uv": [0, 0, 1.75, 10.4375], "texture": "#3", "tintindex": 0},
 				"west": {"uv": [0, 0, 0.875, 10.4375], "texture": "#3", "tintindex": 0},
@@ -40,8 +39,7 @@
 				"east": {"uv": [0, 0, 0.75, 10.75], "texture": "#3", "tintindex": 0},
 				"south": {"uv": [0, 0, 1.75, 10.75], "texture": "#3", "tintindex": 0},
 				"west": {"uv": [0, 0, 0.75, 10.75], "texture": "#3", "tintindex": 0},
-				"up": {"uv": [0, 0, 1.75, 0.75], "texture": "#3", "tintindex": 0},
-				"down": {"uv": [0, 0, 1.75, 0.75], "texture": "#3", "tintindex": 0}
+				"up": {"uv": [0, 0, 1.75, 0.75], "texture": "#3", "tintindex": 0}
 			}
 		},
 		{
@@ -53,8 +51,7 @@
 				"east": {"uv": [0, 0, 0.6875, 10.5625], "texture": "#3", "tintindex": 0},
 				"south": {"uv": [0, 0, 1.75, 10.5625], "texture": "#3", "tintindex": 0},
 				"west": {"uv": [0, 0, 0.6875, 10.5625], "texture": "#3", "tintindex": 0},
-				"up": {"uv": [0, 0, 1.75, 0.6875], "texture": "#3", "tintindex": 0},
-				"down": {"uv": [0, 0, 1.75, 0.6875], "texture": "#3", "tintindex": 0}
+				"up": {"uv": [0, 0, 1.75, 0.6875], "texture": "#3", "tintindex": 0}
 			}
 		},
 		{
@@ -63,9 +60,6 @@
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, -4.75, 0.0625]},
 			"faces": {
 				"north": {"uv": [0, 0, 1.25, 0.375], "texture": "#3", "tintindex": 0},
-				"east": {"uv": [0, 0, 0.5, 0.375], "texture": "#3", "tintindex": 0},
-				"south": {"uv": [0, 0, 1.25, 0.375], "texture": "#3", "tintindex": 0},
-				"west": {"uv": [0, 0, 0.5, 0.375], "texture": "#3", "tintindex": 0},
 				"up": {"uv": [0, 0, 1.25, 0.5], "texture": "#3", "tintindex": 0},
 				"down": {"uv": [0, 0, 1.25, 0.5], "texture": "#3", "tintindex": 0}
 			}
@@ -76,8 +70,6 @@
 			"rotation": {"angle": 45, "axis": "y", "origin": [7.375, 0.25, 13.31172]},
 			"faces": {
 				"north": {"uv": [0, 0, 0.706, 0.375], "texture": "#3", "tintindex": 0},
-				"east": {"uv": [0, 0, 0.706, 0.375], "texture": "#3", "tintindex": 0},
-				"south": {"uv": [0, 0, 0.706, 0.375], "texture": "#3", "tintindex": 0},
 				"west": {"uv": [0, 0, 0.706, 0.375], "texture": "#3", "tintindex": 0},
 				"up": {"uv": [0, 0, 0.706, 0.706], "texture": "#3", "tintindex": 0},
 				"down": {"uv": [0, 0, 0.706, 0.706], "texture": "#3", "tintindex": 0}
@@ -88,10 +80,8 @@
 			"to": [9.41734, 0.40625, 14.72538],
 			"rotation": {"angle": 45, "axis": "y", "origin": [7.56434, 0.25, 14.37238]},
 			"faces": {
-				"north": {"uv": [0, 0, 0.706, 0.375], "texture": "#3", "tintindex": 0},
 				"east": {"uv": [0, 0, 0.706, 0.375], "texture": "#3", "tintindex": 0},
 				"south": {"uv": [0, 0, 0.706, 0.375], "texture": "#3", "tintindex": 0},
-				"west": {"uv": [0, 0, 0.706, 0.375], "texture": "#3", "tintindex": 0},
 				"up": {"uv": [0, 0, 0.706, 0.706], "texture": "#3", "tintindex": 0},
 				"down": {"uv": [0, 0, 0.706, 0.706], "texture": "#3", "tintindex": 0}
 			}
@@ -122,6 +112,7 @@
 		{
 			"name": "magazine",
 			"origin": [7.56434, 5, 14.37238],
+			"color": 0,
 			"children": [0, 1, 2, 3, 4, 5, 6]
 		}
 	]

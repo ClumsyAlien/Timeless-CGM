@@ -63,6 +63,9 @@ public final class Gun implements INBTSerializable<CompoundNBT>
     {
         @Optional
         private boolean auto = false;
+        @Optional
+        private boolean boltAction = false;
+
         private int rate;
         @Optional
         private int[] rateSelector = new int[]{0,1};
@@ -93,6 +96,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         {
             CompoundNBT tag = new CompoundNBT();
             tag.putBoolean("Auto", this.auto);
+            tag.putBoolean("BoltAction", this.boltAction);
             tag.putInt("Rate", this.rate);
             tag.putIntArray("RateSelector", this.rateSelector);
             tag.putString("GripType", this.gripType.getId().toString());
@@ -115,6 +119,10 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             if(tag.contains("Auto", Constants.NBT.TAG_ANY_NUMERIC))
             {
                 this.auto = tag.getBoolean("Auto");
+            }
+            if(tag.contains("BoltAction", Constants.NBT.TAG_ANY_NUMERIC))
+            {
+                this.boltAction = tag.getBoolean("BoltAction");
             }
             if(tag.contains("Rate", Constants.NBT.TAG_ANY_NUMERIC))
             {
@@ -177,6 +185,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         {
             General general = new General();
             general.auto = this.auto;
+            general.boltAction = this.boltAction;
             general.rate = this.rate;
             general.rateSelector = this.rateSelector;
             general.gripType = this.gripType;
@@ -202,6 +211,14 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         }
 
         /**
+         * @return If the gun exits aim during Cooldown
+         */
+        public boolean isBoltAction()
+        {
+            return this.boltAction;
+        }
+
+        /**
          * @return The fire rate of this weapon in ticks
          */
         public int getRate()
@@ -210,7 +227,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         }
 
         /**
-         * @return The fire modes supported by the weapon, 0=False 1=True [Safety, Single, Three round burst, Auto, Special 1, Special 2]
+         * @return The fire modes supported by the weapon, [0,1,2,3,4,5] [Safety, Single, Three round burst, Auto, Special 1, Special 2]
          */
         public int[] getRateSelector()
         {
@@ -842,7 +859,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             private float fovModifier;
 
             @Optional
-            private double stabilityOffset = 0.5;
+            private double stabilityOffset = 0.325;
 
             @Override
             public CompoundNBT serializeNBT()

@@ -177,7 +177,13 @@ public enum SpecialModels
     AR_10_BRAKE("ar_10_brake"),
     AR_10_COMPENSATOR("ar_10_compensator"),
     AR_10_BOLT("ar_10_bolt"),
-    AR_10_SUPPRESSOR("ar_10_suppressor");
+    AR_10_SUPPRESSOR("ar_10_suppressor"),
+    AR_10_EXTENDED_MAG("ar_10_extended_mag"),
+    AR_10_HEAVY_STOCK("ar_10_heavy_stock"),
+    AR_10_STANDARD_MAG("ar_10_standard_mag"),
+    AR_10_TACTICAL_GRIP("ar_10_tactical_grip"),
+    MAC_10_EXTENDED_MAG("mac_10_extended_mag"),
+    MAC_10_STANDARD_MAG("mac_10_standard_mag");
 
     /**
      * The location of an item model in the [MOD_ID]/models/special/[NAME] folder

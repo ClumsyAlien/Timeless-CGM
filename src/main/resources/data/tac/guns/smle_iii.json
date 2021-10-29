@@ -1,6 +1,6 @@
 {
   "general": {
-    "rate": 20,
+    "rate": 18,
     "rateSelector": [
       0,
       1
@@ -32,16 +32,16 @@
   },
   "display": {
     "flash": {
-      "yOffset": 5.1,
-      "zOffset": -29.90,
-      "size": 1.3
+      "yOffset": 8.1,
+      "zOffset": -22.80,
+      "size": 1.05
     },
     "weaponType": 5
   },
   "modules": {
     "zoom": [{
       "fovModifier": 0.60,
-      "yOffset": 8.345,
+      "yOffset": 8.315,
       "zOffset": -5.7
     }]
   }

@@ -20,7 +20,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 //apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
-version = "0.0.24-1.16.5"
+version = "0.1.0-1.16.5"
 group = "com.tac"
 archivesBaseName = "timeless_and_classics-gun_mod"
 
@@ -111,7 +111,7 @@ jar {
             "Specification-Version": "0.04",
             "Implementation-Title": "Timeless and Classics",
             "Implementation-Version": project.version,
-            "Implementation-Vendor" : "ClummsyAlien",
+            "Implementation-Vendor" : "ClumsyAlien",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
             "MixinConfigs": "tac.mixins.json"
         ])

@@ -1,6 +1,7 @@
 {
   "general": {
-    "rate": 48,
+    "boltAction": true,
+    "rate": 32,
     "rateSelector": [
       0,
       1
@@ -10,12 +11,12 @@
     "reloadAmount": 1,
     "recoilAngle": 13.5,
     "recoilKick": 1.5,
-    "recoilAdsReduction": 0.75,
+    "recoilAdsReduction": 0.55,
     "alwaysSpread": true,
-    "spread": 0.2
+    "spread": 2.25
   },
   "projectile": {
-    "item": "tac:win_30-30",
+    "item": "tac:762x54",
     "visible": false,
     "gravity": true,
     "damage": 20,
@@ -39,16 +40,10 @@
   },
   "modules": {
     "zoom": [{
-      "fovModifier": 0.55,
+      "fovModifier": 0.6,
       "yOffset": 10.1,
-      "zOffset": -6.4
+      "zOffset": -8.85
     }],
-    "attachments": {
-      "scope": {
-        "yOffset": 9.48,
-        "zOffset": 2.8,
-        "scale": 1.0
-      }
-    }
+    "attachments": { }
   }
 }

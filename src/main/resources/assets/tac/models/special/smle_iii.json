@@ -4,7 +4,7 @@
 		"0": "tac:items/light_enfield_barrel",
 		"1": "tac:items/ppsh_bolt",
 		"2": "tac:items/dark_enfield_barrel",
-		"3": "tac:items/detailed_dark_wood",
+		"3": "tac:items/detailed_wood",
 		"particle": "tac:items/light_enfield_barrel"
 	},
 	"elements": [
@@ -1471,7 +1471,6 @@
 			"to": [7.5142, 8.56681, -13.09957],
 			"rotation": {"angle": 0, "axis": "x", "origin": [7.48295, 7.83941, -13.20895]},
 			"faces": {
-				"north": {"uv": [0, 0, 0.1875, 0.4774], "texture": "#0"},
 				"east": {"uv": [0, 0, 0.54688, 0.4774], "texture": "#0"},
 				"west": {"uv": [0, 0, 0.54688, 0.4774], "texture": "#0"},
 				"up": {"uv": [0, 0, 0.1875, 0.54688], "texture": "#0"}
@@ -1515,7 +1514,6 @@
 			"to": [8.67045, 8.56681, -13.09957],
 			"rotation": {"angle": 0, "axis": "x", "origin": [8.6392, 7.83941, -13.20895]},
 			"faces": {
-				"north": {"uv": [0, 0, 0.1875, 0.4774], "texture": "#0"},
 				"east": {"uv": [0, 0, 0.54688, 0.4774], "texture": "#0"},
 				"west": {"uv": [0, 0, 0.54688, 0.4774], "texture": "#0"},
 				"up": {"uv": [0, 0, 0.1875, 0.54688], "texture": "#0"}
@@ -3630,7 +3628,7 @@
 				"north": {"uv": [7.4375, 10.78858, 8.3125, 12.02295], "rotation": 180, "texture": "#0"},
 				"east": {"uv": [0.91859, 10.78858, 2.04359, 12.02295], "rotation": 180, "texture": "#0"},
 				"south": {"uv": [8.4375, 10.78858, 9.3125, 12.02295], "rotation": 180, "texture": "#0"},
-				"west": {"uv": [14.95641, 10.78858, 16.08141, 12.02295], "rotation": 180, "texture": "#0"}
+				"west": {"uv": [14.5, 11, 15.625, 12.23437], "rotation": 180, "texture": "#0"}
 			}
 		},
 		{
@@ -3640,7 +3638,7 @@
 			"faces": {
 				"east": {"uv": [0.91859, 10.78858, 1.91859, 10.85108], "rotation": 180, "texture": "#0"},
 				"south": {"uv": [8.4375, 10.78858, 9.3125, 10.85108], "rotation": 180, "texture": "#0"},
-				"west": {"uv": [14.95641, 10.78858, 15.95641, 10.85108], "rotation": 180, "texture": "#0"},
+				"west": {"uv": [14, 10.5, 15, 10.5625], "rotation": 180, "texture": "#0"},
 				"down": {"uv": [8.4375, 0.91859, 9.3125, 1.91859], "texture": "#0"}
 			}
 		},

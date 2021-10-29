@@ -361,7 +361,7 @@ public class GunModifiers
         @Override
         public float criticalChance()
         {
-            return 0.15F;
+            return 0.075F;
         }
         @Override
         public double modifyMuzzleFlashSize(double size)
@@ -386,7 +386,7 @@ public class GunModifiers
         @Override
         public float horizontalRecoilModifier()
         {
-            return 1.30F;
+            return 1.105F;
         }
 
         @Override

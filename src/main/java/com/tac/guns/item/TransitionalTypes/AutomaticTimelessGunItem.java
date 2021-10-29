@@ -1,6 +1,7 @@
 package com.tac.guns.item.TransitionalTypes;
 
 import com.tac.guns.init.ModEnchantments;
+import com.tac.guns.item.IColored;
 import com.tac.guns.util.Process;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -13,7 +14,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Map;
 
-public class AutomaticTimelessGunItem extends TimelessGunItem {
+public class AutomaticTimelessGunItem extends TimelessGunItem implements IColored {
 	
 	private final ForgeConfigSpec.IntValue TRIG_MAX;
 	

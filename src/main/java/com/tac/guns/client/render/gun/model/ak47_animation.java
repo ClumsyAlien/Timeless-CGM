@@ -31,10 +31,6 @@ public class ak47_animation implements IOverrideModel {
         CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker(); // getCooldownTracker();
         float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks()); // getRenderPartialTicks()); // getCooldown(stack.getItem(), Minecraft.getInstance().getFrameTime());
 
-        float reloadProgress = ReloadHandler.get().getReloadProgress(cooldownOg);
-
-        matrices.translate(0,-reloadProgress,reloadProgress);
-
         if(Gun.getScope(stack) != null)
         {
             RenderUtil.renderModel(SpecialModels.AK47_OPTIC_MOUNT.getModel(), stack, matrices, renderBuffer, light, overlay);

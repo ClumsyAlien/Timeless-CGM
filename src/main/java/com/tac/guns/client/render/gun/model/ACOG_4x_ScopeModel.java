@@ -55,7 +55,7 @@ public class ACOG_4x_ScopeModel implements IOverrideModel
             }
 
             float scopePrevSize = 0.965F;
-            float scopeSize = 1.01070F;
+            float scopeSize = 1.005F;
             float size = scopeSize / 16.0F;
             float reticleSize = scopePrevSize / 16.0F;
             float crop = 0.4285F;
@@ -69,7 +69,7 @@ public class ACOG_4x_ScopeModel implements IOverrideModel
                 Matrix4f matrix = matrixStack.getLast().getMatrix();
                 Matrix3f normal = matrixStack.getLast().getNormal();
 
-                matrixStack.translate(-size / 2, 0.0926175 , 3.85 * 0.0625);
+                matrixStack.translate(-size / 2, 0.0936175 , 3.915 * 0.0625);
 
                 float color = (float) AimingHandler.get().getNormalisedAdsProgress() * 0.8F + 0.2F;
 
@@ -104,7 +104,8 @@ public class ACOG_4x_ScopeModel implements IOverrideModel
                 alpha = (float) (0.75F * AimingHandler.get().getNormalisedAdsProgress());
 
                 matrixStack.scale(7.5f,7.5f,7.5f);
-                matrixStack.translate(-0.00335715, -0.003405, 0.0000);
+                //matrixStack.translate(-0.00335715, -0.0039355, 0.0000);
+                matrixStack.translate(-0.00335715, -0.0035055, 0.0000);
                 builder = renderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(RED_DOT_RETICLE));
                 builder.pos(matrix, 0, (float) (reticleSize / scale), 0).color(red, green, blue, alpha).tex(0.0F, 0.9375F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
                 builder.pos(matrix, 0, 0, 0).color(red, green, blue, alpha).tex(0.0F, 0.0F).overlay(overlay).lightmap(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();

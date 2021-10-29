@@ -64,7 +64,7 @@ public class GunMod
         public ItemStack createIcon()
         {
             ItemStack stack = new ItemStack(ModItems.M1911.get());
-            stack.getOrCreateTag().putInt("AmmoCount", ModItems.M1911.get().getGun().getGeneral().getMaxAmmo());
+            stack.getOrCreateTag().putInt("AmmoCount", 8);//ModItems.M1911.get().getGun().getGeneral().getMaxAmmo());
             return stack;
         }
 
@@ -198,8 +198,8 @@ public class GunMod
         bus.addListener(this::dataSetup);
         controllableLoaded = ModList.get().isLoaded("controllable");
 
-        MixinEnvironment.getDefaultEnvironment()
-                .addConfiguration("tac.mixins.json");
+        /*MixinEnvironment.getDefaultEnvironment()
+                .addConfiguration("tac.mixins.json");*/
     }
 
     private void onCommonSetup(FMLCommonSetupEvent event)
@@ -221,6 +221,18 @@ public class GunMod
         GripType.registerType(new GripType(new ResourceLocation("tac", "two_handed_ak47"), new TwoHandedPoseHighRes_ak47()));
         GripType.registerType(new GripType(new ResourceLocation("tac", "two_handed_m60"), new TwoHandedPoseHighRes_m60()));
         GripType.registerType(new GripType(new ResourceLocation("tac", "two_handed_vector"), new TwoHandedPoseHighRes_vector()));
+    }
+
+    private void dataSetup(GatherDataEvent event)
+    {
+        DataGenerator dataGenerator = event.getGenerator();
+        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+        BlockTagGen blockTagGen = new BlockTagGen(dataGenerator, existingFileHelper);
+        dataGenerator.addProvider(new RecipeGen(dataGenerator));
+        dataGenerator.addProvider(new LootTableGen(dataGenerator));
+        dataGenerator.addProvider(blockTagGen);
+        dataGenerator.addProvider(new ItemTagGen(dataGenerator, blockTagGen, existingFileHelper));
+        dataGenerator.addProvider(new LanguageGen(dataGenerator));
     }
 
     private void onClientSetup(FMLClientSetupEvent event)
@@ -247,17 +259,5 @@ public class GunMod
                 }
             }
         }
-    }
-
-    private void dataSetup(GatherDataEvent event)
-    {
-        DataGenerator dataGenerator = event.getGenerator();
-        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-        BlockTagGen blockTagGen = new BlockTagGen(dataGenerator, existingFileHelper);
-        dataGenerator.addProvider(new RecipeGen(dataGenerator));
-        dataGenerator.addProvider(new LootTableGen(dataGenerator));
-        dataGenerator.addProvider(blockTagGen);
-        dataGenerator.addProvider(new ItemTagGen(dataGenerator, blockTagGen, existingFileHelper));
-        dataGenerator.addProvider(new LanguageGen(dataGenerator));
     }
 }

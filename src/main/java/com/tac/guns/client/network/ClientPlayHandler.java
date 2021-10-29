@@ -8,6 +8,7 @@ import com.tac.guns.client.handler.BulletTrailRenderingHandler;
 import com.tac.guns.client.handler.GunRenderingHandler;
 import com.tac.guns.common.NetworkGunManager;
 import com.tac.guns.init.ModParticleTypes;
+import com.tac.guns.init.ModSounds;
 import com.tac.guns.network.message.*;
 import com.tac.guns.particles.BulletHoleData;
 import net.minecraft.block.BlockState;
@@ -172,6 +173,7 @@ public class ClientPlayHandler
         {
             if(Config.CLIENT.sounds.playSoundWhenHeadshot.get())
             {
+                //SoundEvent event = ModSounds.HEADSHOT_EXTENDED_PLAYFUL.get();//ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(Config.CLIENT.sounds.headshotSound.get()));
                 SoundEvent event = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(Config.CLIENT.sounds.headshotSound.get()));
                 return event != null ? event : SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK;
             }

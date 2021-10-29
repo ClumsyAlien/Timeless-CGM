@@ -33,8 +33,8 @@
   },
   "display": {
     "flash": {
-      "yOffset": 8.45,
-      "zOffset": -17.25,
+      "yOffset": 8.65,
+      "zOffset": -22.85,
       "size": 1.20
     },
     "weaponType": 3
@@ -42,7 +42,7 @@
   "modules": {
     "zoom": [{
       "fovModifier": 0.75,
-      "yOffset": 14.28,
+      "yOffset": 9.28,
       "zOffset": -1.2
     }],
     "attachments": {}

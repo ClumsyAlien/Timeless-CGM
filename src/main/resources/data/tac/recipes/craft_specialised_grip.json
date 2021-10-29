@@ -1,7 +1,7 @@
 {
   "type": "tac:workbench",
   "result": {
-    "item": "tac:m1911"
+    "item": "tac:specialised_grip"
   },
   "materials": [
     {
@@ -9,12 +9,8 @@
       "count": 14
     },
     {
-      "item": "minecraft:dark_oak_log",
+      "item": "minecraft:white_wool",
       "count": 2
-    },
-    {
-      "item": "minecraft:iron_nugget",
-      "count": 20
     }
   ]
 }

@@ -5,11 +5,13 @@ import com.tac.guns.client.SpecialModels;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.Gun;
+import com.tac.guns.init.ModEnchantments;
 import com.tac.guns.init.ModItems;
 import com.tac.guns.item.attachment.IAttachment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.CooldownTracker;
@@ -44,7 +46,7 @@ public class ar_10_animation implements IOverrideModel {
         }
         if(Gun.getAttachment(IAttachment.Type.STOCK, stack).getItem() == ModItems.WEIGHTED_STOCK.orElse(ItemStack.EMPTY.getItem()))
         {
-            RenderUtil.renderModel(SpecialModels.AR15_HELLMOUTH_BUTT_HEAVY.getModel(), stack, matrices, renderBuffer, light, overlay);
+            RenderUtil.renderModel(SpecialModels.AR_10_HEAVY_STOCK.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
         /*if(Gun.getAttachment(IAttachment.Type.BARREL, stack).getItem() == ModItems.SILENCER.orElse(ItemStack.EMPTY.getItem()))
         {
@@ -84,12 +86,23 @@ public class ar_10_animation implements IOverrideModel {
 
         if(Gun.getAttachment(IAttachment.Type.UNDER_BARREL, stack).getItem() == ModItems.SPECIALISED_GRIP.orElse(ItemStack.EMPTY.getItem()))
         {
-            RenderUtil.renderModel(SpecialModels.AR15_HELLMOUTH_TACTICAL_GRIP.getModel(), stack, matrices, renderBuffer, light, overlay);
+            RenderUtil.renderModel(SpecialModels.AR_10_TACTICAL_GRIP.getModel(), stack, matrices, renderBuffer, light, overlay);
+            //RenderUtil.renderModel(SpecialModels.AR15_P_TACTICAL_GRIP.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
         if(Gun.getAttachment(IAttachment.Type.UNDER_BARREL, stack).getItem() == ModItems.LIGHT_GRIP.orElse(ItemStack.EMPTY.getItem()))
         {
-            RenderUtil.renderModel(SpecialModels.AR15_HELLMOUTH_LIGHTWEIGHT_GRIP.getModel(), stack, matrices, renderBuffer, light, overlay);
+            RenderUtil.renderModel(SpecialModels.AR15_HELLMOUTH_TACTICAL_GRIP.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
+
+        if(EnchantmentHelper.getEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), stack) > 0)
+        {
+            RenderUtil.renderModel(SpecialModels.AR_10_EXTENDED_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
+        }
+        else
+        {
+            RenderUtil.renderModel(SpecialModels.AR_10_STANDARD_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
+        }
+
         RenderUtil.renderModel(SpecialModels.AR_10_BODY.getModel(), stack, matrices, renderBuffer, light, overlay);
         matrices.push();
         CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
