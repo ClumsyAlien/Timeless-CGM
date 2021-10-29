@@ -11,6 +11,7 @@
     "maxAmmo": 30,
     "reloadAmount": 5,
     "recoilAngle": 1.35,
+    "horizontalRecoilAngle": 0.925,
     "recoilKick": 0.25,
     "recoilAdsReduction": 0.68,
     "alwaysSpread": true,
@@ -35,7 +36,8 @@
       "yOffset": 8.8,
       "zOffset": -17.95,
       "size": 0.7
-    }
+    },
+    "weaponType": 4
   },
   "modules": {
     "zoom": [{
@@ -44,11 +46,7 @@
       "zOffset": -3.6
     }],
     "attachments": {
-      "barrel": {
-        "yOffset": 8.8,
-        "zOffset": -17.95,
-        "scale": 0.75
-      }
+
     }
   }
 }

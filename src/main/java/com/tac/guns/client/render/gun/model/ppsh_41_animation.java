@@ -29,7 +29,7 @@ public class ppsh_41_animation implements IOverrideModel {
 
 
 
-        if(EnchantmentHelper.getMaxEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
+        if(EnchantmentHelper.getEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), stack) > 0)
         {
             RenderUtil.renderModel(SpecialModels.PPSH_41_EXTENDED_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
         }

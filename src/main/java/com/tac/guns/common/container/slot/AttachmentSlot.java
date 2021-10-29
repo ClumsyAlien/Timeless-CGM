@@ -4,11 +4,13 @@ import com.tac.guns.common.Gun;
 import com.tac.guns.common.container.AttachmentContainer;
 import com.tac.guns.init.ModSounds;
 import com.tac.guns.item.GunItem;
+import com.tac.guns.item.ScopeItem;
 import com.tac.guns.item.attachment.IAttachment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 
@@ -34,25 +36,42 @@ public class AttachmentSlot extends Slot
     @Override
     public boolean isEnabled()
     {
-        if(!(this.weapon.getItem() instanceof GunItem))
+        if(!(this.weapon.getItem() instanceof GunItem) && !(this.weapon.getItem() instanceof ScopeItem))
         {
             return false;
         }
-        GunItem item = (GunItem) this.weapon.getItem();
+        if(this.weapon.getItem() instanceof ScopeItem)
+        {
+            return true;
+        }
+        else
+        {
+            GunItem item = (GunItem) this.weapon.getItem();
+            Gun modifiedGun = item.getModifiedGun(this.weapon);
+            return modifiedGun.canAttachType(this.type);
+        }
+        /*GunItem item = (GunItem) this.weapon.getItem();
         Gun modifiedGun = item.getModifiedGun(this.weapon);
-        return modifiedGun.canAttachType(this.type);
+        return modifiedGun.canAttachType(this.type);*/
     }
 
     @Override
     public boolean isItemValid(ItemStack stack)
     {
-        if(!(this.weapon.getItem() instanceof GunItem))
+        if(!(this.weapon.getItem() instanceof GunItem) && !(this.weapon.getItem() instanceof ScopeItem))
         {
             return false;
         }
-        GunItem item = (GunItem) this.weapon.getItem();
-        Gun modifiedGun = item.getModifiedGun(this.weapon);
-        return stack.getItem() instanceof IAttachment && ((IAttachment) stack.getItem()).getType() == this.type && modifiedGun.canAttachType(this.type);
+        if(this.weapon.getItem() instanceof ScopeItem)
+        {
+            return true;
+        }
+        else
+        {
+            GunItem item = (GunItem) this.weapon.getItem();
+            Gun modifiedGun = item.getModifiedGun(this.weapon);
+            return stack.getItem() instanceof IAttachment && ((IAttachment) stack.getItem()).getType() == this.type && modifiedGun.canAttachType(this.type);
+        }
     }
 
     @Override
@@ -73,7 +92,7 @@ public class AttachmentSlot extends Slot
     @Override
     public boolean canTakeStack(PlayerEntity player)
     {
-        ItemStack itemstack = this.getStack();
-        return (itemstack.isEmpty() || player.isCreative() || !EnchantmentHelper.hasBindingCurse(itemstack)) && super.canTakeStack(player);
+        //ItemStack itemstack = this.getStack();
+        return true;
     }
 }

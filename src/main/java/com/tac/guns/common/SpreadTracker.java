@@ -1,10 +1,10 @@
 package com.tac.guns.common;
 
+import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.Config;
 import com.tac.guns.Reference;
 import com.tac.guns.init.ModSyncedDataKeys;
 import com.tac.guns.item.GunItem;
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.entity.player.PlayerEvent;

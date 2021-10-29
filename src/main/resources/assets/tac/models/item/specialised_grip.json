@@ -1,7 +1,9 @@
 {
 	"credit": "Model by MrCrayfish (https://twitter.com/MrCraayfish) using Blockbench",
+	"parent": "minecraft:item/generated",
 	"textures": {
 		"1": "tac:items/specialised_grip",
+		"layer0": "tac:gui/tactical_grip",
 		"particle": "tac:items/specialised_grip"
 	},
 	"elements": [
@@ -58,28 +60,5 @@
 				"down": {"uv": [0, 13, 2, 15], "texture": "#1"}
 			}
 		}
-	],
-	"display": {
-		"thirdperson_righthand": {
-			"translation": [0, 2, 1.25],
-			"scale": [1.1, 1.1, 1.1]
-		},
-		"firstperson_righthand": {
-			"translation": [-1.75, 5.5, 4.25],
-			"scale": [0.8, 0.8, 0.8]
-		},
-		"ground": {
-			"translation": [0, 2, 0]
-		},
-		"gui": {
-			"rotation": [30, 225, 0],
-			"translation": [0, 4.25, 0],
-			"scale": [2.75, 2.75, 2.75]
-		},
-		"fixed": {
-			"rotation": [0, 90, 0],
-			"translation": [0, 4.5, -1.25],
-			"scale": [2.5, 2.5, 2.5]
-		}
-	}
+	]
 }

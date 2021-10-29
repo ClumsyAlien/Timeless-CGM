@@ -1,6 +1,7 @@
 package com.tac.guns.client.render.gun.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.tac.guns.client.SpecialModels;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.Gun;
@@ -12,7 +13,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.CooldownTracker;
-import com.tac.guns.client.SpecialModels;
 
 /*
  * Because the revolver has a rotating chamber, we need to render it in a
@@ -28,7 +28,7 @@ public class m1911_nether_animation implements IOverrideModel {
     @Override
     public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay) {
 
-        if(EnchantmentHelper.getMaxEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
+        if(EnchantmentHelper.getEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), stack) > 0)
         {
             RenderUtil.renderModel(SpecialModels.M1911_LONG_MAG_NETHER.getModel(), stack, matrices, renderBuffer, light, overlay);
         }

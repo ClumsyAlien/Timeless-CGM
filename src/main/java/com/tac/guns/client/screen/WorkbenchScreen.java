@@ -116,7 +116,7 @@ public class WorkbenchScreen extends ContainerScreen<WorkbenchContainer>
 
         if(!attachments.isEmpty())
         {
-            this.tabs.add(new Tab(new ItemStack(ModItems.LONG_SCOPE.get()), "attachments", attachments));
+            this.tabs.add(new Tab(new ItemStack(ModItems.COYOTE_SIGHT.get()), "attachments", attachments));
         }
 
         if(!ammo.isEmpty())
@@ -344,7 +344,6 @@ public class WorkbenchScreen extends ContainerScreen<WorkbenchContainer>
     {
         int offset = this.tabs.isEmpty() ? 0 : 28;
         this.font.func_243248_b(matrixStack, this.title, (float)this.titleX, (float)this.titleY - 28 + offset, 4210752);
-        this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), (float)this.playerInventoryTitleX, (float)this.playerInventoryTitleY - 9 + offset, 4210752);
     }
 
     @Override

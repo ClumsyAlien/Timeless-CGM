@@ -1,7 +1,7 @@
 package com.tac.guns.network.message;
 
-import com.tac.guns.init.ModSyncedDataKeys;
 import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
+import com.tac.guns.init.ModSyncedDataKeys;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;

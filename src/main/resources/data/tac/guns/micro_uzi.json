@@ -6,18 +6,19 @@
       2
     ],
     "gripType": "tac:one_handed_m1911",
-    "maxAmmo": 25,
-    "reloadAmount": 5,
-    "recoilAngle": 1.565,
-    "recoilKick": 0.385,
-    "recoilAdsReduction": 0.48,
+    "maxAmmo": 20,
+    "reloadAmount": 10,
+    "recoilAngle": 1.2875,
+    "horizontalRecoilAngle": 0.835,
+    "recoilKick": 0.725,
+    "recoilAdsReduction": 0.465,
     "alwaysSpread": true,
-    "spread": 7.25
+    "spread": 7.05
   },
   "projectile": {
     "item": "tac:9mm_round",
     "visible": false,
-    "damage": 2.25,
+    "damage": 2.0,
     "size": 0.2,
     "speed": 16.5,
     "life": 3
@@ -30,28 +31,21 @@
   },
   "display": {
     "flash": {
-      "yOffset": 18.15,
-      "zOffset": -7.55,
-      "size": 1.10
-    }
+      "yOffset": 11.50,
+      "zOffset": -17.75,
+      "size": 0.845
+    },
+    "hipfireScale": 0.325,
+    "hipfireMoveScale": 0.525,
+    "hipfireRecoilScale": 1.0,
+    "weaponType": 4
   },
   "modules": {
     "zoom": [{
       "fovModifier": 0.60,
-      "yOffset": 21.40,
-      "zOffset": -7.75
+      "yOffset": 15.660,
+      "zOffset": -9.0
     }],
-    "attachments": {
-      "barrel": {
-        "yOffset": -100829.84,
-        "zOffset": -11.55,
-        "scale": 1.00
-      },
-      "scope": {
-        "yOffset": 19.95,
-        "zOffset": 5.8,
-        "scale": 1.850
-      }
-    }
+    "attachments": { }
   }
 }

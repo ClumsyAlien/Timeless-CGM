@@ -2,12 +2,12 @@
   "type": "tac:workbench",
   "result": {
     "item": "tac:10_gauge_round",
-    "count": 4
+    "count": 8
   },
   "materials": [
     {
       "item": "minecraft:iron_nugget",
-      "count": 14
+      "count": 12
     },
     {
       "item": "minecraft:gunpowder",

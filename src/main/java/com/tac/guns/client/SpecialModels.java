@@ -164,7 +164,26 @@ public enum SpecialModels
     AK47_BUTT_TACTICAL("ak47_tactical_stock"),
     AK47_SILENCER("ak47_silencer"),
     AK74_BUTT_HEAVY("ak74_heavy_stock"),
-    AK74_BUTT_TACTICAL("ak74_tactical_stock");
+    AK74_BUTT_TACTICAL("ak74_tactical_stock"),
+    AR_15_CQB_IRONS("ar_15_cqb_irons"),
+    AR_15_CQB_IRONS_2("ar_15_cqb_irons_2"),
+    AR_15_CQB_DEFAULT_BARREL("ar_15_cqb_default_barrel"),
+    AR_15_CQB_BRAKE("ar_15_cqb_brake"),
+    AR_15_CQB_COMPENSATOR("ar_15_cqb_compensator"),
+    AK47_BRAKE("ak47_brake"),
+    AK47_COMPENSATOR("ak47_compensator"),
+    AR_10_BODY("ar_10_body"),
+    AR_10_DEFAULT_BARREL("ar_10_default_muzzle"),
+    AR_10_BRAKE("ar_10_brake"),
+    AR_10_COMPENSATOR("ar_10_compensator"),
+    AR_10_BOLT("ar_10_bolt"),
+    AR_10_SUPPRESSOR("ar_10_suppressor"),
+    AR_10_EXTENDED_MAG("ar_10_extended_mag"),
+    AR_10_HEAVY_STOCK("ar_10_heavy_stock"),
+    AR_10_STANDARD_MAG("ar_10_standard_mag"),
+    AR_10_TACTICAL_GRIP("ar_10_tactical_grip"),
+    MAC_10_EXTENDED_MAG("mac_10_extended_mag"),
+    MAC_10_STANDARD_MAG("mac_10_standard_mag");
 
     /**
      * The location of an item model in the [MOD_ID]/models/special/[NAME] folder

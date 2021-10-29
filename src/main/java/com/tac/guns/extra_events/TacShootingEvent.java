@@ -6,26 +6,16 @@ package com.tac.guns.extra_events;
  */
 
 
-
 import com.tac.guns.Config;
-import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
-import com.tac.guns.client.handler.ShootingHandler;
 import com.tac.guns.common.Gun;
 import com.tac.guns.event.GunFireEvent;
-import com.tac.guns.init.ModSounds;
-import com.tac.guns.item.GunItem;
 import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.*;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.commons.lang3.ArrayUtils;
-
-import java.sql.Array;
-import java.util.*;
 
 
 
@@ -51,10 +41,7 @@ public class TacShootingEvent {
         if(!(event.getStack().getItem() instanceof TimelessGunItem))
             return;
 
-        if(Config.COMMON.gameplay.fireModeSelection.get())
-        {
-            HandleFireMode(event);
-        }
+        HandleFireMode(event);
     }
 
     private static void HandleFireMode(GunFireEvent.Pre event)
@@ -76,12 +63,16 @@ public class TacShootingEvent {
         int currentFireMode = gunItem.getTag().getInt("CurrentFireMode");
         if(currentFireMode == 0)
         {
-            if(Config.COMMON.gameplay.fireModeSelection.get())
+            if(!Config.COMMON.gameplay.safetyExistence.get())
             {
-                //event.getPlayer().sendMessage(new TranslationTextComponent("info." + Reference.MOD_ID + ".gun_safety_lock", new Object[]{(new KeybindTextComponent("key." + Reference.MOD_ID + ".fire_select")).getString().toUpperCase(Locale.ENGLISH)})).withStyle(TextFormatting.RED));
-                event.getPlayer().sendStatusMessage(new TranslationTextComponent("info." + Reference.MOD_ID + ".gun_safety_lock"),true);
+                gunItem.getTag().remove("CurrentFireMode");
+                gunItem.getTag().putInt("CurrentFireMode", gunItemFireModes[currentFireMode+1]);
             }
-            event.setCanceled(true);
+            else
+            {
+                event.getPlayer().sendStatusMessage(new TranslationTextComponent("info." + Reference.MOD_ID + ".gun_safety_lock"),true);
+                event.setCanceled(true);
+            }
         }
     }
 }

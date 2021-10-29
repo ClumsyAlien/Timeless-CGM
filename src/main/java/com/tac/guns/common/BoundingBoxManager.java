@@ -1,11 +1,7 @@
 package com.tac.guns.common;
 
 import com.tac.guns.Config;
-import com.tac.guns.common.headshot.BasicHeadshotBox;
-import com.tac.guns.common.headshot.ChildHeadshotBox;
-import com.tac.guns.common.headshot.NoChildHeadshotBox;
-import com.tac.guns.common.headshot.NoChildRotatedHeadshotBox;
-import com.tac.guns.common.headshot.RotatedHeadshotBox;
+import com.tac.guns.common.headshot.*;
 import com.tac.guns.interfaces.IHeadshotBox;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -21,7 +22,9 @@ import org.apache.logging.log4j.Level;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import java.util.List;
+
 
 public final class Gun implements INBTSerializable<CompoundNBT>
 {
@@ -60,6 +63,9 @@ public final class Gun implements INBTSerializable<CompoundNBT>
     {
         @Optional
         private boolean auto = false;
+        @Optional
+        private boolean boltAction = false;
+
         private int rate;
         @Optional
         private int[] rateSelector = new int[]{0,1};
@@ -90,6 +96,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         {
             CompoundNBT tag = new CompoundNBT();
             tag.putBoolean("Auto", this.auto);
+            tag.putBoolean("BoltAction", this.boltAction);
             tag.putInt("Rate", this.rate);
             tag.putIntArray("RateSelector", this.rateSelector);
             tag.putString("GripType", this.gripType.getId().toString());
@@ -112,6 +119,10 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             if(tag.contains("Auto", Constants.NBT.TAG_ANY_NUMERIC))
             {
                 this.auto = tag.getBoolean("Auto");
+            }
+            if(tag.contains("BoltAction", Constants.NBT.TAG_ANY_NUMERIC))
+            {
+                this.boltAction = tag.getBoolean("BoltAction");
             }
             if(tag.contains("Rate", Constants.NBT.TAG_ANY_NUMERIC))
             {
@@ -174,6 +185,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         {
             General general = new General();
             general.auto = this.auto;
+            general.boltAction = this.boltAction;
             general.rate = this.rate;
             general.rateSelector = this.rateSelector;
             general.gripType = this.gripType;
@@ -199,6 +211,14 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         }
 
         /**
+         * @return If the gun exits aim during Cooldown
+         */
+        public boolean isBoltAction()
+        {
+            return this.boltAction;
+        }
+
+        /**
          * @return The fire rate of this weapon in ticks
          */
         public int getRate()
@@ -207,7 +227,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         }
 
         /**
-         * @return The fire modes supported by the weapon, 0=False 1=True [Safety, Single, Three round burst, Auto, Special 1, Special 2]
+         * @return The fire modes supported by the weapon, [0,1,2,3,4,5] [Safety, Single, Three round burst, Auto, Special 1, Special 2]
          */
         public int[] getRateSelector()
         {
@@ -616,6 +636,9 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         private Flash flash;
 
         @Optional
+        private int weaponType = 0;
+
+        @Optional
         @Nullable
         private float hipfireScale = 1.0F;
 
@@ -654,6 +677,11 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         {
             return this.showDynamicHipfire;
         }
+        @Nullable
+        public int getWeaponType()
+        {
+            return this.weaponType;
+        }
 
         @Nullable
         public Flash getFlash()
@@ -664,12 +692,14 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         public static class Flash extends Positioned
         {
             private double size = 0.5;
+            private double smokeSize = 2.0;
 
             @Override
             public CompoundNBT serializeNBT()
             {
                 CompoundNBT tag = super.serializeNBT();
                 tag.putDouble("Size", this.size);
+                tag.putDouble("SmokeSize", this.smokeSize);
                 return tag;
             }
 
@@ -681,12 +711,17 @@ public final class Gun implements INBTSerializable<CompoundNBT>
                 {
                     this.size = tag.getDouble("Size");
                 }
+                if(tag.contains("SmokeSize", Constants.NBT.TAG_ANY_NUMERIC))
+                {
+                    this.smokeSize = tag.getDouble("SmokeSize");
+                }
             }
 
             public Flash copy()
             {
                 Flash flash = new Flash();
                 flash.size = this.size;
+                flash.smokeSize = this.smokeSize;
                 flash.xOffset = this.xOffset;
                 flash.yOffset = this.yOffset;
                 flash.zOffset = this.zOffset;
@@ -700,6 +735,11 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             {
                 return this.size;
             }
+
+            /**
+             * @return The size/scale of the muzzle smoke render
+             */
+            public double getSmokeSize() { return this.smokeSize;}
         }
 
         @Override
@@ -714,6 +754,7 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             tag.putFloat("HipFireMoveScale", this.hipfireMoveScale);
             tag.putFloat("HipFireRecoilScale", this.hipfireRecoilScale);
             tag.putBoolean("ShowDynamicHipfire", this.showDynamicHipfire);
+            tag.putInt("WeaponType", this.weaponType);
             return tag;
         }
 
@@ -750,6 +791,10 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             {
                 this.showDynamicHipfire = tag.getBoolean("ShowDynamicHipfire");
             }
+            if(tag.contains("WeaponType", Constants.NBT.TAG_ANY_NUMERIC))
+            {
+                this.weaponType = tag.getInt("WeaponType");
+            }
         }
 
         public Display copy()
@@ -771,6 +816,10 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             {
                 display.hipfireRecoilScale = this.hipfireRecoilScale;
             }
+            if(weaponType != 0)
+            {
+                display.weaponType = this.weaponType;
+            }
 
             // Should always contain a value, true or false, does not check for empty
             display.hipfireRecoilScale = this.hipfireRecoilScale;
@@ -783,21 +832,18 @@ public final class Gun implements INBTSerializable<CompoundNBT>
     {
         @Optional
         @Nullable
-        private Zoom[] zoom1;
-
-        @Optional
-        @Nullable
-        private List<Zoom> zoom;
-
+        private Zoom[] zoom = new Zoom[]{};
+        
         private Attachments attachments = new Attachments();
 
         @Ignored
         private int zoomOptions;
 
         @Nullable
-        public List<Zoom> getZoom()
+
+        public Zoom[] getZoom()
         {
-            return this.zoom;
+            return this.zoom.clone();
         }
 
         public Attachments getAttachments()
@@ -812,11 +858,15 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             @Optional
             private float fovModifier;
 
+            @Optional
+            private double stabilityOffset = 0.325;
+
             @Override
             public CompoundNBT serializeNBT()
             {
                 CompoundNBT tag = super.serializeNBT();
                 tag.putFloat("FovModifier", this.fovModifier);
+                tag.putDouble("StabilityOffset", this.stabilityOffset);
                 return tag;
             }
 
@@ -828,12 +878,17 @@ public final class Gun implements INBTSerializable<CompoundNBT>
                 {
                     this.fovModifier = tag.getFloat("FovModifier");
                 }
+                if(tag.contains("StabilityOffset", Constants.NBT.TAG_ANY_NUMERIC))
+                {
+                    this.stabilityOffset = tag.getDouble("StabilityOffset");
+                }
             }
 
             public Zoom copy()
             {
                 Zoom zoom = new Zoom();
                 zoom.fovModifier = this.fovModifier;
+                zoom.stabilityOffset = this.stabilityOffset;
                 zoom.xOffset = this.xOffset;
                 zoom.yOffset = this.yOffset;
                 zoom.zOffset = this.zOffset;
@@ -844,69 +899,12 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             {
                 return this.fovModifier;
             }
-        }
-
-        @Override
-        public CompoundNBT serializeNBT()
-        {
-            CompoundNBT tag = new CompoundNBT();
-            if(this.zoom != null)
+            public double getStabilityOffset()
             {
-                int zoomIterator = 0;
-                for(Zoom sight : this.zoom)
-                {
-                    tag.put("Zoom" + zoomIterator, sight.serializeNBT());
-                    zoomIterator++;
-                }
-                tag.putInt("ZoomItorator",zoomIterator);
-            }
-            tag.put("Attachments", this.attachments.serializeNBT());
-            return tag;
-        }
-
-        @Override
-        public void deserializeNBT(CompoundNBT tag)
-        {
-            if(tag.contains("ZoomItorator", Constants.NBT.TAG_ANY_NUMERIC))
-            {
-                this.zoomOptions = tag.getInt("ZoomItorator");
-/*
-                for(int i = 0; i < this.zoomOptions; i++)
-                {
-                    this.zoom.get(i).deserializeNBT(tag.getCompound("Zoom"+i));
-                }*/
-            }
-
-            if(tag.contains("Zoom0", Constants.NBT.TAG_COMPOUND))
-            {/*
-                for(int i = 0; i < this.zoomOptions; i++)
-                {
-                    this.zoom.get(i).deserializeNBT(tag.getCompound("Zoom"+i));
-                }*/
-                this.zoom.get(0).deserializeNBT(tag.getCompound("Zoom0"));
-
-            }
-
-            if(tag.contains("Attachments", Constants.NBT.TAG_COMPOUND))
-            {
-                this.attachments.deserializeNBT(tag.getCompound("Attachments"));
+                return this.stabilityOffset;
             }
         }
 
-        public Modules copy()
-        {
-            Modules modules = new Modules();
-            modules.zoomOptions = this.zoomOptions;
-            if(this.zoom.isEmpty())
-            {
-                for(int i = 0; i < this.zoomOptions; i++)
-                {
-                    modules.zoom.add(this.zoom.get(i));
-                }
-            }
-            modules.attachments = this.attachments.copy();
-            return modules;
-        }
 
         public static class Attachments implements INBTSerializable<CompoundNBT>
         {
@@ -1027,6 +1025,138 @@ public final class Gun implements INBTSerializable<CompoundNBT>
                 CompoundNBT attachment = tag.getCompound(key);
                 return attachment.isEmpty() ? null : new ScaledPositioned(attachment);
             }
+        }
+
+        /*@Override
+        public CompoundNBT serializeNBT()
+        {
+            CompoundNBT tag = new CompoundNBT();
+            //if(!ArrayUtils.isEmpty(this.zoom))
+            //GunMod.LOGGER.log(Level.FATAL, zoom.length);
+            if(this.zoom != null) {
+                //GunMod.LOGGER.log(Level.FATAL, this.zoom[0].getFovModifier());
+                tag.put("Zoom", zoom.clone()[0].serializeNBT());
+            }
+            *//*if(this.zoom != null)
+            {
+
+
+                *//**//*int zoomIterator = 0;
+                for(Zoom sight : this.zoom)
+                {
+
+                    GunMod.LOGGER.log(Level.FATAL, sight.fovModifier);
+                    tag.put("Zoom" + Integer.toString(zoomIterator), sight.serializeNBT());
+                    zoomIterator++;
+                }
+                tag.putInt("ZoomIterator",zoomIterator);*//**//*
+                Zoom test = zoom[0].copy();
+                tag.put("Zoom0",test.serializeNBT());
+            }*//*
+            tag.put("Attachments", this.attachments.serializeNBT());
+            return tag;
+        }
+
+        @Override
+        public void deserializeNBT(CompoundNBT tag)
+        {
+*//*            if(tag.contains("ZoomIterator", Constants.NBT.TAG_ANY_NUMERIC))
+            {
+                this.zoomOptions = tag.getInt("ZoomIterator");
+            }*//*
+            if(tag.contains("Zoom", Constants.NBT.TAG_COMPOUND))
+            {
+                this.zoom[0].deserializeNBT(tag.getCompound("Zoom"));
+            }
+
+
+            if(tag.contains("Attachments", Constants.NBT.TAG_COMPOUND))
+            {
+                this.attachments.deserializeNBT(tag.getCompound("Attachments"));
+            }
+        }
+
+        public Modules copy()
+        {
+            Modules modules = new Modules();
+            modules.zoomOptions = this.zoomOptions;
+            modules.zoom = this.zoom.clone();
+            modules.attachments = this.attachments.copy();
+            return modules;
+        }*/
+        @Override
+        public CompoundNBT serializeNBT()
+        {
+            CompoundNBT tag = new CompoundNBT();
+            
+            int zoomIterator = 0;
+            
+            if(!ArrayUtils.isEmpty(this.zoom))
+            {
+                for(Zoom sight : this.zoom)
+                {
+                    tag.put("Zoom" + zoomIterator, sight.serializeNBT());
+                    zoomIterator++;
+                }
+            }
+            tag.putInt("ZoomIterator",zoomIterator);
+
+            if(tag.get("Zoom0") != null)
+            {
+                GunMod.LOGGER.log(Level.FATAL, zoom.length);
+            }
+            tag.put("Attachments", this.attachments.serializeNBT());
+            return tag;
+        }
+        
+         /*if(tag.contains("Zoom", Constants.NBT.TAG_COMPOUND))
+            {
+                Zoom zoom = new Zoom();
+
+                Zoom[] zoomarr = new Zoom[]{zoom};
+                zoomarr[0].deserializeNBT(tag.getCompound("Zoom"));
+
+                this.zoom = zoomarr;
+            }
+            if(tag.contains("Attachments", Constants.NBT.TAG_COMPOUND))
+            {
+                this.attachments.deserializeNBT(tag.getCompound("Attachments"));
+            }*/
+        
+        @Override
+        public void deserializeNBT(CompoundNBT tag)
+        {
+            if(ArrayUtils.isEmpty(this.getZoom()))
+            {
+
+                ArrayList<Zoom> zoomArr = new ArrayList<Zoom>(){};
+                
+                int zoomItor = tag.getInt("ZoomIterator");
+                
+                for(int itor = 0; itor <= zoomItor; itor++)
+                {
+                    Zoom zoom = new Zoom();
+                    zoom.deserializeNBT(tag.getCompound("Zoom" + itor));
+                    zoomArr.add(zoom);
+                }
+                
+                this.zoom = zoomArr.toArray(this.zoom).clone();
+            }
+            
+            if(tag.contains("Attachments", Constants.NBT.TAG_COMPOUND))
+            {
+                this.attachments.deserializeNBT(tag.getCompound("Attachments"));
+            }
+        }
+        public Modules copy()
+        {
+            Modules modules = new Modules();
+            if(this.zoom != null)
+            {
+                modules.zoom = this.zoom.clone();
+            }
+            modules.attachments = this.attachments.copy();
+            return modules;
         }
     }
 

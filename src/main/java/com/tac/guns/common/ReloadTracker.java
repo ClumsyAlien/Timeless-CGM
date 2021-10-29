@@ -1,12 +1,12 @@
 package com.tac.guns.common;
 
+import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.Reference;
 import com.tac.guns.init.ModSyncedDataKeys;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessageGunSound;
 import com.tac.guns.util.GunEnchantmentHelper;
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;

@@ -1,6 +1,7 @@
 package com.tac.guns.client.render.gun.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.tac.guns.client.SpecialModels;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.Gun;
@@ -14,7 +15,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.CooldownTracker;
-import com.tac.guns.client.SpecialModels;
 
 /*
  * Because the revolver has a rotating chamber, we need to render it in a
@@ -47,7 +47,7 @@ public class glock_17_animation implements IOverrideModel {
             //Gun.getAttachment(IAttachment.Type.BARREL, GunItem.getItemById(Item.getIdFromItem(stack.getItem())).getDefaultInstance())
         }
 
-        if(EnchantmentHelper.getMaxEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
+        if(EnchantmentHelper.getEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), stack) > 0)
         {
             RenderUtil.renderModel(SpecialModels.GLOCK_17_EXTENDED_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
@@ -68,20 +68,20 @@ public class glock_17_animation implements IOverrideModel {
         if(Gun.hasAmmo(stack))
         {
             // Math provided by Bomb787 on GitHub and Curseforge!!!
-            matrices.translate(0, 0, 0.175f * (-4.5 * Math.pow(cooldownOg-0.5, 2) + 1.0));
+            matrices.translate(0, 0, 0.185f * (-4.5 * Math.pow(cooldownOg-0.5, 2) + 1.0));
         }
         else if(!Gun.hasAmmo(stack))
         {
             if(cooldownOg > 0.5){
                 // Math provided by Bomb787 on GitHub and Curseforge!!!
-                matrices.translate(0, 0, 0.175f * (-4.5 * Math.pow(cooldownOg-0.5, 2) + 1.0));
+                matrices.translate(0, 0, 0.185f * (-4.5 * Math.pow(cooldownOg-0.5, 2) + 1.0));
             }
             else
             {
-                matrices.translate(0, 0, 0.175f * (-4.5 * Math.pow(0.5-0.5, 2) + 1.0));
+                matrices.translate(0, 0, 0.185f * (-4.5 * Math.pow(0.5-0.5, 2) + 1.0));
             }
         }
-        matrices.translate(0.00, 0.0, -0.025);
+        //matrices.translate(0.00, 0.0, -0.1);
         RenderUtil.renderModel(SpecialModels.GLOCK_17_SLIDE.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always pop

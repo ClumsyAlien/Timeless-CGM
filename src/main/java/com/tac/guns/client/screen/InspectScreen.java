@@ -6,10 +6,8 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.tac.guns.client.handler.GunRenderingHandler;
 import com.tac.guns.client.util.RenderUtil;
-import com.tac.guns.common.container.AttachmentContainer;
 import com.tac.guns.common.container.InspectionContainer;
 import com.tac.guns.item.GunItem;
-import com.tac.guns.item.attachment.IAttachment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -19,12 +17,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * Author: MrCrayfish

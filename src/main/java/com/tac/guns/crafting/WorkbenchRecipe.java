@@ -77,7 +77,7 @@ public class WorkbenchRecipe implements IRecipe<WorkbenchTileEntity>
     @Override
     public IRecipeType<?> getType()
     {
-        return RecipeType.WORKBENCH;
+        return com.tac.guns.crafting.RecipeType.WORKBENCH;
     }
 
     @Override

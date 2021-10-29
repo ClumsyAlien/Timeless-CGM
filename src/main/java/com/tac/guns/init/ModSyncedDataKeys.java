@@ -1,9 +1,9 @@
 package com.tac.guns.init;
 
-import com.tac.guns.Reference;
 import com.mrcrayfish.obfuscate.common.data.Serializers;
 import com.mrcrayfish.obfuscate.common.data.SyncedDataKey;
 import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
+import com.tac.guns.Reference;
 import net.minecraft.util.ResourceLocation;
 
 /**

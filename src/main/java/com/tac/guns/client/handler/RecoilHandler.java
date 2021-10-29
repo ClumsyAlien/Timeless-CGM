@@ -1,6 +1,7 @@
 package com.tac.guns.client.handler;
 
 import com.tac.guns.Config;
+import com.tac.guns.GunMod;
 import com.tac.guns.common.Gun;
 import com.tac.guns.event.GunFireEvent;
 import com.tac.guns.item.GunItem;
@@ -13,6 +14,7 @@ import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.logging.log4j.Level;
 
 import java.util.Random;
 
@@ -48,7 +50,7 @@ public class RecoilHandler
     public void preShoot(GunFireEvent.Pre event) {
         if(!(event.getStack().getItem() instanceof GunItem))
             return;
-        this.recoilRand = new Random().nextInt(2);
+        this.recoilRand = this.random.nextInt(2);
     }
 
     @SubscribeEvent
@@ -64,17 +66,23 @@ public class RecoilHandler
         GunItem gunItem = (GunItem) heldItem.getItem();
         Gun modifiedGun = gunItem.getModifiedGun(heldItem);
 
+        float verticalRandomAmount = this.random.nextFloat()*(1.1f - 0.75f) + 0.75f;
+
         float recoilModifier = 1.0F - GunModifierHelper.getRecoilModifier(heldItem);
         recoilModifier *= this.getAdsRecoilReduction(modifiedGun);
+        recoilModifier *= verticalRandomAmount;
         this.cameraRecoil = modifiedGun.getGeneral().getRecoilAngle() * recoilModifier;
         this.progressCameraRecoil = 0F;
 
         // Horizontal Recoil
         this.gunRecoilRandom = random.nextFloat();
 
-        float HorizontalRecoilModifier = 1.0F - GunModifierHelper.getHorizontalRecoilModifier(heldItem);
-        HorizontalRecoilModifier *= this.getAdsRecoilReduction(modifiedGun);
-        horizontalCameraRecoil = modifiedGun.getGeneral().getHorizontalRecoilAngle() * HorizontalRecoilModifier;
+        float horizontalRandomAmount = this.random.nextFloat()*(1.1f - 0.75f) + 0.75f;
+
+        float horizontalRecoilModifier = 1.0F - GunModifierHelper.getHorizontalRecoilModifier(heldItem);
+        horizontalRecoilModifier *= this.getAdsRecoilReduction(modifiedGun);
+        horizontalRecoilModifier *= horizontalRandomAmount;
+        horizontalCameraRecoil = modifiedGun.getGeneral().getHorizontalRecoilAngle() * horizontalRecoilModifier;
         horizontalProgressCameraRecoil = 0F;
     }
     @SubscribeEvent

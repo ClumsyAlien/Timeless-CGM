@@ -11,7 +11,7 @@
     "horizontalRecoilAngle": 2.75,
     "recoilAdsReduction": 0.35,
     "alwaysSpread": true,
-    "spread": 3.65
+    "spread": 4.05
   },
   "projectile": {
     "item":  "tac:nato_556_bullet",
@@ -19,7 +19,7 @@
     "damage": 7.5,
     "size": 0.2,
     "speed": 27.5,
-    "life": 25
+    "life": 10
   },
   "sounds": {
     "fire":  "tac:item.fire_ak47",
@@ -33,9 +33,10 @@
       "zOffset": -22.95,
       "size": 0.8
     },
-    "hipfireScale": 1.55,
+    "hipfireScale": 1.7,
     "hipfireMoveScale": 0.35,
-    "hipfireRecoilScale": 1.1
+    "hipfireRecoilScale": 1.25,
+    "weaponType": 0
   },
   "modules": {
     "zoom": [{
@@ -57,7 +58,7 @@
       "scope": {
         "yOffset": 13.65,
         "zOffset": 4.6,
-        "scale": 1.35
+        "scale": 1.0
       }
     }
   }

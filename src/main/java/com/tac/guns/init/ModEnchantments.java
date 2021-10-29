@@ -1,15 +1,7 @@
 package com.tac.guns.init;
 
 import com.tac.guns.Reference;
-import com.tac.guns.enchantment.AcceleratorEnchantment;
-import com.tac.guns.enchantment.CollateralEnchantment;
-import com.tac.guns.enchantment.FireStarterEnchantment;
-import com.tac.guns.enchantment.LightweightEnchantment;
-import com.tac.guns.enchantment.OverCapacityEnchantment;
-import com.tac.guns.enchantment.PuncturingEnchantment;
-import com.tac.guns.enchantment.QuickHandsEnchantment;
-import com.tac.guns.enchantment.ReclaimedEnchantment;
-import com.tac.guns.enchantment.TriggerFingerEnchantment;
+import com.tac.guns.enchantment.*;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

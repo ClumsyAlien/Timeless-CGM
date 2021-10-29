@@ -2,8 +2,6 @@ package com.tac.guns.enchantment;
 
 import net.minecraft.inventory.EquipmentSlotType;
 
-import net.minecraft.enchantment.Enchantment.Rarity;
-
 /**
  * Author: MrCrayfish
  */

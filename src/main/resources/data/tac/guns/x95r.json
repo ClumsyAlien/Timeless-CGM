@@ -10,23 +10,23 @@
     "gripType": "tac:two_handed_vector",
     "maxAmmo": 25,
     "reloadAmount": 5,
-    "recoilAngle": 1.775,
+    "recoilAngle": 1.655,
     "recoilKick": 1.225,
-    "horizontalRecoilAngle": 0.95,
+    "horizontalRecoilAngle": 0.75,
     "recoilAdsReduction": 0.60,
     "alwaysSpread": true,
-    "spread": 4.95
+    "spread": 2.45
   },
   "projectile": {
-    "item": "tac:bullet_308",
+    "item": "tac:nato_556_bullet",
     "visible": false,
-    "damage": 9,
+    "damage": 7,
     "size": 0.2,
-    "speed": 23.5,
-    "life": 3
+    "speed": 38.5,
+    "life": 6
   },
   "sounds": {
-    "fire": "tac:item.fire_m16",
+    "fire": "tac:item.mtar_fire",
     "reload": "tac:item.pistol.reload",
     "cock": "tac:item.pistol.cock",
     "silencedFire": "tac:item.fire_m16s"
@@ -36,19 +36,20 @@
       "yOffset": 9.35,
       "zOffset": -19.55,
       "size": 1.10
-    }
+    },
+    "weaponType": 0
   },
   "modules": {
-    "zoom":[ {
-      "fovModifier": 0.60,
+    "zoom": [{
+      "fovModifier": 0.70,
       "yOffset": 12.9,
       "zOffset": 1.45
     }],
     "attachments": {
       "scope": {
-        "yOffset": 11.05,
-        "zOffset": -1.4,
-        "scale": 1.50
+        "yOffset": 11.30,
+        "zOffset": -2.4,
+        "scale": 1.00
       }
     }
   }

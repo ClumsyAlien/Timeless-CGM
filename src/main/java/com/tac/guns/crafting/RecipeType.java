@@ -10,7 +10,7 @@ import net.minecraft.util.registry.Registry;
  */
 public class RecipeType
 {
-    public static final IRecipeType<WorkbenchRecipe> WORKBENCH = register("tac:workbench");
+    public static final IRecipeType<WorkbenchRecipe> WORKBENCH = register("cgm:workbench");
 
     static <T extends IRecipe<?>> IRecipeType<T> register(final String key)
     {

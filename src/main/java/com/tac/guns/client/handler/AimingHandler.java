@@ -1,5 +1,6 @@
 package com.tac.guns.client.handler;
 
+import com.tac.guns.Config;
 import com.tac.guns.GunMod;
 import com.tac.guns.client.render.crosshair.Crosshair;
 import com.tac.guns.common.Gun;
@@ -22,6 +23,7 @@ import net.minecraft.entity.item.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -66,9 +68,13 @@ public class AimingHandler
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event)
     {
+
         if(event.phase != TickEvent.Phase.START)
             return;
 
+        /*if(!this.aiming)
+            ScopeJitterHandler.getInstance().resetBreathingTickBuffer();
+*/
         PlayerEntity player = event.player;
         AimTracker tracker = getAimTracker(player);
         if(tracker != null)
@@ -148,15 +154,17 @@ public class AimingHandler
                 if(AimingHandler.get().isAiming() && !SyncedPlayerData.instance().get(mc.player, ModSyncedDataKeys.RELOADING))
                 {
                     Gun modifiedGun = gunItem.getModifiedGun(heldItem);
-                    if(modifiedGun.getModules().getZoom().isEmpty())
+                    if(!ArrayUtils.isEmpty(modifiedGun.getModules().getZoom()))
                     {
-                        float newFov = modifiedGun.getModules().getZoom().get(0).getFovModifier();
+                        float newFov = modifiedGun.getModules().getZoom()[heldItem.getTag().getInt("currentZoom")].getFovModifier();
                         Scope scope = Gun.getScope(heldItem);
                         if(scope != null)
                         {
-                            newFov -= scope.getAdditionalZoom();
+                            if(!Config.COMMON.gameplay.realisticLowPowerFovHandling.get() || (scope.getAdditionalZoom() > 0 && Config.COMMON.gameplay.realisticLowPowerFovHandling.get()))
+                            {    newFov -= scope.getAdditionalZoom(); event.setNewfov(newFov + (1.0F - newFov) * (1.0F - (float) this.normalisedAdsProgress));}
                         }
-                        event.setNewfov(newFov + (1.0F - newFov) * (1.0F - (float) this.normalisedAdsProgress));
+                        else if(!Config.COMMON.gameplay.realisticIronSightFovHandling.get())
+                            event.setNewfov(newFov + (1.0F - newFov) * (1.0F - (float) this.normalisedAdsProgress));
                     }
                 }
             }
@@ -202,9 +210,17 @@ public class AimingHandler
         Gun gun = ((GunItem) heldItem.getItem()).getModifiedGun(heldItem);
         if(gun.getModules().getZoom() == null)
         {
-            GunMod.LOGGER.log(Level.FATAL, "Zoom is empty for some fucking reason");
             return false;
         }
+
+        CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+        float cooldown = tracker.getCooldown(heldItem.getItem(), Minecraft.getInstance().getRenderPartialTicks());
+
+        if(gun.getGeneral().isBoltAction() && (cooldown < 0.8 && cooldown > 0))
+        {
+            return false;
+        }
+
         if(!this.localTracker.isAiming() && this.isLookingAtInteractableBlock())
             return false;
 

@@ -11,16 +11,17 @@
     "recoilKick": 1.155,
     "recoilAdsReduction": 0.28,
     "alwaysSpread": true,
-    "spread": 9.25,
+    "spread": 11.25,
     "projectileAmount": 11
   },
   "projectile": {
     "item": "tac:10_gauge_round",
     "visible": false,
-    "damage": 24,
+    "damage": 26,
     "size": 1.0,
-    "speed": 27.5,
-    "life": 2
+    "speed": 16.5,
+    "life": 3,
+    "ricochet": false
   },
   "sounds": {
     "fire": "tac:item.fire_db",
@@ -33,7 +34,8 @@
       "yOffset": 5.75,
       "zOffset": -23.55,
       "size": 1.70
-    }
+    },
+    "weaponType": 3
   },
   "modules": {
     "zoom": [{

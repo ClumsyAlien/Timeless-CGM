@@ -1,5 +1,5 @@
 {
-	"credit": "Made with Blockbench",
+	"credit": "Models are primarially made by NekoCrane and adjusted by ClumsyAlien!",
 	"textures": {
 		"7": "tac:items/mosin_bolt",
 		"particle": "tac:items/mosin_bolt"
@@ -7,58 +7,51 @@
 	"elements": [
 		{
 			"name": "octagon",
-			"from": [7.08001, 8.62138, 10],
-			"to": [7.80489, 10.37138, 16.25],
-			"rotation": {"angle": 45, "axis": "z", "origin": [8.01863, 10.04621, 5.59979]},
+			"from": [7.11681, 8.59652, 9.92],
+			"to": [7.81269, 10.27652, 15.92],
+			"rotation": {"angle": 45, "axis": "z", "origin": [8.01788, 9.96436, 5.6958]},
 			"faces": {
 				"north": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
-				"east": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
 				"south": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
-				"west": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
 				"up": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
 				"down": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0}
 			}
 		},
 		{
 			"name": "octagon",
-			"from": [7.63756, 8.375, 10],
-			"to": [8.36244, 10.125, 16.25],
-			"rotation": {"angle": 0, "axis": "z", "origin": [8.01863, 10.04621, 5.59979]},
+			"from": [7.65206, 8.36, 9.92],
+			"to": [8.34794, 10.04, 15.92],
+			"rotation": {"angle": 0, "axis": "z", "origin": [8.01788, 9.96436, 5.6958]},
 			"faces": {
 				"north": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
-				"east": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
 				"south": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
-				"west": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
 				"up": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
 				"down": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0}
 			}
 		},
 		{
 			"name": "octagon",
-			"from": [6.56745, 9.13394, 10],
-			"to": [8.31745, 9.85882, 16.25],
-			"rotation": {"angle": 45, "axis": "z", "origin": [8.01863, 10.04621, 5.59979]},
+			"from": [6.62475, 9.08858, 9.92],
+			"to": [8.30475, 9.78447, 15.92],
+			"rotation": {"angle": 45, "axis": "z", "origin": [8.01788, 9.96436, 5.6958]},
 			"faces": {
 				"north": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
 				"east": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
 				"south": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
 				"west": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
-				"up": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
-				"down": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0}
+				"up": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0}
 			}
 		},
 		{
 			"name": "octagon",
-			"from": [7.125, 8.88756, 10],
-			"to": [8.875, 9.61244, 16.25],
-			"rotation": {"angle": 0, "axis": "z", "origin": [8.01863, 10.04621, 5.59979]},
+			"from": [7.16, 8.85206, 9.92],
+			"to": [8.84, 9.54794, 15.92],
+			"rotation": {"angle": 0, "axis": "z", "origin": [8.01788, 9.96436, 5.6958]},
 			"faces": {
 				"north": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
 				"east": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
 				"south": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
-				"west": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
-				"up": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0},
-				"down": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0}
+				"west": {"uv": [0, 0, 1, 1], "texture": "#7", "tintindex": 0}
 			}
 		}
 	],

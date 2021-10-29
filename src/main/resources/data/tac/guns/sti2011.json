@@ -8,19 +8,20 @@
     "gripType": "tac:one_handed_m1911",
     "maxAmmo": 10,
     "reloadAmount": 2,
-    "recoilAngle": 6.0,
-    "recoilKick": 2.15,
+    "recoilAngle": 3.85,
+    "horizontalRecoilAngle": 1.025,
+    "recoilKick": 1.95,
     "recoilAdsReduction": 0.50,
     "alwaysSpread": true,
-    "spread": 1.25
+    "spread": 1.55
   },
   "projectile": {
     "item": "tac:round45",
     "visible": false,
-    "damage": 9.5,
+    "damage": 8,
     "size": 0.2,
-    "speed": 25.0,
-    "life": 250
+    "speed": 20.0,
+    "life": 6
   },
   "sounds": {
     "fire": "tac:item.fire_m1911",
@@ -30,23 +31,18 @@
   },
   "display": {
     "flash": {
-      "yOffset": 10.54,
-      "zOffset": -11.68,
-      "size": 0.75
-    }
+      "yOffset": 12.3,
+      "zOffset": -13.32,
+      "size": 1.1
+    },
+    "weaponType": 2
   },
   "modules": {
-    "zoom":[ {
+    "zoom": [{
       "fovModifier": 0.7,
-      "yOffset": 12.35,
+      "yOffset": 13.685,
       "zOffset": -12.6
-    }],
-    "attachments": {
-      "scope": {
-        "yOffset": 12.15,
-        "zOffset": -0.5,
-        "scale": 1.58
-      }
-    }
+    }]
+
   }
 }

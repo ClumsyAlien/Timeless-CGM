@@ -8,19 +8,20 @@
     "gripType": "tac:one_handed_m1911",
     "maxAmmo": 15,
     "reloadAmount": 3,
-    "recoilAngle": 4.35,
-    "recoilKick": 1.80,
-    "recoilAdsReduction": 0.50,
+    "recoilAngle": 4.45,
+    "horizontalRecoilAngle": 1.205,
+    "recoilKick": 1.90,
+    "recoilAdsReduction": 0.40,
     "alwaysSpread": true,
-    "spread": 1.15
+    "spread": 2.05
   },
   "projectile": {
     "item": "tac:9mm_round",
     "visible": false,
     "damage": 6.0,
     "size": 0.2,
-    "speed": 28.0,
-    "life": 350
+    "speed": 19.5,
+    "life": 4
   },
   "sounds": {
     "fire": "tac:item.fire_m92fs",
@@ -33,20 +34,17 @@
       "yOffset": 9.65,
       "zOffset": -12.19,
       "size": 0.7
-    }
+    },
+    "weaponType": 2
   },
   "modules": {
-    "zoom":[ {
+    "zoom": [{
       "fovModifier": 0.8,
-      "yOffset": 12.14,
+      "yOffset": 12.56,
       "zOffset": -14.3
     }],
     "attachments": {
-      "barrel": {
-        "yOffset": 11.08,
-        "zOffset": -9.50,
-        "scale": 0.70
-      }
+
     }
   }
 }

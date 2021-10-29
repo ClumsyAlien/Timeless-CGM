@@ -5,20 +5,20 @@ import com.tac.guns.Config;
 import com.tac.guns.GunMod;
 import com.tac.guns.common.Gun;
 import com.tac.guns.item.GunItem;
+import com.tac.guns.item.IColored;
 import com.tac.guns.util.GunEnchantmentHelper;
 import com.tac.guns.util.GunModifierHelper;
+import com.tac.guns.util.Process;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tags.ITag;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.KeybindTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
-import com.tac.guns.util.Process;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 
-public class TimelessGunItem extends GunItem {
+public class TimelessGunItem extends GunItem implements IColored {
     public TimelessGunItem(Process<Item.Properties> properties)
     {
         super(properties.process(new Item.Properties().maxStackSize(1).group(GunMod.GROUP)));
@@ -70,15 +70,15 @@ public class TimelessGunItem extends GunItem {
             }
         }
 
-        if(tagCompound.get("CurrentFireMode") == null)
-        { }
-        else if(tagCompound.getInt("CurrentFireMode") == 0)
-            tooltip.add((new TranslationTextComponent("info.tac.firemode_safe", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.GREEN));
-        else if(tagCompound.getInt("CurrentFireMode") == 1)
-            tooltip.add((new TranslationTextComponent("info.tac.firemode_semi", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.RED));
-        else if(tagCompound.getInt("CurrentFireMode") == 2)
-            tooltip.add((new TranslationTextComponent("info.tac.firemode_auto", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.RED));
-
+        if(tagCompound != null) {
+            if (tagCompound.get("CurrentFireMode") == null) {
+            } else if (tagCompound.getInt("CurrentFireMode") == 0)
+                tooltip.add((new TranslationTextComponent("info.tac.firemode_safe", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.GREEN));
+            else if (tagCompound.getInt("CurrentFireMode") == 1)
+                tooltip.add((new TranslationTextComponent("info.tac.firemode_semi", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.RED));
+            else if (tagCompound.getInt("CurrentFireMode") == 2)
+                tooltip.add((new TranslationTextComponent("info.tac.firemode_auto", new Object[]{(new KeybindTextComponent("key.tac.fireSelect")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.RED));
+        }
         tooltip.add((new TranslationTextComponent("info.tac.attachment_help", new Object[]{(new KeybindTextComponent("key.tac.attachments")).getString().toUpperCase(Locale.ENGLISH)})).mergeStyle(TextFormatting.YELLOW));
 
     }

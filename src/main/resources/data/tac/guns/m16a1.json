@@ -1,7 +1,7 @@
 {
   "general": {
     "auto": true,
-    "rate": 3,
+    "rate": 2,
     "rateSelector": [
       0,
       1,
@@ -11,18 +11,19 @@
     "maxAmmo": 20,
     "reloadAmount": 5,
     "recoilAngle": 1.15,
-    "recoilKick": 0.75,
-    "recoilAdsReduction": 0.55,
+    "horizontalRecoilAngle": 0.725,
+    "recoilKick": 0.55,
+    "recoilAdsReduction": 0.585,
     "alwaysSpread": true,
-    "spread": 1.25
+    "spread": 1.15
   },
   "projectile": {
     "item": "tac:nato_556_bullet",
     "visible": false,
-    "damage": 6.0,
+    "damage": 7,
     "size": 0.2,
-    "speed": 35.5,
-    "life": 750
+    "speed": 44.5,
+    "life": 6
   },
   "sounds": {
     "fire": "tac:item.fire_m16",
@@ -35,24 +36,20 @@
       "yOffset": 7.75,
       "zOffset": -22.05,
       "size": 0.8
-    }
+    },
+    "weaponType": 0
   },
   "modules": {
-    "zoom":[ {
+    "zoom": [{
       "fovModifier": 0.65,
       "yOffset": 10.85,
-      "zOffset": -4.2
+      "zOffset": -4.0
     }],
     "attachments": {
       "barrel": {
-        "yOffset": 7.75,
+        "yOffset": -100829.84,
         "zOffset": -22.05,
-        "scale": 0.71
-      },
-      "scope": {
-        "yOffset": 8.65,
-        "zOffset": 7.4,
-        "scale": 1.25
+        "scale": 1.00
       }
     }
   }

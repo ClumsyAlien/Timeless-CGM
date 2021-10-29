@@ -18,8 +18,6 @@ import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
-
 
 public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implements IDynamicScalable{
     private final float initial = 0.95f;
@@ -60,44 +58,46 @@ public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implement
     @Override
     public void render(Minecraft mc, MatrixStack stack, int windowWidth, int windowHeight, float partialTicks){
         ClientPlayerEntity playerEntity = mc.player;
-        TimelessGunItem gunItem = (TimelessGunItem) playerEntity.getHeldItemMainhand().getItem();
-        if(gunItem.getGun().getDisplay().isDynamicHipfire()) {
-            float alpha = 1.0F - (float) AimingHandler.get().getNormalisedAdsProgress();
-            float size = 8.0F;
+        if(playerEntity.getHeldItemMainhand().getItem() instanceof TimelessGunItem) {
+            TimelessGunItem gunItem = (TimelessGunItem) playerEntity.getHeldItemMainhand().getItem();
+            if (gunItem.getGun().getDisplay().isDynamicHipfire()) {
+                float alpha = 1.0F - (float) AimingHandler.get().getNormalisedAdsProgress();
+                float size = 8.0F;
 
-            RenderSystem.enableBlend();
-            RenderSystem.enableAlphaTest();
-            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            BufferBuilder buffer = Tessellator.getInstance().getBuffer();
-
-            stack.push();
-            {
-                stack.translate(windowWidth / 2F, windowHeight / 2F, 0);
-                float scale = 1F + MathHelper.lerp(partialTicks, this.prevScale, this.scale);
-
-                mc.getTextureManager().bindTexture(this.texture);
-                buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-
-                for (int f = 0; f < getFractal(); f++) {
-                    stack.push();
-                    {
-                        stack.rotate(Vector3f.ZP.rotationDegrees(360F * f / getFractal()));
-                        stack.translate(-size * scale / 2F, -size / 2F, 0);
-                        Matrix4f matrix = stack.getLast().getMatrix();
-                        buffer.pos(matrix, 0, size, 0).tex(0, 1).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
-                        buffer.pos(matrix, size, size, 0).tex(1, 1).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
-                        buffer.pos(matrix, size, 0, 0).tex(1, 0).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
-                        buffer.pos(matrix, 0, 0, 0).tex(0, 0).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
-
-                    }
-                    stack.pop();
-                }
-
-                buffer.finishDrawing();
+                RenderSystem.enableBlend();
                 RenderSystem.enableAlphaTest();
-                WorldVertexBufferUploader.draw(buffer);
+                RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+                BufferBuilder buffer = Tessellator.getInstance().getBuffer();
+
+                stack.push();
+                {
+                    stack.translate(windowWidth / 2F, windowHeight / 2F, 0);
+                    float scale = 1F + MathHelper.lerp(partialTicks, this.prevScale, this.scale);
+
+                    mc.getTextureManager().bindTexture(this.texture);
+                    buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+
+                    for (int f = 0; f < getFractal(); f++) {
+                        stack.push();
+                        {
+                            stack.rotate(Vector3f.ZP.rotationDegrees(360F * f / getFractal()));
+                            stack.translate(-size * scale / 2F, -size / 2F, 0);
+                            Matrix4f matrix = stack.getLast().getMatrix();
+                            buffer.pos(matrix, 0, size, 0).tex(0, 1).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
+                            buffer.pos(matrix, size, size, 0).tex(1, 1).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
+                            buffer.pos(matrix, size, 0, 0).tex(1, 0).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
+                            buffer.pos(matrix, 0, 0, 0).tex(0, 0).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
+
+                        }
+                        stack.pop();
+                    }
+
+                    buffer.finishDrawing();
+                    RenderSystem.enableAlphaTest();
+                    WorldVertexBufferUploader.draw(buffer);
+                }
+                stack.pop();
             }
-            stack.pop();
         }
     }
 

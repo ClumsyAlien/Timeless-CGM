@@ -1,6 +1,8 @@
 {
 	"credit": "Model by MrCrayfish (https://twitter.com/MrCraayfish) using Blockbench",
+	"parent": "minecraft:item/generated",
 	"textures": {
+		"layer0": "tac:gui/lightstock_32",
 		"1": "tac:items/basic_stock"
 	},
 	"elements": [
@@ -131,28 +133,5 @@
 				"up": {"uv": [8, 1, 10, 2], "rotation": 90, "texture": "#1"}
 			}
 		}
-	],
-	"display": {
-		"thirdperson_righthand": {
-			"translation": [0, 1, -2.75],
-			"scale": [1.1, 1.1, 1.1]
-		},
-		"firstperson_righthand": {
-			"translation": [-3.5, 5.5, 3.25],
-			"scale": [0.8, 0.8, 0.8]
-		},
-		"ground": {
-			"translation": [0, -0.5, -2.25]
-		},
-		"gui": {
-			"rotation": [30, 225, 0],
-			"translation": [4.25, -1.5, 0],
-			"scale": [2.5, 2.5, 2.5]
-		},
-		"fixed": {
-			"rotation": [0, 90, 0],
-			"translation": [-5, 1.25, -1.25],
-			"scale": [2, 2, 2]
-		}
-	}
+	]
 }

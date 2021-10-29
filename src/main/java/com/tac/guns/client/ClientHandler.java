@@ -2,7 +2,6 @@ package com.tac.guns.client;
 
 import com.tac.guns.Reference;
 import com.tac.guns.client.handler.*;
-
 import com.tac.guns.client.render.entity.GrenadeRenderer;
 import com.tac.guns.client.render.entity.MissileRenderer;
 import com.tac.guns.client.render.entity.ProjectileRenderer;
@@ -11,6 +10,7 @@ import com.tac.guns.client.render.gun.ModelOverrides;
 import com.tac.guns.client.render.gun.model.*;
 import com.tac.guns.client.screen.AttachmentScreen;
 import com.tac.guns.client.screen.InspectScreen;
+import com.tac.guns.client.screen.ScopeAttachmentScreen;
 import com.tac.guns.client.screen.WorkbenchScreen;
 import com.tac.guns.client.settings.GunOptions;
 import com.tac.guns.init.ModBlocks;
@@ -21,6 +21,7 @@ import com.tac.guns.item.IColored;
 import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessageAttachments;
 import com.tac.guns.network.message.MessageInspection;
+import com.tac.guns.network.message.MessageIronSightSwitch;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.MouseSettingsScreen;
@@ -59,7 +60,11 @@ public class ClientHandler
         MinecraftForge.EVENT_BUS.register(ReloadHandler.get());
         MinecraftForge.EVENT_BUS.register(ShootingHandler.get());
         MinecraftForge.EVENT_BUS.register(SoundHandler.get());
+        MinecraftForge.EVENT_BUS.register(HUDRenderingHandler.get());
         MinecraftForge.EVENT_BUS.register(FireModeSwitchEvent.get()); // Technically now a handler but, yes I need some naming reworks
+        MinecraftForge.EVENT_BUS.register(IronSightSwitchEvent.get()); // Still, as well an event, am uncertain on what to name it, in short handles upcoming advanced iron sights
+
+        MinecraftForge.EVENT_BUS.register(ScopeJitterHandler.getInstance()); // All built by MayDay memory part of the Timeless dev team, amazing work!!!!!!!!!!!
 
         KeyBinds.register();
 
@@ -107,15 +112,13 @@ public class ClientHandler
 
     private static void registerModelOverrides()
     {
-        //ModelOverrides.register(ModItems.MINI_GUN.get(), new MiniGunModel());
-        ModelOverrides.register(ModItems.SHORT_SCOPE.get(), new ShortScopeModel());
-        ModelOverrides.register(ModItems.MEDIUM_SCOPE.get(), new MediumScopeModel());
-        ModelOverrides.register(ModItems.LONG_SCOPE.get(), new LongScopeModel());
         ModelOverrides.register(ModItems.COYOTE_SIGHT.get(), new CoyoteSightModel());
-        ModelOverrides.register(ModItems.MIDRANGE_DOT_SCOPE.get(), new MidRangeDotScopeModel());
-        //ModelOverrides.register(ModItems.BAZOOKA.get(), new BazookaModel());
-        //ModelOverrides.register(ModItems.GRENADE_LAUNCHER.get(), new GrenadeLauncherModel());
-    }
+        ModelOverrides.register(ModItems.MICRO_HOLO_SIGHT.get(), new MicroHoloSightModel());
+        //ModelOverrides.register(ModItems.LONGRANGE_8x_SCOPE.get(), new LongRange8xScopeModel());
+        ModelOverrides.register(ModItems.VORTEX_LPVO_1_6.get(), new VortexLPVO_1_4xScopeModel());
+        ModelOverrides.register(ModItems.ACOG_4.get(), new ACOG_4x_ScopeModel());
+        ModelOverrides.register(ModItems.AIMPOINT_T1_SIGHT.get(), new AimpointT1SightModel());
+     }
 
     private static void registerScreenFactories()
     {
@@ -153,7 +156,11 @@ public class ClientHandler
         Minecraft mc = Minecraft.getInstance();
         if(mc.player != null && mc.currentScreen == null)
         {
-            if(KeyBinds.KEY_ATTACHMENTS.isPressed())
+            if(KeyBinds.KEY_SIGHT_SWITCH.isPressed())
+            {
+                PacketHandler.getPlayChannel().sendToServer(new MessageIronSightSwitch());
+            }
+            else if(KeyBinds.KEY_ATTACHMENTS.isPressed())
             {
                 PacketHandler.getPlayChannel().sendToServer(new MessageAttachments());
             }
@@ -161,6 +168,7 @@ public class ClientHandler
             {
                 PacketHandler.getPlayChannel().sendToServer(new MessageInspection());
             }
+
         }
     }
 

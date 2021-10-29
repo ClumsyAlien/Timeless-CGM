@@ -13,7 +13,6 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,7 +169,7 @@ public abstract class Attachment
             }
             if(outputSpread > inputSpread)
             {
-                addPerk(negativePerks, "perk.tac.projectile_spread.negative", new TranslationTextComponent("-"+String.valueOf( (10.0F - outputSpread) * 10)+ "% Accuracy").mergeStyle(TextFormatting.RED));
+                addPerk(negativePerks, "perk.tac.projectile_spread.negative", new TranslationTextComponent(""+String.valueOf( (10.0F - outputSpread) * 10)+ "% Accuracy").mergeStyle(TextFormatting.RED));
             }
             else if(outputSpread < inputSpread)
             {
@@ -202,7 +201,7 @@ public abstract class Attachment
             }
             if(outputRecoil > inputRecoil)
             {
-                addPerk(negativePerks,  "perk.tac.recoil.negative", new TranslationTextComponent("+"+String.valueOf( (10.0F - outputRecoil) * 10)+ "% Vertical Recoil").mergeStyle(TextFormatting.RED));
+                addPerk(negativePerks,  "perk.tac.recoil.negative", new TranslationTextComponent("+"+String.valueOf( (10.0F - outputRecoil) * -10)+ "% Vertical Recoil").mergeStyle(TextFormatting.RED));
             }
             else if(outputRecoil < inputRecoil)
             {
