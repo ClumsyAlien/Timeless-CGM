@@ -79,7 +79,8 @@ public final class Gun implements INBTSerializable<CompoundNBT>
         @Optional
         private float horizontalRecoilAngle = 2.0F;
         @Optional
-        private float recoilDurationOffset; // Anyone have a clue what this is?
+        private float recoilDurationOffset; // Anyone have a clue what this is? IS SUPER COOL, the amount of camera downwards after each shot, making recoil more difficult to manage
+
         @Optional
         private float recoilAdsReduction = 0.2F;
         @Optional
@@ -102,9 +103,9 @@ public final class Gun implements INBTSerializable<CompoundNBT>
             tag.putInt("ReloadSpeed", this.reloadAmount);
             tag.putInt("ReloadMagTimer", this.reloadMagTimer);
             tag.putBoolean("ReloadMagSpeed", this.magFed);
-            tag.putFloat("RecoilAngle", this.recoilAngle*2); // x2 for quick camera recoil reduction balancing
+            tag.putFloat("RecoilAngle", this.recoilAngle*2.5F); // x2 for quick camera recoil reduction balancing
             tag.putFloat("RecoilKick", this.recoilKick);
-            tag.putFloat("HorizontalRecoilAngle", this.horizontalRecoilAngle*2); // x2 for quick camera recoil reduction balancing
+            tag.putFloat("HorizontalRecoilAngle", this.horizontalRecoilAngle*2.5F); // x2 for quick camera recoil reduction balancing
             tag.putFloat("RecoilDurationOffset", this.recoilDurationOffset);
             tag.putFloat("RecoilAdsReduction", this.recoilAdsReduction);
             tag.putInt("ProjectileAmount", this.projectileAmount);

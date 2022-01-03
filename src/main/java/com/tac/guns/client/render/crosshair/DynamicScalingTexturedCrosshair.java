@@ -133,8 +133,8 @@ public class DynamicScalingTexturedCrosshair extends TexturedCrosshair implement
         float gunRecoil = GunModifierHelper.getRecoilModifier(playerEntity.getHeldItemMainhand());
 
         // Calculating average Vertical and Horizontal recoil along with reducing modifier to a useful metric
-        float recoil = ( ( (gunItem.getGun().getGeneral().getRecoilAngle() - gunRecoil) +
-                (gunItem.getGun().getGeneral().getHorizontalRecoilAngle() - gunRecoil) ) / 15 ) + 1F * (gunItem.getGun().getDisplay().getHipfireRecoilScale());
+        float recoil = ( ( (1 + gunItem.getGun().getGeneral().getRecoilAngle() - gunRecoil) +
+                (1 + gunItem.getGun().getGeneral().getHorizontalRecoilAngle() - gunRecoil) ) / 15 ) + 1F * (gunItem.getGun().getDisplay().getHipfireRecoilScale());
         // The +1 is used to ensure we have a "Percentage", only for testing and may be reverted
 
         this.scale *= recoil;

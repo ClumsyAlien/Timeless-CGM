@@ -288,7 +288,8 @@ public class Config
         public final ForgeConfigSpec.BooleanValue realisticAimedBreathing;
         public final ForgeConfigSpec.BooleanValue safetyExistence;
 
-
+        public final ForgeConfigSpec.BooleanValue gameplayEnchancedScopeOffset;
+        public final ForgeConfigSpec.BooleanValue scopeDoubleRender;
 
         public Gameplay(ForgeConfigSpec.Builder builder)
         {
@@ -311,7 +312,8 @@ public class Config
 
                 this.realisticAimedBreathing = builder.comment("Aiming will present a breathing animation, moving the weapon over time, crouch to lower it's effects").define("realisticAimedBreathing", false);
 
-
+                this.gameplayEnchancedScopeOffset = builder.comment("Scopes are brought closer to the shooter to help fill FOV with a scope view").define("gameplayEnchancedScopeOffset", true);
+                this.scopeDoubleRender = builder.comment("Enable scope double render, saves on some performance and compatability issues").define("scopeDoubleRender", true);
             }
             builder.pop();
         }

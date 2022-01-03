@@ -10,12 +10,12 @@
     "gripType": "tac:two_handed_vector",
     "maxAmmo": 25,
     "reloadAmount": 5,
-    "recoilAngle": 1.655,
-    "recoilKick": 1.225,
-    "horizontalRecoilAngle": 0.75,
-    "recoilAdsReduction": 0.60,
+    "recoilAngle": 0.725,
+    "recoilKick": 0.425,
+    "horizontalRecoilAngle": 0.325,
+    "recoilAdsReduction": 0.40,
     "alwaysSpread": true,
-    "spread": 2.45
+    "spread": 2.85
   },
   "projectile": {
     "item": "tac:nato_556_bullet",
@@ -41,14 +41,14 @@
   },
   "modules": {
     "zoom": [{
-      "fovModifier": 0.70,
+      "fovModifier": 0.60,
       "yOffset": 12.9,
-      "zOffset": 1.45
+      "zOffset": 3.45
     }],
     "attachments": {
       "scope": {
         "yOffset": 11.30,
-        "zOffset": -2.4,
+        "zOffset": -1.25,
         "scale": 1.00
       }
     }

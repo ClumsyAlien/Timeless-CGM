@@ -20,7 +20,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 //apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
-version = "0.2.201-1.16.5"
+version = "0.2.278-1.16.5"
 group = "com.tac"
 archivesBaseName = "timeless_and_classics-gun_mod"
 

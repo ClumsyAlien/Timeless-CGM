@@ -18,6 +18,7 @@ public class Scope extends Attachment
     private boolean stable = false;
     private double stabilityOffset = 0d;
     private double viewFinderOffset;
+    private double viewFinderOffsetSpecial;
 
     private Scope(float additionalZoom, double centerOffset, double stabilityOffset, IGunModifier... modifier)
     {
@@ -45,6 +46,11 @@ public class Scope extends Attachment
     public Scope viewFinderOffset(double offset)
     {
         this.viewFinderOffset = offset;
+        return this;
+    }
+    public Scope viewFinderOffsetSpecial(double offset)
+    {
+        this.viewFinderOffsetSpecial = offset;
         return this;
     }
 
@@ -87,6 +93,14 @@ public class Scope extends Attachment
     public double getViewFinderOffset()
     {
         return this.viewFinderOffset;
+    }
+    /**
+     * @return The view finder offset of this scope if gameplay enchanced is chosen
+     */
+    @OnlyIn(Dist.CLIENT)
+    public double getViewFinderOffsetSpecial()
+    {
+        return this.viewFinderOffsetSpecial;
     }
     /**
      * @return The view finder offset of this scope

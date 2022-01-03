@@ -6,12 +6,12 @@
     "gripType": "tac:two_handed_ak47",
     "maxAmmo": 20,
     "reloadAmount": 4,
-    "recoilAngle": 18.025,
+    "recoilAngle": 7.825,
     "horizontalRecoilAngle": 2.075,
-    "recoilKick": 2.350,
-    "recoilAdsReduction": 0.525,
+    "recoilKick": 1.450,
+    "recoilAdsReduction": 0.3,
     "alwaysSpread": true,
-    "spread": 4.50
+    "spread": 4.75
   },
   "projectile": {
     "item": "tac:bullet_308",

@@ -321,11 +321,11 @@ public class GunRenderingHandler {
                 double yOffset = 0.0;
                 double zOffset = 0.0;
                 Scope scope = Gun.getScope(heldItem);
-
+                boolean scopeOffsetType = Config.COMMON.gameplay.gameplayEnchancedScopeOffset.get();
                 /* Creates the required offsets to position the scope into the middle of the screen. */
                 if (modifiedGun.canAttachType(IAttachment.Type.SCOPE) && scope != null) {
-                    double viewFinderOffset = scope.getViewFinderOffset();
-                    if (OptifineHelper.isShadersEnabled()) viewFinderOffset *= 0.75;
+                    double viewFinderOffset = scopeOffsetType  ? scope.getViewFinderOffsetSpecial() : scope.getViewFinderOffset(); // switches between either, but either must be populated
+                    if (OptifineHelper.isShadersEnabled() && !scopeOffsetType) viewFinderOffset *= 0.65;
                     Gun.ScaledPositioned scaledPos = modifiedGun.getModules().getAttachments().getScope();
                     xOffset = -translateX + -scaledPos.getXOffset() * 0.0625 * scaleX;
                     yOffset = -translateY + (8 - scaledPos.getYOffset()) * 0.0625 * scaleY - scope.getCenterOffset() * scaleY * 0.0625 * scaledPos.getScale();
@@ -333,8 +333,8 @@ public class GunRenderingHandler {
 
                 }
                 else if (modifiedGun.canAttachType(IAttachment.Type.OLD_SCOPE) && scope != null) {
-                    double viewFinderOffset = scope.getViewFinderOffset();
-                    if (OptifineHelper.isShadersEnabled()) viewFinderOffset *= 0.75;
+                    double viewFinderOffset = scopeOffsetType  ? scope.getViewFinderOffsetSpecial() : scope.getViewFinderOffset(); // switches between either, but either must be populated
+                    if (OptifineHelper.isShadersEnabled()  && !scopeOffsetType) viewFinderOffset *= 0.65;
                     Gun.ScaledPositioned scaledPos = modifiedGun.getModules().getAttachments().getOldScope();
                     xOffset = -translateX + -scaledPos.getXOffset() * 0.0625 * scaleX;
                     yOffset = -translateY + (8 - scaledPos.getYOffset()) * 0.0625 * scaleY - scope.getCenterOffset() * scaleY * 0.0625 * scaledPos.getScale();
@@ -455,22 +455,32 @@ public class GunRenderingHandler {
         }
     }
 
+    public float kickReduction;
+    public float recoilReduction;
+    public double kick;
+    public float recoilLift;
+    public float recoilSwayAmount;
+    public float recoilSway;
+    public float weaponsHorizontalAngle;
     private void applyRecoilTransforms(MatrixStack matrixStack, ItemStack item, Gun gun) {
         double recoilNormal = RecoilHandler.get().getGunRecoilNormal();
         if (Gun.hasAttachmentEquipped(item, gun, IAttachment.Type.SCOPE)) {
             recoilNormal -= recoilNormal * (0.5 * AimingHandler.get().getNormalisedAdsProgress());
         }
-        float kickReduction = 1.0F - GunModifierHelper.getKickReduction(item);
-        float recoilReduction = 1.0F - GunModifierHelper.getRecoilModifier(item);
-        double kick = gun.getGeneral().getRecoilKick() * 0.0625 * recoilNormal * RecoilHandler.get().getAdsRecoilReduction(gun);
-        float recoilLift = (float) (gun.getGeneral().getRecoilAngle() * recoilNormal) * (float) RecoilHandler.get().getAdsRecoilReduction(gun);
-        float recoilSwayAmount = (float) (2F + 1F * (1.0 - AimingHandler.get().getNormalisedAdsProgress()));
-        float recoilSway = (float) ((RecoilHandler.get().getGunRecoilRandom() * recoilSwayAmount - recoilSwayAmount / 2F) * recoilNormal);
-        matrixStack.translate(0, 0, kick * kickReduction);
+        this.kickReduction = 1.0F - GunModifierHelper.getKickReduction(item);
+        this.recoilReduction = 1.0F - GunModifierHelper.getRecoilModifier(item);
+        this.kick = gun.getGeneral().getRecoilKick() * 0.0625 * recoilNormal * RecoilHandler.get().getAdsRecoilReduction(gun);
+        this.recoilLift = ((float) (gun.getGeneral().getRecoilAngle() * recoilNormal) * (float) RecoilHandler.get().getAdsRecoilReduction(gun));
+        this.recoilSwayAmount = ((float) (2F + 1F * (1.0 - AimingHandler.get().getNormalisedAdsProgress())));// * 1.5f;
+        this.recoilSway = (float) ((RecoilHandler.get().getGunRecoilRandom() * this.recoilSwayAmount - this.recoilSwayAmount / 2F) * recoilNormal);
+        this.weaponsHorizontalAngle = gun.getGeneral().getHorizontalRecoilAngle();
+
+        matrixStack.translate(0, 0, this.kick * this.kickReduction);
         matrixStack.translate(0, 0, 0.35);
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(recoilSway * recoilReduction));
-        matrixStack.rotate(Vector3f.ZP.rotationDegrees(recoilSway * recoilReduction));
-        matrixStack.rotate(Vector3f.XP.rotationDegrees(recoilLift * recoilReduction));
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(this.recoilSway * this.recoilReduction));
+        matrixStack.rotate(Vector3f.ZN.rotationDegrees(this.recoilSway * this.weaponsHorizontalAngle * 0.65f * this.recoilReduction)); // seems to be interesting to increase the force of
+        //matrixStack.rotate(Vector3f.ZP.rotationDegrees(recoilSway * 2.5f * recoilReduction)); // seems to be interesting to increase the force of
+        matrixStack.rotate(Vector3f.XP.rotationDegrees(this.recoilLift * this.recoilReduction));
         matrixStack.translate(0, 0, -0.35);
     }
 
@@ -527,7 +537,7 @@ public class GunRenderingHandler {
             return;
         }
 
-        if (heldItem.getItem() instanceof GunItem) {
+        /*if (heldItem.getItem() instanceof GunItem) {
             Gun gun = ((GunItem) heldItem.getItem()).getGun(); // Cooldown stuffs, i should look into this
             if (!gun.getGeneral().isAuto()) {
                 float coolDown = player.getCooldownTracker().getCooldown(heldItem.getItem(), event.renderTickTime);
@@ -554,7 +564,7 @@ public class GunRenderingHandler {
                     RenderSystem.disableBlend();
                 }
             }
-        }
+        }*/
     }
 
     @SubscribeEvent

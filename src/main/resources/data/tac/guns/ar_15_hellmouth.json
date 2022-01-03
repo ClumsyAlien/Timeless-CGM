@@ -9,7 +9,7 @@
     "recoilAngle": 6.725,
     "horizontalRecoilAngle": 2.025,
     "recoilKick": 1.600,
-    "recoilAdsReduction": 0.55,
+    "recoilAdsReduction": 0.375,
     "alwaysSpread": true,
     "spread": 8.20
   },
