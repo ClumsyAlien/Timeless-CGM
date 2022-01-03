@@ -118,6 +118,10 @@ public final class AnimationRunner
             long deltaNs = currentNs - previousNs;
             animationManager.performStep(deltaNs);
             previousNs = currentNs;
+            if(animationManager.tipStop()) {
+                stop();
+                animationManager.reset();
+            }
             try
             {
                 Thread.sleep(stepSizeMs);

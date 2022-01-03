@@ -2,7 +2,7 @@ package com.tac.guns.client.util;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import com.tac.guns.client.render.Animations;
+import com.tac.guns.client.render.animation.Animations;
 import com.tac.guns.common.Gun;
 import com.tac.guns.item.attachment.IAttachment;
 import net.minecraft.block.Block;
@@ -101,19 +101,15 @@ public class RenderUtil
         if(!stack.isEmpty())
         {
             matrixStack.push();
-            Matrix4f animationTransition = new Matrix4f(Animations.test.computeGlobalTransform(null));
             boolean flag = transformType == ItemCameraTransforms.TransformType.GUI || transformType == ItemCameraTransforms.TransformType.GROUND || transformType == ItemCameraTransforms.TransformType.FIXED;
             if(stack.getItem() == Items.TRIDENT && flag)
             {
                 model = Minecraft.getInstance().getModelManager().getModel(new ModelResourceLocation("minecraft:trident#inventory"));
             }
-
             model = net.minecraftforge.client.ForgeHooksClient.handleCameraTransforms(matrixStack, model, transformType, false);
             matrixStack.translate(-0.5D, -0.5D, -0.5D);
-            if(animationTransition !=null){
-                animationTransition.transpose();
-                matrixStack.getLast().getMatrix().mul(animationTransition);
-            }
+            Animations.applyAnimationTransform(matrixStack);
+
             if(!model.isBuiltInRenderer() && (stack.getItem() != Items.TRIDENT || flag))
             {
                 boolean flag1;

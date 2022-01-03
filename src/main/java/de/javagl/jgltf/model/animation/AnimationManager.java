@@ -57,7 +57,8 @@ public final class AnimationManager
         /**
          * Indicates that the animations should be looped
          */
-        LOOP
+        LOOP,
+        TIP_STOP
     }
     
     /**
@@ -210,7 +211,7 @@ public final class AnimationManager
      * 
      * @param deltaNs The time step size, in nanoseconds
      */
-    void performStep(long deltaNs)
+    public void performStep(long deltaNs)
     {
         currentNs += deltaNs;
         float currentTimeS = getCurrentTimeS();
@@ -282,6 +283,8 @@ public final class AnimationManager
         }
     }
     
-    
+    public boolean tipStop(){
+        return animationPolicy.equals(AnimationPolicy.TIP_STOP) && getCurrentTimeS()> maxEndTimeS;
+    }
     
 }

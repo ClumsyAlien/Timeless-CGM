@@ -2,6 +2,9 @@ package com.tac.guns.client.render.gun.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.tac.guns.client.SpecialModels;
+import com.tac.guns.client.render.animation.Animations;
+import com.tac.guns.client.render.animation.Glock17AnimationController;
+import com.tac.guns.client.render.animation.GunAnimationController;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.Gun;
@@ -40,49 +43,64 @@ public class glock_17_animation implements IOverrideModel {
             RenderUtil.renderModel(SpecialModels.GLOCK_17_SUPPRESSOR_OVERIDE.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
         */
+        boolean isFirstPerson = transformType.isFirstPerson();
 
-        if(Gun.getAttachment(IAttachment.Type.BARREL,stack).getItem() == ModItems.SILENCER.get())
+        // Apply animation for magazine
+        if(isFirstPerson) Animations.pushNode(Glock17AnimationController.getInstance().animationRunning(), Glock17AnimationController.INDEX_MAGAZINE);
         {
-            RenderUtil.renderModel(SpecialModels.GLOCK_17_SUPPRESSOR_OVERIDE.getModel(), stack, matrices, renderBuffer, light, overlay);
-            //Gun.getAttachment(IAttachment.Type.BARREL, GunItem.getItemById(Item.getIdFromItem(stack.getItem())).getDefaultInstance())
+            if (EnchantmentHelper.getMaxEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0) {
+                RenderUtil.renderModel(SpecialModels.GLOCK_17_EXTENDED_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
+            } else {
+                RenderUtil.renderModel(SpecialModels.GLOCK_17_STANDARD_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
+            }
         }
-
-        if(EnchantmentHelper.getMaxEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), entity) > 0)
-        {
-            RenderUtil.renderModel(SpecialModels.GLOCK_17_EXTENDED_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
+        if(isFirstPerson) Animations.popNode(); //always pop
+        // Apply animation for main body and attachments
+        if(isFirstPerson) Animations.pushNode(Glock17AnimationController.getInstance().animationRunning(), Glock17AnimationController.INDEX_BODY);{
+            if(Gun.getAttachment(IAttachment.Type.BARREL,stack).getItem() == ModItems.SILENCER.get())
+            {
+                RenderUtil.renderModel(SpecialModels.GLOCK_17_SUPPRESSOR_OVERIDE.getModel(), stack, matrices, renderBuffer, light, overlay);
+                //Gun.getAttachment(IAttachment.Type.BARREL, GunItem.getItemById(Item.getIdFromItem(stack.getItem())).getDefaultInstance())
+            }
+            RenderUtil.renderModel(SpecialModels.GLOCK_17.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
-        else
-        {
-            RenderUtil.renderModel(SpecialModels.GLOCK_17_STANDARD_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
-        }
-
-        RenderUtil.renderModel(SpecialModels.GLOCK_17.getModel(), stack, matrices, renderBuffer, light, overlay);
-
+        if(isFirstPerson) Animations.popNode(); //always pop
             //Always push
             matrices.push();
 
             CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
         float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
-         
 
-        if(Gun.hasAmmo(stack))
+        MatrixStack extraMatrixStack = Animations.getExtraMatrixStack();
+        extraMatrixStack.push();
+        float alpha1 = (float) (0.175f * (-4.5 * Math.pow(cooldownOg-0.5, 2) + 1.0));
+        if(Animations.isAnimationRunning(Glock17AnimationController.getInstance().animationRunning())){
+            extraMatrixStack.translate(0, 0, alpha1);
+            extraMatrixStack.translate(0,0,0.1875F);
+        }else if(Gun.hasAmmo(stack))
         {
             // Math provided by Bomb787 on GitHub and Curseforge!!!
-            matrices.translate(0, 0, 0.175f * (-4.5 * Math.pow(cooldownOg-0.5, 2) + 1.0));
+            extraMatrixStack.translate(0, 0, alpha1);
         }
         else if(!Gun.hasAmmo(stack))
         {
             if(cooldownOg > 0.5){
                 // Math provided by Bomb787 on GitHub and Curseforge!!!
-                matrices.translate(0, 0, 0.175f * (-4.5 * Math.pow(cooldownOg-0.5, 2) + 1.0));
+                extraMatrixStack.translate(0, 0, alpha1);
             }
             else
             {
-                matrices.translate(0, 0, 0.175f * (-4.5 * Math.pow(0.5-0.5, 2) + 1.0));
+                extraMatrixStack.translate(0, 0, 0.175f * (-4.5 * Math.pow(0.5-0.5, 2) + 1.0));
             }
         }
-        matrices.translate(0.00, 0.0, -0.025);
-        RenderUtil.renderModel(SpecialModels.GLOCK_17_SLIDE.getModel(), stack, matrices, renderBuffer, light, overlay);
+        extraMatrixStack.translate(0.00f, 0.0f, -0.025f);
+
+        if(isFirstPerson) Animations.pushNode(Glock17AnimationController.getInstance().animationRunning(), Glock17AnimationController.INDEX_SLIDE);
+        {
+            RenderUtil.renderModel(SpecialModels.GLOCK_17_SLIDE.getModel(), stack, matrices, renderBuffer, light, overlay);
+        }
+        if(isFirstPerson) Animations.popNode();
+        extraMatrixStack.pop();
 
             //Always pop
             matrices.pop();

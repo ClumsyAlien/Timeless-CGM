@@ -37,6 +37,7 @@ public enum SpecialModels
     MOSIN_BOLT("mosin_bolt"),
     AK47("ak47"),
     AK47_BOLT("ak47_bolt"),
+    AK47_MAGAZINE("ak47_magazine"),
     M60("m60"),
     M60_sMAG("m60_standard_mag"),
     M60_eMAG("m60_extended_mag"),

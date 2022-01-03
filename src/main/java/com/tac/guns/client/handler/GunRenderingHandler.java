@@ -8,6 +8,8 @@ import com.mrcrayfish.obfuscate.client.event.RenderItemEvent;
 import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.Reference;
 import com.tac.guns.client.GunRenderType;
+import com.tac.guns.client.render.animation.Animations;
+import com.tac.guns.client.render.animation.GunAnimationController;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.render.gun.ModelOverrides;
 import com.tac.guns.client.util.RenderUtil;
@@ -19,6 +21,7 @@ import com.tac.guns.item.GrenadeItem;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.item.ScopeItem;
 import com.tac.guns.item.TransitionalTypes.ITimelessAnimated;
+import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
 import com.tac.guns.item.attachment.IAttachment;
 import com.tac.guns.item.attachment.IBarrel;
 import com.tac.guns.item.attachment.impl.Barrel;
@@ -146,6 +149,11 @@ public class GunRenderingHandler {
         float direction = down ? -0.3F : 0.3F;
         this.offhandTranslate = MathHelper.clamp(this.offhandTranslate + direction, 0.0F, 1.0F);
     }
+    @SubscribeEvent
+    public void onGunReload(GunReloadEvent.Post event) {
+        GunAnimationController controller = GunAnimationController.fromItem(event.getStack().getItem());
+        if(controller!=null) controller.runReloadingAnimation();
+    }
 
     @SubscribeEvent
     public void onGunFire(GunFireEvent.Post event) {
@@ -172,14 +180,6 @@ public class GunRenderingHandler {
         this.entityIdToRandomValue.put(entityId, this.random.nextFloat());
     }
 
-    @SubscribeEvent
-    public void onAnimatedGunReload(GunReloadEvent.Pre event){
-        Item item = event.getStack().getItem();
-        if(item instanceof ITimelessAnimated){
-            ITimelessAnimated animated = (ITimelessAnimated) item;
-            animated.playAnimation("reload",event.getStack(),false);
-        }
-    }
 
     @SubscribeEvent
     public void onRenderOverlay(RenderHandEvent event) {
@@ -325,7 +325,7 @@ public class GunRenderingHandler {
 
         /* Renders the reload arm. Will only render if actually reloading. This is applied before
          * any recoil or reload rotations as the animations would be borked if applied after. */
-        this.renderReloadArm(matrixStack, event.getBuffers(), event.getLight(), modifiedGun, heldItem, hand);
+        //this.renderReloadArm(matrixStack, event.getBuffers(), event.getLight(), modifiedGun, heldItem, hand);
 
         /* Translate the item position based on the hand side */
         int offset = right ? 1 : -1;
@@ -333,18 +333,19 @@ public class GunRenderingHandler {
 
 
         this.applySprintingTransforms(modifiedGun, hand, matrixStack, event.getPartialTicks());
-        /* Applies recoil and reload rotations */
+        /* Applies recoil rotations */
         this.applyRecoilTransforms(matrixStack, heldItem, modifiedGun);
-        if(!isAnimated) this.applyReloadTransforms(matrixStack, event.getPartialTicks());
+        //if(!isAnimated) this.applyReloadTransforms(matrixStack, event.getPartialTicks());
 
         /* Renders the first persons arms from the grip type of the weapon */
         if(!isAnimated) {
+            Animations.getExtraMatrixStack().push();
+            Animations.getExtraMatrixStack().translate(-0.56 * offset, 0.52, 0.72);
             matrixStack.push();
-            matrixStack.translate(-0.56 * offset, 0.52, 0.72);
             modifiedGun.getGeneral().getGripType().getHeldAnimation().renderFirstPersonArms(Minecraft.getInstance().player, hand, heldItem, matrixStack, event.getBuffers(), event.getLight(), event.getPartialTicks());
             matrixStack.pop();
+            Animations.getExtraMatrixStack().pop();
         }
-
         /* Renders the weapon */
         ItemCameraTransforms.TransformType transformType = right ? ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND : ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND;
         this.renderWeapon(Minecraft.getInstance().player, heldItem, transformType, event.getMatrixStack(), event.getBuffers(), packedLight, event.getPartialTicks());
@@ -363,11 +364,13 @@ public class GunRenderingHandler {
         }
     }
 
-    private void applyReloadTransforms(MatrixStack matrixStack, float partialTicks) {
+    private void applyRightHandReloadTransforms(MatrixStack matrixStack, float partialTicks) {
+        /*
         float reloadProgress = ReloadHandler.get().getReloadProgress(partialTicks);
         matrixStack.translate(0, 0.35 * reloadProgress, 0);
         matrixStack.translate(0, 0, -0.1 * reloadProgress);
         matrixStack.rotate(Vector3f.XP.rotationDegrees(45F * reloadProgress));
+         */
     }
 
     private void applyRecoilTransforms(MatrixStack matrixStack, ItemStack item, Gun gun) {
@@ -671,17 +674,20 @@ public class GunRenderingHandler {
                             double displayX = positioned.getXOffset() * 0.0625;
                             double displayY = positioned.getYOffset() * 0.0625;
                             double displayZ = positioned.getZOffset() * 0.0625;
-                            matrixStack.translate(displayX, displayY, displayZ);
-                            matrixStack.translate(0, -0.5, 0);
-                            matrixStack.scale((float) positioned.getScale(), (float) positioned.getScale(), (float) positioned.getScale());
-
+                            MatrixStack extraMatrixStack = Animations.getExtraMatrixStack();
+                            GunAnimationController controller = GunAnimationController.fromItem(stack.getItem());
+                            extraMatrixStack.push();
+                            extraMatrixStack.translate(displayX, displayY-0.5, displayZ);
+                            extraMatrixStack.scale((float) positioned.getScale(), (float) positioned.getScale(), (float) positioned.getScale());
+                            if(transformType.isFirstPerson() && controller!=null) controller.pushAttachmentsNode();
                             IOverrideModel model = ModelOverrides.getModel(attachmentStack);
                             if (model != null) {
                                 model.render(partialTicks, transformType, attachmentStack, stack, entity, matrixStack, renderTypeBuffer, light, OverlayTexture.NO_OVERLAY);
                             } else {
                                 RenderUtil.renderModel(attachmentStack, stack, matrixStack, renderTypeBuffer, light, OverlayTexture.NO_OVERLAY);
                             }
-
+                            if(transformType.isFirstPerson()) Animations.popNode();
+                            extraMatrixStack.pop();
                             matrixStack.pop();
                         }
                     }

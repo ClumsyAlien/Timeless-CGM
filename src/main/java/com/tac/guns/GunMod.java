@@ -2,8 +2,7 @@ package com.tac.guns;
 
 import com.tac.guns.client.ClientHandler;
 import com.tac.guns.client.CustomGunManager;
-import com.tac.guns.client.SpecialModels;
-import com.tac.guns.client.render.Animations;
+import com.tac.guns.client.render.animation.Animations;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.render.gun.ModelOverrides;
 import com.tac.guns.client.render.pose.*;
@@ -36,7 +35,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Locale;
 
@@ -133,16 +131,6 @@ public class GunMod
                     e.printStackTrace();
                 }
             }
-        }
-
-        try {
-            ResourceLocation GLOCK_17 = new ResourceLocation("tac","animations/glock_17.gltf");
-            Animations.load(GLOCK_17);
-            Animations.bindNode(GLOCK_17,SpecialModels.GLOCK_17.getModel(),41);
-            Animations.runAnimation(GLOCK_17);
-            GunMod.LOGGER.debug(Animations.getGltfModel(GLOCK_17).getNodeModels().get(1).getTranslation()[0]);
-        } catch (IOException e) {
-            GunMod.LOGGER.fatal(e.getStackTrace());
         }
     }
 

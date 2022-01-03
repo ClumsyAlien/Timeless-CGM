@@ -5,6 +5,8 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.tac.guns.Reference;
 import com.tac.guns.client.GunRenderType;
 import com.tac.guns.client.handler.AimingHandler;
+import com.tac.guns.client.render.animation.Animations;
+import com.tac.guns.client.render.animation.GunAnimationController;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.item.attachment.IAttachment;
@@ -16,13 +18,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraftforge.common.util.Constants;
 
 /**
  * Author: MrCrayfish
@@ -42,11 +41,12 @@ public class LongRange8xScopeModel implements IOverrideModel
             matrixStack.scale(1.0F, 1.0F, (float)zScale);
         }
 
-        matrixStack.translate(0, -0.15, -0.42);
-
+        Animations.getExtraMatrixStack().translate(0,-0.15,-0.42);
         RenderUtil.renderModel(stack, parent, matrixStack, renderTypeBuffer, light, overlay);
-
-        matrixStack.translate(0, 0.15, 0.42);
+        Animations.getExtraMatrixStack().translate(0,0.15,0.42);
+        Animations.applyExtraTransform(matrixStack);
+        GunAnimationController controller = GunAnimationController.fromItem(parent.getItem());
+        if(controller!=null ) if(Animations.isAnimationRunning(controller.animationRunning())) return;
 
         if(transformType.isFirstPerson() && entity.equals(Minecraft.getInstance().player))
         {
