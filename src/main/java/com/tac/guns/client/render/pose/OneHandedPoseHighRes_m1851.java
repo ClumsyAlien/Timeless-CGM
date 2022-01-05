@@ -42,7 +42,7 @@ public class OneHandedPoseHighRes_m1851 extends OneHandedPose {
 		//IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(stack, player.world, player);
 		//net.minecraftforge.client.ForgeHooksClient.handleCameraTransforms(matrixStack, model, ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND, false);
 		//matrixStack.translate(-0.5,-0.5,-0.5);
-		Animations.applyAnimationTransform(stack,player, ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND,matrixStack);
+		Animations.applyAnimationTransform(stack, ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND,player,matrixStack);
 		RenderUtil.renderFirstPersonArm(player, hand, matrixStack, buffer, light);
 		if(controller != null) Animations.popNode();
 		extraMatrixStack.pop();

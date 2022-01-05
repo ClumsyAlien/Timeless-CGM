@@ -108,7 +108,7 @@ public class RenderUtil
             }
             model = net.minecraftforge.client.ForgeHooksClient.handleCameraTransforms(matrixStack, model, transformType, false);
             matrixStack.translate(-0.5D, -0.5D, -0.5D);
-            Animations.applyAnimationTransform(matrixStack);
+            //Animations.applyAnimationTransform(matrixStack);
 
             if(!model.isBuiltInRenderer() && (stack.getItem() != Items.TRIDENT || flag))
             {

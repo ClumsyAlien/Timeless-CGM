@@ -49,7 +49,7 @@ public class OneHandedPoseHighRes_m1911 extends OneHandedPose {
 		extraMatrixStack.scale(1.4F, 1.4F, 1.4F); // (3)^
 		GunAnimationController controller = GunAnimationController.fromItem(stack.getItem());
 		if(controller != null) controller.pushRightHandNode();
-		Animations.applyAnimationTransform(stack,player, ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND,matrixStack);
+		Animations.applyAnimationTransform(stack,ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND, player,matrixStack);
 		RenderUtil.renderFirstPersonArm(player, hand, matrixStack, buffer, light); // Finally render our hand with the params we've set
 		if(controller != null) Animations.popNode();
 		extraMatrixStack.pop();

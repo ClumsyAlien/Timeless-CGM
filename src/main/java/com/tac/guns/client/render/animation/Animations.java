@@ -118,19 +118,6 @@ public class Animations {
         return initial;
     }
 
-    public static void applyAnimationTransform(MatrixStack matrixStack){
-        if(Animations.peekNodeModel() != null && Animations.peekInitialModel() != null) {
-            Matrix4f animationTransition = new Matrix4f(Animations.peekNodeModel().computeGlobalTransform(null));
-            Matrix4f initialTransition = new Matrix4f(Animations.peekInitialModel().computeGlobalTransform(null));
-            animationTransition.transpose();
-            initialTransition.transpose();
-            initialTransition.invert();
-            matrixStack.getLast().getMatrix().mul(animationTransition);
-            matrixStack.getLast().getMatrix().mul(initialTransition);
-        }
-        applyExtraTransform(matrixStack);
-    }
-
     private static AnimationRunner getAnimationRunner(ResourceLocation resourceLocation){
         return animationRunnerMap.get(resourceLocation.toString());
     }
@@ -177,12 +164,21 @@ public class Animations {
         matrixStack.getLast().getNormal().mul(extraMatrixStack.getLast().getNormal());
     }
 
-    public static void applyAnimationTransform(ItemStack itemStack, LivingEntity entity, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack){
-        if(Animations.peekNodeModel() != null && Animations.peekInitialModel() != null) {
+    public static void applyAnimationTransform(ItemStack itemStack, ItemCameraTransforms.TransformType transformType, LivingEntity entity, MatrixStack matrixStack){
+        if(itemStack != null && entity != null) {
             IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(itemStack, entity.world, entity);
-            ItemTransformVec3f itemTransformVec3f = model.getItemCameraTransforms().getTransform(transformType);
-            matrixStack.translate(itemTransformVec3f.translation.getX(),itemTransformVec3f.translation.getY(),itemTransformVec3f.translation.getZ());
-            matrixStack.translate(-0.5,-0.5,-0.5);
+            applyAnimationTransform(model, transformType, matrixStack);
+        }
+    }
+
+    public static void applyAnimationTransform(IBakedModel model, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack){
+        if(Animations.peekNodeModel() != null && Animations.peekInitialModel() != null) {
+            ItemTransformVec3f modelTransformVec3f = (model == null ? null : model.getItemCameraTransforms().getTransform(transformType) );
+            if(modelTransformVec3f != null) {
+                matrixStack.scale(modelTransformVec3f.scale.getX(),modelTransformVec3f.scale.getY(),modelTransformVec3f.scale.getZ());
+                matrixStack.translate(modelTransformVec3f.translation.getX(), modelTransformVec3f.translation.getY(), modelTransformVec3f.translation.getZ());
+                matrixStack.translate(-0.5,-0.5,-0.5);
+            }
             Matrix4f animationTransition = new Matrix4f(Animations.peekNodeModel().computeGlobalTransform(null));
             Matrix4f initialTransition = new Matrix4f(Animations.peekInitialModel().computeGlobalTransform(null));
             animationTransition.transpose();
@@ -190,8 +186,11 @@ public class Animations {
             initialTransition.invert();
             matrixStack.getLast().getMatrix().mul(animationTransition);
             matrixStack.getLast().getMatrix().mul(initialTransition);
-            matrixStack.translate(0.5,0.5,0.5);
-            matrixStack.translate(-itemTransformVec3f.translation.getX(),-itemTransformVec3f.translation.getY(),-itemTransformVec3f.translation.getZ());
+            if(modelTransformVec3f !=null) {
+                matrixStack.translate(0.5, 0.5, 0.5);
+                matrixStack.translate(-modelTransformVec3f.translation.getX(), -modelTransformVec3f.translation.getY(), -modelTransformVec3f.translation.getZ());
+                matrixStack.scale(1/modelTransformVec3f.scale.getX(),1/modelTransformVec3f.scale.getY(),1/modelTransformVec3f.scale.getZ());
+            }
         }
         applyExtraTransform(matrixStack);
     }

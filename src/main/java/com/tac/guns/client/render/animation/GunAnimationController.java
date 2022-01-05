@@ -1,6 +1,11 @@
 package com.tac.guns.client.render.animation;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.HashMap;
@@ -8,7 +13,7 @@ import java.util.Map;
 
 public abstract class GunAnimationController {
     private AnimationMeta runningAnimation;
-    /*A map created to obtain AnimationController through items, the key value should put the RegistryName of the Item.*/
+    /*A map to obtain AnimationController through Item, the key value should put the RegistryName of the Item.*/
     private static final Map<ResourceLocation, GunAnimationController> animationControllerMap = new HashMap<>();
 
     public void runAnimation(AnimationMeta animationMeta){
@@ -35,8 +40,33 @@ public abstract class GunAnimationController {
     protected abstract int getAttachmentsNodeIndex();
     protected abstract int getRightHandNodeIndex();
     protected abstract int getLeftHandNodeIndex();
-    public void pushAttachmentsNode(){
-        Animations.pushNode(animationRunning(), getAttachmentsNodeIndex());
+
+    public void applyAttachmentsTransform(ItemStack itemStack, ItemCameraTransforms.TransformType transformType, LivingEntity entity, MatrixStack matrixStack){
+        boolean isFirstPerson = transformType.isFirstPerson();
+        if( isFirstPerson ) Animations.pushNode(animationRunning(), getAttachmentsNodeIndex());
+        Animations.applyAnimationTransform(itemStack, ItemCameraTransforms.TransformType.NONE, entity, matrixStack);
+        if( isFirstPerson ) Animations.popNode();
+    }
+
+    public void applySpecialModelTransform(IBakedModel model, int index, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack){
+        boolean isFirstPerson = transformType.isFirstPerson();
+        if( isFirstPerson ) Animations.pushNode(animationRunning(), index);
+        Animations.applyAnimationTransform(model, ItemCameraTransforms.TransformType.NONE, matrixStack);
+        if( isFirstPerson ) Animations.popNode();
+    }
+
+    public void applyRightHandTransform(ItemStack heldItem, LivingEntity entity, MatrixStack matrixStack){
+        Animations.pushNode(animationRunning(), getRightHandNodeIndex());
+        Animations.applyAnimationTransform(heldItem, ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND, entity, matrixStack);
+        matrixStack.translate(-0.56, 0.52, 0.72);
+        Animations.popNode();
+    }
+
+    public void applyLeftHandTransform(ItemStack heldItem, LivingEntity entity, MatrixStack matrixStack){
+        Animations.pushNode(animationRunning(), getLeftHandNodeIndex());
+        Animations.applyAnimationTransform(heldItem, ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND, entity, matrixStack);
+        matrixStack.translate(-0.56, 0.52, 0.72);
+        Animations.popNode();
     }
     public void pushRightHandNode(){
         Animations.pushNode(animationRunning(), getRightHandNodeIndex());

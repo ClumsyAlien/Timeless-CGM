@@ -33,7 +33,7 @@ public class Ak47AnimationController extends GunAnimationController {
 
     @Override
     protected AnimationMeta getReloadingAnimation() {
-        return RELOAD_NORM;
+        return INSPECT;
     }
 
     @Override

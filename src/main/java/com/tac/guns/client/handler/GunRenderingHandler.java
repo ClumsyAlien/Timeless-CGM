@@ -671,23 +671,19 @@ public class GunRenderingHandler {
                         Gun.ScaledPositioned positioned = gun.getAttachmentPosition(type);
                         if (positioned != null) {
                             matrixStack.push();
+                            GunAnimationController controller = GunAnimationController.fromItem(stack.getItem());
+                            if(controller!=null) controller.applyAttachmentsTransform(stack, transformType, entity, matrixStack);
                             double displayX = positioned.getXOffset() * 0.0625;
                             double displayY = positioned.getYOffset() * 0.0625;
                             double displayZ = positioned.getZOffset() * 0.0625;
-                            MatrixStack extraMatrixStack = Animations.getExtraMatrixStack();
-                            GunAnimationController controller = GunAnimationController.fromItem(stack.getItem());
-                            extraMatrixStack.push();
-                            extraMatrixStack.translate(displayX, displayY-0.5, displayZ);
-                            extraMatrixStack.scale((float) positioned.getScale(), (float) positioned.getScale(), (float) positioned.getScale());
-                            if(transformType.isFirstPerson() && controller!=null) controller.pushAttachmentsNode();
+                            matrixStack.translate(displayX, displayY-0.5, displayZ);
+                            matrixStack.scale((float) positioned.getScale(), (float) positioned.getScale(), (float) positioned.getScale());
                             IOverrideModel model = ModelOverrides.getModel(attachmentStack);
                             if (model != null) {
                                 model.render(partialTicks, transformType, attachmentStack, stack, entity, matrixStack, renderTypeBuffer, light, OverlayTexture.NO_OVERLAY);
                             } else {
                                 RenderUtil.renderModel(attachmentStack, stack, matrixStack, renderTypeBuffer, light, OverlayTexture.NO_OVERLAY);
                             }
-                            if(transformType.isFirstPerson()) Animations.popNode();
-                            extraMatrixStack.pop();
                             matrixStack.pop();
                         }
                     }

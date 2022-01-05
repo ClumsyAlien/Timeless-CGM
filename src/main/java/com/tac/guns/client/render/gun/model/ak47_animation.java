@@ -28,10 +28,10 @@ public class ak47_animation implements IOverrideModel {
 
     @Override
     public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay) {
-        boolean isFirstPerson = transformType.isFirstPerson();
-        MatrixStack extraMatrixStack = Animations.getExtraMatrixStack();
-        if(isFirstPerson)Animations.pushNode(Ak47AnimationController.getInstance().animationRunning(), Ak47AnimationController.INDEX_BODY);
+        matrices.push();
         {
+            Ak47AnimationController.getInstance().applySpecialModelTransform(
+                    SpecialModels.AK47.getModel(), Ak47AnimationController.INDEX_BODY, transformType, matrices);
             if (Gun.getScope(stack) != null) {
                 RenderUtil.renderModel(SpecialModels.AK47_OPTIC_MOUNT.getModel(), stack, matrices, renderBuffer, light, overlay);
             }
@@ -56,40 +56,37 @@ public class ak47_animation implements IOverrideModel {
                 I will be making a bug report as I don't think this behavior is correct and something wrong is on either side as this should be clearly possible
             */
                 matrices.push();
-                extraMatrixStack.push();
-                extraMatrixStack.translate(0,0,-0.45);
+                matrices.translate(0,0,-0.45);
                 RenderUtil.renderModel(SpecialModels.AK47_SILENCER.getModel(), stack, matrices, renderBuffer, light, overlay);
-                extraMatrixStack.pop();
                 matrices.pop();
             }
             RenderUtil.renderModel(SpecialModels.AK47.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
-        if(isFirstPerson) Animations.popNode();
-
-        //Always push
-        matrices.push();
-        //We're getting the cooldown tracker for the item - items like the sword, ender pearl, and chorus fruit all have this too.
-        CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
-        float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
-        // Math provided by Bomb787 on GitHub and Curseforge!!!
-        double boltTransitionValue = 0.190f * (-4.5 * Math.pow(cooldownOg - 0.5, 2) + 1);
-        //if(!isFirstPerson) matrices.translate(0, 0, boltTransitionValue);
-        extraMatrixStack.push();
-        extraMatrixStack.translate(0,0,boltTransitionValue);
-        if(isFirstPerson)Animations.pushNode(Ak47AnimationController.getInstance().animationRunning(), Ak47AnimationController.INDEX_BOLT);
-        {
-            RenderUtil.renderModel(SpecialModels.AK47_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
-        }
-        if(isFirstPerson) Animations.popNode();
-        extraMatrixStack.pop();
-        //Always pop
         matrices.pop();
 
-        if(isFirstPerson)Animations.pushNode(Ak47AnimationController.getInstance().animationRunning(), Ak47AnimationController.INDEX_MAGAZINE);
+        matrices.push();
         {
+            Ak47AnimationController.getInstance().applySpecialModelTransform(
+                    SpecialModels.AK47.getModel(), Ak47AnimationController.INDEX_BOLT, transformType, matrices);
+            //We're getting the cooldown tracker for the item - items like the sword, ender pearl, and chorus fruit all have this too.
+            CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
+            float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
+            // Math provided by Bomb787 on GitHub and Curseforge!!!
+            double boltTransitionValue = 0.190f * (-4.5 * Math.pow(cooldownOg - 0.5, 2) + 1);
+            matrices.translate(0, 0, boltTransitionValue);
+            {
+                RenderUtil.renderModel(SpecialModels.AK47_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
+            }
+        }
+        matrices.pop();
+
+        matrices.push();
+        {
+            Ak47AnimationController.getInstance().applySpecialModelTransform(
+                    SpecialModels.AK47.getModel(), Ak47AnimationController.INDEX_MAGAZINE, transformType, matrices);
             RenderUtil.renderModel(SpecialModels.AK47_MAGAZINE.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
-        if(isFirstPerson) Animations.popNode();
+        matrices.pop();
     }
 
      

@@ -41,11 +41,10 @@ public class LongRange8xScopeModel implements IOverrideModel
             matrixStack.scale(1.0F, 1.0F, (float)zScale);
         }
 
-        Animations.getExtraMatrixStack().translate(0,-0.15,-0.42);
+        matrixStack.translate(0,-0.15,-0.42);
         RenderUtil.renderModel(stack, parent, matrixStack, renderTypeBuffer, light, overlay);
-        Animations.getExtraMatrixStack().translate(0,0.15,0.42);
-        Animations.applyExtraTransform(matrixStack);
-        GunAnimationController controller = GunAnimationController.fromItem(parent.getItem());
+        matrixStack.translate(0,0.15,0.42);
+        GunAnimationController controller = GunAnimationController.fromItem(stack.getItem());
         if(controller!=null ) if(Animations.isAnimationRunning(controller.animationRunning())) return;
 
         if(transformType.isFirstPerson() && entity.equals(Minecraft.getInstance().player))
