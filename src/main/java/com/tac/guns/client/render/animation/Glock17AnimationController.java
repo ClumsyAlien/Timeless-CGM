@@ -30,8 +30,8 @@ public class Glock17AnimationController extends GunAnimationController{
     }
 
     @Override
-    protected AnimationMeta getReloadingAnimation() {
-        return RELOAD_NORM;
+    protected AnimationMeta getAnimationFromLabel(AnimationLabel label) {
+        return null;
     }
 
     @Override

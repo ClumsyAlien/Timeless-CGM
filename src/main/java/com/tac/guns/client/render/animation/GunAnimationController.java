@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class GunAnimationController {
+    public enum AnimationLabel{
+        RELOAD_NORMAL,
+        INSPECT,
+    }
     private AnimationMeta previousAnimation;
     /*A map to obtain AnimationController through Item, the key value should put the RegistryName of the Item.*/
     private static final Map<ResourceLocation, GunAnimationController> animationControllerMap = new HashMap<>();
@@ -35,11 +39,11 @@ public abstract class GunAnimationController {
         }
     }
 
-    public void runReloadingAnimation(){
-        runAnimation(getReloadingAnimation());
+    public void runAnimation(AnimationLabel label){
+        runAnimation(getAnimationFromLabel(label));
     }
 
-    protected abstract AnimationMeta getReloadingAnimation();
+    protected abstract AnimationMeta getAnimationFromLabel(AnimationLabel label);
     protected abstract int getAttachmentsNodeIndex();
     protected abstract int getRightHandNodeIndex();
     protected abstract int getLeftHandNodeIndex();

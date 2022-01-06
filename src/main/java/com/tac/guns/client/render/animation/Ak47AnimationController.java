@@ -32,8 +32,12 @@ public class Ak47AnimationController extends GunAnimationController {
     }
 
     @Override
-    protected AnimationMeta getReloadingAnimation() {
-        return INSPECT;
+    protected AnimationMeta getAnimationFromLabel(AnimationLabel label) {
+        switch (label){
+            case INSPECT: return INSPECT;
+            case RELOAD_NORMAL: return RELOAD_NORM;
+            default: return null;
+        }
     }
 
     @Override

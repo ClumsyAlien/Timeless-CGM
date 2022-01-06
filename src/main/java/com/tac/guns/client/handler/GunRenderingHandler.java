@@ -155,7 +155,7 @@ public class GunRenderingHandler {
     @SubscribeEvent
     public void onGunReload(GunReloadEvent.Post event) {
         GunAnimationController controller = GunAnimationController.fromItem(event.getStack().getItem());
-        if(controller!=null) controller.runReloadingAnimation();
+        if(controller!=null) controller.runAnimation(GunAnimationController.AnimationLabel.RELOAD_NORMAL);
     }
 
     @SubscribeEvent

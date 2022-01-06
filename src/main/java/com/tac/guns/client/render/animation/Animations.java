@@ -176,8 +176,8 @@ public class Animations {
         if(Animations.peekNodeModel() != null && Animations.peekInitialModel() != null) {
             ItemTransformVec3f modelTransformVec3f = (model == null ? null : model.getItemCameraTransforms().getTransform(transformType) );
             if(modelTransformVec3f != null) {
-                matrixStack.scale(modelTransformVec3f.scale.getX(),modelTransformVec3f.scale.getY(),modelTransformVec3f.scale.getZ());
                 matrixStack.translate(modelTransformVec3f.translation.getX(), modelTransformVec3f.translation.getY(), modelTransformVec3f.translation.getZ());
+                matrixStack.scale(modelTransformVec3f.scale.getX(),modelTransformVec3f.scale.getY(),modelTransformVec3f.scale.getZ());
                 matrixStack.translate(-0.5,-0.5,-0.5);
             }
             Matrix4f animationTransition = new Matrix4f(Animations.peekNodeModel().computeGlobalTransform(null));
@@ -189,8 +189,8 @@ public class Animations {
             matrixStack.getLast().getMatrix().mul(initialTransition);
             if(modelTransformVec3f !=null) {
                 matrixStack.translate(0.5, 0.5, 0.5);
-                matrixStack.translate(-modelTransformVec3f.translation.getX(), -modelTransformVec3f.translation.getY(), -modelTransformVec3f.translation.getZ());
                 matrixStack.scale(1/modelTransformVec3f.scale.getX(),1/modelTransformVec3f.scale.getY(),1/modelTransformVec3f.scale.getZ());
+                matrixStack.translate(-modelTransformVec3f.translation.getX(), -modelTransformVec3f.translation.getY(), -modelTransformVec3f.translation.getZ());
             }
         }
         applyExtraTransform(matrixStack);
