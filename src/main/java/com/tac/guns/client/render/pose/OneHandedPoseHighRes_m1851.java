@@ -38,7 +38,7 @@ public class OneHandedPoseHighRes_m1851 extends OneHandedPose {
 		extraMatrixStack.rotate(Vector3f.XP.rotationDegrees(90F));
 		extraMatrixStack.scale(1.5F, 1.5F, 1.5F);
 		GunAnimationController controller = GunAnimationController.fromItem(stack.getItem());
-		if(controller != null) controller.pushRightHandNode();
+		//if(controller != null) controller.pushRightHandNode();
 		//IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(stack, player.world, player);
 		//net.minecraftforge.client.ForgeHooksClient.handleCameraTransforms(matrixStack, model, ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND, false);
 		//matrixStack.translate(-0.5,-0.5,-0.5);

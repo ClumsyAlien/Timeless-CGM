@@ -8,10 +8,13 @@ import com.mrcrayfish.obfuscate.client.event.RenderItemEvent;
 import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.Reference;
 import com.tac.guns.client.GunRenderType;
+import com.tac.guns.client.render.IHeldAnimation;
 import com.tac.guns.client.render.animation.Animations;
 import com.tac.guns.client.render.animation.GunAnimationController;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.render.gun.ModelOverrides;
+import com.tac.guns.client.render.pose.IAnimatedPose;
+import com.tac.guns.client.render.pose.WeaponPose;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.Gun;
 import com.tac.guns.event.GunFireEvent;
@@ -338,14 +341,14 @@ public class GunRenderingHandler {
         //if(!isAnimated) this.applyReloadTransforms(matrixStack, event.getPartialTicks());
 
         /* Renders the first persons arms from the grip type of the weapon */
-        if(!isAnimated) {
-            Animations.getExtraMatrixStack().push();
-            Animations.getExtraMatrixStack().translate(-0.56 * offset, 0.52, 0.72);
-            matrixStack.push();
-            modifiedGun.getGeneral().getGripType().getHeldAnimation().renderFirstPersonArms(Minecraft.getInstance().player, hand, heldItem, matrixStack, event.getBuffers(), event.getLight(), event.getPartialTicks());
-            matrixStack.pop();
-            Animations.getExtraMatrixStack().pop();
+        matrixStack.push();
+        IHeldAnimation pose = modifiedGun.getGeneral().getGripType().getHeldAnimation();
+        if(pose!=null) {
+            if(!(pose instanceof IAnimatedPose)) matrixStack.translate(-0.56, 0.52, 0.72);
+            pose.renderFirstPersonArms(Minecraft.getInstance().player, hand, heldItem, matrixStack, event.getBuffers(), event.getLight(), event.getPartialTicks());
         }
+        matrixStack.pop();
+
         /* Renders the weapon */
         ItemCameraTransforms.TransformType transformType = right ? ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND : ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND;
         this.renderWeapon(Minecraft.getInstance().player, heldItem, transformType, event.getMatrixStack(), event.getBuffers(), packedLight, event.getPartialTicks());

@@ -12,23 +12,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class GunAnimationController {
-    private AnimationMeta runningAnimation;
+    private AnimationMeta previousAnimation;
     /*A map to obtain AnimationController through Item, the key value should put the RegistryName of the Item.*/
     private static final Map<ResourceLocation, GunAnimationController> animationControllerMap = new HashMap<>();
 
     public void runAnimation(AnimationMeta animationMeta){
         Animations.runAnimation(animationMeta);
-        runningAnimation = animationMeta;
+        previousAnimation = animationMeta;
     }
 
-    public AnimationMeta animationRunning(){
-        return runningAnimation;
+    public boolean isAnimationRunning(){
+        return Animations.isAnimationRunning(previousAnimation);
+    }
+
+    public AnimationMeta getPreviousAnimation(){
+        return previousAnimation;
     }
 
     public void stopAnimation() {
-        if(runningAnimation!=null) {
-            Animations.stopAnimation(runningAnimation);
-            runningAnimation = null;
+        if(previousAnimation!=null) {
+            Animations.stopAnimation(previousAnimation);
         }
     }
 
@@ -43,36 +46,30 @@ public abstract class GunAnimationController {
 
     public void applyAttachmentsTransform(ItemStack itemStack, ItemCameraTransforms.TransformType transformType, LivingEntity entity, MatrixStack matrixStack){
         boolean isFirstPerson = transformType.isFirstPerson();
-        if( isFirstPerson ) Animations.pushNode(animationRunning(), getAttachmentsNodeIndex());
+        if( isFirstPerson ) Animations.pushNode(previousAnimation, getAttachmentsNodeIndex());
         Animations.applyAnimationTransform(itemStack, ItemCameraTransforms.TransformType.NONE, entity, matrixStack);
         if( isFirstPerson ) Animations.popNode();
     }
 
     public void applySpecialModelTransform(IBakedModel model, int index, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack){
         boolean isFirstPerson = transformType.isFirstPerson();
-        if( isFirstPerson ) Animations.pushNode(animationRunning(), index);
+        if( isFirstPerson ) Animations.pushNode(previousAnimation, index);
         Animations.applyAnimationTransform(model, ItemCameraTransforms.TransformType.NONE, matrixStack);
         if( isFirstPerson ) Animations.popNode();
     }
 
     public void applyRightHandTransform(ItemStack heldItem, LivingEntity entity, MatrixStack matrixStack){
-        Animations.pushNode(animationRunning(), getRightHandNodeIndex());
+        Animations.pushNode(previousAnimation, getRightHandNodeIndex());
         Animations.applyAnimationTransform(heldItem, ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND, entity, matrixStack);
         matrixStack.translate(-0.56, 0.52, 0.72);
         Animations.popNode();
     }
 
     public void applyLeftHandTransform(ItemStack heldItem, LivingEntity entity, MatrixStack matrixStack){
-        Animations.pushNode(animationRunning(), getLeftHandNodeIndex());
+        Animations.pushNode(previousAnimation, getLeftHandNodeIndex());
         Animations.applyAnimationTransform(heldItem, ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND, entity, matrixStack);
         matrixStack.translate(-0.56, 0.52, 0.72);
         Animations.popNode();
-    }
-    public void pushRightHandNode(){
-        Animations.pushNode(animationRunning(), getRightHandNodeIndex());
-    }
-    public void pushLeftHandNode(){
-        Animations.pushNode(animationRunning(), getLeftHandNodeIndex());
     }
 
     /**

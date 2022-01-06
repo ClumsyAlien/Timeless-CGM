@@ -91,6 +91,7 @@ public class Animations {
     }
 
     public static void pushNode(ResourceLocation gltfResource, int index) {
+        if(gltfResource == null) return;
         GltfModelV2 gltfModel = getGltfModel(gltfResource);
         if(gltfModel == null){
             bind = null;
