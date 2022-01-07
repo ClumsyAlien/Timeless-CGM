@@ -17,9 +17,7 @@ import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import sun.security.util.ArrayUtil;
 
-import javax.lang.model.type.ArrayType;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs

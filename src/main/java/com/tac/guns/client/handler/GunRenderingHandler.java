@@ -9,8 +9,11 @@ import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.Config;
 import com.tac.guns.Reference;
 import com.tac.guns.client.GunRenderType;
+import com.tac.guns.client.render.IHeldAnimation;
+import com.tac.guns.client.render.animation.GunAnimationController;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.render.gun.ModelOverrides;
+import com.tac.guns.client.render.pose.IAnimatedPose;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.Gun;
 import com.tac.guns.event.GunFireEvent;
@@ -161,6 +164,12 @@ public class GunRenderingHandler {
     }
 
     @SubscribeEvent
+    public void onGunReload(GunReloadEvent.Post event) {
+        GunAnimationController controller = GunAnimationController.fromItem(event.getStack().getItem());
+        if(controller!=null) controller.runAnimation(GunAnimationController.AnimationLabel.RELOAD_NORMAL);
+    }
+
+    @SubscribeEvent
     public void onGunFire(GunFireEvent.Post event) {
         if (!event.isClient())
             return;
@@ -212,7 +221,7 @@ public class GunRenderingHandler {
 
     @SubscribeEvent
     public void onRenderOverlay(RenderHandEvent event) {
-        boolean isAnimated = event.getItemStack().getItem() instanceof ITimelessAnimated;
+        boolean isAnimated = GunAnimationController.fromItem(event.getItemStack().getItem()) != null;
         Minecraft mc = Minecraft.getInstance();
         MatrixStack matrixStack = event.getMatrixStack();
         if (mc.gameSettings.viewBobbing && mc.getRenderViewEntity() instanceof PlayerEntity) {
@@ -413,12 +422,13 @@ public class GunRenderingHandler {
         if(!isAnimated) this.applyReloadTransforms(matrixStack, hand, event.getPartialTicks());
 
         /* Renders the first persons arms from the grip type of the weapon */
-        if(!isAnimated) {
-            matrixStack.push();
-            matrixStack.translate(-0.56 * offset, 0.52, 0.72);
-            modifiedGun.getGeneral().getGripType().getHeldAnimation().renderFirstPersonArms(Minecraft.getInstance().player, hand, heldItem, matrixStack, event.getBuffers(), event.getLight(), event.getPartialTicks());
-            matrixStack.pop();
+        matrixStack.push();
+        IHeldAnimation pose = modifiedGun.getGeneral().getGripType().getHeldAnimation();
+        if(pose!=null) {
+            if(!(pose instanceof IAnimatedPose)) matrixStack.translate(-0.56, 0.52, 0.72);
+            pose.renderFirstPersonArms(Minecraft.getInstance().player, hand, heldItem, matrixStack, event.getBuffers(), event.getLight(), event.getPartialTicks());
         }
+        matrixStack.pop();
 
         /* Renders the weapon */
         ItemCameraTransforms.TransformType transformType = right ? ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND : ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND;
@@ -763,6 +773,8 @@ public class GunRenderingHandler {
                         Gun.ScaledPositioned positioned = gun.getAttachmentPosition(type);
                         if (positioned != null) {
                             matrixStack.push();
+                            GunAnimationController controller = GunAnimationController.fromItem(stack.getItem());
+                            if(controller!=null) controller.applyAttachmentsTransform(stack, transformType, entity, matrixStack);
                             double displayX = positioned.getXOffset() * 0.0625;
                             double displayY = positioned.getYOffset() * 0.0625;
                             double displayZ = positioned.getZOffset() * 0.0625;

@@ -165,6 +165,7 @@ public enum SpecialModels
     AK47_BUTT_LIGHTWEIGHT("ak47_light_stock"),
     AK47_BUTT_TACTICAL("ak47_tactical_stock"),
     AK47_SILENCER("ak47_silencer"),
+    AK47_MAGAZINE("ak47_magazine"),
     AK74_BUTT_HEAVY("ak74_heavy_stock"),
     AK74_BUTT_TACTICAL("ak74_tactical_stock"),
     AR_15_CQB_IRONS("ar_15_cqb_irons"),
