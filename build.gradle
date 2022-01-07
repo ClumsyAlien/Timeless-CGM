@@ -99,6 +99,7 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.0'
     implementation fg.deobf('curse.maven:obfuscate-289380:3169370')
+    compile ('com.fasterxml.jackson.core:jackson-databind:2.12.4')
 }
 
 jar {
