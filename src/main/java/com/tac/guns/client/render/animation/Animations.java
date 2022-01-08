@@ -129,7 +129,10 @@ public class Animations {
 
     public static void runAnimation(ResourceLocation resourceLocation){
         AnimationRunner runner = getAnimationRunner(resourceLocation);
-        if(runner!=null) runner.start();
+        if(runner!=null) {
+            if(runner.isRunning()) return;
+            runner.start();
+        }
     }
 
     public static void stopAnimation(AnimationMeta animationMeta){

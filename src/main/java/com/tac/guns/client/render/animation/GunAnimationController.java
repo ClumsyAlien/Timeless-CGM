@@ -15,6 +15,7 @@ public abstract class GunAnimationController {
     public enum AnimationLabel{
         RELOAD_NORMAL,
         INSPECT,
+        DRAW,
     }
     private AnimationMeta previousAnimation;
     /*A map to obtain AnimationController through Item, the key value should put the RegistryName of the Item.*/
@@ -43,7 +44,7 @@ public abstract class GunAnimationController {
         runAnimation(getAnimationFromLabel(label));
     }
 
-    protected abstract AnimationMeta getAnimationFromLabel(AnimationLabel label);
+    public abstract AnimationMeta getAnimationFromLabel(AnimationLabel label);
     protected abstract int getAttachmentsNodeIndex();
     protected abstract int getRightHandNodeIndex();
     protected abstract int getLeftHandNodeIndex();
