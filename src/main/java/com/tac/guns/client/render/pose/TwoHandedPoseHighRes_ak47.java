@@ -1,14 +1,12 @@
 package com.tac.guns.client.render.pose;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.tac.guns.client.handler.ReloadHandler;
 import com.tac.guns.client.render.animation.GunAnimationController;
 import com.tac.guns.client.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.math.vector.Vector3f;
 
@@ -16,7 +14,7 @@ import net.minecraft.util.math.vector.Vector3f;
 /**
  * Author: ClumsyAlien, codebase and design based off Mr.Crayfish's class concept
  */
-public class TwoHandedPoseHighRes_ak47 extends TwoHandedPose implements IAnimatedPose{
+public class TwoHandedPoseHighRes_ak47 extends TwoHandedPose {
 	@Override
 	public void renderFirstPersonArms(ClientPlayerEntity player, HandSide hand, ItemStack stack, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, float partialTicks) {
 

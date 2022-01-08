@@ -13,7 +13,6 @@ import com.tac.guns.client.render.IHeldAnimation;
 import com.tac.guns.client.render.animation.GunAnimationController;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.render.gun.ModelOverrides;
-import com.tac.guns.client.render.pose.IAnimatedPose;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.Gun;
 import com.tac.guns.event.GunFireEvent;
@@ -32,7 +31,6 @@ import com.tac.guns.util.GunModifierHelper;
 import com.tac.guns.util.OptifineHelper;
 import com.tac.guns.util.math.easing.QuadEaseOut;
 import com.tac.guns.util.math.easing.SineEaseInOut;
-import com.tac.guns.util.math.easing.TimelessMathHelper;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -58,7 +56,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.LightType;
 import net.minecraftforge.client.event.RenderHandEvent;
@@ -71,7 +68,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Field;
-import java.sql.Time;
 import java.util.*;
 
 public class GunRenderingHandler {
@@ -425,7 +421,7 @@ public class GunRenderingHandler {
         matrixStack.push();
         IHeldAnimation pose = modifiedGun.getGeneral().getGripType().getHeldAnimation();
         if(pose!=null) {
-            if(!(pose instanceof IAnimatedPose)) matrixStack.translate(-0.56, 0.52, 0.72);
+            if(!isAnimated) matrixStack.translate(-0.56, 0.52, 0.72);
             pose.renderFirstPersonArms(Minecraft.getInstance().player, hand, heldItem, matrixStack, event.getBuffers(), event.getLight(), event.getPartialTicks());
         }
         matrixStack.pop();
