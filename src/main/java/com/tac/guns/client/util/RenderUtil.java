@@ -309,6 +309,22 @@ public class RenderUtil
         }
     }
 
+    public static void applyTransformTypeIB(IBakedModel model, MatrixStack matrixStack, ItemCameraTransforms.TransformType transformType, LivingEntity entity)
+    {
+        /*IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(stack, entity.world, entity);*/
+        boolean leftHanded = transformType == ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND || transformType == ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND;
+        ForgeHooksClient.handleCameraTransforms(matrixStack, model, transformType, leftHanded);
+
+        /* Flips the model and normals if left handed. */
+        if(leftHanded)
+        {
+            Matrix4f scale = Matrix4f.makeScale(-1, 1, 1);
+            Matrix3f normal = new Matrix3f(scale);
+            matrixStack.getLast().getMatrix().mul(scale);
+            matrixStack.getLast().getNormal().mul(normal);
+        }
+    }
+
     public interface Transform
     {
         void apply();

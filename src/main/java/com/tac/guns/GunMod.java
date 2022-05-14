@@ -242,6 +242,7 @@ public class GunMod
         GripType.registerType(new GripType(new ResourceLocation("tac", "two_handed_ak47"), new TwoHandedPoseHighRes_ak47()));
         GripType.registerType(new GripType(new ResourceLocation("tac", "two_handed_m60"), new TwoHandedPoseHighRes_m60()));
         GripType.registerType(new GripType(new ResourceLocation("tac", "two_handed_vector"), new TwoHandedPoseHighRes_vector()));
+        GripType.registerType(new GripType(new ResourceLocation("tac", "one_handed_m1873"), new OneHandedPoseHighRes_m1873()));
     }
 
     private void dataSetup(GatherDataEvent event)

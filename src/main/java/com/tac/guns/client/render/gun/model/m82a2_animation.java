@@ -32,7 +32,7 @@ public class m82a2_animation implements IOverrideModel {
     public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay)
     {
         //if(ModelOverrides.hasModel(stack) && transformType.equals(ItemCameraTransforms.TransformType.GUI) && Config.CLIENT.quality.reducedGuiWeaponQuality.get())
-        if(ModelOverrides.hasModel(stack) && transformType.equals(ItemCameraTransforms.TransformType.GUI))// && Config.CLIENT.quality.reducedGuiWeaponQuality.get())
+        /*if(ModelOverrides.hasModel(stack) && transformType.equals(ItemCameraTransforms.TransformType.GUI))// && Config.CLIENT.quality.reducedGuiWeaponQuality.get())
         {
             matrices.push();
             matrices.rotate(Vector3f.XP.rotationDegrees(-60.0F));
@@ -43,7 +43,7 @@ public class m82a2_animation implements IOverrideModel {
             RenderUtil.renderModel(stack, stack, matrices, renderBuffer, light, overlay);
             matrices.pop();
             return;
-        }
+        }*/
         if(Gun.getScope(stack) == null)
         {
             RenderUtil.renderModel(SpecialModels.M82A2_SIGHT.getModel(), stack, matrices, renderBuffer, light, overlay);
@@ -51,6 +51,15 @@ public class m82a2_animation implements IOverrideModel {
         else
         {
             RenderUtil.renderModel(SpecialModels.M82A2_SIGHT_FOLDED.getModel(), stack, matrices, renderBuffer, light, overlay);
+        }
+
+        if(EnchantmentHelper.getEnchantmentLevel(ModEnchantments.OVER_CAPACITY.get(), stack) > 0)
+        {
+            RenderUtil.renderModel(SpecialModels.M82A2_EXTENDED_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
+        }
+        else
+        {
+            RenderUtil.renderModel(SpecialModels.M82A2_STANDARD_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
 
         RenderUtil.renderModel(SpecialModels.M82A2.getModel(), stack, matrices, renderBuffer, light, overlay);

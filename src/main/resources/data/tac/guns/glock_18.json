@@ -11,8 +11,8 @@
     "recoilAngle": 3.825,
     "horizontalRecoilAngle": 1.9125,
     "recoilKick": 1.25,
-    "recoilAdsReduction": 0.20,
-    "weaponRecoilDuration": 0.875,
+    "recoilAdsReduction": 0.25,
+    "weaponRecoilDuration": 0.975,
     "cameraRecoilModifier": 1.55,
     "alwaysSpread": true,
     "spread": 6.15,
@@ -20,10 +20,14 @@
   },
   "reloads": {
     "magFed": true,
-    "maxAmmo": 16,
+    "maxAmmo": 17,
     "reloadMagTimer": 40,
     "additionalReloadEmptyMagTimer": 6,
-    "maxAdditionalAmmoPerOC": [6, 10, 14],
+    "maxAdditionalAmmoPerOC": [
+      6,
+      10,
+      14
+    ],
     "preReloadPauseTicks": 4
   },
   "projectile": {
@@ -49,13 +53,14 @@
     "weaponType": 2
   },
   "modules": {
-    "zoom": [{
-      "fovModifier": 0.9,
-      "yOffset": 11.965,
-      "zOffset": -15.6
-    }],
-    "attachments":
-    {
+    "zoom": [
+      {
+        "fovModifier": 0.9,
+        "yOffset": 11.965,
+        "zOffset": -10.6
+      }
+    ],
+    "attachments": {
       "pistolBarrel": {
         "yOffset": -100829.84,
         "zOffset": -11.55,

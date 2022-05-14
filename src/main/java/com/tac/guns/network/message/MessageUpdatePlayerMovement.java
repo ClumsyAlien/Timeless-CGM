@@ -1,12 +1,8 @@
 package com.tac.guns.network.message;
 
 
-import com.tac.guns.client.network.ClientPlayHandler;
 import com.tac.guns.common.network.ServerPlayHandler;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -27,7 +23,8 @@ public class MessageUpdatePlayerMovement implements IMessage
     @Override
     public void handle(Supplier<NetworkEvent.Context> supplier)
     {
-        supplier.get().enqueueWork(() -> {ClientPlayHandler.handleMovementUpdate(supplier.get().getSender());});
+        supplier.get().enqueueWork(() -> {ServerPlayHandler.handleMovementUpdate(supplier.get().getSender());});
+        //supplier.get().enqueueWork(() -> {ServerPlayHandler.handleMovementUpdateLow(supplier.get().getSender());});
         supplier.get().setPacketHandled(true);
     }
 }

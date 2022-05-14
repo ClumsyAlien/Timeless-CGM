@@ -7,11 +7,11 @@
   "materials": [
     {
       "item": "minecraft:iron_nugget",
-      "count": 10
+      "count": 16
     },
     {
       "item": "minecraft:gunpowder",
-      "count": 1
+      "count": 2
     }
   ]
 }

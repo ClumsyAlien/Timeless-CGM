@@ -77,6 +77,7 @@
     "item.tac.58x42": "5.8mm DBP87 Bullet",
     "item.tac.762x39": "7.62x39mm Bullet",
     "item.tac.rpg7_missile": "RPG 7 Missile",
+    "item.tac.50bmg": ".50 BMG",
 
     "item.tac.light_grenade": "F1 Grenade",
     "item.tac.baseball_grenade": "M67 Grenade",
@@ -110,6 +111,24 @@
     "subtitle.tac.fire_tompsonfire": "Thompson Fire",
     "subtitle.tac.fire_dbfire": "Shotgun Fire",
 
+    "subtitle.tac.dmr_fire": "DMR Fire",
+    "subtitle.tac.dmr_fire_s": "DMR Fire Silenced",
+    "subtitle.tac.modern_sniper_fire": "Modern Marksman Rifle",
+    "subtitle.tac.mtar_fire": "MTAR Fire",
+    "subtitle.tac.mtar_fire_s": "MTAR Fire Silenced",
+    "subtitle.tac.fal_fire": "FAL Fire",
+    "subtitle.tac.mp5_fire": "Mp5 Fire",
+    "subtitle.tac.mp5_fires": "Mp5 Fire Silenced",
+    "subtitle.tac.remington_700": "Remington Action Fire",
+    "subtitle.tac.remington_700s": "Remington Action Fire Silenced",
+    "subtitle.tac.m870": "M870 Fire",
+    "subtitle.tac.mp9s": "Pew Pew!",
+    "subtitle.tac.p226s": "P226 Fire Silenced",
+    "subtitle.tac.saiga": "Saiga Fire",
+    "subtitle.tac.sig552": "SIG 552 Fire",
+    "subtitle.tac.sig552s": "SIG 552 Fire Silenced",
+    "subtitle.tac.p226": "P226 Fire",
+
     "info.tac.auto": "This weapon is automatic!",
     "info.tac.gun_safety_lock": "Firemode is on safe, press %s to switch modes",
 
@@ -128,6 +147,9 @@
     "item.tac.old_4x_scope": "Old 4x Scope",
     "item.tac.mini_dot": "Trijicon RMR",
     "item.tac.lpvo_1_6": "Vortex LPVO",
+    "item.tac.aimpoint_t1": "Aimpoint T1",
+    "item.tac.8x_scope": "Standard 8x Scope",
+    "item.tac.acog_4x_scope": "ACOG 4x",
     "item.tac.acog_4x_scope": "ACOG 4x",
 
     "item.tac.muzzle_brake": "Muzzle Brake",
@@ -188,6 +210,11 @@
 
     "key.tac.reload": "Reload",
     "key.tac.unload": "Unload",
+    "key.tac.activateSideRail": "Toggle Devices",
+    "key.tac.aim_sights": "Toggle ADS",
+    "key.tac.color_bench": "NULL",
+    "key.tac.fireSelect": "Fire Mode",
+    "key.tac.inspect": "Inspect Weapon",
 
     "key.tac.attachments": "Modify Attachments",
 

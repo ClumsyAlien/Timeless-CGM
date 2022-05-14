@@ -22,7 +22,11 @@
     "maxAmmo": 10,
     "reloadMagTimer": 25,
     "additionalReloadEmptyMagTimer": 9,
-    "maxAdditionalAmmoPerOC": [4, 8, 10],
+    "maxAdditionalAmmoPerOC": [
+      4,
+      8,
+      10
+    ],
     "preReloadPauseTicks": 4
   },
   "projectile": {
@@ -41,18 +45,20 @@
   },
   "display": {
     "flash": {
-      "yOffset": 9.475,
-      "zOffset": -12.09,
-      "size": 0.45
+      "yOffset": 9.85,
+      "zOffset": -12.85,
+      "size": 1.05
     },
     "weaponType": 2
   },
   "modules": {
-    "zoom": [{
-      "fovModifier": 0.9,
-      "yOffset": 11.175,
-      "zOffset": -12.53
-    }],
+    "zoom": [
+      {
+        "fovModifier": 0.9,
+        "yOffset": 12.875,
+        "zOffset": -15.25
+      }
+    ],
     "attachments": {}
   }
 }

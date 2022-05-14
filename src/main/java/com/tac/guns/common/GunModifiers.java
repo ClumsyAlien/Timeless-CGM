@@ -75,7 +75,7 @@ public class GunModifiers
         @Override
         public double modifyAimDownSightSpeed(double speed)
         {
-            return speed * 0.825F;
+            return speed * 0.88F;
         }
         @Override
         public float additionalWeaponWeight() { return 0.425F; }
@@ -85,7 +85,7 @@ public class GunModifiers
         @Override
         public double modifyAimDownSightSpeed(double speed)
         {
-            return speed * 0.80F;
+            return speed * 0.835F;
         }
         @Override
         public float additionalWeaponWeight() { return 0.5F; }
@@ -246,7 +246,7 @@ public class GunModifiers
         @Override
         public double modifyAimDownSightSpeed(double speed)
         {
-            return speed * 0.625F;
+            return speed * 0.73F;
         }
         @Override
         public float horizontalRecoilModifier()
@@ -337,7 +337,7 @@ public class GunModifiers
         @Override
         public float modifyProjectileSpread(float spread)
         {
-            return spread * 0.95F;
+            return spread * 0.93F;
         }
         /*@Override
         public float additionalHeadshotDamage() {return 1.3F;}*/
@@ -353,14 +353,14 @@ public class GunModifiers
 
         @Override
         public double modifyAimDownSightSpeed(double speed) {
-            return speed*0.70;
+            return speed*0.825;
         }
     };
     public static final IGunModifier PISTOL_SILENCER = new IGunModifier()
     {
         @Override
         public double modifyAimDownSightSpeed(double speed) {
-            return speed*0.775;
+            return speed*0.875;
         }
 
         @Override
@@ -403,7 +403,7 @@ public class GunModifiers
         @Override
         public float recoilModifier()
         {
-            return 0.775F;
+            return 0.725F;
         }
 
         /*@Override
@@ -415,13 +415,13 @@ public class GunModifiers
         @Override
         public float horizontalRecoilModifier()
         {
-            return 1.135F;
+            return 1.07F;
         }
 
         @Override
         public double modifyMuzzleFlashSize(double size)
         {
-            return size * 1.15F;
+            return size * 1.175F;
         }
 
         @Override
@@ -444,7 +444,7 @@ public class GunModifiers
         @Override
         public float recoilModifier()
         {
-            return 1.075F;
+            return 1.05F;
         }
 
         /*@Override
@@ -456,7 +456,7 @@ public class GunModifiers
         @Override
         public float horizontalRecoilModifier()
         {
-            return 0.775F;
+            return 0.75F;
         }
 
         @Override

@@ -6,11 +6,11 @@
       1
     ],
     "gripType": "tac:two_handed_ak47",
-    "recoilAngle": 1.675,
+    "recoilAngle": 1.975,
     "horizontalRecoilAngle": 0.425,
     "recoilKick": 1.2625,
     "recoilAdsReduction": 0.155,
-    "cameraRecoilModifier": 0.335,
+    "cameraRecoilModifier": 0.30,
     "recoilDuration": 0.205,
     "alwaysSpread": true,
     "spread": 10.5,
@@ -35,7 +35,7 @@
     "ricochet": false
   },
   "sounds": {
-    "fire": "tac:item.fire_db",
+    "fire": "tac:item.m870",
     "reload": "tac:item.pistol.reload",
     "cock": "tac:item.pistol.cock",
     "silencedFire": "tac:item.fire_m16s"

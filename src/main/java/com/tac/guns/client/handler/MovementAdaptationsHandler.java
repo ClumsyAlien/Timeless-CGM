@@ -26,11 +26,46 @@ import org.apache.logging.log4j.Level;
 public class MovementAdaptationsHandler
 {
     private static MovementAdaptationsHandler instance;
-    public boolean readyToUpdate = false;
-    public boolean readyToReset = true;
 
-    public float speed = 0.0F;
-    public float previousWeight = 0.0F;
+    public boolean isReadyToUpdate() {
+        return readyToUpdate;
+    }
+
+    public void setReadyToUpdate(boolean readyToUpdate) {
+        this.readyToUpdate = readyToUpdate;
+    }
+
+    public boolean isReadyToReset() {
+        return readyToReset;
+    }
+
+    public void setReadyToReset(boolean readyToReset) {
+        this.readyToReset = readyToReset;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public float getPreviousWeight() {
+        return previousWeight;
+    }
+
+    public void setPreviousWeight(float previousWeight) {
+        this.previousWeight = previousWeight;
+    }
+
+    private boolean readyToUpdate = false;
+    private boolean readyToReset = true;
+
+    private float speed = 0.0F;
+    private float previousWeight = 0.0F;
+
+    //private Byte previousGun;
 
     public static MovementAdaptationsHandler get() {
         return instance == null ? instance = new MovementAdaptationsHandler() : instance;

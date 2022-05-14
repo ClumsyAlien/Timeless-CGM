@@ -70,7 +70,7 @@ public class ACOG_4x_ScopeModel implements IOverrideModel
             float scopeSize = 1.005F;
             float size = scopeSize / 16.0F;
             float reticleSize = scopePrevSize / 16.0F;
-            float crop = 0.4285F;
+            float crop = 0.4365F;//0.43F
             Minecraft mc = Minecraft.getInstance();
             MainWindow window = mc.getMainWindow();
 

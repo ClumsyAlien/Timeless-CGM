@@ -2857,9 +2857,8 @@
 			"scale": [0.35, 0.35, 0.35]
 		},
 		"gui": {
-			"rotation": [45, 60, -30],
-			"translation": [0, 1.5, 0],
-			"scale": [0.8, 0.8, 0.8]
+			"rotation": [30, -145, 0],
+			"translation": [0.5, 0, 0]
 		},
 		"fixed": {
 			"rotation": [0, 90, 0],

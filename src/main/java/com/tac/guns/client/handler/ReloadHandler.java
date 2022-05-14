@@ -250,12 +250,6 @@ public class ReloadHandler
             {
                 this.setReloading(false);
             }
-            ResourceLocation reloadSound = ((GunItem)stack.getItem()).getGun().getSounds().getCock();
-            if(reloadSound != null)
-            {
-                MessageGunSound message = new MessageGunSound(reloadSound, SoundCategory.PLAYERS, (float) player.getPosX(), (float) player.getPosY() + 1.0F, (float) player.getPosZ(), 1.0F, 1.0F, player.getEntityId(), false, true);
-                PacketHandler.getPlayChannel().send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(player.getPosX(), (player.getPosY() + 1.0), player.getPosZ(), 16.0, player.world.getDimensionKey())), message);
-            }
         }
         if(KeyBinds.KEY_UNLOAD.isPressed() && event.getAction() == GLFW.GLFW_PRESS)
         {

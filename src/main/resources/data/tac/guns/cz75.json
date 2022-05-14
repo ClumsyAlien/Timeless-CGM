@@ -21,7 +21,11 @@
     "maxAmmo": 16,
     "reloadMagTimer": 42,
     "additionalReloadEmptyMagTimer": 12,
-    "maxAdditionalAmmoPerOC": [6, 10, 16],
+    "maxAdditionalAmmoPerOC": [
+      6,
+      10,
+      16
+    ],
     "preReloadPauseTicks": 7
   },
   "projectile": {
@@ -33,7 +37,7 @@
     "life": 4
   },
   "sounds": {
-    "fire": "tac:item.fire_m92fs",
+    "fire": "tac:item.p226",
     "reload": "tac:item.pistol.reload",
     "cock": "tac:item.pistol.cock",
     "silencedFire": "tac:item.fire_m92fss"
@@ -47,13 +51,14 @@
     "weaponType": 2
   },
   "modules": {
-    "zoom": [{
-      "fovModifier": 0.9,
-      "yOffset": 11.175,
-      "zOffset": -14.3
-    }],
-    "attachments":
-    {
+    "zoom": [
+      {
+        "fovModifier": 0.9,
+        "yOffset": 11.175,
+        "zOffset": -13.5
+      }
+    ],
+    "attachments": {
       "barrel": {
         "yOffset": -100829.84,
         "zOffset": -11.8,

@@ -4,15 +4,15 @@
     "rate": 2,
     "rateSelector": [0,1,2],
     "gripType": "tac:two_handed_ak47",
-    "recoilAngle": 3.15,
-    "horizontalRecoilAngle": 1.565,
-    "recoilKick": 1.435,
-    "recoilAdsReduction": 0.2725,
+    "recoilAngle": 3.025,
+    "horizontalRecoilAngle": 1.525,
+    "recoilKick": 1.4125,
+    "recoilAdsReduction": 0.2925,
     "weaponRecoilDuration": 0.878,
     "cameraRecoilModifier": 1.125,
     "recoilDuration": 0.275,
     "alwaysSpread": true,
-    "spread": 4.325,
+    "spread": 3.025,
     "weightKilo": 3.6
   },
   "reloads": {
@@ -20,20 +20,20 @@
     "maxAmmo": 30,
     "reloadMagTimer": 58,
     "additionalReloadEmptyMagTimer": 24,
-    "maxAdditionalAmmoPerOC": [10, 30, 45],
+    "maxAdditionalAmmoPerOC": [10, 20, 30],
     "preReloadPauseTicks": 8
   },
   "projectile": {
     "item": "tac:nato_556_bullet",
     "visible": true,
-    "damage": 6.75,
+    "damage": 6.5,
     "size": 0.1,
     "speed": 31.5,
     "life": 6,
     "ricochet": true
   },
   "sounds": {
-    "fire": "tac:item.fire_m16",
+    "fire": "tac:item.sig552",
     "reload": "tac:item.pistol.reload",
     "cock": "tac:item.pistol.cock",
     "silencedFire": "tac:item.fire_m16s"

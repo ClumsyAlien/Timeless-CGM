@@ -11,6 +11,10 @@
     {
       "item": "minecraft:daylight_sensor",
       "count": 3
+    },
+    {
+      "item": "minecraft:redstone_block",
+      "count": 2
     }
   ]
 }

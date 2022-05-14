@@ -779,14 +779,26 @@ public class GunRenderingHandler {
             RenderUtil.applyTransformType(model.isEmpty() ? stack : model, matrixStack, transformType, entity);
 
             this.renderGun(entity, transformType, model.isEmpty() ? stack : model, matrixStack, renderTypeBuffer, light, partialTicks);//matrixStack, renderTypeBuffer, light, partialTicks);
-            //this.renderAttachments(entity, transformType, stack, matrixStack, renderTypeBuffer, light, partialTicks);
-            //this.renderMuzzleFlash(entity, matrixStack, renderTypeBuffer, stack, transformType);
-
             matrixStack.pop();
             return true;
         }
         return false;
     }
+    /*public boolean renderColored(LivingEntity entity, IBakedModel model, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int light, float partialTicks) {
+
+            matrixStack.push();
+
+            RenderUtil.applyTransformTypeIB(model, matrixStack, transformType, entity);
+
+            this.renderColoredModel(entity, transformType, model, matrixStack, renderTypeBuffer, light, partialTicks);//matrixStack, renderTypeBuffer, light, partialTicks);
+            //this.renderAttachments(entity, transformType, stack, matrixStack, renderTypeBuffer, light, partialTicks);
+            //this.renderMuzzleFlash(entity, matrixStack, renderTypeBuffer, stack, transformType);
+
+            matrixStack.pop();
+            return true;
+
+        //return false;
+    }*/
     private void renderGun(LivingEntity entity, ItemCameraTransforms.TransformType transformType, ItemStack stack, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int light, float partialTicks)
     {
         /*if(ModelOverrides.hasModel(stack) && transformType.equals(ItemCameraTransforms.TransformType.GUI))
@@ -801,6 +813,14 @@ public class GunRenderingHandler {
             RenderUtil.renderModel(stack, matrixStack, renderTypeBuffer, light, OverlayTexture.NO_OVERLAY, entity);
         }
     }
+    /*private void renderColoredModel(LivingEntity entity, ItemCameraTransforms.TransformType transformType, IBakedModel model, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int light, float partialTicks)
+    {
+        //if(stack.getItem() instanceof ITimelessAnimated) RenderUtil.renderModel(stack, matrixStack, renderTypeBuffer, light, OverlayTexture.NO_OVERLAY, entity);
+        IOverrideModel model = ModelOverrides.getModel(stack);
+        if (model != null) {
+            model.render(partialTicks, transformType, stack, ItemStack.EMPTY, entity, matrixStack, renderTypeBuffer, light, OverlayTexture.NO_OVERLAY);
+        }
+    }*/
 
     private void renderAttachments(LivingEntity entity, ItemCameraTransforms.TransformType transformType, ItemStack stack, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int light, float partialTicks) {
         if (stack.getItem() instanceof GunItem) {

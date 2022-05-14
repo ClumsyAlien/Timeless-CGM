@@ -142,6 +142,9 @@ public class  ShootingHandler
         {
             this.shooting = false;
         }
+
+        if (this.shooting)
+            player.setSprinting(false);
     }
 
     @SubscribeEvent

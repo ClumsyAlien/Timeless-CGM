@@ -157,9 +157,9 @@ public abstract class Attachment
                 outputSpread = modifier.modifyProjectileSpread(outputSpread);
             }
             if (outputSpread > inputSpread) {
-                addPerk(negativePerks, "perk.tac.projectile_spread.negative", new TranslationTextComponent("" + String.valueOf((10.0F - outputSpread) * 10) + "% Accuracy").mergeStyle(TextFormatting.RED));
+                addPerk(negativePerks, "perk.tac.projectile_spread.negative", new TranslationTextComponent("" + String.valueOf(Math.round((10.0F - outputSpread) * 10f)) + "% Accuracy").mergeStyle(TextFormatting.RED));
             } else if (outputSpread < inputSpread) {
-                addPerk(positivePerks, "perk.tac.projectile_spread.positive", new TranslationTextComponent("+" + String.valueOf((10.0F - outputSpread) * 10) + "% Accuracy").mergeStyle(TextFormatting.GREEN));
+                addPerk(positivePerks, "perk.tac.projectile_spread.positive", new TranslationTextComponent("+" + String.valueOf(Math.round((10.0F - outputSpread) * 10f)) + "% Accuracy").mergeStyle(TextFormatting.GREEN));
             }
 
             /* Test for modified projectile life */
@@ -181,9 +181,20 @@ public abstract class Attachment
                 outputRecoil *= modifier.recoilModifier();
             }
             if (outputRecoil > inputRecoil) {
-                addPerk(negativePerks, "perk.tac.recoil.negative", new TranslationTextComponent("+" + String.valueOf((10.0F - outputRecoil) * -10) + "% Vertical Recoil").mergeStyle(TextFormatting.RED));
+                addPerk(negativePerks, "perk.tac.recoil.negative", new TranslationTextComponent("+" + String.valueOf(Math.round((10.0F - outputRecoil) * -10f)) + "% Vertical Recoil").mergeStyle(TextFormatting.RED));
             } else if (outputRecoil < inputRecoil) {
-                addPerk(positivePerks, "perk.tac.recoil.positive", new TranslationTextComponent("-" + String.valueOf((10.0F - outputRecoil) * 10) + "% Vertical Recoil").mergeStyle(TextFormatting.GREEN));
+                addPerk(positivePerks, "perk.tac.recoil.positive", new TranslationTextComponent("-" + String.valueOf(Math.round((10.0F - outputRecoil) * 10f)) + "% Vertical Recoil").mergeStyle(TextFormatting.GREEN));
+            }
+
+            float inputHRecoil = 10.0F;
+            float outputHRecoil = inputHRecoil;
+            for (IGunModifier modifier : modifiers) {
+                outputHRecoil *= modifier.horizontalRecoilModifier();
+            }
+            if (outputHRecoil > inputHRecoil) {
+                addPerk(negativePerks, "perk.tac.recoil.negative", new TranslationTextComponent("+" + String.valueOf(Math.round((10.0F - outputHRecoil) * -10f)) + "% Horizontal Recoil").mergeStyle(TextFormatting.RED));
+            } else if (outputHRecoil < inputHRecoil) {
+                addPerk(positivePerks, "perk.tac.recoil.positive", new TranslationTextComponent("-" + String.valueOf(Math.round((10.0F - outputHRecoil) * 10f)) + "% Horizontal Recoil").mergeStyle(TextFormatting.GREEN));
             }
 
             /* Test for aim down sight speed */

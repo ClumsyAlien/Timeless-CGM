@@ -7,6 +7,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.tac.guns.client.handler.GunRenderingHandler;
 import com.tac.guns.client.render.gun.ModelOverrides;
 import com.tac.guns.client.util.RenderUtil;
+import com.tac.guns.common.Gun;
 import com.tac.guns.common.NetworkGunManager;
 import com.tac.guns.common.container.WorkbenchContainer;
 import com.tac.guns.crafting.WorkbenchRecipe;
@@ -427,9 +428,11 @@ public class WorkbenchScreen extends ContainerScreen<WorkbenchContainer>
 
             buffer = this.minecraft.getRenderTypeBuffers().getBufferSource();
 
-            if(ModelOverrides.hasModel(currentItem) || currentItem.getItem() instanceof ScopeItem ||currentItem.getItem() instanceof OldScopeItem)
-                GunRenderingHandler.get().renderWeapon(this.minecraft.player, currentItem, ItemCameraTransforms.TransformType.FIXED, matrixStack, buffer, 15728880, 0F); // GROUND, matrixStack, buffer, 15728880, 0F);
-            else
+            if(ModelOverrides.hasModel(currentItem) && currentItem.getItem() instanceof ScopeItem || currentItem.getItem() instanceof OldScopeItem || currentItem.getItem() instanceof PistolScopeItem) {
+                matrixStack.scale(2,2,2);
+                GunRenderingHandler.get().renderScope(this.minecraft.player, currentItem, ItemCameraTransforms.TransformType.HEAD, matrixStack, buffer, 15728880, 0F); // GROUND, matrixStack, buffer, 15728880, 0F);
+                matrixStack.scale(0.5f,0.5f,0.5f);
+            }else
                 Minecraft.getInstance().getItemRenderer().renderItem(currentItem, ItemCameraTransforms.TransformType.FIXED, false, matrixStack, buffer, 15728880, OverlayTexture.NO_OVERLAY, RenderUtil.getModel(currentItem));
 
             buffer.finish();

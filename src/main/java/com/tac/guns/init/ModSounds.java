@@ -36,6 +36,7 @@ public class ModSounds
 	public static final RegistryObject<SoundEvent> M1851_FIRE = register("item.fire_m1851");
 	public static final RegistryObject<SoundEvent> THOMPSON_FIRE = register("item.fire_thompson");
 	public static final RegistryObject<SoundEvent> DB_FIRE = register("item.fire_db");
+
 	public static final RegistryObject<SoundEvent> DMR_FIRE = register("item.dmr_fire");
 	public static final RegistryObject<SoundEvent> DMR_FIREs = register("item.dmr_fire_s");
 	public static final RegistryObject<SoundEvent> MDS_FIRE = register("item.modern_sniper_fire");
@@ -44,6 +45,15 @@ public class ModSounds
 	public static final RegistryObject<SoundEvent> FAL_FIRE = register("item.fal_fire");
 	public static final RegistryObject<SoundEvent> MP5_FIRE = register("item.mp5_fire");
 	public static final RegistryObject<SoundEvent> MP5_FIREs = register("item.mp5_fires");
+	public static final RegistryObject<SoundEvent> REM700_FIRE = register("item.remington_700");
+	public static final RegistryObject<SoundEvent> REM700_FIREs = register("item.remington_700s");
+	public static final RegistryObject<SoundEvent> M870_FIRE = register("item.m870");
+	public static final RegistryObject<SoundEvent> MP9_FIREs = register("item.mp9s");
+	public static final RegistryObject<SoundEvent> P226_FIREs = register("item.p226s");
+	public static final RegistryObject<SoundEvent> SAIGA_FIRE = register("item.saiga");
+	public static final RegistryObject<SoundEvent> SIG552_FIRE = register("item.sig552");
+	public static final RegistryObject<SoundEvent> SIG552_FIREs = register("item.sig552s");
+	public static final RegistryObject<SoundEvent> P226_FIRE = register("item.p226");
 
 	//public static final RegistryObject<SoundEvent> COCK = register("item.pistol.cock");
 	public static final RegistryObject<SoundEvent> HEADSHOT_EXTENDED_PLAYFUL = register("item.headshot");

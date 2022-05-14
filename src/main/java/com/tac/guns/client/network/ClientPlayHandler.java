@@ -91,7 +91,7 @@ public class ClientPlayHandler
 
         if(message.getShooterId() == mc.player.getEntityId())
         {
-            Minecraft.getInstance().getSoundHandler().play(new SimpleSound(message.getId(), SoundCategory.PLAYERS, message.getVolume(), message.getPitch(), false, 0, ISound.AttenuationType.NONE, 0, 0, 0, true));
+            Minecraft.getInstance().getSoundHandler().play(new SimpleSound(message.getId(), SoundCategory.PLAYERS, message.getVolume(), message.getPitch(), false, 0, ISound.AttenuationType.LINEAR, 0, 0, 0, true));
         }
         else
         {
@@ -255,56 +255,5 @@ public class ClientPlayHandler
     {
         NetworkGunManager.updateRegisteredGuns(message);
         CustomGunManager.updateCustomGuns(message);
-    }
-
-    public static void handleMovementUpdate(ServerPlayerEntity player)
-    {
-        if (player == null)
-            return;
-        if(player.isSpectator())
-            return;
-        if(!player.isAlive())
-            return;
-
-        if (AimingHandler.get().isAiming())
-            player.setSprinting(false);
-        if (ShootingHandler.get().isShooting())
-            player.setSprinting(false);
-
-        ItemStack heldItem = player.getHeldItemMainhand();
-        if(player.getAttribute(MOVEMENT_SPEED) != null && MovementAdaptationsHandler.get().readyToReset)
-        {
-            player.getAttribute(MOVEMENT_SPEED).removeAllModifiers();
-            //if(player.isSprinting() && !(heldItem.getItem() instanceof TimelessGunItem))
-            //    player.getAttribute(MOVEMENT_SPEED).setBaseValue(0.13F);
-            //else
-            player.getAttribute(MOVEMENT_SPEED).setBaseValue(player.isSprinting() ? 0.12F : 0.1F);
-            MovementAdaptationsHandler.get().readyToReset = false;
-            MovementAdaptationsHandler.get().readyToUpdate = true;
-        }
-        player.sendPlayerAbilities();
-
-        if (!(heldItem.getItem() instanceof TimelessGunItem))
-            return;
-        Gun gun = ((TimelessGunItem) heldItem.getItem()).getGun();
-
-        if ((gun.getGeneral().getWeightKilo() > 0) && MovementAdaptationsHandler.get().readyToUpdate)
-        {
-            float speed = (float)player.getAttribute(MOVEMENT_SPEED).getValue() / (1+((gun.getGeneral().getWeightKilo()*(1+GunModifierHelper.getModifierOfWeaponWeight(heldItem)) + GunModifierHelper.getAdditionalWeaponWeight(heldItem)) * 0.0275f)); //(1+GunModifierHelper.getModifierOfWeaponWeight(heldItem)) + GunModifierHelper.getAdditionalWeaponWeight(heldItem)) / 3.775F));
-
-            if(player.isSprinting())
-                player.getAttribute(MOVEMENT_SPEED).setBaseValue(Math.max(Math.min(speed, 0.12F), 0.075F) * 1.125F);
-            else
-                player.getAttribute(MOVEMENT_SPEED).setBaseValue(Math.max(Math.min(speed, 0.095F), 0.075F));
-
-            MovementAdaptationsHandler.get().readyToReset = true;
-            MovementAdaptationsHandler.get().readyToUpdate = false;
-            MovementAdaptationsHandler.get().speed = speed;
-        }
-        else
-            MovementAdaptationsHandler.get().speed = (float)player.getAttribute(MOVEMENT_SPEED).getValue();
-        player.sendPlayerAbilities();
-        //player.sendStatusMessage(new TranslationTextComponent("Speed is: " + player.getAttribute(MOVEMENT_SPEED).getValue()) ,true);
-        MovementAdaptationsHandler.get().previousWeight = gun.getGeneral().getWeightKilo();
     }
 }

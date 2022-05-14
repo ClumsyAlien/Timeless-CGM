@@ -32,10 +32,10 @@
     "life": 5
   },
   "sounds": {
-    "fire": "tac:item.modern_sniper_fire",
+    "fire": "tac:item.remington_700",
     "reload": "tac:item.pistol.reload",
     "cock": "tac:item.pistol.cock",
-    "silencedFire": "tac:item.assault_rifle.silenced_fire"
+    "silencedFire": "tac:item.remington_700s"
   },
   "display": {
     "flash": {

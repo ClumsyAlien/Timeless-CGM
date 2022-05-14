@@ -58,6 +58,7 @@ public class MissileEntity extends ProjectileEntity
     protected void onHitBlock(BlockState state, BlockPos pos, Direction face, double x, double y, double z)
     {
         createExplosion(this, this.power*Config.COMMON.missiles.explosionRadius.get().floatValue(), false);
+        this.life = 0;
     }
 
     @Override

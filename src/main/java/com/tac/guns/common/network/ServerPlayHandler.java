@@ -4,7 +4,6 @@ import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.Config;
 import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
-import com.tac.guns.client.handler.AimingHandler;
 import com.tac.guns.client.handler.MovementAdaptationsHandler;
 import com.tac.guns.common.*;
 import com.tac.guns.common.container.AttachmentContainer;
@@ -32,11 +31,10 @@ import com.tac.guns.tileentity.FlashLightSource;
 import com.tac.guns.tileentity.WorkbenchTileEntity;
 import com.tac.guns.util.GunModifierHelper;
 import com.tac.guns.util.InventoryUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -61,12 +59,14 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Predicate;
+
+import static net.minecraft.entity.ai.attributes.Attributes.MOVEMENT_SPEED;
 
 
 /**
@@ -504,5 +504,76 @@ public class ServerPlayHandler
                 }
             }
         }
+    }
+
+
+    private static final UUID speedUptId = UUID.fromString("923e4567-e89b-42d3-a456-556642440000");
+
+    // https://forums.minecraftforge.net/topic/40878-1102-solved-increasedecrease-walkspeed-without-fov-change/ Adapted for 1.16.5 use and for proper server function
+    private static void changeGunSpeedMod(ServerPlayerEntity entity, String name, double modifier)
+    {
+        AttributeModifier speedModifier = (new AttributeModifier(speedUptId, name, modifier, AttributeModifier.Operation.MULTIPLY_TOTAL));
+        ModifiableAttributeInstance attributeInstance = entity.getAttribute(MOVEMENT_SPEED);
+
+        if (attributeInstance.getModifier(speedUptId) != null) {
+            attributeInstance.removeModifier(speedModifier);
+        }
+        attributeInstance.applyPersistentModifier(speedModifier);
+    }
+
+    private static void removeGunSpeedMod(ServerPlayerEntity entity, String name, double modifier)
+    {
+        AttributeModifier speedModifier = (new AttributeModifier(speedUptId, name, modifier, AttributeModifier.Operation.MULTIPLY_TOTAL));
+        ModifiableAttributeInstance attributeInstance = entity.getAttribute(MOVEMENT_SPEED);
+
+        if (attributeInstance.getModifier(speedUptId) != null) {
+            attributeInstance.removeModifier(speedModifier);
+        }
+    }
+
+    public static void handleMovementUpdate(ServerPlayerEntity player)
+    {
+        if (player == null)
+            return;
+        if(player.isSpectator())
+            return;
+        if(!player.isAlive())
+            return;
+
+        ItemStack heldItem = player.getHeldItemMainhand();
+        if(player.getAttribute(MOVEMENT_SPEED) != null && MovementAdaptationsHandler.get().isReadyToReset())
+        {
+            removeGunSpeedMod(player,"GunSpeedMod", 0.1);
+            MovementAdaptationsHandler.get().setReadyToReset(false);
+            MovementAdaptationsHandler.get().setReadyToUpdate(true);
+        }
+        player.sendPlayerAbilities();
+
+        if (!(heldItem.getItem() instanceof TimelessGunItem))
+            return;
+
+        Gun gun = ((TimelessGunItem) heldItem.getItem()).getGun();
+        //if(MovementAdaptationsHandler.get().previousGun == null || gun.serializeNBT().getId() == MovementAdaptationsHandler.get().previousGun)
+            if (((gun.getGeneral().getWeightKilo() > 0) && MovementAdaptationsHandler.get().isReadyToUpdate()) || MovementAdaptationsHandler.get().getPreviousWeight() != gun.getGeneral().getWeightKilo())
+            {
+                float speed = (float)player.getAttribute(MOVEMENT_SPEED).getValue() / (1+((gun.getGeneral().getWeightKilo()*(1+GunModifierHelper.getModifierOfWeaponWeight(heldItem)) + GunModifierHelper.getAdditionalWeaponWeight(heldItem)) * 0.0275f)); // * 0.01225f));// //(1+GunModifierHelper.getModifierOfWeaponWeight(heldItem)) + GunModifierHelper.getAdditionalWeaponWeight(heldItem)) / 3.775F));
+                if(player.isSprinting())
+                    speed = Math.max(Math.min(speed, 0.12F), 0.075F) * 0.775F;
+                else
+                    speed = Math.max(Math.min(speed, 0.095F), 0.075F);
+                //-((int)((0.1 - speed)*1000))
+                changeGunSpeedMod(player, "GunSpeedMod", -((double)((0.1 - speed)*10)));//*1000
+
+                MovementAdaptationsHandler.get().setReadyToReset(true);
+                MovementAdaptationsHandler.get().setReadyToUpdate(false);
+                MovementAdaptationsHandler.get().setSpeed(speed);
+            }
+            else
+                MovementAdaptationsHandler.get().setSpeed((float)player.getAttribute(MOVEMENT_SPEED).getValue());
+        player.sendPlayerAbilities();
+
+        MovementAdaptationsHandler.get().setPreviousWeight(gun.getGeneral().getWeightKilo());
+        //DEBUGGING AND BALANCE TOOL
+        //player.sendStatusMessage(new TranslationTextComponent("Speed is: " + player.getAttribute(MOVEMENT_SPEED).getValue()) ,true);
     }
 }

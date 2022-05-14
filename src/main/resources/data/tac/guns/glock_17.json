@@ -2,7 +2,7 @@
   "general": {
     "rate": 3,
     "rateSelector": [
-      0,
+      0 ,
       1
     ],
     "gripType": "tac:one_handed_m1911",
@@ -10,16 +10,22 @@
     "horizontalRecoilAngle": 1.925,
     "recoilKick": 1.25,
     "recoilAdsReduction": 0.25,
+    "weaponRecoilDuration": 0.9625,
+    "cameraRecoilModifier": 1.55,
     "alwaysSpread": true,
     "spread": 4.62,
     "weightKilo": 0.9
   },
   "reloads": {
     "magFed": true,
-    "maxAmmo": 16,
+    "maxAmmo": 17,
     "reloadMagTimer": 40,
     "additionalReloadEmptyMagTimer": 6,
-    "maxAdditionalAmmoPerOC": [6, 10, 14],
+    "maxAdditionalAmmoPerOC": [
+      6,
+      10,
+      14
+    ],
     "preReloadPauseTicks": 4
   },
   "projectile": {
@@ -45,13 +51,14 @@
     "weaponType": 2
   },
   "modules": {
-    "zoom": [{
-      "fovModifier": 0.9,
-      "yOffset": 11.965,
-      "zOffset": -15.6
-    }],
-    "attachments":
-    {
+    "zoom": [
+      {
+        "fovModifier": 0.9,
+        "yOffset": 11.965,
+        "zOffset": -10.6
+      }
+    ],
+    "attachments": {
       "pistolBarrel": {
         "yOffset": -100829.84,
         "zOffset": -11.55,

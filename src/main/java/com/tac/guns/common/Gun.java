@@ -816,11 +816,11 @@ public final class Gun implements INBTSerializable<CompoundNBT>
 
         @Optional
         @Nullable
-        private float hipfireScale = 1.0F;
+        private float hipfireScale = 0.75F;
 
         @Optional
         @Nullable
-        private float hipfireMoveScale = 1.0F;
+        private float hipfireMoveScale = 0.5F;
 
         @Optional
         @Nullable

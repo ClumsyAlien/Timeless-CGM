@@ -314,6 +314,8 @@ public enum SpecialModels
     M82A2_SIGHT_FOLDED("m82a2_sight_fold"),
     M82A2_BOLT("m82a2_bolt"),
     M82A2_BARREL("m82a2_barrel"),
+    M82A2_STANDARD_MAG("m82a2_mag_short"),
+    M82A2_EXTENDED_MAG("m82a2_extended_mag"),
     AI_AWP_BRAKE("ai_awp_brake"),
     AI_AWP_COMPENSATOR("ai_awp_compensator"),
     AI_AWP_SUPPRESSOR("ai_awp_silencer"),
@@ -349,11 +351,25 @@ public enum SpecialModels
     FN_FAL_EXTENDED_BARREL("fn_fal_extended_barrel"),
     FN_FAL_TAC_GRIP("fn_fal_tactical_grip"),
     FN_FAL_LIGHTWEIGHT_GRIP("fn_fal_lightweight_grip"),
+    AR15_HELLMOUTH_STANDARD_MAG("ar_15_hellmouth_standard_mag"),
+    AR15_HELLMOUTH_EXTENDED_MAG("ar_15_hellmouth_extended_mag"),
+    AR15_HELLMOUTH_DD_MAG("ar_15_hellmouth_dd_mag"),
+    M4_EXTENDED_HANDGUARD_V2("m4a1_extended_handguard_v2"),
+    VECTOR45_BRAKE("vector45_brake"),
+    VECTOR45_COMP("vector45_compensator"),
+    VECTOR45_LGRIP("vector45_light_grip"),
+    QBZ_95_BRAKE("qbz_95_brake"),
+    QBZ_95_COMP("qbz_95_compensator"),
+
     //Everything from this point on is all scope additions
+
     MINI_DOT_BASE("optics/mini_dot_base"),
     MICRO_HOLO_BASE("optics/micro_holo_base"),
+
     //Everything from this point on is all LOD renders
+
     M1911_LOD("lods/m1911_lod");
+
     /**
      * The location of an item model in the [MOD_ID]/models/special/[NAME] folder
      */

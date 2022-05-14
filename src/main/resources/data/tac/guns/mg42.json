@@ -15,7 +15,7 @@
     "cameraRecoilModifier": 0.4975,
     "recoilDuration": 0.1125,
     "alwaysSpread": true,
-    "spread": 3.86,
+    "spread": 2.86,
     "weightKilo": 11.25
   },
   "reloads": {

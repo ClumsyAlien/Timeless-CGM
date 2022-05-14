@@ -161,6 +161,78 @@
          { "name": "tac:item/mp5s" }
       ]
    },
+   "item.remington_700": {
+   "subtitle": "subtitle.tac.remington_700",
+   "sounds": [
+      { "name": "tac:item/remington_700" }
+   ]
+},
+   "item.remington_700s": {
+      "subtitle": "subtitle.tac.remington_700s",
+      "sounds": [
+         { "name": "tac:item/remington_700s" }
+      ]
+   },
+   "item.m870": {
+      "subtitle": "subtitle.tac.m870",
+      "sounds": [
+         { "name": "tac:item/m870" }
+      ]
+   },
+   "item.mp9s": {
+      "subtitle": "subtitle.tac.mp9s",
+      "sounds": [
+         { "name": "tac:item/mp9s" }
+      ]
+   },
+   "item.p226s": {
+      "subtitle": "subtitle.tac.p226s",
+      "sounds": [
+         { "name": "tac:item/p226s" }
+      ]
+   },
+   "item.saiga": {
+      "subtitle": "subtitle.tac.saiga",
+      "sounds": [
+         { "name": "tac:item/saiga" }
+      ]
+   },
+   "item.sig552": {
+      "subtitle": "subtitle.tac.sig552",
+      "sounds": [
+         { "name": "tac:item/sig552" }
+      ]
+   },
+   "item.m82a3": {
+      "subtitle": "subtitle.tac.m82a3",
+      "sounds": [
+         { "name": "tac:item/m82a3" }
+      ]
+   },
+   "item.deagle": {
+      "subtitle": "subtitle.tac.deagle",
+      "sounds": [
+         { "name": "tac:item/deagle_fire" }
+      ]
+   },
+   "item.deagles": {
+      "subtitle": "subtitle.tac.deagles",
+      "sounds": [
+         { "name": "tac:item/deagle_fire_suppressed" }
+      ]
+   },
+   "item.m1917": {
+      "subtitle": "subtitle.tac.m1917",
+      "sounds": [
+         { "name": "tac:item/m1917_fire" }
+      ]
+   },
+   "item.p226": {
+      "subtitle": "subtitle.tac.p226",
+      "sounds": [
+         { "name": "tac:item/p226" }
+      ]
+   },
    "item.headshot": {
       "subtitle": "subtitle.tac.headshot",
       "sounds": [

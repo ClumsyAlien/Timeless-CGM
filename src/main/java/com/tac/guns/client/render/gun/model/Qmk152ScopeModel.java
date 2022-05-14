@@ -75,7 +75,7 @@ public class Qmk152ScopeModel implements IOverrideModel
                 Matrix3f normal = matrixStack.getLast().getNormal();
 
                 //matrixStack.translate(-size / 2, 0.0936175 , 3.915 * 0.0625);
-                matrixStack.translate(-size / 2, 0.1145 , Config.COMMON.gameplay.scopeDoubleRender.get() ? 2.315 * 0.0625 : 1.725 * 0.0625);
+                matrixStack.translate(-size / 2, 0.11125 , Config.COMMON.gameplay.scopeDoubleRender.get() ? 2.315 * 0.0625 : 1.725 * 0.0625);
 
                 float color = (float) AimingHandler.get().getNormalisedAdsProgress() * 0.8F + 0.2F;
 

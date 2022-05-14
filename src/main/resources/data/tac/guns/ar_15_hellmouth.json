@@ -12,7 +12,7 @@
     "cameraRecoilModifier": 1.225,
     "recoilDuration": 0.275,
     "alwaysSpread": true,
-    "spread": 4.975,
+    "spread": 4.225,
     "weightKilo": 3.0
   },
   "reloads": {
@@ -20,7 +20,7 @@
     "maxAmmo": 30,
     "reloadMagTimer": 45,
     "additionalReloadEmptyMagTimer": 20,
-    "maxAdditionalAmmoPerOC": [10, 30, 70],
+    "maxAdditionalAmmoPerOC": [15, 30, 70],
     "preReloadPauseTicks": 7
   },
   "projectile": {

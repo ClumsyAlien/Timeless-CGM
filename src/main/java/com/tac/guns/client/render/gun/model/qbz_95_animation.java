@@ -44,17 +44,15 @@ public class qbz_95_animation implements IOverrideModel {
         }
         if(Gun.getAttachment(IAttachment.Type.BARREL, stack).getItem() == ModItems.SILENCER.orElse(ItemStack.EMPTY.getItem()))
         {
-            //int overlayTmp = Gun.getAttachment(IAttachment.Type.BARREL, stack).getStack().serializeNBT().getInt("Color");
-            //int overlayTmp = Minecraft.getInstance().getItemColors().getColor(Gun.getAttachment(IAttachment.Type.BARREL, stack).getStack(), 0);
-            //if(overlayTmp == -1)
-            //{
-            //    overlayTmp = overlay;
-            //}
-            /*
-                Hm, it seems like the getAttachment().stack() method chain does not actually grab the color of the specific attachment
-                I will be making a bug report as I don't think this behavior is correct and something wrong is on either side as this should be clearly possible
-            */
             RenderUtil.renderModel(SpecialModels.QBZ_95_SUPPRESSOR.getModel(), stack, matrices, renderBuffer, light, overlay);
+        }
+        else if(Gun.getAttachment(IAttachment.Type.BARREL, stack).getItem() == ModItems.MUZZLE_COMPENSATOR.orElse(ItemStack.EMPTY.getItem()))
+        {
+            RenderUtil.renderModel(SpecialModels.QBZ_95_COMP.getModel(), stack, matrices, renderBuffer, light, overlay);
+        }
+        else if(Gun.getAttachment(IAttachment.Type.BARREL, stack).getItem() == ModItems.MUZZLE_BRAKE.orElse(ItemStack.EMPTY.getItem()))
+        {
+            RenderUtil.renderModel(SpecialModels.QBZ_95_BRAKE.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
         else
         {

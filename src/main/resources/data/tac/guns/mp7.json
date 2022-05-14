@@ -35,7 +35,7 @@
     "fire": "tac:item.fire_m16",
     "reload": "tac:item.pistol.reload",
     "cock": "tac:item.pistol.cock",
-    "silencedFire": "tac:item.fire_m16s"
+    "silencedFire": "tac:item.mp5_fires"
   },
   "display": {
     "flash": {

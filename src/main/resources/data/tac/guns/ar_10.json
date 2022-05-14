@@ -11,7 +11,7 @@
     "weaponRecoilDuration": 0.95,
     "cameraRecoilModifier": 0.675,
     "alwaysSpread": true,
-    "spread": 1.95,
+    "spread": 1.325,
     "weightKilo": 5.2
   },
   "reloads": {

@@ -14,7 +14,7 @@
     "recoilAdsReduction": 0.585,
     "recoilDuration": 0.275,
     "alwaysSpread": true,
-    "spread": 2.35,
+    "spread": 1.75,
     "weightKilo": 3.5
   },
   "reloads": {

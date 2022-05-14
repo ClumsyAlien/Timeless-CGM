@@ -6,8 +6,8 @@
       1
     ],
     "gripType": "tac:one_handed_m1911",
-    "recoilAngle": 9.475,
-    "horizontalRecoilAngle": 4.125,
+    "recoilAngle": 10.475,
+    "horizontalRecoilAngle": 4.725,
     "recoilKick": 2.05,
     "recoilAdsReduction": 0.35,
     "weaponRecoilDuration": 0.915,
@@ -25,7 +25,7 @@
     "preReloadPauseTicks": 4
   },
   "projectile": {
-    "item": "tac:round45",
+    "item": "tac:magnumround",
     "visible": false,
     "damage": 14.5,
     "size": 0.2,
@@ -33,10 +33,10 @@
     "life": 6
   },
   "sounds": {
-    "fire": "tac:item.fire_m1911",
+    "fire": "tac:item.deagle",
     "reload": "tac:item.pistol.reload",
     "cock": "tac:item.pistol.cock",
-    "silencedFire": "tac:item.fire_m1911s"
+    "silencedFire": "tac:item.deagles"
   },
   "display": {
     "flash": {

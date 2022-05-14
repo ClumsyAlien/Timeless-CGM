@@ -338,7 +338,7 @@ public class Config
 
                 this.gameplayEnchancedScopeOffset = builder.comment("Scopes are brought closer to the shooter to help fill FOV with a scope view at all times").define("gameplayEnchancedScopeOffset", true);
                 this.scopeDoubleRender = builder.comment("Enable scope double render, saves on some performance and compatability issues with Optifine").define("scopeDoubleRender", true);
-                this.redDotSquish2D = builder.comment("Enable 0 fov multiplied sights (Dot/Holo sights) to render in 2d when aimed like the scopeDoubleRender(false) effect.").define("redDotSquish2D", false);
+                this.redDotSquish2D = builder.comment("Enable 0 fov multiplied sights (Dot/Holo sights) to render in 2d when aimed like the scopeDoubleRender(false) effect.").define("redDotSquish2D", true);
             }
             builder.pop();
         }
