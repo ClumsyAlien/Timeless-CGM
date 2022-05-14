@@ -77,6 +77,7 @@
     "item.tac.58x42": "5.8mm DBP87 탄약",
     "item.tac.762x39": "762x39mm 탄약",
     "item.tac.rpg7_missile": "RPG 7 로켓",
+    "item.tac.50bmg": ".50 BMG",
 
     "item.tac.light_grenade": "F1 수류탄",
     "item.tac.baseball_grenade": "M67 수류탄",
@@ -110,6 +111,24 @@
     "subtitle.tac.fire_tompsonfire": "톰슨이 발사됨",
     "subtitle.tac.fire_dbfire": "산탄총이 발사됨",
 
+    "subtitle.tac.dmr_fire": "지정사수 소총이 발사됨",
+    "subtitle.tac.dmr_fire_s": "소음기가 끼워진 지정사수 소총이 발사됨",
+    "subtitle.tac.modern_sniper_fire": "Modern Marksman Rifle",
+    "subtitle.tac.mtar_fire": "MTAR이 발사됨",
+    "subtitle.tac.mtar_fire_s": "소음기가 끼워진 MTAR이 발사됨",
+    "subtitle.tac.fal_fire": "FAL이 발사됨",
+    "subtitle.tac.mp5_fire": "Mp5이 발사됨",
+    "subtitle.tac.mp5_fires": "소음기가 끼워진 MP5가 발사됨",
+    "subtitle.tac.remington_700": "레밍턴 M700이 발사됨",
+    "subtitle.tac.remington_700s": "소음기가 끼워진 레밍턴 M700이 발사됨",
+    "subtitle.tac.m870": "M870이 발사됨",
+    "subtitle.tac.mp9s": "MP9이 발사됨",
+    "subtitle.tac.p226s": "소음기가 끼워진 P226이 발사됨",
+    "subtitle.tac.saiga": "Saiga이 발사됨",
+    "subtitle.tac.sig552": "SIG 552이 발사됨",
+    "subtitle.tac.sig552s": "S소음기가 끼워진 SIG 552가 발사됨",
+    "subtitle.tac.p226": "P226이 발사됨",
+
     "info.tac.auto": "이 무기는 자동화기입니다!",
     "info.tac.gun_safety_lock": "조정간이 안전에 있습니다, 사격 모드를 변경하려먼 %s 를 누르세요",
 
@@ -128,6 +147,8 @@
     "item.tac.old_4x_scope": "구형 4x 조준경",
     "item.tac.mini_dot": "트리지콘 RMR",
     "item.tac.lpvo_1_6": "볼텍스 LPVO",
+    "item.tac.aimpoint_t1": "에임포인트 T1",
+    "item.tac.8x_scope": "일반 8x 조준경",
     "item.tac.acog_4x_scope": "ACOG 4x",
 
     "item.tac.muzzle_brake": "소염기",
@@ -188,6 +209,11 @@
 
     "key.tac.reload": "재장전",
     "key.tac.unload": "탄창 제거",
+    "key.tac.activateSideRail": "부착물 작동",
+    "key.tac.aim_sights": "정조준",
+    "key.tac.color_bench": "없음",
+    "key.tac.fireSelect": "조정간 변경",
+    "key.tac.inspect": "무기 확인",
 
     "key.tac.attachments": "부착물 변경",
 
