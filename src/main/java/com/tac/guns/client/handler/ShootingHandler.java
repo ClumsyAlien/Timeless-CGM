@@ -12,6 +12,7 @@ import com.tac.guns.util.GunModifierHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.CooldownTracker;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -187,6 +188,9 @@ public class  ShootingHandler
             return;
         
         if(player.isSpectator())
+            return;
+
+        if(player.getActivePotionEffect(Effects.SLOWNESS) != null)
             return;
 
         CooldownTracker tracker = player.getCooldownTracker();

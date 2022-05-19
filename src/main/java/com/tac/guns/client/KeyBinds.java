@@ -24,6 +24,5 @@ public class KeyBinds
         ClientRegistry.registerKeyBinding(KEY_ATTACHMENTS);
         ClientRegistry.registerKeyBinding(KEY_FIRESELECT);
         ClientRegistry.registerKeyBinding(KEY_INSPECT);
-        ClientRegistry.registerKeyBinding(KEY_SIGHT_SWITCH);
     }
 }

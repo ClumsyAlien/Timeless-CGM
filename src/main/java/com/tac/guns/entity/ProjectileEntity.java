@@ -510,7 +510,7 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
 
         BlockPos pos = blockRayTraceResult.getPos();
         BlockState state = this.world.getBlockState(pos);
-
+/*
         if(modifiedGun.getProjectile().isRicochet())
         {
             if
@@ -554,7 +554,7 @@ public class ProjectileEntity extends Entity implements IEntityAdditionalSpawnDa
                 }
                 this.life -= 1;
             }
-        }
+        }*/
     }
 
     protected void onHitBlock(BlockState state, BlockPos pos, Direction face, double x, double y, double z) {
