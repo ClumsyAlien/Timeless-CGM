@@ -1,59 +1,36 @@
 package com.tac.guns.block;
 
-import com.google.gson.GsonBuilder;
-import com.tac.guns.Config;
-import com.tac.guns.client.util.RenderUtil;
-import com.tac.guns.common.Gun;
-import com.tac.guns.init.ModBlocks;
-import com.tac.guns.init.ModTileEntities;
-import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
 import com.tac.guns.network.PacketHandler;
-import com.tac.guns.network.message.MessageFireMode;
 import com.tac.guns.network.message.MessageSaveItemUpgradeBench;
 import com.tac.guns.tileentity.UpgradeBenchTileEntity;
-import com.tac.guns.tileentity.WorkbenchTileEntity;
 import com.tac.guns.util.VoxelShapeHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.ItemFrameRenderer;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.client.event.RenderItemInFrameEvent;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fml.network.NetworkHooks;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import org.apache.logging.log4j.Level;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
-
-import static com.tac.guns.GunMod.LOGGER;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class UpgradeBenchBlock extends RotatedObjectBlock
+@SuppressWarnings("deprecation")
+public class UpgradeBenchBlock extends RotatedObjectBlock implements EntityBlock
 {
     private final Map<BlockState, VoxelShape> SHAPES = new HashMap<>();
 
@@ -68,66 +45,60 @@ public class UpgradeBenchBlock extends RotatedObjectBlock
         {
             return SHAPES.get(state);
         }
-        Direction direction = state.get(HORIZONTAL_FACING);
+        Direction direction = state.getValue(FACING);
         List<VoxelShape> shapes = new ArrayList<>();
-        shapes.add(Block.makeCuboidShape(0.5, 0, 0.5, 15.5, 13, 15.5));
-        shapes.add(Block.makeCuboidShape(0, 13, 0, 16, 15, 16));
-        shapes.add(VoxelShapeHelper.getRotatedShapes(VoxelShapeHelper.rotate(Block.makeCuboidShape(0, 15, 0, 16, 16, 2), Direction.SOUTH))[direction.getHorizontalIndex()]);
+        shapes.add(Block.box(0.5, 0, 0.5, 15.5, 13, 15.5));
+        shapes.add(Block.box(0, 13, 0, 16, 15, 16));
+        shapes.add(VoxelShapeHelper.getRotatedShapes(VoxelShapeHelper.rotate(Block.box(0, 15, 0, 16, 16, 2), Direction.SOUTH))[direction.get2DDataValue()]);
         VoxelShape shape = VoxelShapeHelper.combineAll(shapes);
         SHAPES.put(state, shape);
         return shape;
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context)
+    public @NotNull VoxelShape getShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context)
     {
         return this.getShape(state);
     }
 
     @Override
-    public VoxelShape getRenderShape(BlockState state, IBlockReader reader, BlockPos pos)
+    public @NotNull VoxelShape getOcclusionShape(BlockState state, BlockGetter reader, BlockPos pos)
     {
         return this.getShape(state);
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult result)
+    public @NotNull InteractionResult use(BlockState state, Level world, BlockPos pos, Player playerEntity, InteractionHand hand, BlockHitResult result)
     {
-        if(!world.isRemote())
+        if(!world.isClientSide())
         {
-            TileEntity tileEntity = world.getTileEntity(pos);
-            if(tileEntity instanceof INamedContainerProvider)
+            BlockEntity tileEntity = world.getBlockEntity(pos);
+            if(tileEntity instanceof MenuProvider)
             {
                 PacketHandler.getPlayChannel().sendToServer(new MessageSaveItemUpgradeBench(pos));
-                tileEntity.markDirty();
+                tileEntity.setChanged();
             }
         }
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
 
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (state.hasTileEntity() && state.getBlock() != newState.getBlock())
+    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (state.hasBlockEntity() && state.getBlock() != newState.getBlock())
         {
-            spawnAsEntity(worldIn, pos,
-                    ((UpgradeBenchTileEntity)worldIn.getTileEntity(pos)).getInventory().get(0));
-            spawnAsEntity(worldIn, pos,
-                    ((UpgradeBenchTileEntity)worldIn.getTileEntity(pos)).getInventory().get(1));
-            worldIn.removeTileEntity(pos);
+            popResource(worldIn, pos,
+                    ((UpgradeBenchTileEntity)worldIn.getBlockEntity(pos)).getInventory().get(0));
+            popResource(worldIn, pos,
+                    ((UpgradeBenchTileEntity)worldIn.getBlockEntity(pos)).getInventory().get(1));
+            worldIn.removeBlockEntity(pos);
         }
     }
 
+    @org.jetbrains.annotations.Nullable
     @Override
-    public boolean hasTileEntity(BlockState state)
-    {
-        return true;
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new UpgradeBenchTileEntity(pos, state);
     }
 
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world)
-    {
-        return new UpgradeBenchTileEntity();
-    }
 }

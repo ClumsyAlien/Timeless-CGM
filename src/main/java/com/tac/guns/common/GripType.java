@@ -1,17 +1,17 @@
 package com.tac.guns.common;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.tac.guns.Reference;
 import com.tac.guns.client.render.IHeldAnimation;
 import com.tac.guns.client.render.pose.BazookaPose;
 import com.tac.guns.client.render.pose.MiniGunPose;
 import com.tac.guns.client.render.pose.OneHandedPose;
 import com.tac.guns.client.render.pose.TwoHandedPose;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Items;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.Items;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.math.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,32 +49,32 @@ public class GripType
      * @param matrixStack the matrixstack get
      * @return if the weapon can render
      */
-    public static boolean applyBackTransforms(PlayerEntity player, MatrixStack matrixStack)
+    public static boolean applyBackTransforms(Player player, PoseStack matrixStack)
     {
-        if(player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == Items.ELYTRA)
+        if(player.getItemBySlot(EquipmentSlot.CHEST).getItem() == Items.ELYTRA)
         {
             return false;
         }
 
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
-        matrixStack.rotate(Vector3f.ZP.rotationDegrees(180F));
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(180F));
+        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180F));
 
         if(player.isCrouching())
         {
             matrixStack.translate(0 * 0.0625, -7 * 0.0625, -4 * 0.0625);
-            matrixStack.rotate(Vector3f.XP.rotationDegrees(30F));
+            matrixStack.mulPose(Vector3f.XP.rotationDegrees(30F));
         }
         else
         {
             matrixStack.translate(0 * 0.0625, -5 * 0.0625, -2 * 0.0625);
         }
 
-        if(!player.getItemStackFromSlot(EquipmentSlotType.CHEST).isEmpty())
+        if(!player.getItemBySlot(EquipmentSlot.CHEST).isEmpty())
         {
             matrixStack.translate(0, 0, -1 * 0.0625);
         }
 
-        matrixStack.rotate(Vector3f.ZP.rotationDegrees(-45F));
+        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-45F));
         matrixStack.scale(0.5F, 0.5F, 0.5F);
 
         return true;

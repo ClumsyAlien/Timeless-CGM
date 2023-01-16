@@ -1,14 +1,14 @@
 package com.tac.guns.client.render.gun.model;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.tac.guns.client.SpecialModels;
 import com.tac.guns.client.render.gun.IOverrideModel;
 import com.tac.guns.client.util.RenderUtil;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -22,7 +22,7 @@ public class MiniGunModel implements IOverrideModel
     private WeakHashMap<LivingEntity, Rotations> rotationMap = new WeakHashMap<>();
 
     @Override
-    public void tick(PlayerEntity entity)
+    public void tick(Player entity)
     {
         this.rotationMap.putIfAbsent(entity, new Rotations());
         Rotations rotations = this.rotationMap.get(entity);
@@ -46,11 +46,11 @@ public class MiniGunModel implements IOverrideModel
     }
 
     @Override
-    public void render(float partialTicks, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int light, int overlay)
+    public void render(float partialTicks, ItemTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int light, int overlay)
     {
         Rotations rotations = this.rotationMap.computeIfAbsent(entity, uuid -> new Rotations());
         RenderUtil.renderModel(SpecialModels.MINI_GUN_BASE.getModel(), stack,matrixStack, renderTypeBuffer, light, overlay);
-        RenderUtil.renderModel(SpecialModels.MINI_GUN_BARRELS.getModel(), ItemCameraTransforms.TransformType.NONE, () -> {
+        RenderUtil.renderModel(SpecialModels.MINI_GUN_BARRELS.getModel(), ItemTransforms.TransformType.NONE, () -> {
             RenderUtil.rotateZ(matrixStack, 0.5F, 0.125F, rotations.prevRotation + (rotations.rotation - rotations.prevRotation) * partialTicks);
         }, stack, parent, matrixStack, renderTypeBuffer, light, overlay);
     }

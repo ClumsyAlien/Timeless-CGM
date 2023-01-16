@@ -1,26 +1,22 @@
 package com.tac.guns.item;
 
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.client.renderer.color.ItemColors;
-import net.minecraft.item.DyeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraftforge.common.util.Constants;
+import com.tac.guns.Config;
+import net.minecraft.client.color.item.ItemColor;
+import net.minecraft.client.color.item.ItemColors;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * A simple interface to allow items to be colored. Implementing this on an item will automatically
- * register an {@link IItemColor} into {@link ItemColors}. If the item this is implemented on is an
+ * register an {@link ItemColor} into {@link ItemColors}. If the item this is implemented on is an
  * attachment, it will colored automatically by the color of the weapon if the item does not explicitly
  * have a color set.
- *
- * Timeless changes - IColored will now also provide methods for the 8 new color segments.
- *
- *
  * <p>
- * Author: Forked from MrCrayfish, continued by Timeless devs, Timeless Development team (ClusmyAlien)
+ * Author: MrCrayfish
  */
 public interface IColored
 {
@@ -39,12 +35,12 @@ public interface IColored
      * Gets whether or not this item has a color applied
      *
      * @param stack the ItemStack of the colored item
-     * @return If this item has any color or color segment applied
+     * @return If this item has a color applied
      */
     default boolean hasColor(ItemStack stack)
     {
-        CompoundNBT tagCompound = stack.getOrCreateTag();
-        return tagCompound.contains("Color", Constants.NBT.TAG_INT);
+        CompoundTag tagCompound = stack.getOrCreateTag();
+        return tagCompound.contains("Color", Tag.TAG_INT);
     }
 
     /**
@@ -55,7 +51,7 @@ public interface IColored
      */
     default int getColor(ItemStack stack)
     {
-        CompoundNBT tagCompound = stack.getOrCreateTag();
+        CompoundTag tagCompound = stack.getOrCreateTag();
         return tagCompound.getInt("Color");
     }
 
@@ -67,7 +63,7 @@ public interface IColored
      */
     default void setColor(ItemStack stack, int color)
     {
-        CompoundNBT tagCompound = stack.getOrCreateTag();
+        CompoundTag tagCompound = stack.getOrCreateTag();
         tagCompound.putInt("Color", color);
     }
 
@@ -78,7 +74,7 @@ public interface IColored
      */
     default void removeColor(ItemStack stack)
     {
-        CompoundNBT tagCompound = stack.getOrCreateTag();
+        CompoundTag tagCompound = stack.getOrCreateTag();
         tagCompound.remove("Color");
     }
 
@@ -97,7 +93,7 @@ public interface IColored
         int maxColor = 0;
         int colorCount = 0;
         IColored coloredItem = null;
-        if(stack.getItem() instanceof IColored && ((IColored) stack.getItem()).canColor(stack))
+        if(IColored.isDyeable(stack))
         {
             coloredItem = (IColored) stack.getItem();
             resultStack = stack.copy();
@@ -117,7 +113,7 @@ public interface IColored
 
             for(DyeItem dyeitem : dyes)
             {
-                float[] colorComponents = dyeitem.getDyeColor().getColorComponentValues();
+                float[] colorComponents = dyeitem.getDyeColor().getTextureDiffuseColors();
                 int red = (int) (colorComponents[0] * 255.0F);
                 int green = (int) (colorComponents[1] * 255.0F);
                 int blue = (int) (colorComponents[2] * 255.0F);
@@ -148,5 +144,15 @@ public interface IColored
             coloredItem.setColor(resultStack, finalColor);
             return resultStack;
         }
+    }
+
+    static boolean isDyeable(ItemStack stack)
+    {
+        if(stack.getItem() instanceof IColored)
+        {
+            IColored colored = ((IColored) stack.getItem());
+            return colored.canColor(stack) /*|| Config.SERVER.experimental.forceDyeableAttachments.get()*/;
+        }
+        return false;
     }
 }

@@ -4,14 +4,13 @@ import com.google.gson.JsonObject;
 import com.tac.guns.Reference;
 import com.tac.guns.init.ModBlocks;
 import com.tac.guns.init.ModRecipeSerializers;
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.RecipeProvider;
-import net.minecraft.data.ShapedRecipeBuilder;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nullable;
@@ -25,51 +24,51 @@ public class RecipeGen extends RecipeProvider
     }
 
     @Override
-    protected void registerRecipes(Consumer<IFinishedRecipe> consumer)
+    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer)
     {
         // Dye Item
-        consumer.accept(new IFinishedRecipe()
+        consumer.accept(new FinishedRecipe()
         {
             @Override
-            public void serialize(JsonObject json)
+            public void serializeRecipeData(JsonObject json)
             {
             }
 
             @Override
-            public IRecipeSerializer<?> getSerializer()
+            public RecipeSerializer<?> getType()
             {
                 return ModRecipeSerializers.DYE_ITEM.get();
             }
 
             @Override
-            public ResourceLocation getID()
+            public ResourceLocation getId()
             {
                 return new ResourceLocation(Reference.MOD_ID, "dye_item");
             }
 
             @Override
             @Nullable
-            public JsonObject getAdvancementJson()
+            public JsonObject serializeAdvancement()
             {
                 return null;
             }
 
             @Override
-            public ResourceLocation getAdvancementID()
+            public ResourceLocation getAdvancementId()
             {
                 return new ResourceLocation("");
             }
         });
 
-        ShapedRecipeBuilder.shapedRecipe(ModBlocks.WORKBENCH.get())
-                .patternLine("CCC")
-                .patternLine("III")
-                .patternLine("I I")
-                .key('C', Blocks.LIGHT_GRAY_CONCRETE)
-                .key('I', Tags.Items.INGOTS_IRON)
-                .addCriterion("has_concrete", hasItem(Blocks.LIGHT_GRAY_CONCRETE))
-                .addCriterion("has_iron", hasItem(Tags.Items.INGOTS_IRON))
-                .build(consumer);
+        ShapedRecipeBuilder.shaped(ModBlocks.WORKBENCH.get())
+                .pattern("CCC")
+                .pattern("III")
+                .pattern("I I")
+                .define('C', Blocks.LIGHT_GRAY_CONCRETE)
+                .define('I', Tags.Items.INGOTS_IRON)
+                .unlockedBy("has_concrete", has(Blocks.LIGHT_GRAY_CONCRETE))
+                .unlockedBy("has_iron", has(Tags.Items.INGOTS_IRON))
+                .save(consumer);
 
        /* // Guns
         WorkbenchRecipeBuilder.workbenchRecipe(ModItems.PISTOL.get())

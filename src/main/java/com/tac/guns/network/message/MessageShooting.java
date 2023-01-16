@@ -1,17 +1,17 @@
 package com.tac.guns.network.message;
 
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.init.ModSyncedDataKeys;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class MessageShooting implements IMessage
+public class MessageShooting extends PlayMessage<MessageShooting>
 {
     private boolean shooting;
 
@@ -23,26 +23,26 @@ public class MessageShooting implements IMessage
     }
 
     @Override
-    public void encode(PacketBuffer buffer)
+    public void encode(MessageShooting messageShooting, FriendlyByteBuf buffer)
     {
-        buffer.writeBoolean(this.shooting);
+        buffer.writeBoolean(messageShooting.shooting);
     }
 
     @Override
-    public void decode(PacketBuffer buffer)
+    public MessageShooting decode(FriendlyByteBuf buffer)
     {
-        this.shooting = buffer.readBoolean();
+        return new MessageShooting(buffer.readBoolean());
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageShooting messageShooting, Supplier<NetworkEvent.Context> supplier)
     {
         supplier.get().enqueueWork(() ->
         {
-            ServerPlayerEntity player = supplier.get().getSender();
+            ServerPlayer player = supplier.get().getSender();
             if(player != null)
             {
-                SyncedPlayerData.instance().set(player, ModSyncedDataKeys.SHOOTING, this.shooting);
+                ModSyncedDataKeys.SHOOTING.setValue(player, messageShooting.shooting);
             }
         });
         supplier.get().setPacketHandled(true);

@@ -35,6 +35,10 @@ import de.javagl.jgltf.model.AccessorModel;
 import de.javagl.jgltf.model.AnimationModel;
 import de.javagl.jgltf.model.NodeModel;
 
+import de.javagl.jgltf.model.AnimationModel.Channel;
+import de.javagl.jgltf.model.AnimationModel.Interpolation;
+import de.javagl.jgltf.model.AnimationModel.Sampler;
+
 /**
  * Implementation of an {@link AnimationModel}
  */

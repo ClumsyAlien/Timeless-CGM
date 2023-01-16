@@ -1,8 +1,7 @@
 package com.tac.guns.interfaces;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.AABB;
 
 import javax.annotation.Nullable;
 
@@ -23,5 +22,5 @@ public interface IHeadshotBox<T extends Entity>
      * @return an axis aligned box of the entity's head
      */
     @Nullable
-    AxisAlignedBB getHeadshotBox(T entity);
+    AABB getHeadshotBox(T entity);
 }

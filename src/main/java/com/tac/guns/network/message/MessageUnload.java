@@ -1,29 +1,32 @@
 package com.tac.guns.network.message;
 
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.common.network.ServerPlayHandler;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class MessageUnload implements IMessage
+public class MessageUnload extends PlayMessage<MessageUnload>
 {
     @Override
-    public void encode(PacketBuffer buffer) {}
+    public void encode(MessageUnload messageUnload, FriendlyByteBuf buffer) {}
 
     @Override
-    public void decode(PacketBuffer buffer) {}
+    public MessageUnload decode(FriendlyByteBuf buffer) {
+        return new MessageUnload();
+    }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageUnload messageUnload, Supplier<NetworkEvent.Context> supplier)
     {
         supplier.get().enqueueWork(() ->
         {
-            ServerPlayerEntity player = supplier.get().getSender();
+            ServerPlayer player = supplier.get().getSender();
             if(player != null && !player.isSpectator())
             {
                 ServerPlayHandler.handleUnload(player);

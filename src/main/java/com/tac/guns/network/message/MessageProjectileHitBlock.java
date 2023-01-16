@@ -1,19 +1,19 @@
 package com.tac.guns.network.message;
 
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.client.network.ClientPlayHandler;
 import com.tac.guns.entity.ProjectileEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class MessageProjectileHitBlock implements IMessage
+public class MessageProjectileHitBlock extends PlayMessage<MessageProjectileHitBlock>
 {
     private double x;
     private double y;
@@ -33,26 +33,28 @@ public class MessageProjectileHitBlock implements IMessage
     }
 
     @Override
-    public void encode(PacketBuffer buffer) {
-        buffer.writeDouble(this.x);
-        buffer.writeDouble(this.y);
-        buffer.writeDouble(this.z);
-        buffer.writeBlockPos(this.pos);
-        buffer.writeEnumValue(this.face);
+    public void encode(MessageProjectileHitBlock messageProjectileHitBlock, FriendlyByteBuf buffer) {
+        buffer.writeDouble(messageProjectileHitBlock.x);
+        buffer.writeDouble(messageProjectileHitBlock.y);
+        buffer.writeDouble(messageProjectileHitBlock.z);
+        buffer.writeBlockPos(messageProjectileHitBlock.pos);
+        buffer.writeEnum(messageProjectileHitBlock.face);
     }
 
     @Override
-    public void decode(PacketBuffer buffer) {
-        this.x = buffer.readDouble();
-        this.y = buffer.readDouble();
-        this.z = buffer.readDouble();
-        this.pos = buffer.readBlockPos();
-        this.face = buffer.readEnumValue(Direction.class);
+    public MessageProjectileHitBlock decode(FriendlyByteBuf buffer) {
+        return new MessageProjectileHitBlock(
+                buffer.readDouble(),
+                buffer.readDouble(),
+                buffer.readDouble(),
+                buffer.readBlockPos(),
+                buffer.readEnum(Direction.class)
+        );
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier) {
-        supplier.get().enqueueWork(() -> ClientPlayHandler.handleProjectileHitBlock(this));
+    public void handle(MessageProjectileHitBlock messageProjectileHitBlock, Supplier<NetworkEvent.Context> supplier) {
+        supplier.get().enqueueWork(() -> ClientPlayHandler.handleProjectileHitBlock(messageProjectileHitBlock));
         supplier.get().setPacketHandled(true);
     }
 

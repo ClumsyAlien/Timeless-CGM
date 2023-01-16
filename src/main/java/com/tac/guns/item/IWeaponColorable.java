@@ -1,11 +1,9 @@
 package com.tac.guns.item;
 
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.client.renderer.color.ItemColors;
-import net.minecraft.item.DyeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraftforge.common.util.Constants;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -83,11 +81,11 @@ public interface IWeaponColorable
      */
     default boolean hasWeaponColor(ItemStack stack)
     {
-        CompoundNBT tagCompound = stack.getOrCreateTag();
+        CompoundTag tagCompound = stack.getOrCreateTag();
         boolean hasColor = false;
         for (WeaponColorSegment colorSegment: IWeaponColorable.WeaponColorSegment.values())
         {
-            if(tagCompound.contains(colorSegment.colorTranslationKey, Constants.NBT.TAG_INT))
+            if(tagCompound.contains(colorSegment.colorTranslationKey, Tag.TAG_INT))
                 hasColor = true;
         }
         return hasColor;
@@ -101,7 +99,7 @@ public interface IWeaponColorable
      */
     default int[] getWeaponColors(ItemStack stack)
     {
-        CompoundNBT tagCompound = stack.getOrCreateTag();
+        CompoundTag tagCompound = stack.getOrCreateTag();
         int[] colors = new int[IWeaponColorable.WeaponColorSegment.values().length];
         int iterator = 0;
         for (WeaponColorSegment colorSegment: IWeaponColorable.WeaponColorSegment.values())
@@ -118,7 +116,7 @@ public interface IWeaponColorable
      */
     default void setWeaponColor(ItemStack stack, IWeaponColorable.WeaponColorSegment segment, int color)
     {
-        CompoundNBT tagCompound = stack.getOrCreateTag();
+        CompoundTag tagCompound = stack.getOrCreateTag();
         tagCompound.putInt(segment.colorTranslationKey, color);
     }
 
@@ -129,7 +127,7 @@ public interface IWeaponColorable
      */
     default void removeWeaponColor(ItemStack stack, IWeaponColorable.WeaponColorSegment segment)
     {
-        CompoundNBT tagCompound = stack.getOrCreateTag();
+        CompoundTag tagCompound = stack.getOrCreateTag();
         tagCompound.remove(segment.colorTranslationKey);
     }
 
@@ -141,7 +139,7 @@ public interface IWeaponColorable
      */
     default int getWeaponColorBySegment(ItemStack stack, IWeaponColorable.WeaponColorSegment segment)
     {
-        CompoundNBT tagCompound = stack.getOrCreateTag();
+        CompoundTag tagCompound = stack.getOrCreateTag();
         return tagCompound.getInt(segment.colorTranslationKey);
     }
 
@@ -180,7 +178,7 @@ public interface IWeaponColorable
 
             for(DyeItem dyeitem : dyes)
             {
-                float[] colorComponents = dyeitem.getDyeColor().getColorComponentValues();
+                float[] colorComponents = dyeitem.getDyeColor().getTextureDiffuseColors();
                 int red = (int) (colorComponents[0] * 255.0F);
                 int green = (int) (colorComponents[1] * 255.0F);
                 int blue = (int) (colorComponents[2] * 255.0F);

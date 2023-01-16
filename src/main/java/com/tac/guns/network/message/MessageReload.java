@@ -1,28 +1,25 @@
 package com.tac.guns.network.message;
 
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.event.GunReloadEvent;
 import com.tac.guns.init.ModSyncedDataKeys;
 import com.tac.guns.item.GunItem;
 import com.tac.guns.network.PacketHandler;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.EntityTickableSound;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.function.Supplier;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class MessageReload implements IMessage
+public class MessageReload extends PlayMessage<MessageReload>
 {
     private boolean reload;
 
@@ -36,33 +33,33 @@ public class MessageReload implements IMessage
     }
 
     @Override
-    public void encode(PacketBuffer buffer)
+    public void encode(MessageReload messageReload, FriendlyByteBuf buffer)
     {
-        buffer.writeBoolean(this.reload);
+        buffer.writeBoolean(messageReload.reload);
     }
 
     @Override
-    public void decode(PacketBuffer buffer)
+    public MessageReload decode(FriendlyByteBuf buffer)
     {
-        this.reload = buffer.readBoolean();
+        return new MessageReload(buffer.readBoolean());
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageReload messageReload, Supplier<NetworkEvent.Context> supplier)
     {
         supplier.get().enqueueWork(() ->
         {
-            ServerPlayerEntity player = supplier.get().getSender();
+            ServerPlayer player = supplier.get().getSender();
             if(player != null && !player.isSpectator())
             {
-                SyncedPlayerData.instance().set(player, ModSyncedDataKeys.RELOADING, this.reload); // This has to be set in order to verify the packet is sent if the event is cancelled
-                if(!this.reload)
+                ModSyncedDataKeys.RELOADING.setValue(player, messageReload.reload); // This has to be set in order to verify the packet is sent if the event is cancelled
+                if(!messageReload.reload)
                     return;
 
-                ItemStack gun = player.getHeldItemMainhand();
+                ItemStack gun = player.getMainHandItem();
                 if(MinecraftForge.EVENT_BUS.post(new GunReloadEvent.Pre(player, gun)))
                 {
-                    SyncedPlayerData.instance().set(player, ModSyncedDataKeys.RELOADING, false);
+                    ModSyncedDataKeys.RELOADING.setValue(player, false);
                     return;
                 }
                 MinecraftForge.EVENT_BUS.post(new GunReloadEvent.Post(player, gun));
@@ -70,8 +67,8 @@ public class MessageReload implements IMessage
                 ResourceLocation reloadSound = ((GunItem)gun.getItem()).getGun().getSounds().getCock();
                 if(reloadSound != null)
                 {
-                    MessageGunSound message = new MessageGunSound(reloadSound, SoundCategory.PLAYERS, (float) player.getPosX(), (float) player.getPosY() + 1.0F, (float) player.getPosZ(), 1.0F, 1.0F, player.getEntityId(), false, true);
-                    PacketHandler.getPlayChannel().send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(player,player.getPosX(), (player.getPosY() + 1.0), player.getPosZ(), 16.0, player.world.getDimensionKey())), message);
+                    MessageGunSound message = new MessageGunSound(reloadSound, SoundSource.PLAYERS, (float) player.getX(), (float) player.getY() + 1.0F, (float) player.getZ(), 1.0F, 1.0F, player.getId(), false, true);
+                    PacketHandler.getPlayChannel().send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(player,player.getX(), (player.getY() + 1.0), player.getZ(), 16.0, player.level.dimension())), message);
                 }
             }
         });

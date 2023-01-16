@@ -1,8 +1,9 @@
 package com.tac.guns.client.screen;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.math.Vector3f;
 import com.tac.guns.client.handler.GunRenderingHandler;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.container.ColorBenchContainer;
@@ -14,20 +15,11 @@ import com.tac.guns.item.ScopeItem;
 import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessageCraft;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.DyeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import org.lwjgl.glfw.GLFW;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -53,7 +45,7 @@ public class ColorBenchAttachmentScreen extends Screen
 //    private int mouseGrabbedButton;
     private int mouseClickedX, mouseClickedY;
 
-    public ColorBenchAttachmentScreen(ITextComponent titleIn)
+    public ColorBenchAttachmentScreen(Component titleIn)
     {
         super(titleIn);
     }
@@ -64,16 +56,16 @@ public class ColorBenchAttachmentScreen extends Screen
         super.tick();
         if(this.minecraft != null && this.minecraft.player != null)
         {
-            if(!(this.minecraft.player.getHeldItemMainhand().getItem() instanceof GunItem || this.minecraft.player.getHeldItemMainhand().getItem() instanceof ScopeItem))
+            if(!(this.minecraft.player.getMainHandItem().getItem() instanceof GunItem || this.minecraft.player.getMainHandItem().getItem() instanceof ScopeItem))
             {
-                Minecraft.getInstance().displayGuiScreen(null);
+                Minecraft.getInstance().setScreen(null);
             }
         }
     }
 
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -152,7 +144,7 @@ public class ColorBenchAttachmentScreen extends Screen
         }
     }*/
 
-    protected void renderWeapon(MatrixStack matrixStack)
+    protected void renderWeapon(PoseStack matrixStack)
     {
         Minecraft minecraft = Minecraft.getInstance();
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
@@ -161,35 +153,32 @@ public class ColorBenchAttachmentScreen extends Screen
         RenderUtil.scissor(left + 26, top + 17, 272, 286);
         //RenderSystem.scalef(1.5f,1.5f,1.5f);
 
-        RenderSystem.pushMatrix();
+        PoseStack stack = RenderSystem.getModelViewStack();
+        stack.pushPose();
         {
-            RenderSystem.translatef(96, 50, 100);
-            RenderSystem.translated(this.windowX, 0, 0);
-            RenderSystem.translated(0, this.windowY, 0);
-            RenderSystem.rotatef(-30F, 1, 0, 0);
-            RenderSystem.rotatef(this.windowRotationY, 1, 0, 0);
-            RenderSystem.rotatef(this.windowRotationX, 0, 1, 0);
-            RenderSystem.rotatef(150F, 0, 1, 0);
-            RenderSystem.scalef(this.windowZoom / 10F, this.windowZoom / 10F, this.windowZoom / 10F);
-            RenderSystem.scalef(90F, -90F, 90F);
-            RenderSystem.rotatef(5F, 1, 0, 0);
-            RenderSystem.rotatef(90F, 0, 1, 0);
+            stack.translate(96, 50, 100);
+            stack.translate(this.windowX, 0, 0);
+            stack.translate(0, this.windowY, 0);
+            stack.mulPose(Vector3f.XP.rotationDegrees(-30F));
+            stack.mulPose(Vector3f.XP.rotationDegrees(this.windowRotationY));
+            stack.mulPose(Vector3f.YP.rotationDegrees(this.windowRotationX));
+            stack.mulPose(Vector3f.YP.rotationDegrees(150F));
+            stack.scale(this.windowZoom / 10F, this.windowZoom / 10F, this.windowZoom / 10F);
+            stack.scale(90F, -90F, 90F);
+            stack.mulPose(Vector3f.XP.rotationDegrees(5F));
+            stack.mulPose(Vector3f.YP.rotationDegrees(90F));
 
-            RenderSystem.enableRescaleNormal();
-            RenderSystem.enableAlphaTest();
-            RenderSystem.defaultAlphaFunc();
+            RenderSystem.applyModelViewMatrix();
+
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-            IRenderTypeBuffer.Impl buffer = this.minecraft.getRenderTypeBuffers().getBufferSource();
-            GunRenderingHandler.get().renderWeapon(this.minecraft.player, this.minecraft.player.getHeldItemMainhand(), ItemCameraTransforms.TransformType.GROUND, matrixStack, buffer, 15728880, 0F);
-            buffer.finish();
-
-            RenderSystem.disableAlphaTest();
-            RenderSystem.disableRescaleNormal();
+            MultiBufferSource.BufferSource buffer = this.minecraft.renderBuffers().bufferSource();
+            GunRenderingHandler.get().renderWeapon(this.minecraft.player, this.minecraft.player.getMainHandItem(), ItemTransforms.TransformType.GROUND, matrixStack, buffer, 15728880, 0F);
+            buffer.endBatch();
         }
-        RenderSystem.popMatrix();
+        stack.popPose();
+        RenderSystem.applyModelViewMatrix();
 
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
     }

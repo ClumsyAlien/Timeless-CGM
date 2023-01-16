@@ -10,6 +10,7 @@ import com.tac.guns.common.tooling.CommandsHandler;
 import com.tac.guns.common.tooling.CommandsManager;
 import com.tac.guns.common.GripType;
 import com.tac.guns.common.ProjectileManager;
+import com.tac.guns.crafting.ModRecipeType;
 import com.tac.guns.datagen.*;
 import com.tac.guns.enchantment.EnchantmentTypes;
 import com.tac.guns.entity.GrenadeEntity;
@@ -20,34 +21,35 @@ import com.tac.guns.inventory.IAmmoItemHandler;
 import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
 import com.tac.guns.network.PacketHandler;
 import com.tac.guns.tileentity.UpgradeBenchTileEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -62,27 +64,27 @@ public class GunMod
     public static final Logger LOGGER = LogManager.getLogger(Reference.MOD_ID);
     public static boolean cabLoaded = false;
 
-    public static final ItemGroup GROUP = new  ItemGroup(Reference.MOD_ID)
+    public static final CreativeModeTab GROUP = new  CreativeModeTab(Reference.MOD_ID)
     {
         @Override
-        public ItemStack createIcon()
+        public ItemStack makeIcon()
         {
             ItemStack stack = new ItemStack(ModItems.VORTEX_LPVO_1_6.get());
             return stack;
         }
 
         @Override
-        public void fill(NonNullList<ItemStack> items)
+        public void fillItemList(NonNullList<ItemStack> items)
         {
-            super.fill(items);
+            super.fillItemList(items);
             CustomGunManager.fill(items);
         }
-    }.setRelevantEnchantmentTypes(EnchantmentTypes.GUN, EnchantmentTypes.SEMI_AUTO_GUN);
+    }.setEnchantmentCategories(EnchantmentTypes.GUN, EnchantmentTypes.SEMI_AUTO_GUN);
 
-    public static final ItemGroup PISTOL = new  ItemGroup("Pistols")
+    public static final CreativeModeTab PISTOL = new  CreativeModeTab("Pistols")
     {
         @Override
-        public ItemStack createIcon()
+        public ItemStack makeIcon()
         {
             ItemStack stack = new ItemStack(ModItems.GLOCK_17.get());
             stack.getOrCreateTag().putInt("AmmoCount", ((TimelessGunItem)ModItems.GLOCK_17.get()).getGun().getReloads().getMaxAmmo());
@@ -92,16 +94,16 @@ public class GunMod
         }
 
         @Override
-        public void fill(NonNullList<ItemStack> items)
+        public void fillItemList(NonNullList<ItemStack> items)
         {
-            super.fill(items);
+            super.fillItemList(items);
             CustomGunManager.fill(items);
         }
     };
-    public static final ItemGroup SMG = new  ItemGroup("SMGs")
+    public static final CreativeModeTab SMG = new  CreativeModeTab("SMGs")
     {
         @Override
-        public ItemStack createIcon()
+        public ItemStack makeIcon()
         {
             ItemStack stack = new ItemStack(ModItems.VECTOR45.get());
             stack.getOrCreateTag().putInt("AmmoCount", ModItems.VECTOR45.get().getGun().getReloads().getMaxAmmo());
@@ -109,16 +111,16 @@ public class GunMod
         }
 
         @Override
-        public void fill(NonNullList<ItemStack> items)
+        public void fillItemList(NonNullList<ItemStack> items)
         {
-            super.fill(items);
+            super.fillItemList(items);
             CustomGunManager.fill(items);
         }
     };
-    public static final ItemGroup RIFLE = new  ItemGroup("AssaultRifles")
+    public static final CreativeModeTab RIFLE = new  CreativeModeTab("AssaultRifles")
     {
         @Override
-        public ItemStack createIcon()
+        public ItemStack makeIcon()
         {
             ItemStack stack = new ItemStack(ModItems.AK47.get());
             stack.getOrCreateTag().putInt("AmmoCount", ModItems.AK47.get().getGun().getReloads().getMaxAmmo());
@@ -126,16 +128,16 @@ public class GunMod
         }
 
         @Override
-        public void fill(NonNullList<ItemStack> items)
+        public void fillItemList(NonNullList<ItemStack> items)
         {
-            super.fill(items);
+            super.fillItemList(items);
             CustomGunManager.fill(items);
         }
     };
-    public static final ItemGroup SNIPER = new  ItemGroup("MarksmanRifles")
+    public static final CreativeModeTab SNIPER = new  CreativeModeTab("MarksmanRifles")
     {
         @Override
-        public ItemStack createIcon()
+        public ItemStack makeIcon()
         {
             ItemStack stack = new ItemStack(ModItems.AI_AWP.get());
             stack.getOrCreateTag().putInt("AmmoCount", ((TimelessGunItem)ModItems.AI_AWP.get()).getGun().getReloads().getMaxAmmo());
@@ -143,16 +145,16 @@ public class GunMod
         }
 
         @Override
-        public void fill(NonNullList<ItemStack> items)
+        public void fillItemList(NonNullList<ItemStack> items)
         {
-            super.fill(items);
+            super.fillItemList(items);
             CustomGunManager.fill(items);
         }
     };
-    public static final ItemGroup SHOTGUN = new  ItemGroup("Shotguns")
+    public static final CreativeModeTab SHOTGUN = new  CreativeModeTab("Shotguns")
     {
         @Override
-        public ItemStack createIcon()
+        public ItemStack makeIcon()
         {
             ItemStack stack = new ItemStack(ModItems.M1014.get());
             stack.getOrCreateTag().putInt("AmmoCount", ((TimelessGunItem)ModItems.M1014.get()).getGun().getReloads().getMaxAmmo());
@@ -160,16 +162,16 @@ public class GunMod
         }
 
         @Override
-        public void fill(NonNullList<ItemStack> items)
+        public void fillItemList(NonNullList<ItemStack> items)
         {
-            super.fill(items);
+            super.fillItemList(items);
             CustomGunManager.fill(items);
         }
     };
-    public static final ItemGroup HEAVY_MATERIAL = new  ItemGroup("HeavyWeapons")
+    public static final CreativeModeTab HEAVY_MATERIAL = new  CreativeModeTab("HeavyWeapons")
     {
         @Override
-        public ItemStack createIcon()
+        public ItemStack makeIcon()
         {
             ItemStack stack = new ItemStack(ModItems.M60.get());
             stack.getOrCreateTag().putInt("AmmoCount", ModItems.M60.get().getGun().getReloads().getMaxAmmo());
@@ -177,32 +179,32 @@ public class GunMod
         }
 
         @Override
-        public void fill(NonNullList<ItemStack> items)
+        public void fillItemList(NonNullList<ItemStack> items)
         {
-            super.fill(items);
+            super.fillItemList(items);
             CustomGunManager.fill(items);
         }
     };
-    public static final ItemGroup AMMO = new  ItemGroup("Ammo")
+    public static final CreativeModeTab AMMO = new  CreativeModeTab("Ammo")
     {
         @Override
-        public ItemStack createIcon()
+        public ItemStack makeIcon()
         {
             ItemStack stack = new ItemStack(ModItems.BULLET_308.get());
             return stack;
         }
 
         @Override
-        public void fill(NonNullList<ItemStack> items)
+        public void fillItemList(NonNullList<ItemStack> items)
         {
-            super.fill(items);
+            super.fillItemList(items);
             CustomGunManager.fill(items);
         }
     };
-    public static final ItemGroup EXPLOSIVES = new  ItemGroup(Reference.MOD_ID)
+    public static final CreativeModeTab EXPLOSIVES = new  CreativeModeTab(Reference.MOD_ID)
     {
         @Override
-        public ItemStack createIcon()
+        public ItemStack makeIcon()
         {
             ItemStack stack = new ItemStack(ModItems.BASEBALL_GRENADE.get());
             //stack.getOrCreateTag().putInt("AmmoCount", ModItems.BASEBALL_GRENADE.get().getGun().getReloads().getMaxAmmo());
@@ -210,9 +212,9 @@ public class GunMod
         }
 
         @Override
-        public void fill(NonNullList<ItemStack> items)
+        public void fillItemList(NonNullList<ItemStack> items)
         {
-            super.fill(items);
+            super.fillItemList(items);
             CustomGunManager.fill(items);
         }
     };
@@ -236,7 +238,12 @@ public class GunMod
         bus.addListener(this::onCommonSetup);
         bus.addListener(this::onClientSetup);
         bus.addListener(this::dataSetup);
+        bus.addListener(this::onRegisterCapabilities);
         controllableLoaded = ModList.get().isLoaded("controllable");
+    }
+
+    public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+        event.register(IAmmoItemHandler.class);
     }
 
     private void onCommonSetup(FMLCommonSetupEvent event)
@@ -246,45 +253,12 @@ public class GunMod
         ProjectileManager.getInstance().registerFactory(ModItems.GRENADE_40MM.get(), (worldIn, entity, weapon, item, modifiedGun) -> new GrenadeEntity(ModEntities.GRENADE.get(), worldIn, entity, weapon, item, modifiedGun)); //, 1.5F
 
         PacketHandler.init();
+        ModRecipeType.init();
 
         if(Config.COMMON.gameplay.improvedHitboxes.get())
         {
             MinecraftForge.EVENT_BUS.register(new BoundingBoxManager());
         }
-
-        CapabilityManager.INSTANCE.register(IAmmoItemHandler.class, new Capability.IStorage<IAmmoItemHandler>() {
-            @Override
-            public INBT writeNBT(Capability<IAmmoItemHandler> capability, IAmmoItemHandler instance, Direction side) {
-                ListNBT nbtTagList = new ListNBT();
-                int size = instance.getSlots();
-                for (int i = 0; i < size; i++) {
-                    ItemStack stack = instance.getStackInSlot(i);
-                    if (!stack.isEmpty()) {
-                        CompoundNBT itemTag = new CompoundNBT();
-                        itemTag.putInt("Slot", i);
-                        stack.write(itemTag);
-                        nbtTagList.add(itemTag);
-                    }
-                }
-                return nbtTagList;
-            }
-
-            @Override
-            public void readNBT(Capability<IAmmoItemHandler> capability, IAmmoItemHandler instance, Direction side, INBT base) {
-                if (!(instance instanceof IItemHandlerModifiable))
-                    throw new RuntimeException("IItemHandler instance does not implement IItemHandlerModifiable");
-                IItemHandlerModifiable itemHandlerModifiable = (IItemHandlerModifiable) instance;
-                ListNBT tagList = (ListNBT) base;
-                for (int i = 0; i < tagList.size(); i++) {
-                    CompoundNBT itemTags = tagList.getCompound(i);
-                    int j = itemTags.getInt("Slot");
-
-                    if (j >= 0 && j < instance.getSlots()) {
-                        itemHandlerModifiable.setStackInSlot(j, ItemStack.read(itemTags));
-                    }
-                }
-            }
-        }, AmmoItemStackHandler::new);
 
         GripType.registerType(new GripType(new ResourceLocation("tac", "one_handed_m1911"), new OneHandedPoseHighRes_m1911()));
         GripType.registerType(new GripType(new ResourceLocation("tac", "one_handed_m1851"), new OneHandedPoseHighRes_m1851()));
@@ -314,7 +288,7 @@ public class GunMod
 
     private void onClientSetup(FMLClientSetupEvent event)
     {
-        ClientHandler.setup( event.getMinecraftSupplier().get() );
+        ClientHandler.setup(Minecraft.getInstance());
 
         for (Field field : ModItems.class.getDeclaredFields()) {
             RegistryObject<?> object;

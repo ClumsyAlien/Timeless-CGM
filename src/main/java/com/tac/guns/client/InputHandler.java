@@ -11,16 +11,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import net.minecraft.world.item.Item;
 import org.lwjgl.glfw.GLFW;
 
 import com.tac.guns.Config;
 import com.tac.guns.GunMod;
 import com.tac.guns.Reference;
 
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.client.util.InputMappings.Type;
-import net.minecraft.item.Item;
+import net.minecraft.client.KeyMapping;
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.InputConstants.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
@@ -49,14 +49,14 @@ public final class InputHandler
 			Type.MOUSE
 		),
 		AIM_HOLD = new KeyBind( "key.tac.aim_hold", GLFW.GLFW_MOUSE_BUTTON_RIGHT, Type.MOUSE ),
-		AIM_TOGGLE = new KeyBind( "key.tac.aim_toggle", InputMappings.INPUT_INVALID.getKeyCode() );
+		AIM_TOGGLE = new KeyBind( "key.tac.aim_toggle", InputConstants.UNKNOWN.getValue() );
 	
 	/**
 	 * Normal keys. These keys will update when {@link #CO} is not down.
 	 */
 	public static final KeyBind
 		RELOAD = new KeyBind( "key.tac.reload", GLFW.GLFW_KEY_R ),
-		UNLOAD = new KeyBind( "key.tac.unload", InputMappings.INPUT_INVALID.getKeyCode() ),
+		UNLOAD = new KeyBind( "key.tac.unload", InputConstants.UNKNOWN.getValue() ),
 		ATTACHMENTS = new KeyBind( "key.tac.attachments", GLFW.GLFW_KEY_Z ),
 		
 		FIRE_SELECT = new KeyBind( "key.tac.fireSelect", GLFW.GLFW_KEY_G ),
@@ -183,7 +183,7 @@ public final class InputHandler
 	private static KeyBind oriAimKey;
 	static void restoreKeyBinds()
 	{
-		oriAimKey = AIM_HOLD.keyCode() != InputMappings.INPUT_INVALID ? AIM_HOLD : AIM_TOGGLE;
+		oriAimKey = AIM_HOLD.keyCode() != InputConstants.UNKNOWN ? AIM_HOLD : AIM_TOGGLE;
 		KeyBind.REGISTRY.values().forEach( KeyBind::restoreKeyBind );
 	}
 	
@@ -195,16 +195,16 @@ public final class InputHandler
 
 		// Make sure only one aim key is bounden
 		if(
-			AIM_HOLD.keyCode() != InputMappings.INPUT_INVALID
-			&& AIM_TOGGLE.keyCode() != InputMappings.INPUT_INVALID
+			AIM_HOLD.keyCode() != InputConstants.UNKNOWN
+			&& AIM_TOGGLE.keyCode() != InputConstants.UNKNOWN
 		) {
 			( oriAimKey == AIM_HOLD ? AIM_HOLD : AIM_TOGGLE )
-				.$keyCode( InputMappings.INPUT_INVALID );
+				.$keyCode( InputConstants.UNKNOWN );
 			flag = true;
 		}
 		
 		// Do not forget to update key bind hash
-		KeyBinding.resetKeyBindingArrayAndHash();
+		KeyMapping.resetMapping();
 		
 		// If any key bind has changed, save it to the file
 		if( flag )
@@ -234,7 +234,7 @@ public final class InputHandler
 				try
 				{
 					KeyBind.REGISTRY.get( line.substring( 0, i ) ).$keyCode(
-						InputMappings.getInputByName( line.substring( i + 1 ) )
+						InputConstants.getKey( line.substring( i + 1 ) )
 					);
 				}
 				catch( NullPointerException e ) {

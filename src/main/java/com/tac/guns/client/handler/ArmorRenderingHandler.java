@@ -1,13 +1,14 @@
 package com.tac.guns.client.handler;
 
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.tac.guns.Reference;
 import com.tac.guns.client.GunRenderType;
 import com.tac.guns.client.render.armor.CloakPilot;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.ResourceLocation;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -19,9 +20,9 @@ import static org.lwjgl.opengl.GL11.GL_QUADS;
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, value = Dist.CLIENT)
 public enum ArmorRenderingHandler {
     INSTANCE;
-    private static final CloakPilot model = new CloakPilot();
+    //private static final CloakPilot model = new CloakPilot();
     private static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID, "textures/armor/cloak_pilot.png");
-    private static final RenderType type = RenderType.makeType(Reference.MOD_ID + ":muzzle_flash", DefaultVertexFormats.ENTITY, GL_QUADS, 1024, true, false, RenderType.State.getBuilder().texture(new RenderState.TextureState(texture, false, false)).build(true));
+    private static final RenderType type = RenderType.create(Reference.MOD_ID + ":muzzle_flash", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1024, true, false, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(texture, false, false)).createCompositeState(true));
     @SubscribeEvent
     public void onPlayerRender(RenderPlayerEvent.Pre event){
         //Minecraft.getInstance().player.sendChatMessage("test");

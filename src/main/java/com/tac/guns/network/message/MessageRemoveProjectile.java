@@ -1,15 +1,16 @@
 package com.tac.guns.network.message;
 
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.client.network.ClientPlayHandler;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class MessageRemoveProjectile implements IMessage
+public class MessageRemoveProjectile extends PlayMessage<MessageRemoveProjectile>
 {
     private int entityId;
 
@@ -21,21 +22,21 @@ public class MessageRemoveProjectile implements IMessage
     }
 
     @Override
-    public void encode(PacketBuffer buffer)
+    public void encode(MessageRemoveProjectile messageRemoveProjectile, FriendlyByteBuf buffer)
     {
-        buffer.writeInt(this.entityId);
+        buffer.writeInt(messageRemoveProjectile.entityId);
     }
 
     @Override
-    public void decode(PacketBuffer buffer)
+    public MessageRemoveProjectile decode(FriendlyByteBuf buffer)
     {
-        this.entityId = buffer.readInt();
+        return new MessageRemoveProjectile(buffer.readInt());
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageRemoveProjectile messageRemoveProjectile, Supplier<NetworkEvent.Context> supplier)
     {
-        supplier.get().enqueueWork(() -> ClientPlayHandler.handleRemoveProjectile(this));
+        supplier.get().enqueueWork(() -> ClientPlayHandler.handleRemoveProjectile(messageRemoveProjectile));
         supplier.get().setPacketHandled(true);
     }
 

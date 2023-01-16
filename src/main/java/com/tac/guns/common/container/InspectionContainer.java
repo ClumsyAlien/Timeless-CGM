@@ -3,32 +3,32 @@ package com.tac.guns.common.container;
 import com.tac.guns.common.Gun;
 import com.tac.guns.init.ModContainers;
 import com.tac.guns.item.attachment.IAttachment;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class InspectionContainer extends Container
+public class InspectionContainer extends AbstractContainerMenu
 {
     private ItemStack weapon;
-    private IInventory playerInventory;
-    private IInventory weaponInventory = new Inventory(IAttachment.Type.values().length)
+    private Container playerInventory;
+    private Container weaponInventory = new SimpleContainer(IAttachment.Type.values().length)
     {
         @Override
-        public void markDirty()
+        public void setChanged()
         {
-            super.markDirty();
-            InspectionContainer.this.onCraftMatrixChanged(this);
+            super.setChanged();
+            InspectionContainer.this.slotsChanged(this);
         }
     };
     private boolean loaded = false;
 
-    public InspectionContainer(int windowId, PlayerInventory playerInventory, ItemStack stack)
+    public InspectionContainer(int windowId, Inventory playerInventory, ItemStack stack)
     {
         this(windowId, playerInventory);
         ItemStack[] attachments = new ItemStack[IAttachment.Type.values().length];
@@ -38,12 +38,12 @@ public class InspectionContainer extends Container
         }
         for(int i = 0; i < attachments.length; i++)
         {
-            this.weaponInventory.setInventorySlotContents(i, attachments[i]);
+            this.weaponInventory.setItem(i, attachments[i]);
         }
         this.loaded = true;
     }
 
-    public InspectionContainer(int windowId, PlayerInventory playerInventory)
+    public InspectionContainer(int windowId, Inventory playerInventory)
     {
         super(ModContainers.INSPECTION.get(), windowId);
         /*this.weapon = playerInventory.getSelected();
@@ -88,7 +88,7 @@ public class InspectionContainer extends Container
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn)
+    public boolean stillValid(Player playerIn)
     {
         return true;
     }
@@ -146,12 +146,12 @@ public class InspectionContainer extends Container
         return copyStack;
     }
 */
-    public IInventory getPlayerInventory()
+    public Container getPlayerInventory()
     {
         return this.playerInventory;
     }
 
-    public IInventory getWeaponInventory()
+    public Container getWeaponInventory()
     {
         return this.weaponInventory;
     }

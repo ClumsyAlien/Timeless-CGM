@@ -3,9 +3,11 @@ package com.tac.guns.client.render.animation;
 import com.tac.guns.GunMod;
 import com.tac.guns.client.render.animation.module.*;
 import com.tac.guns.init.ModItems;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.io.IOException;
+
+import com.tac.guns.client.render.animation.module.GunAnimationController.AnimationLabel;
 
 public class AWPAnimationController extends BoltActionAnimationController {
     public static int INDEX_BODY = 5;

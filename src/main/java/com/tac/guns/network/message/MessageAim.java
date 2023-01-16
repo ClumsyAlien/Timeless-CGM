@@ -1,15 +1,15 @@
 package com.tac.guns.network.message;
 
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.init.ModSyncedDataKeys;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.network.PlayMessages;
 
 import java.util.function.Supplier;
 
-public class MessageAim implements IMessage
-{
+public class MessageAim extends PlayMessage<MessageAim> {
 	private boolean aiming;
 
 	public MessageAim() {}
@@ -19,26 +19,29 @@ public class MessageAim implements IMessage
 		this.aiming = aiming;
 	}
 
-	public void encode(PacketBuffer buffer)
+	@Override
+	public void encode(MessageAim message, FriendlyByteBuf buffer)
 	{
-		buffer.writeBoolean(this.aiming);
+		buffer.writeBoolean(message.aiming);
 	}
 
-	public void decode(PacketBuffer buffer)
+	@Override
+	public MessageAim decode(FriendlyByteBuf buffer)
 	{
-		this.aiming = buffer.readBoolean();
+		return new MessageAim(buffer.readBoolean());
 	}
 
-	public void handle(Supplier<NetworkEvent.Context> supplier)
-	{
+	@Override
+	public void handle(MessageAim messageAim, Supplier<NetworkEvent.Context> supplier) {
 		supplier.get().enqueueWork(() ->
 		{
-			ServerPlayerEntity player = supplier.get().getSender();
+			ServerPlayer player = supplier.get().getSender();
 			if(player != null && !player.isSpectator())
 			{
-				SyncedPlayerData.instance().set(player, ModSyncedDataKeys.AIMING, this.aiming);
+				ModSyncedDataKeys.AIMING.setValue(player, messageAim.aiming);
 			}
 		});
 		supplier.get().setPacketHandled(true);
 	}
+
 }

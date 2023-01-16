@@ -1,15 +1,15 @@
 package com.tac.guns.client.audio;
 
-import net.minecraft.client.audio.EntityTickableSound;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.client.resources.sounds.EntityBoundSoundInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
 
-public class ReloadingSound extends EntityTickableSound {
+public class ReloadingSound extends EntityBoundSoundInstance {
 
 
-    public ReloadingSound(SoundEvent sound, SoundCategory category, Entity entity) {
-        super(sound, category, entity);
+    public ReloadingSound(SoundEvent sound, SoundSource category, Entity entity) {
+        super(sound, category, 1.0F, 1.0F, entity);
     }
     @Override
     public void tick(){

@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import net.minecraftforge.client.event.ScreenEvent;
 import org.apache.logging.log4j.Level;
 import org.lwjgl.glfw.GLFW;
 
@@ -17,7 +18,6 @@ import com.tac.guns.common.Gun;
 import com.tac.guns.common.tooling.CommandsHandler;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -64,7 +64,7 @@ public class GuiEditor
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onKeyPressed(GuiScreenEvent.KeyboardKeyEvent event) {
+    public void onKeyPressed(ScreenEvent.KeyboardKeyEvent event) {
         // Basics overview
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null)

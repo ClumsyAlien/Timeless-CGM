@@ -24,10 +24,10 @@ import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
 import com.tac.guns.item.attachment.impl.Scope;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -62,16 +62,16 @@ public class ScopeEditor
         CommandsHandler ch = CommandsHandler.get();
        if(ch == null || ch.getCatCurrentIndex() != 2)
             return;
-        if ((mc.player.getHeldItemMainhand() == null || mc.player.getHeldItemMainhand() == ItemStack.EMPTY || !(mc.player.getHeldItemMainhand().getItem() instanceof TimelessGunItem)))
+        if ((mc.player.getMainHandItem() == null || mc.player.getMainHandItem() == ItemStack.EMPTY || !(mc.player.getMainHandItem().getItem() instanceof TimelessGunItem)))
             return;
-        if(((TimelessGunItem)mc.player.getHeldItemMainhand().getItem()).isIntegratedOptic()) {
-            if(!this.map.containsKey(mc.player.getHeldItemMainhand().getItem().getTranslationKey()))
-                this.map.put(mc.player.getHeldItemMainhand().getItem().getTranslationKey(), new ScopeData(mc.player.getHeldItemMainhand().getItem().getTranslationKey()));
-            this.handleScopeMod(event, this.map.get(mc.player.getHeldItemMainhand().getItem().getTranslationKey()));
-            this.scopeData = this.map.get(mc.player.getHeldItemMainhand().getItem().getTranslationKey());
+        if(((TimelessGunItem)mc.player.getMainHandItem().getItem()).isIntegratedOptic()) {
+            if(!this.map.containsKey(mc.player.getMainHandItem().getItem().getDescriptionId()))
+                this.map.put(mc.player.getMainHandItem().getItem().getDescriptionId(), new ScopeData(mc.player.getMainHandItem().getItem().getDescriptionId()));
+            this.handleScopeMod(event, this.map.get(mc.player.getMainHandItem().getItem().getDescriptionId()));
+            this.scopeData = this.map.get(mc.player.getMainHandItem().getItem().getDescriptionId());
         }
         else {
-            Scope scopeItem = Gun.getScope(mc.player.getHeldItemMainhand());
+            Scope scopeItem = Gun.getScope(mc.player.getMainHandItem());
             if (scopeItem == null)
                 return;
             if(!this.map.containsKey(scopeItem.getTagName()))
@@ -100,7 +100,7 @@ public class ScopeEditor
 
         boolean isPeriodDown = InputHandler.SIZE_OPT.down;
 
-        PlayerEntity player = Minecraft.getInstance().player;
+        Player player = Minecraft.getInstance().player;
         if(InputHandler.P.down) // P will be for adjusting double render
         {
             if(isShiftDown)
@@ -108,41 +108,41 @@ public class ScopeEditor
             if(isControlDown)
                 stepModifier/=10;
 
-            player.sendStatusMessage(new TranslationTextComponent("DR X: "+data.getDrXZoomMod()+" | DR Y: "+data.getDrYZoomMod()+" | DR Z: "+data.getDrZZoomMod()), true);
+            player.displayClientMessage(new TranslatableComponent("DR X: "+data.getDrXZoomMod()+" | DR Y: "+data.getDrYZoomMod()+" | DR Z: "+data.getDrZZoomMod()), true);
 
             if (isAltDown && isUp) {
                 data.setDrZZoomMod( data.getDrZZoomMod() + 0.025 * stepModifier );
-                player.sendStatusMessage(new TranslationTextComponent("DR Z: "+data.getDrZZoomMod()).mergeStyle(TextFormatting.GREEN), true);
+                player.displayClientMessage(new TranslatableComponent("DR Z: "+data.getDrZZoomMod()).withStyle(ChatFormatting.GREEN), true);
             }
             else if (isAltDown && isDown) {
                 data.setDrZZoomMod( data.getDrZZoomMod() - 0.025 * stepModifier );
-                player.sendStatusMessage(new TranslationTextComponent("DR Z: "+data.getDrZZoomMod()).mergeStyle(TextFormatting.DARK_RED), true);
+                player.displayClientMessage(new TranslatableComponent("DR Z: "+data.getDrZZoomMod()).withStyle(ChatFormatting.DARK_RED), true);
             }
             else if (isPeriodDown && isUp) {
                 stepModifier*=10;
                 data.setDrZoomSizeMod((float) (data.getDrZoomSizeMod() + 0.0075f * stepModifier));
-                player.sendStatusMessage(new TranslationTextComponent("DR Size: "+data.getDrZoomSizeMod()).mergeStyle(TextFormatting.GREEN), true);
+                player.displayClientMessage(new TranslatableComponent("DR Size: "+data.getDrZoomSizeMod()).withStyle(ChatFormatting.GREEN), true);
             }
             else if (isPeriodDown && isDown) {
                 stepModifier*=10;
                 data.setDrZoomSizeMod((float) (data.getDrZoomSizeMod() - 0.0075f * stepModifier));
-                player.sendStatusMessage(new TranslationTextComponent("DR Size: "+data.getDrZoomSizeMod()).mergeStyle(TextFormatting.DARK_RED), true);
+                player.displayClientMessage(new TranslatableComponent("DR Size: "+data.getDrZoomSizeMod()).withStyle(ChatFormatting.DARK_RED), true);
             }
             else if (isUp) {
                 data.setDrYZoomMod( data.getDrYZoomMod() + 0.025 * stepModifier );
-                player.sendStatusMessage(new TranslationTextComponent("DR Y: "+data.getDrYZoomMod()).mergeStyle(TextFormatting.GREEN), true);
+                player.displayClientMessage(new TranslatableComponent("DR Y: "+data.getDrYZoomMod()).withStyle(ChatFormatting.GREEN), true);
             }
             else if (isDown) {
                 data.setDrYZoomMod( data.getDrYZoomMod() - 0.025 * stepModifier );
-                player.sendStatusMessage(new TranslationTextComponent("DR Y: "+data.getDrYZoomMod()).mergeStyle(TextFormatting.DARK_RED), true);
+                player.displayClientMessage(new TranslatableComponent("DR Y: "+data.getDrYZoomMod()).withStyle(ChatFormatting.DARK_RED), true);
             }
             else if (isLeft) {
                 data.setDrXZoomMod( data.getDrXZoomMod() + 0.025 * stepModifier );
-                player.sendStatusMessage(new TranslationTextComponent("DR X: "+data.getDrXZoomMod()).mergeStyle(TextFormatting.GREEN), true);
+                player.displayClientMessage(new TranslatableComponent("DR X: "+data.getDrXZoomMod()).withStyle(ChatFormatting.GREEN), true);
             }
             else if (isRight) {
                 data.setDrXZoomMod( data.getDrXZoomMod() - 0.025 * stepModifier );
-                player.sendStatusMessage(new TranslationTextComponent("DR X: "+data.getDrXZoomMod()).mergeStyle(TextFormatting.DARK_RED), true);
+                player.displayClientMessage(new TranslatableComponent("DR X: "+data.getDrXZoomMod()).withStyle(ChatFormatting.DARK_RED), true);
             }
         }
         else if(InputHandler.L.down) // L will be for adjusting reticle pos
@@ -152,39 +152,39 @@ public class ScopeEditor
             if(isControlDown)
                 stepModifier/=20;
 
-            player.sendStatusMessage(new TranslationTextComponent("Reticle X: "+data.getDrXZoomMod()+" | Reticle Y: "+data.getDrYZoomMod()+" | Reticle Z: "+data.getDrZZoomMod()+" | Reticle Size: "+data.getReticleSizeMod()), true);
+            player.displayClientMessage(new TranslatableComponent("Reticle X: "+data.getDrXZoomMod()+" | Reticle Y: "+data.getDrYZoomMod()+" | Reticle Z: "+data.getDrZZoomMod()+" | Reticle Size: "+data.getReticleSizeMod()), true);
 
             if (isAltDown && isUp) {
                 data.setReticleZMod( data.getReticleZMod() + 0.00025 * stepModifier );
-                player.sendStatusMessage(new TranslationTextComponent("Reticle Z: "+data.getReticleZMod()).mergeStyle(TextFormatting.GREEN), true);
+                player.displayClientMessage(new TranslatableComponent("Reticle Z: "+data.getReticleZMod()).withStyle(ChatFormatting.GREEN), true);
             }
             else if (isAltDown && isDown) {
                 data.setReticleZMod( data.getReticleZMod() - 0.00025 * stepModifier );
-                player.sendStatusMessage(new TranslationTextComponent("Reticle Z: "+data.getReticleZMod()).mergeStyle(TextFormatting.DARK_RED), true);
+                player.displayClientMessage(new TranslatableComponent("Reticle Z: "+data.getReticleZMod()).withStyle(ChatFormatting.DARK_RED), true);
             }
             else if (isPeriodDown && isUp) {
                 data.setReticleSizeMod((float) (data.getReticleSizeMod() + 0.0075f * stepModifier));
-                player.sendStatusMessage(new TranslationTextComponent("Reticle Size: "+data.getReticleSizeMod()).mergeStyle(TextFormatting.GREEN), true);
+                player.displayClientMessage(new TranslatableComponent("Reticle Size: "+data.getReticleSizeMod()).withStyle(ChatFormatting.GREEN), true);
             }
             else if (isPeriodDown && isDown) {
                 data.setReticleSizeMod((float) (data.getReticleSizeMod() - 0.0075f * stepModifier));
-                player.sendStatusMessage(new TranslationTextComponent("Reticle Size: "+data.getReticleSizeMod()).mergeStyle(TextFormatting.DARK_RED), true);
+                player.displayClientMessage(new TranslatableComponent("Reticle Size: "+data.getReticleSizeMod()).withStyle(ChatFormatting.DARK_RED), true);
             }
             else if (isUp) {
                 data.setReticleYMod( data.getReticleYMod() + 0.00025 * stepModifier );
-                player.sendStatusMessage(new TranslationTextComponent("Reticle Y: "+data.getReticleYMod()).mergeStyle(TextFormatting.GREEN), true);
+                player.displayClientMessage(new TranslatableComponent("Reticle Y: "+data.getReticleYMod()).withStyle(ChatFormatting.GREEN), true);
             }
             else if (isDown) {
                 data.setReticleYMod( data.getReticleYMod() - 0.00025 * stepModifier );
-                player.sendStatusMessage(new TranslationTextComponent("Reticle Y: "+data.getReticleYMod()).mergeStyle(TextFormatting.DARK_RED), true);
+                player.displayClientMessage(new TranslatableComponent("Reticle Y: "+data.getReticleYMod()).withStyle(ChatFormatting.DARK_RED), true);
             }
             else if (isLeft) {
                 data.setReticleXMod( data.getReticleXMod() - 0.00025 * stepModifier );
-                player.sendStatusMessage(new TranslationTextComponent("Reticle X: "+data.getReticleXMod()).mergeStyle(TextFormatting.GREEN), true);
+                player.displayClientMessage(new TranslatableComponent("Reticle X: "+data.getReticleXMod()).withStyle(ChatFormatting.GREEN), true);
             }
             else if (isRight) {
                 data.setReticleXMod( data.getReticleXMod() + 0.00025 * stepModifier );
-                player.sendStatusMessage(new TranslationTextComponent("Reticle X: "+data.getReticleXMod()).mergeStyle(TextFormatting.DARK_RED), true);
+                player.displayClientMessage(new TranslatableComponent("Reticle X: "+data.getReticleXMod()).withStyle(ChatFormatting.DARK_RED), true);
             }
         }
         else if(InputHandler.M.down) // L will be for adjusting reticle pos
@@ -194,24 +194,24 @@ public class ScopeEditor
             if(isControlDown)
                 stepModifier/=10;
 
-            player.sendStatusMessage(new TranslationTextComponent("Crop: "+data.getDrZoomCropMod()+" | FOV zoom: "+data.getAdditionalZoomMod()), true);
+            player.displayClientMessage(new TranslatableComponent("Crop: "+data.getDrZoomCropMod()+" | FOV zoom: "+data.getAdditionalZoomMod()), true);
 
 
             if (isUp) {
                 data.setDrZoomCropMod((float)(data.getDrZoomCropMod() + 0.025 * stepModifier));
-                player.sendStatusMessage(new TranslationTextComponent("Crop: "+data.getDrZoomCropMod()).mergeStyle(TextFormatting.GREEN), true);
+                player.displayClientMessage(new TranslatableComponent("Crop: "+data.getDrZoomCropMod()).withStyle(ChatFormatting.GREEN), true);
             }
             else if (isDown) {
                 data.setDrZoomCropMod( (float)(data.getDrZoomCropMod() - 0.025 * stepModifier));
-                player.sendStatusMessage(new TranslationTextComponent("Crop: "+data.getDrZoomCropMod()).mergeStyle(TextFormatting.DARK_RED), true);
+                player.displayClientMessage(new TranslatableComponent("Crop: "+data.getDrZoomCropMod()).withStyle(ChatFormatting.DARK_RED), true);
             }
             else if (isLeft) {
                 data.setAdditionalZoomMod((float)(data.getAdditionalZoomMod() - 0.025 * stepModifier));
-                player.sendStatusMessage(new TranslationTextComponent("FOV zoom: "+data.getAdditionalZoomMod()).mergeStyle(TextFormatting.GREEN), true);
+                player.displayClientMessage(new TranslatableComponent("FOV zoom: "+data.getAdditionalZoomMod()).withStyle(ChatFormatting.GREEN), true);
             }
             else if (isRight) {
                 data.setAdditionalZoomMod((float)(data.getAdditionalZoomMod() + 0.025 * stepModifier));
-                player.sendStatusMessage(new TranslationTextComponent("FOV zoom: "+data.getAdditionalZoomMod()).mergeStyle(TextFormatting.DARK_RED), true);
+                player.displayClientMessage(new TranslatableComponent("FOV zoom: "+data.getAdditionalZoomMod()).withStyle(ChatFormatting.DARK_RED), true);
             }
         }
         //this.map.put(scope.getTagName(), data);

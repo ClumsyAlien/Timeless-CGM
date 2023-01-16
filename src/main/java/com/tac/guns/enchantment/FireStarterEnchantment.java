@@ -1,7 +1,9 @@
 package com.tac.guns.enchantment;
 
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+
+import net.minecraft.world.item.enchantment.Enchantment.Rarity;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
@@ -10,11 +12,11 @@ public class FireStarterEnchantment extends GunEnchantment
 {
     public FireStarterEnchantment()
     {
-        super(Rarity.VERY_RARE, EnchantmentTypes.GUN, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND}, Type.PROJECTILE);
+        super(Rarity.VERY_RARE, EnchantmentTypes.GUN, new EquipmentSlot[]{EquipmentSlot.MAINHAND}, Type.PROJECTILE);
     }
 
     @Override
-    public int getMinEnchantability(int level)
+    public int getMinCost(int level)
     {
         return 15;
     }
@@ -23,8 +25,8 @@ public class FireStarterEnchantment extends GunEnchantment
         return false;
     }
     @Override
-    public int getMaxEnchantability(int level)
+    public int getMaxCost(int level)
     {
-        return super.getMinEnchantability(level) + 30;
+        return super.getMinCost(level) + 30;
     }
 }

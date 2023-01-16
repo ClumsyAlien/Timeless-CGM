@@ -1,20 +1,21 @@
 package com.tac.guns.network.message;
 
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.client.network.ClientPlayHandler;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class MessageGunSound implements IMessage
+public class MessageGunSound extends PlayMessage<MessageGunSound>
 {
     private ResourceLocation id;
-    private SoundCategory category;
+    private SoundSource category;
     private float x;
     private float y;
     private float z;
@@ -26,7 +27,7 @@ public class MessageGunSound implements IMessage
 
     public MessageGunSound() {}
 
-    public MessageGunSound(ResourceLocation id, SoundCategory category, float x, float y, float z, float volume, float pitch, int shooterId, boolean muzzle, boolean reload)
+    public MessageGunSound(ResourceLocation id, SoundSource category, float x, float y, float z, float volume, float pitch, int shooterId, boolean muzzle, boolean reload)
     {
         this.id = id;
         this.category = category;
@@ -41,39 +42,41 @@ public class MessageGunSound implements IMessage
     }
 
     @Override
-    public void encode(PacketBuffer buffer)
+    public void encode(MessageGunSound messageGunSound, FriendlyByteBuf buffer)
     {
-        buffer.writeString(this.id.toString());
-        buffer.writeEnumValue(this.category);
-        buffer.writeFloat(this.x);
-        buffer.writeFloat(this.y);
-        buffer.writeFloat(this.z);
-        buffer.writeFloat(this.volume);
-        buffer.writeFloat(this.pitch);
-        buffer.writeInt(this.shooterId);
-        buffer.writeBoolean(this.muzzle);
-        buffer.writeBoolean(this.reload);
+        buffer.writeUtf(messageGunSound.id.toString());
+        buffer.writeEnum(messageGunSound.category);
+        buffer.writeFloat(messageGunSound.x);
+        buffer.writeFloat(messageGunSound.y);
+        buffer.writeFloat(messageGunSound.z);
+        buffer.writeFloat(messageGunSound.volume);
+        buffer.writeFloat(messageGunSound.pitch);
+        buffer.writeInt(messageGunSound.shooterId);
+        buffer.writeBoolean(messageGunSound.muzzle);
+        buffer.writeBoolean(messageGunSound.reload);
     }
 
     @Override
-    public void decode(PacketBuffer buffer)
+    public MessageGunSound decode(FriendlyByteBuf buffer)
     {
-        this.id = ResourceLocation.tryCreate(buffer.readString());
-        this.category = buffer.readEnumValue(SoundCategory.class);
-        this.x = buffer.readFloat();
-        this.y = buffer.readFloat();
-        this.z = buffer.readFloat();
-        this.volume = buffer.readFloat();
-        this.pitch = buffer.readFloat();
-        this.shooterId = buffer.readInt();
-        this.muzzle = buffer.readBoolean();
-        this.reload = buffer.readBoolean();
+        return new MessageGunSound(
+                ResourceLocation.tryParse(buffer.readUtf()),
+                buffer.readEnum(SoundSource.class),
+                buffer.readFloat(),
+                buffer.readFloat(),
+                buffer.readFloat(),
+                buffer.readFloat(),
+                buffer.readFloat(),
+                buffer.readInt(),
+                buffer.readBoolean(),
+                buffer.readBoolean()
+        );
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageGunSound messageGunSound, Supplier<NetworkEvent.Context> supplier)
     {
-        supplier.get().enqueueWork(() -> ClientPlayHandler.handleMessageGunSound(this));
+        supplier.get().enqueueWork(() -> ClientPlayHandler.handleMessageGunSound(messageGunSound));
         supplier.get().setPacketHandled(true);
     }
 
@@ -82,7 +85,7 @@ public class MessageGunSound implements IMessage
         return this.id;
     }
 
-    public SoundCategory getCategory()
+    public SoundSource getCategory()
     {
         return this.category;
     }

@@ -1,8 +1,8 @@
 package com.tac.guns.effect;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.List;
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class IncurableEffect extends Effect
+public class IncurableEffect extends MobEffect
 {
-    public IncurableEffect(EffectType typeIn, int liquidColorIn)
+    public IncurableEffect(MobEffectCategory typeIn, int liquidColorIn)
     {
         super(typeIn, liquidColorIn);
     }

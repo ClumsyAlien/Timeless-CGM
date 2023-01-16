@@ -1,56 +1,59 @@
 package com.tac.guns.tileentity;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.List;
 import java.util.stream.Stream;
 
-public class SyncedTileEntity extends TileEntity
+public class SyncedTileEntity extends BlockEntity
 {
-    public SyncedTileEntity(TileEntityType<?> tileEntityTypeIn)
+    public SyncedTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state)
     {
-        super(tileEntityTypeIn);
+        super(type, pos, state);
     }
 
     protected void syncToClient()
     {
-        this.markDirty();
-        if(this.world != null && !this.world.isRemote)
+        this.setChanged();
+        if(this.level != null && !this.level.isClientSide)
         {
-            if(this.world instanceof ServerWorld)
+            if(this.level instanceof ServerLevel)
             {
-                SUpdateTileEntityPacket packet = this.getUpdatePacket();
+                ClientboundBlockEntityDataPacket packet = this.getUpdatePacket();
                 if(packet != null)
                 {
-                    ServerWorld server = (ServerWorld) this.world;
-                    Stream<ServerPlayerEntity> players = server.getChunkProvider().chunkManager.getTrackingPlayers(new ChunkPos(this.pos), false);
-                    players.forEach(player -> player.connection.sendPacket(packet));
+                    ServerLevel server = (ServerLevel) this.level;
+                    List<ServerPlayer> players = server.getChunkSource().chunkMap.getPlayers(new ChunkPos(this.worldPosition), false);
+                    players.forEach(player -> player.connection.send(packet));
                 }
             }
         }
     }
 
     @Override
-    public CompoundNBT getUpdateTag()
+    public CompoundTag getUpdateTag()
     {
-        return this.write(new CompoundNBT());
+        return this.saveWithFullMetadata();
     }
 
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket()
+    public ClientboundBlockEntityDataPacket getUpdatePacket()
     {
-        return new SUpdateTileEntityPacket(getPos(), 0, getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
-    public void onDataPacket(final NetworkManager net, final SUpdateTileEntityPacket pkt)
+    public void onDataPacket(final Connection net, final ClientboundBlockEntityDataPacket pkt)
     {
-        this.deserializeNBT(pkt.getNbtCompound());
+        this.deserializeNBT(pkt.getTag());
     }
 }

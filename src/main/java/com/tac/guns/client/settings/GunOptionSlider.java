@@ -1,25 +1,29 @@
 package com.tac.guns.client.settings;
 
-import net.minecraft.client.GameSettings;
-import net.minecraft.client.gui.widget.OptionSlider;
-import net.minecraft.client.settings.SliderPercentageOption;
+import net.minecraft.client.Options;
+import net.minecraft.client.gui.components.SliderButton;
+import net.minecraft.client.ProgressOption;
+import net.minecraft.util.FormattedCharSequence;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class GunOptionSlider extends OptionSlider
+public class GunOptionSlider extends SliderButton
 {
-    private final SliderPercentageOption option;
+    private final ProgressOption option;
 
-    public GunOptionSlider(GameSettings settings, int x, int y, int width, int height, SliderPercentageOption option)
+    public GunOptionSlider(Options settings, int x, int y, int width, int height, ProgressOption option, List<FormattedCharSequence> tooltip)
     {
-        super(settings, x, y, width, height, option);
+        super(settings, x, y, width, height, option, tooltip);
         this.option = option;
     }
 
     @Override
-    protected void func_230972_a_()
+    protected void applyValue()
     {
-        this.option.set(this.settings, this.option.denormalizeValue(this.sliderValue));
+        this.option.set(this.options, this.option.toValue(this.value));
     }
 }

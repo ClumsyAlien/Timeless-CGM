@@ -1,10 +1,10 @@
 package com.tac.guns.network.message;
 
 
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.common.network.ServerPlayHandler;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -14,17 +14,17 @@ import java.util.function.Supplier;
  */
 
 
-public class MessageUpdatePlayerMovement implements IMessage
+public class MessageUpdatePlayerMovement extends PlayMessage<MessageUpdatePlayerMovement>
 {
     @Override
-    public void encode(PacketBuffer buffer)
+    public void encode(MessageUpdatePlayerMovement messageUpdatePlayerMovement, FriendlyByteBuf buffer)
     {
-        buffer.writeBoolean(this.handle);
+        buffer.writeBoolean(messageUpdatePlayerMovement.handle);
     }
     @Override
-    public void decode(PacketBuffer buffer)
+    public MessageUpdatePlayerMovement decode(FriendlyByteBuf buffer)
     {
-        this.handle = buffer.readBoolean();
+        return new MessageUpdatePlayerMovement(buffer.readBoolean());
     }
     public MessageUpdatePlayerMovement() {}
     private boolean handle;
@@ -34,9 +34,9 @@ public class MessageUpdatePlayerMovement implements IMessage
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageUpdatePlayerMovement messageUpdatePlayerMovement, Supplier<NetworkEvent.Context> supplier)
     {
-        supplier.get().enqueueWork(() -> {ServerPlayHandler.handleMovementUpdate(supplier.get().getSender(), this.handle);});
+        supplier.get().enqueueWork(() -> ServerPlayHandler.handleMovementUpdate(supplier.get().getSender(), messageUpdatePlayerMovement.handle));
         //supplier.get().enqueueWork(() -> {ServerPlayHandler.handleMovementUpdateLow(supplier.get().getSender());});
         supplier.get().setPacketHandled(true);
     }

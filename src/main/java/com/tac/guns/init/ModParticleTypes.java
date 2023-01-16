@@ -3,11 +3,11 @@ package com.tac.guns.init;
 import com.mojang.serialization.Codec;
 import com.tac.guns.Reference;
 import com.tac.guns.particles.BulletHoleData;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleType;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
@@ -19,10 +19,10 @@ public class ModParticleTypes
     public static final RegistryObject<ParticleType<BulletHoleData>> BULLET_HOLE = REGISTER.register("bullet_hole",() -> new ParticleType<BulletHoleData>(false, BulletHoleData.DESERIALIZER)
     {
         @Override
-        public Codec<BulletHoleData> func_230522_e_()
+        public Codec<BulletHoleData> codec()
         {
             return BulletHoleData.CODEC;
         }
     });
-    public static final RegistryObject<BasicParticleType> BLOOD = REGISTER.register("blood", () -> new BasicParticleType(true));
+    public static final RegistryObject<SimpleParticleType> BLOOD = REGISTER.register("blood", () -> new SimpleParticleType(true));
 }

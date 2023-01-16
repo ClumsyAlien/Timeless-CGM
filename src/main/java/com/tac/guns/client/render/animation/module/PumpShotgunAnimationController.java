@@ -2,7 +2,7 @@ package com.tac.guns.client.render.animation.module;
 
 import com.tac.guns.common.Gun;
 import com.tac.guns.item.GunItem;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

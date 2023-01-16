@@ -2,15 +2,14 @@ package com.tac.guns.network.message;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.client.screen.UpgradeBenchScreen;
 import com.tac.guns.common.network.ServerPlayHandler;
 import com.tac.guns.init.ModEnchantments;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.BlockPos;
+import net.minecraftforge.network.NetworkEvent;
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.beans.XMLEncoder;
@@ -20,7 +19,7 @@ import java.util.function.Supplier;
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class MessageUpgradeBenchApply implements IMessage
+public class MessageUpgradeBenchApply extends PlayMessage<MessageUpgradeBenchApply>
 {
     // Ew public
    public BlockPos pos;
@@ -34,30 +33,29 @@ public class MessageUpgradeBenchApply implements IMessage
     }
 
     @Override
-    public void encode(PacketBuffer buffer)
+    public void encode(MessageUpgradeBenchApply messageUpgradeBenchApply, FriendlyByteBuf buffer)
     {
-        buffer.writeBlockPos(this.pos);
-        buffer.writeString(this.reqKey);
+        buffer.writeBlockPos(messageUpgradeBenchApply.pos);
+        buffer.writeUtf(messageUpgradeBenchApply.reqKey);
 
 
     }
 
     @Override
-    public void decode(PacketBuffer buffer)
+    public MessageUpgradeBenchApply decode(FriendlyByteBuf buffer)
     {
-        this.pos = buffer.readBlockPos();
-        this.reqKey = buffer.readString();
+        return new MessageUpgradeBenchApply(buffer.readBlockPos(), buffer.readUtf());
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageUpgradeBenchApply messageUpgradeBenchApply, Supplier<NetworkEvent.Context> supplier)
     {
         supplier.get().enqueueWork(() ->
         {
-            ServerPlayerEntity player = supplier.get().getSender();
+            ServerPlayer player = supplier.get().getSender();
             if(player != null)
             {
-                ServerPlayHandler.handleUpgradeBenchApply(this, player);
+                ServerPlayHandler.handleUpgradeBenchApply(messageUpgradeBenchApply, player);
             }
         });
         supplier.get().setPacketHandled(true);

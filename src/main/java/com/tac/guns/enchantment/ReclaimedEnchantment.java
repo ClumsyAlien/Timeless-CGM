@@ -1,6 +1,8 @@
 package com.tac.guns.enchantment;
 
-import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.world.entity.EquipmentSlot;
+
+import net.minecraft.world.item.enchantment.Enchantment.Rarity;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
@@ -9,7 +11,7 @@ public class ReclaimedEnchantment extends GunEnchantment
 {
     public ReclaimedEnchantment()
     {
-        super(Rarity.VERY_RARE, EnchantmentTypes.GUN, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND}, Type.AMMO);
+        super(Rarity.VERY_RARE, EnchantmentTypes.GUN, new EquipmentSlot[]{EquipmentSlot.MAINHAND}, Type.AMMO);
     }
 
     @Override
@@ -20,14 +22,14 @@ public class ReclaimedEnchantment extends GunEnchantment
 
 
     @Override
-    public int getMinEnchantability(int level)
+    public int getMinCost(int level)
     {
         return 15 + (level - 1) * 10;
     }
 
     @Override
-    public int getMaxEnchantability(int level)
+    public int getMaxCost(int level)
     {
-        return this.getMinEnchantability(level) + 10;
+        return this.getMinCost(level) + 10;
     }
 }

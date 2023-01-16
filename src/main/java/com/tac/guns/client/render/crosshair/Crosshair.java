@@ -1,10 +1,10 @@
 package com.tac.guns.client.render.crosshair;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.tac.guns.client.handler.CrosshairHandler;
 import com.tac.guns.interfaces.IResourceLocation;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
@@ -41,7 +41,7 @@ public abstract class Crosshair implements IResourceLocation
      * @param windowHeight the scaled height of the window
      * @param partialTicks
      */
-    public void render(Minecraft mc, MatrixStack stack, int windowWidth, int windowHeight, float partialTicks) {}
+    public void render(Minecraft mc, PoseStack stack, int windowWidth, int windowHeight, float partialTicks) {}
 
     /**
      * Ticks the crosshair for any logic

@@ -7,12 +7,14 @@ import com.tac.guns.client.render.animation.module.AnimationSoundMeta;
 import com.tac.guns.client.render.animation.module.Animations;
 import com.tac.guns.client.render.animation.module.GunAnimationController;
 import com.tac.guns.init.ModItems;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
 
 import java.io.IOException;
+
+import com.tac.guns.client.render.animation.module.GunAnimationController.AnimationLabel;
 
 @OnlyIn(Dist.CLIENT)
 public class Ak47AnimationController extends GunAnimationController {

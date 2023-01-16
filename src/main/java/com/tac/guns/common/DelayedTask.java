@@ -2,13 +2,13 @@ package com.tac.guns.common;
 
 import com.tac.guns.Reference;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.common.util.LogicalSidedProvider;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
-import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,13 +26,13 @@ public class DelayedTask
     public static List<Impl> tasks = new ArrayList<>();
 
     @SubscribeEvent
-    public static void onServerStart(FMLServerStartedEvent event)
+    public static void onServerStart(ServerStartingEvent event)
     {
         tasks.clear();
     }
 
     @SubscribeEvent
-    public static void onServerStopping(FMLServerStoppingEvent event)
+    public static void onServerStopping(ServerStoppingEvent event)
     {
         tasks.clear();
     }
@@ -42,12 +42,12 @@ public class DelayedTask
     {
         if(event.phase != TickEvent.Phase.START)
         {
-            MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+            MinecraftServer server = (MinecraftServer) LogicalSidedProvider.WORKQUEUE.get(LogicalSide.SERVER);
             Iterator<Impl> it = tasks.iterator();
             while(it.hasNext())
             {
                 Impl impl = it.next();
-                if(impl.executionTick <= server.getTickCounter())
+                if(impl.executionTick <= server.getTickCount())
                 {
                     impl.runnable.run();
                     it.remove();
@@ -64,12 +64,12 @@ public class DelayedTask
      */
     public static void runAfter(int ticks, Runnable run)
     {
-        MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        if(!server.isOnExecutionThread())
+        MinecraftServer server = (MinecraftServer) LogicalSidedProvider.WORKQUEUE.get(LogicalSide.SERVER);
+        if(!server.isSameThread())
         {
             throw new IllegalStateException("Tried to add a delayed task off the main thread");
         }
-        tasks.add(new Impl(server.getTickCounter() + ticks, run));
+        tasks.add(new Impl(server.getTickCount() + ticks, run));
     }
 
     private static class Impl

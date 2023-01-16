@@ -1,12 +1,12 @@
 package com.tac.guns.util.math;
 
 import com.tac.guns.entity.ProjectileEntity;
-import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.world.phys.EntityHitResult;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class ExtendedEntityRayTraceResult extends EntityRayTraceResult
+public class ExtendedEntityRayTraceResult extends EntityHitResult
 {
     private final boolean headshot;
 

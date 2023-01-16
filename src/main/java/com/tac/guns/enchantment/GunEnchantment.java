@@ -1,8 +1,10 @@
 package com.tac.guns.enchantment;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.entity.EquipmentSlot;
+
+import net.minecraft.world.item.enchantment.Enchantment.Rarity;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
@@ -11,7 +13,7 @@ public abstract class GunEnchantment extends Enchantment
 {
     private Type type;
 
-    protected GunEnchantment(Rarity rarityIn, EnchantmentType typeIn, EquipmentSlotType[] slots, Type type)
+    protected GunEnchantment(Rarity rarityIn, EnchantmentCategory typeIn, EquipmentSlot[] slots, Type type)
     {
         super(rarityIn, typeIn, slots);
         this.type = type;

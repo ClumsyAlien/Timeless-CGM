@@ -4,16 +4,16 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.function.Function;
 
+import net.minecraftforge.client.ClientRegistry;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.client.util.InputMappings.Input;
-import net.minecraft.client.util.InputMappings.Type;
+import net.minecraft.client.KeyMapping;
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.InputConstants.Key;
+import com.mojang.blaze3d.platform.InputConstants.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 /**
  * Helps to fix key conflict issue. Adapted solution from FMUM.
@@ -26,7 +26,7 @@ public final class KeyBind
 {
 	public static final HashMap< String, KeyBind > REGISTRY = new HashMap<>();
 	
-	private static final long HANDLE = Minecraft.getInstance().getMainWindow().getHandle();
+	private static final long HANDLE = Minecraft.getInstance().getWindow().getWindow();
 	
 	private static final Function< Integer, Boolean >
 		UPDATER_KEYBOARD = key -> GLFW.glfwGetKey( HANDLE, key ) == GLFW.GLFW_PRESS;
@@ -44,7 +44,7 @@ public final class KeyBind
 	/**
 	 * Current bounden key
 	 */
-	private Input keyCode;
+	private Key keyCode;
 	
 	/**
 	 * Invoked in {@link #update()} to check whether the bounden key is down or not. This helps to
@@ -56,7 +56,7 @@ public final class KeyBind
 	 * The corresponding vanilla key bind object. Its key bind will be set to
 	 * {@link InputMappings#INPUT_INVALID} to avoid key conflict in game.
 	 */
-	private KeyBinding keyBind;
+	private KeyMapping keyBind;
 	
 	private final LinkedList< Runnable > pressCallBacks = new LinkedList<>();
 	
@@ -76,10 +76,10 @@ public final class KeyBind
 	{
 		this.$keyCode(
 			keyCode >= 0
-			? ( inputType.length > 0 ? inputType[ 0 ] : Type.KEYSYM ).getOrMakeInput( keyCode )
-			: InputMappings.INPUT_INVALID
+			? ( inputType.length > 0 ? inputType[ 0 ] : Type.KEYSYM ).getOrCreate( keyCode )
+			: InputConstants.UNKNOWN
 		);
-		this.keyBind = new KeyBinding(
+		this.keyBind = new KeyMapping(
 			name,
 			GunConflictContext.IN_GAME_HOLDING_WEAPON,
 			this.keyCode,
@@ -87,19 +87,19 @@ public final class KeyBind
 		);
 		
 		// Bind to none to avoid conflict
-		this.keyBind.bind( InputMappings.INPUT_INVALID );
+		this.keyBind.setKey( InputConstants.UNKNOWN );
 		
 		REGISTRY.put( this.name(), this );
 	}
 	
-	public String name() { return this.keyBind.getKeyDescription(); }
+	public String name() { return this.keyBind.getName(); }
 	
-	public Input keyCode() { return this.keyCode; }
+	public Key keyCode() { return this.keyCode; }
 	
-	public void $keyCode( Input code )
+	public void $keyCode( Key code )
 	{
 		this.keyCode = code;
-		if( code == InputMappings.INPUT_INVALID )
+		if( code == InputConstants.UNKNOWN )
 			this.updater = UPDATER_NONE;
 		else switch( code.getType() )
 		{
@@ -122,7 +122,7 @@ public final class KeyBind
 	
 	void update()
 	{
-		if( !this.updater.apply( this.keyCode.getKeyCode() ) )
+		if( !this.updater.apply( this.keyCode.getValue() ) )
 			this.down = false;
 		else if( !this.down )
 		{
@@ -134,16 +134,16 @@ public final class KeyBind
 	
 	void reset() { this.down = false; }
 	
-	void restoreKeyBind() { this.keyBind.bind( this.keyCode ); }
+	void restoreKeyBind() { this.keyBind.setKey( this.keyCode ); }
 	
 	boolean clearKeyBind()
 	{
-		final Input code = this.keyBind.getKey();
+		final Key code = this.keyBind.getKey();
 		if( code == this.keyCode ) return false;
 		
 		// Key bind has been changed, update it
 		this.$keyCode( code );
-		this.keyBind.bind( InputMappings.INPUT_INVALID );
+		this.keyBind.setKey( InputConstants.UNKNOWN );
 		return true;
 	}
 	

@@ -1,15 +1,12 @@
 package com.tac.guns.client.handler;
 
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
-import com.tac.guns.Config;
-import com.tac.guns.init.ModSyncedDataKeys;
 import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
 import com.tac.guns.network.PacketHandler;
 import com.tac.guns.network.message.MessageUpdatePlayerMovement;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.PointOfView;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraft.client.CameraType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.event.FOVModifierEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -71,12 +68,12 @@ public class MovementAdaptationsHandler
     private MovementAdaptationsHandler() { }
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public void onFovUpdate(FOVUpdateEvent event)
+    public void onFovUpdate(FOVModifierEvent event)
     {
         Minecraft mc = Minecraft.getInstance();
-        if(mc.player != null && !mc.player.getHeldItemMainhand().isEmpty() && mc.gameSettings.getPointOfView() == PointOfView.FIRST_PERSON && mc.gameSettings.fovScaleEffect > 0)
+        if(mc.player != null && !mc.player.getMainHandItem().isEmpty() && mc.options.getCameraType() == CameraType.FIRST_PERSON && mc.options.fovEffectScale > 0)
         {
-            ItemStack heldItem = mc.player.getHeldItemMainhand();
+            ItemStack heldItem = mc.player.getMainHandItem();
             if(heldItem.getItem() instanceof TimelessGunItem)
             {
                 if(event.getEntity().isSprinting())
@@ -94,12 +91,12 @@ public class MovementAdaptationsHandler
     @SubscribeEvent(priority=EventPriority.LOWEST)
     public void onJump(LivingEvent.LivingJumpEvent event)
     {
-        if (!(event.getEntityLiving().getHeldItemMainhand().getItem() instanceof TimelessGunItem))
+        if (!(event.getEntityLiving().getMainHandItem().getItem() instanceof TimelessGunItem))
             return;
         if(speed < 0.077f)
-            event.getEntityLiving().setMotion(event.getEntityLiving().getMotion().getX()/2.5,event.getEntityLiving().getMotion().getY()/1.125,event.getEntityLiving().getMotion().getZ()/2.5);
+            event.getEntityLiving().setDeltaMovement(event.getEntityLiving().getDeltaMovement().x()/2.5,event.getEntityLiving().getDeltaMovement().y()/1.125,event.getEntityLiving().getDeltaMovement().z()/2.5);
         else if(speed < 0.9f)
-            event.getEntityLiving().setMotion(event.getEntityLiving().getMotion().getX()/1.75,event.getEntityLiving().getMotion().getY(),event.getEntityLiving().getMotion().getZ()/1.75);
+            event.getEntityLiving().setDeltaMovement(event.getEntityLiving().getDeltaMovement().x()/1.75,event.getEntityLiving().getDeltaMovement().y(),event.getEntityLiving().getDeltaMovement().z()/1.75);
     }
 
     @SubscribeEvent//(priority = EventPriority.HIGH)

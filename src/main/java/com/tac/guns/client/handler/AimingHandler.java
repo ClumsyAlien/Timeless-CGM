@@ -5,7 +5,6 @@ import java.util.WeakHashMap;
 
 import javax.annotation.Nullable;
 
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.Config;
 import com.tac.guns.GunMod;
 import com.tac.guns.client.InputHandler;
@@ -21,24 +20,25 @@ import com.tac.guns.network.message.MessageAim;
 import com.tac.guns.util.GunEnchantmentHelper;
 import com.tac.guns.util.GunModifierHelper;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ContainerBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.PointOfView;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.entity.item.ItemFrameEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.CameraType;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.world.entity.decoration.ItemFrame;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.CooldownTracker;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.client.event.FOVModifierEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -62,7 +62,7 @@ public class AimingHandler
 
     private static final double MAX_AIM_PROGRESS = 4;
     private final AimTracker localTracker = new AimTracker();
-    private final Map<PlayerEntity, AimTracker> aimingMap = new WeakHashMap<>();
+    private final Map<Player, AimTracker> aimingMap = new WeakHashMap<>();
     private double normalisedAdsProgress;
     private boolean aiming = false;
     private boolean toggledAim = false;
@@ -79,8 +79,8 @@ public class AimingHandler
 			if(
 				mc.player != null
 				&& (
-					mc.player.getHeldItemMainhand().getItem() instanceof GunItem
-					|| Gun.getScope( mc.player.getHeldItemMainhand() ) != null
+					mc.player.getMainHandItem().getItem() instanceof GunItem
+					|| Gun.getScope( mc.player.getMainHandItem() ) != null
 				)
 			) this.currentScopeZoomIndex++;
 		} );
@@ -89,7 +89,7 @@ public class AimingHandler
 			final Minecraft mc = Minecraft.getInstance();
 			if(
 				mc.player != null
-				&& mc.player.getHeldItemMainhand().getItem() instanceof GunItem
+				&& mc.player.getMainHandItem().getItem() instanceof GunItem
 				&& this.toggledAimAwaiter <= 0
 			) {
 				this.forceToggleAim();
@@ -105,10 +105,10 @@ public class AimingHandler
             return;
         /*if(!this.aiming)
             ScopeJitterHandler.getInstance().resetBreathingTickBuffer();*/
-        PlayerEntity player = event.player;
+        Player player = event.player;
         AimTracker tracker = getAimTracker(player);
         if(tracker != null) {
-            tracker.handleAiming(player, player.getHeldItem(Hand.MAIN_HAND));
+            tracker.handleAiming(player, player.getItemInHand(InteractionHand.MAIN_HAND));
             if (!tracker.isAiming()) {
                 this.aimingMap.remove(player);
             }
@@ -118,18 +118,18 @@ public class AimingHandler
     }
 
     @Nullable
-    private AimTracker getAimTracker(PlayerEntity player)
+    private AimTracker getAimTracker(Player player)
     {
-        if(SyncedPlayerData.instance().get(player, ModSyncedDataKeys.AIMING) && !this.aimingMap.containsKey(player))
+        if(ModSyncedDataKeys.AIMING.getValue(player) && !this.aimingMap.containsKey(player))
         {
             this.aimingMap.put(player, new AimTracker());
         }
         return this.aimingMap.get(player);
     }
 
-    public float getAimProgress(PlayerEntity player, float partialTicks)
+    public float getAimProgress(Player player, float partialTicks)
     {
-        if(player.isUser())
+        if(player.isLocalPlayer())
         {
             return (float) this.localTracker.getNormalProgress(partialTicks);
         }
@@ -148,7 +148,7 @@ public class AimingHandler
         if(event.phase != TickEvent.Phase.START)
             return;
 
-        PlayerEntity player = Minecraft.getInstance().player;
+        Player player = Minecraft.getInstance().player;
         if(player == null)
             return;
 
@@ -159,32 +159,32 @@ public class AimingHandler
         {
             if(!this.aiming)
             {
-                SyncedPlayerData.instance().set(player, ModSyncedDataKeys.AIMING, true);
+                ModSyncedDataKeys.AIMING.setValue(player, true);
                 PacketHandler.getPlayChannel().sendToServer(new MessageAim(true));
                 this.aiming = true;
             }
         }
         else if(this.aiming)
         {
-            SyncedPlayerData.instance().set(player, ModSyncedDataKeys.AIMING, false);
+            ModSyncedDataKeys.AIMING.setValue(player, false);
             PacketHandler.getPlayChannel().sendToServer(new MessageAim(false));
             this.aiming = false;
         }
 
-        this.localTracker.handleAiming(player, player.getHeldItem(Hand.MAIN_HAND));
+        this.localTracker.handleAiming(player, player.getItemInHand(InteractionHand.MAIN_HAND));
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onFovUpdate(FOVUpdateEvent event)
+    public void onFovUpdate(FOVModifierEvent event)
     {
         Minecraft mc = Minecraft.getInstance();
-        if(mc.player != null && !mc.player.getHeldItemMainhand().isEmpty() && mc.gameSettings.getPointOfView() == PointOfView.FIRST_PERSON)
+        if(mc.player != null && !mc.player.getMainHandItem().isEmpty() && mc.options.getCameraType() == CameraType.FIRST_PERSON)
         {
-            ItemStack heldItem = mc.player.getHeldItemMainhand();
+            ItemStack heldItem = mc.player.getMainHandItem();
             if(heldItem.getItem() instanceof TimelessGunItem)
             {
                 TimelessGunItem gunItem = (TimelessGunItem) heldItem.getItem();
-                if(AimingHandler.get().isAiming() && !SyncedPlayerData.instance().get(mc.player, ModSyncedDataKeys.RELOADING))
+                if(AimingHandler.get().isAiming() && !ModSyncedDataKeys.RELOADING.getValue(mc.player))
                 {
                     Gun modifiedGun = gunItem.getModifiedGun(heldItem);
                     if(modifiedGun.getModules().getZoom() != null)
@@ -214,13 +214,14 @@ public class AimingHandler
      * Prevents the crosshair from rendering when aiming down sight
      */
     @SubscribeEvent(receiveCanceled = true)
-    public void onRenderOverlay(RenderGameOverlayEvent event)
+    public void onRenderOverlay(RenderGameOverlayEvent.PreLayer event)
     {
         this.normalisedAdsProgress = this.localTracker.getNormalProgress(event.getPartialTicks());
         Crosshair crosshair = CrosshairHandler.get().getCurrentCrosshair();
-        if(this.normalisedAdsProgress > 0 && event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS && (crosshair == null || crosshair.isDefault()))
+        if(this.normalisedAdsProgress > 0  && (crosshair == null || crosshair.isDefault()))
         {
-            event.setCanceled(true);
+            if (event.getOverlay() == ForgeIngameGui.CROSSHAIR_ELEMENT)
+                event.setCanceled(true);
         }
     }
 
@@ -233,10 +234,10 @@ public class AimingHandler
         if(mc.player.isSpectator())
             return false;
 
-        if(mc.currentScreen != null)
+        if(mc.screen != null)
             return false;
 
-        ItemStack heldItem = mc.player.getHeldItemMainhand();
+        ItemStack heldItem = mc.player.getMainHandItem();
         if(!(heldItem.getItem() instanceof GunItem))
             return false;
 
@@ -246,8 +247,8 @@ public class AimingHandler
             return false;
         }
 
-        CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
-        float cooldown = tracker.getCooldown(heldItem.getItem(), Minecraft.getInstance().getRenderPartialTicks());
+        ItemCooldowns tracker = Minecraft.getInstance().player.getCooldowns();
+        float cooldown = tracker.getCooldownPercent(heldItem.getItem(), Minecraft.getInstance().getFrameTime());
 
         if(gun.getGeneral().isBoltAction() && (cooldown < 0.8 && cooldown > 0) && Gun.getScope(heldItem) != null)
         {
@@ -257,12 +258,12 @@ public class AimingHandler
         if(!this.localTracker.isAiming() && this.isLookingAtInteractableBlock())
             return false;
 
-        if(SyncedPlayerData.instance().get(mc.player, ModSyncedDataKeys.RELOADING))
+        if(ModSyncedDataKeys.RELOADING.getValue(mc.player))
             return false;
 
         boolean zooming;
 
-        if( InputHandler.AIM_HOLD.keyCode() != InputMappings.INPUT_INVALID )
+        if( InputHandler.AIM_HOLD.keyCode() != InputConstants.UNKNOWN )
         {
             zooming = InputHandler.AIM_HOLD.down;
 
@@ -292,22 +293,22 @@ public class AimingHandler
     public boolean isLookingAtInteractableBlock()
     {
         Minecraft mc = Minecraft.getInstance();
-        if(mc.objectMouseOver != null && mc.world != null)
+        if(mc.hitResult != null && mc.level != null)
         {
-            if(mc.objectMouseOver instanceof BlockRayTraceResult)
+            if(mc.hitResult instanceof BlockHitResult)
             {
-                BlockRayTraceResult result = (BlockRayTraceResult) mc.objectMouseOver;
-                BlockState state = mc.world.getBlockState(result.getPos());
+                BlockHitResult result = (BlockHitResult) mc.hitResult;
+                BlockState state = mc.level.getBlockState(result.getBlockPos());
                 Block block = state.getBlock();
                 // Forge should add a tag for intractable blocks so modders can know which blocks can be interacted with :)
                 /*if(block == ModBlocks.UPGRADE_BENCH.get())
                     return false;*/
-                return block instanceof ContainerBlock || block.hasTileEntity(state) || block == Blocks.CRAFTING_TABLE || block == ModBlocks.WORKBENCH.get() || /* ||*/ BlockTags.DOORS.contains(block) || BlockTags.TRAPDOORS.contains(block) || Tags.Blocks.CHESTS.contains(block) || Tags.Blocks.FENCE_GATES.contains(block);
+                return block instanceof BaseEntityBlock || mc.level.getBlockEntity(result.getBlockPos()) != null || block == Blocks.CRAFTING_TABLE || block == ModBlocks.WORKBENCH.get() || /* ||*/ state.is(BlockTags.DOORS) || state.is(BlockTags.TRAPDOORS) || state.is(Tags.Blocks.CHESTS) || state.is(Tags.Blocks.FENCE_GATES);
             }
-            else if(mc.objectMouseOver instanceof EntityRayTraceResult)
+            else if(mc.hitResult instanceof EntityHitResult)
             {
-                EntityRayTraceResult result = (EntityRayTraceResult) mc.objectMouseOver;
-                return result.getEntity() instanceof ItemFrameEntity;
+                EntityHitResult result = (EntityHitResult) mc.hitResult;
+                return result.getEntity() instanceof ItemFrame;
             }
         }
         return false;
@@ -324,11 +325,11 @@ public class AimingHandler
         private double previousAim;
         private double amplifier = 0.8;
 
-        private void handleAiming(PlayerEntity player, ItemStack heldItem)
+        private void handleAiming(Player player, ItemStack heldItem)
         {
             this.previousAim = this.currentAim;
             double vAmplifier = 0.1;
-            if(SyncedPlayerData.instance().get(player, ModSyncedDataKeys.AIMING) || (player.isUser() && AimingHandler.this.isAiming()))
+            if(ModSyncedDataKeys.AIMING.getValue(player) || (player.isLocalPlayer() && AimingHandler.this.isAiming()))
             {
                 if(this.amplifier < 1.3)
                 {

@@ -3,8 +3,8 @@ package com.tac.guns.common;
 import com.tac.guns.entity.ProjectileEntity;
 import com.tac.guns.init.ModEntities;
 import com.tac.guns.interfaces.IProjectileFactory;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
 import java.util.Map;

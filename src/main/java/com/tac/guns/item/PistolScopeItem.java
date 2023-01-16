@@ -2,15 +2,18 @@ package com.tac.guns.item;
 
 import com.tac.guns.item.ScopeItem;
 import com.tac.guns.item.attachment.impl.Scope;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import com.tac.guns.item.attachment.IAttachment.Type;
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * A basic scope attachment item implementation with color support
@@ -29,9 +32,9 @@ public class PistolScopeItem extends ScopeItem
         return Type.PISTOL_SCOPE;
     }
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flag)
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flag)
     {
-        super.addInformation(stack, worldIn, tooltip, flag);
-        tooltip.add((new TranslationTextComponent("info.tac.pistolScope_type").mergeStyle(TextFormatting.LIGHT_PURPLE).mergeStyle(TextFormatting.BOLD)));
+        super.appendHoverText(stack, worldIn, tooltip, flag);
+        tooltip.add((new TranslatableComponent("info.tac.pistolScope_type").withStyle(ChatFormatting.LIGHT_PURPLE).withStyle(ChatFormatting.BOLD)));
     }
 }

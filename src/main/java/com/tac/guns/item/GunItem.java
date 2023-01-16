@@ -5,21 +5,20 @@ import com.tac.guns.common.NetworkGunManager;
 import com.tac.guns.enchantment.EnchantmentTypes;
 import com.tac.guns.util.GunEnchantmentHelper;
 import com.tac.guns.util.GunModifierHelper;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.KeybindTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.KeybindComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
@@ -27,7 +26,7 @@ import java.util.*;
 
 public class GunItem extends Item implements IColored
 {
-    private WeakHashMap<CompoundNBT, Gun> modifiedGunCache = new WeakHashMap<>();
+    private WeakHashMap<CompoundTag, Gun> modifiedGunCache = new WeakHashMap<>();
 
     private Gun gun = new Gun();
     public GunItem(Item.Properties properties)
@@ -46,32 +45,32 @@ public class GunItem extends Item implements IColored
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flag)
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flag)
     {
         Gun modifiedGun = this.getModifiedGun(stack);
 
         Item ammo = ForgeRegistries.ITEMS.getValue(modifiedGun.getProjectile().getItem());
         if(ammo != null)
         {
-            tooltip.add(new TranslationTextComponent("info.tac.ammo_type", new TranslationTextComponent(ammo.getTranslationKey()).mergeStyle(TextFormatting.WHITE)).mergeStyle(TextFormatting.GRAY));
+            tooltip.add(new TranslatableComponent("info.tac.ammo_type", new TranslatableComponent(ammo.getDescriptionId()).withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.GRAY));
         }
 
         String additionalDamageText = "";
-        CompoundNBT tagCompound = stack.getTag();
+        CompoundTag tagCompound = stack.getTag();
         if(tagCompound != null)
         {
-            if(tagCompound.contains("AdditionalDamage", Constants.NBT.TAG_ANY_NUMERIC))
+            if(tagCompound.contains("AdditionalDamage", Tag.TAG_ANY_NUMERIC))
             {
                 float additionalDamage = tagCompound.getFloat("AdditionalDamage");
                 additionalDamage += GunModifierHelper.getAdditionalDamage(stack);
 
                 if(additionalDamage > 0)
                 {
-                    additionalDamageText = TextFormatting.GREEN + " +" + ItemStack.DECIMALFORMAT.format(additionalDamage);
+                    additionalDamageText = ChatFormatting.GREEN + " +" + ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(additionalDamage);
                 }
                 else if(additionalDamage < 0)
                 {
-                    additionalDamageText = TextFormatting.RED + " " + ItemStack.DECIMALFORMAT.format(additionalDamage);
+                    additionalDamageText = ChatFormatting.RED + " " + ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(additionalDamage);
                 }
             }
         }
@@ -79,22 +78,22 @@ public class GunItem extends Item implements IColored
         float damage = modifiedGun.getProjectile().getDamage();
         damage = GunModifierHelper.getModifiedProjectileDamage(stack, damage);
         damage = GunEnchantmentHelper.getAcceleratorDamage(stack, damage);
-        tooltip.add(new TranslationTextComponent("info.tac.damage", TextFormatting.WHITE + ItemStack.DECIMALFORMAT.format(damage) + additionalDamageText).mergeStyle(TextFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("info.tac.damage", ChatFormatting.WHITE + ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(damage) + additionalDamageText).withStyle(ChatFormatting.GRAY));
 
         if(tagCompound != null)
         {
             if(tagCompound.getBoolean("IgnoreAmmo"))
             {
-                tooltip.add(new TranslationTextComponent("info.tac.ignore_ammo").mergeStyle(TextFormatting.AQUA));
+                tooltip.add(new TranslatableComponent("info.tac.ignore_ammo").withStyle(ChatFormatting.AQUA));
             }
             else
             {
                 int ammoCount = tagCompound.getInt("AmmoCount");
-                tooltip.add(new TranslationTextComponent("info.tac.ammo", TextFormatting.WHITE.toString() + ammoCount + "/" + GunEnchantmentHelper.getAmmoCapacity(stack, modifiedGun)).mergeStyle(TextFormatting.GRAY));
+                tooltip.add(new TranslatableComponent("info.tac.ammo", ChatFormatting.WHITE.toString() + ammoCount + "/" + GunEnchantmentHelper.getAmmoCapacity(stack, modifiedGun)).withStyle(ChatFormatting.GRAY));
             }
         }
 
-        tooltip.add(new TranslationTextComponent("info.tac.attachment_help", new KeybindTextComponent("key.tac.attachments").getString().toUpperCase(Locale.ENGLISH)).mergeStyle(TextFormatting.YELLOW));
+        tooltip.add(new TranslatableComponent("info.tac.attachment_help", new KeybindComponent("key.tac.attachments").getString().toUpperCase(Locale.ENGLISH)).withStyle(ChatFormatting.YELLOW));
     }
 
     @Override
@@ -104,9 +103,9 @@ public class GunItem extends Item implements IColored
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> stacks)
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> stacks)
     {
-        if(this.isInGroup(group))
+        if(this.allowdedIn(group))
         {
             ItemStack stack = new ItemStack(this);
             stack.getOrCreateTag().putInt("AmmoCount", this.gun.getReloads().getMaxAmmo());
@@ -121,31 +120,31 @@ public class GunItem extends Item implements IColored
     }
 
     @Override
-    public boolean showDurabilityBar(ItemStack stack)
+    public boolean isBarVisible(ItemStack stack)
     {
-        CompoundNBT tagCompound = stack.getOrCreateTag();
+        CompoundTag tagCompound = stack.getOrCreateTag();
         Gun modifiedGun = this.getModifiedGun(stack);
         return !tagCompound.getBoolean("IgnoreAmmo") && tagCompound.getInt("AmmoCount") != GunEnchantmentHelper.getAmmoCapacity(stack, modifiedGun);
     }
 
     @Override
-    public double getDurabilityForDisplay(ItemStack stack)
+    public int getBarWidth(ItemStack stack)
     {
-        CompoundNBT tagCompound = stack.getOrCreateTag();
+        CompoundTag tagCompound = stack.getOrCreateTag();
         Gun modifiedGun = this.getModifiedGun(stack);
-        return 1.0 - (tagCompound.getInt("AmmoCount") / (double) GunEnchantmentHelper.getAmmoCapacity(stack, modifiedGun));
+        return (int) (13.0 * (tagCompound.getInt("AmmoCount") / (double) GunEnchantmentHelper.getAmmoCapacity(stack, modifiedGun)));
     }
 
     @Override
-    public int getRGBDurabilityForDisplay(ItemStack stack)
+    public int getBarColor(ItemStack stack)
     {
-        return Objects.requireNonNull(TextFormatting.AQUA.getColor());
+        return Objects.requireNonNull(ChatFormatting.AQUA.getColor());
     }
 
     public Gun getModifiedGun(ItemStack stack)
     {
-        CompoundNBT tagCompound = stack.getTag();
-        if(tagCompound != null && tagCompound.contains("Gun", Constants.NBT.TAG_COMPOUND))
+        CompoundTag tagCompound = stack.getTag();
+        if(tagCompound != null && tagCompound.contains("Gun", Tag.TAG_COMPOUND))
         {
             return this.modifiedGunCache.computeIfAbsent(tagCompound, item ->
             {
@@ -167,7 +166,7 @@ public class GunItem extends Item implements IColored
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
     {
-        if(enchantment.type == EnchantmentTypes.SEMI_AUTO_GUN)
+        if(enchantment.category == EnchantmentTypes.SEMI_AUTO_GUN)
         {
             Gun modifiedGun = this.getModifiedGun(stack);
             return !modifiedGun.getGeneral().isAuto();
@@ -182,7 +181,7 @@ public class GunItem extends Item implements IColored
     }
 
     @Override
-    public int getItemEnchantability()
+    public int getEnchantmentValue()
     {
         return 5;
     }

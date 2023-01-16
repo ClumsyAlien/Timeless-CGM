@@ -1,8 +1,5 @@
 package com.tac.guns.util.math;
 
-import net.minecraft.util.math.vector.Vector3f;
-
-import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 

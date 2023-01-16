@@ -4,6 +4,7 @@ import groovy.json.JsonSlurper
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://maven.parchmentmc.org' }
         maven { url = 'https://repo.spongepowered.org/maven' }
         jcenter()
         mavenCentral()
@@ -11,35 +12,36 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         //classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7.+'
+        classpath 'org.parchmentmc:librarian:1.+'
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
         classpath 'org.codehaus.groovy:groovy-all:2.4.15'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
-//apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
+
 
 version = "0.3.0.101-1.16.5"
 group = "com.tac"
 archivesBaseName = "tac-a"
 
 //name = "tac-a-0.3.0.44-1.16.5"
-
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 mixin {
     add sourceSets.main, "tac.refmap.json"
+    config "tac.mixins.json"
 }
 
 minecraft {
-    //mappings channel: 'official', version: '1.16.5'
-    //mappings channel: 'official', version: '1.16.5'
-    mappings channel: 'snapshot', version: '20201028-1.16.3'
+
+    mappings channel: 'parchment', version: '2022.11.06-1.18.2'
 
     runs {
         client {
@@ -47,7 +49,6 @@ minecraft {
             property 'mixin.env.disableRefMap', 'true'
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
-            arg '-mixin.config=tac.mixins.json'
             mods {
                 tac {
                     source sourceSets.main
@@ -60,7 +61,6 @@ minecraft {
             property 'mixin.env.disableRefMap', 'true'
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
-            arg '-mixin.config=tac.mixins.json'
             mods {
                 tac {
                     source sourceSets.main
@@ -74,7 +74,6 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
             args '--mod', 'tac', '--all', '--output', file('src/generated/resources/')
-            arg '-mixin.config=tac.mixins.json'
             mods {
                 tac {
                     source sourceSets.main
@@ -93,16 +92,17 @@ processResources {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.1.85'
     //implementation fg.deobf('curse.maven:obfuscate-289380:3169369')
-    implementation fg.deobf('curse.maven:obfuscate-289380:3336021') // 3740120') // 3336021
+    //implementation fg.deobf('curse.maven:obfuscate-289380:3336021') // 3740120') // 3336021
     //implementation fg.deobf('curse.maven:chisel-and-bits-231095:3593643')
     //implementation fg.deobf('curse.maven:flashlight-addon-227874:3381556')
-
+    implementation fg.deobf('curse.maven:framework-549225:3723144')
     //implementation fg.deobf('curse.maven:extra-player-render-481042:3305584')
 
     //implementation 'com.google.code.gson:gson:2.9.0'
-    implementation ('com.fasterxml.jackson.core:jackson-databind:2.12.4')
+    minecraftLibrary 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 /*repositories {
     maven { url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
@@ -128,8 +128,7 @@ jar {
             "Implementation-Title": "Timeless and Classics",
             "Implementation-Version": project.version,
             "Implementation-Vendor" : "ClumsyAlien",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConfigs": "tac.mixins.json"
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
@@ -142,12 +141,16 @@ def reobfArtifact = artifacts.add('default', reobfFile) {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifact reobfArtifact
+            artifact jar
         }
     }
     repositories {
         maven {
-            url "file://C:/dev/maven/mcmodsrepo"
+            url "file://${project.projectDir}/mcmodsrepo"
         }
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }

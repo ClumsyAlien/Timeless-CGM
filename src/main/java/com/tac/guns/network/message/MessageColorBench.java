@@ -1,31 +1,34 @@
 package com.tac.guns.network.message;
 
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.common.network.ServerPlayHandler;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class MessageColorBench implements IMessage
+public class MessageColorBench extends PlayMessage<MessageColorBench>
 {
     public MessageColorBench() {}
 
     @Override
-    public void encode(PacketBuffer buffer) {}
+    public void encode(MessageColorBench messageColorBench, FriendlyByteBuf buffer) {}
 
     @Override
-    public void decode(PacketBuffer buffer) {}
+    public MessageColorBench decode(FriendlyByteBuf buffer) {
+        return new MessageColorBench();
+    }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageColorBench messageColorBench, Supplier<NetworkEvent.Context> supplier)
     {
         supplier.get().enqueueWork(() ->
         {
-            ServerPlayerEntity player = supplier.get().getSender();
+            ServerPlayer player = supplier.get().getSender();
             if(player != null)
             {
                 ServerPlayHandler.handleColorbenchGui(player);

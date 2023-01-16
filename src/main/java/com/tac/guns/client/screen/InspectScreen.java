@@ -1,33 +1,31 @@
 
 package com.tac.guns.client.screen;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.math.Vector3f;
 import com.tac.guns.client.handler.GunRenderingHandler;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.container.InspectionContainer;
 import com.tac.guns.item.GunItem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class InspectScreen extends ContainerScreen<InspectionContainer>
+public class InspectScreen extends AbstractContainerScreen<InspectionContainer>
 {
     //private static final ResourceLocation GUI_TEXTURES = new ResourceLocation("tac:textures/gui/attachments.png");
 
-    private final PlayerInventory playerInventory;
+    private final Inventory playerInventory;
     //private final IInventory weaponInventory;
 
     private boolean showHelp = true;
@@ -38,78 +36,75 @@ public class InspectScreen extends ContainerScreen<InspectionContainer>
     private int mouseGrabbedButton;
     private int mouseClickedX, mouseClickedY;
 
-    public InspectScreen(InspectionContainer screenContainer, PlayerInventory playerInventory, ITextComponent titleIn)
+    public InspectScreen(InspectionContainer screenContainer, Inventory playerInventory, Component titleIn)
     {
         super(screenContainer, playerInventory, titleIn);
         this.playerInventory = playerInventory;
         //this.weaponInventory = screenContainer.getWeaponInventory();
-        this.ySize = -270; //186
+        this.imageHeight = -270; //186
     }
 
     @Override
-    public void tick()
+    protected void containerTick()
     {
-        super.tick();
+        super.containerTick();
         if(this.minecraft != null && this.minecraft.player != null)
         {
-            if(!(this.minecraft.player.getHeldItemMainhand().getItem() instanceof GunItem))
+            if(!(this.minecraft.player.getMainHandItem().getItem() instanceof GunItem))
             {
-                Minecraft.getInstance().displayGuiScreen(null);
+                Minecraft.getInstance().setScreen(null);
             }
         }
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks)
     {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrixStack, mouseX, mouseY); //Render tool tips
+        this.renderTooltip(matrixStack, mouseX, mouseY); //Render tool tips
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY)
+    protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY)
     {
         Minecraft minecraft = Minecraft.getInstance();
-        this.font.func_243248_b(matrixStack, this.title, (float)this.titleX, (float)this.titleY, 4210752);
-        this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), (float)this.playerInventoryTitleX, (float)this.playerInventoryTitleY + 19, 4210752);
+        this.font.draw(matrixStack, this.title, (float)this.titleLabelX, (float)this.titleLabelY, 4210752);
+        this.font.draw(matrixStack, this.playerInventory.getDisplayName(), (float)this.inventoryLabelX, (float)this.inventoryLabelY + 19, 4210752);
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
-        int left = (this.width - this.xSize) / 2;
-        int top = (this.height - this.ySize) / 2;
+        int left = (this.width - this.imageWidth) / 2;
+        int top = (this.height - this.imageHeight) / 2;
         RenderUtil.scissor(left - 166, top - 277, 650, 1600);
 
         //RenderUtil.scissor(left + 26, top + 17, 142, 70);
 
-        RenderSystem.pushMatrix();
+        PoseStack stack = RenderSystem.getModelViewStack();
+        stack.pushPose();
         {
-            RenderSystem.translatef(06, -150, 550);
-            RenderSystem.translated(this.windowX + (this.mouseGrabbed && this.mouseGrabbedButton == 0 ? mouseX - this.mouseClickedX : 0), 0, 0);
-            RenderSystem.translated(0, this.windowY + (this.mouseGrabbed && this.mouseGrabbedButton == 0 ? mouseY - this.mouseClickedY : 0), 0);
-            RenderSystem.rotatef(-30F, 1, 0, 0);
-            RenderSystem.rotatef(this.windowRotationY - (this.mouseGrabbed && this.mouseGrabbedButton == 1 ? mouseY - this.mouseClickedY : 0), 1, 0, 0);
-            RenderSystem.rotatef(this.windowRotationX + (this.mouseGrabbed && this.mouseGrabbedButton == 1 ? mouseX - this.mouseClickedX : 0), 0, 1, 0);
-            RenderSystem.rotatef(150F, 0, 1, 0);
-            RenderSystem.scalef(this.windowZoom / 10F, this.windowZoom / 10F, this.windowZoom / 10F);
-            RenderSystem.scalef(90F, -90F, 90F);
-            RenderSystem.rotatef(5F, 1, 0, 0);
-            RenderSystem.rotatef(90F, 0, 1, 0);
+            stack.translate(06, -150, 550);
+            stack.translate(this.windowX + (this.mouseGrabbed && this.mouseGrabbedButton == 0 ? mouseX - this.mouseClickedX : 0), 0, 0);
+            stack.translate(0, this.windowY + (this.mouseGrabbed && this.mouseGrabbedButton == 0 ? mouseY - this.mouseClickedY : 0), 0);
+            stack.mulPose(Vector3f.XP.rotationDegrees(-30F));
+            stack.mulPose(Vector3f.XP.rotationDegrees(this.windowRotationY - (this.mouseGrabbed && this.mouseGrabbedButton == 1 ? mouseY - this.mouseClickedY : 0)));
+            stack.mulPose(Vector3f.YP.rotationDegrees(this.windowRotationX + (this.mouseGrabbed && this.mouseGrabbedButton == 1 ? mouseX - this.mouseClickedX : 0)));
+            stack.mulPose(Vector3f.YP.rotationDegrees(150F));
+            stack.scale(this.windowZoom / 10F, this.windowZoom / 10F, this.windowZoom / 10F);
+            stack.scale(90F, -90F, 90F);
+            stack.mulPose(Vector3f.XP.rotationDegrees(5F));
+            stack.mulPose(Vector3f.YP.rotationDegrees(90F));
 
-            RenderSystem.enableRescaleNormal();
-            RenderSystem.enableAlphaTest();
-            RenderSystem.defaultAlphaFunc();
+            RenderSystem.applyModelViewMatrix();
+
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-            IRenderTypeBuffer.Impl buffer = this.minecraft.getRenderTypeBuffers().getBufferSource();
-            GunRenderingHandler.get().renderWeapon(this.minecraft.player, this.minecraft.player.getHeldItemMainhand(), ItemCameraTransforms.TransformType.GROUND, matrixStack, buffer, 15728880, 0F); // GROUND, matrixStack, buffer, 15728880, 0F);
-            buffer.finish();
-
-            RenderSystem.disableAlphaTest();
-            RenderSystem.disableRescaleNormal();
+            MultiBufferSource.BufferSource buffer = this.minecraft.renderBuffers().bufferSource();
+            GunRenderingHandler.get().renderWeapon(this.minecraft.player, this.minecraft.player.getMainHandItem(), ItemTransforms.TransformType.GROUND, matrixStack, buffer, 15728880, 0F); // GROUND, matrixStack, buffer, 15728880, 0F);
+            buffer.endBatch();
         }
-        RenderSystem.popMatrix();
+        stack.popPose();
+        RenderSystem.applyModelViewMatrix();
 
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
@@ -123,7 +118,7 @@ public class InspectScreen extends ContainerScreen<InspectionContainer>
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY)
+    protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY)
     {
         /*RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft minecraft = Minecraft.getInstance();
@@ -150,8 +145,8 @@ public class InspectScreen extends ContainerScreen<InspectionContainer>
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scroll)
     {
-        int startX = (this.width - this.xSize) / 2;
-        int startY = (this.height - this.ySize) / 2;
+        int startX = (this.width - this.imageWidth) / 2;
+        int startY = (this.height - this.imageHeight) / 2;
         if(RenderUtil.isMouseWithin((int) mouseX, (int) mouseY, startX - 196, startY - 277, 650, 1600))
         {
             if(scroll < 0 && this.windowZoom > 0)
@@ -171,8 +166,8 @@ public class InspectScreen extends ContainerScreen<InspectionContainer>
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button)
     {
-        int startX = (this.width - this.xSize) / 2;
-        int startY = (this.height - this.ySize) / 2;
+        int startX = (this.width - this.imageWidth) / 2;
+        int startY = (this.height - this.imageHeight) / 2;
 
         if(RenderUtil.isMouseWithin((int) mouseX, (int) mouseY, startX - 196, startY - 277, 650, 1600))
         {

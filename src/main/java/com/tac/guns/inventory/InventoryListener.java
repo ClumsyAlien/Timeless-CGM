@@ -1,28 +1,17 @@
 package com.tac.guns.inventory;
 
 import com.tac.guns.Reference;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
 public class InventoryListener {
 
-    @CapabilityInject(IAmmoItemHandler.class)
-    public static Capability<IAmmoItemHandler> ITEM_HANDLER_CAPABILITY = null;
+    public static Capability<IAmmoItemHandler> ITEM_HANDLER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
     public static Method addSlotMethod;
 
     /*@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -31,7 +20,7 @@ public class InventoryListener {
         PlayerEntity player = (PlayerEntity) event.getEntity();
 
         if(addSlotMethod == null) {
-            addSlotMethod = ObfuscationReflectionHelper.findMethod(Container.class, "func_75146_a", Slot.class);
+            addSlotMethod = ObfuscationReflectionHelper.findMethod(Container.class, "addSlot", Slot.class);
         }
         AmmoItemStackHandler ammoItemHandler = (AmmoItemStackHandler) player.getCapability(ITEM_HANDLER_CAPABILITY).resolve().get();
         addSlotMethod.invoke(player.container, new AmmoPackSlot(ammoItemHandler, 0, 170, 84));

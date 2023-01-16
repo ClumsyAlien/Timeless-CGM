@@ -2,20 +2,20 @@ package com.tac.guns.inventory;
 
 import com.tac.guns.init.ModContainers;
 import com.tac.guns.item.AmmoPackItem;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ClickType;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class AmmoPackContainer extends Container {
+public class AmmoPackContainer extends AbstractContainerMenu {
 
     private ItemStack item;
     private int numRows = 2;
 
-    public AmmoPackContainer(int windowId, PlayerInventory inv, ItemStack item) {
+    public AmmoPackContainer(int windowId, Inventory inv, ItemStack item) {
         super(ModContainers.AMMOPACK.get(), windowId);
         this.item = item;
         AmmoItemStackHandler itemHandler = (AmmoItemStackHandler)this.item.getCapability(AmmoPackCapabilityProvider.capability).resolve().get();
@@ -40,7 +40,7 @@ public class AmmoPackContainer extends Container {
         //this.setAll(itemHandler.getStacks());
     }
 
-    public AmmoPackContainer(int windowId, PlayerInventory inv) {
+    public AmmoPackContainer(int windowId, Inventory inv) {
         super(ModContainers.AMMOPACK.get(), windowId);
         this.item = item;
         int i = (this.numRows - 4) * 18;
@@ -65,38 +65,42 @@ public class AmmoPackContainer extends Container {
 
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
+    public boolean stillValid(Player playerIn) {
         return true;
     }
 
     @Override
-    public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, PlayerEntity player) {
-        if(slotId <= 0) return super.slotClick(slotId, dragType, clickTypeIn, player);
-        Slot slot = this.inventorySlots.get(slotId);
-        if(slot.getHasStack()) {
-            if(slot.getStack().getItem() instanceof AmmoPackItem) return ItemStack.EMPTY;
+    public void clicked(int slotId, int dragType, ClickType clickTypeIn, Player player) {
+        if(slotId <= 0) {
+            super.clicked(slotId, dragType, clickTypeIn, player);
+            return;
         }
-        return super.slotClick(slotId, dragType, clickTypeIn, player);
+        Slot slot = this.slots.get(slotId);
+        if(slot.hasItem()) {
+            if(slot.getItem().getItem() instanceof AmmoPackItem) return;
+        }
+        super.clicked(slotId, dragType, clickTypeIn, player);
     }
 
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+    @Override
+    public ItemStack quickMoveStack(Player playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (index < this.numRows * 9) {
-                if (!this.mergeItemStack(itemstack1, this.numRows * 9, this.inventorySlots.size(), true)) {
+                if (!this.moveItemStackTo(itemstack1, this.numRows * 9, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 0, this.numRows * 9, false)) {
+            } else if (!this.moveItemStackTo(itemstack1, 0, this.numRows * 9, false)) {
                 return ItemStack.EMPTY;
             }
 
             if (itemstack1.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
         }
 

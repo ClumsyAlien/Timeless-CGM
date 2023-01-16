@@ -1,9 +1,11 @@
 package com.tac.guns.enchantment;
 
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
+
+import net.minecraft.world.item.enchantment.Enchantment.Rarity;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
@@ -12,7 +14,7 @@ public class TriggerFingerEnchantment extends GunEnchantment
 {
     public TriggerFingerEnchantment()
     {
-        super(Rarity.RARE, EnchantmentTypes.SEMI_AUTO_GUN, new EquipmentSlotType[]{EquipmentSlotType.MAINHAND}, Type.WEAPON);
+        super(Rarity.RARE, EnchantmentTypes.SEMI_AUTO_GUN, new EquipmentSlot[]{EquipmentSlot.MAINHAND}, Type.WEAPON);
     }
 
     @Override
@@ -22,7 +24,7 @@ public class TriggerFingerEnchantment extends GunEnchantment
     }
 
     @Override
-    public int getMinEnchantability(int level)
+    public int getMinCost(int level)
     {
         return 0;
     }
@@ -33,8 +35,8 @@ public class TriggerFingerEnchantment extends GunEnchantment
     }
 
     @Override
-    public int getMaxEnchantability(int level)
+    public int getMaxCost(int level)
     {
-        return this.getMinEnchantability(level) + 40;
+        return this.getMinCost(level) + 40;
     }
 }

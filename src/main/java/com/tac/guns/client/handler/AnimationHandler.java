@@ -1,6 +1,5 @@
 package com.tac.guns.client.handler;
 
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.Reference;
 import com.tac.guns.client.InputHandler;
 import com.tac.guns.client.render.animation.AA12AnimationController;
@@ -30,12 +29,11 @@ import com.tac.guns.util.GunEnchantmentHelper;
 
 import de.javagl.jgltf.model.animation.AnimationRunner;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.api.distmarker.Dist;
 
 import net.minecraftforge.client.event.InputEvent;
@@ -68,11 +66,11 @@ public enum AnimationHandler {
     }
 
     public void onGunReload(boolean reloading, ItemStack itemStack) {
-        PlayerEntity player = Minecraft.getInstance().player;
+        Player player = Minecraft.getInstance().player;
         if (player == null) return;
         if (itemStack.getItem() instanceof GunItem) {
             GunItem gunItem = (GunItem) itemStack.getItem();
-            CompoundNBT tag = itemStack.getOrCreateTag();
+            CompoundTag tag = itemStack.getOrCreateTag();
             int reloadingAmount = GunEnchantmentHelper.getAmmoCapacity(itemStack, gunItem.getGun()) - tag.getInt("AmmoCount");
             if (reloadingAmount <= 0) return;
         }
@@ -101,7 +99,7 @@ public enum AnimationHandler {
     public void onGunFire(GunFireEvent.Pre event) {
         if (!event.isClient()) return;
         if(Minecraft.getInstance().player == null) return;
-        if(!event.getPlayer().getUniqueID().equals(Minecraft.getInstance().player.getUniqueID())) return;
+        if(!event.getPlayer().getUUID().equals(Minecraft.getInstance().player.getUUID())) return;
         GunAnimationController controller = GunAnimationController.fromItem(event.getStack().getItem());
         if (controller == null) return;
         if (controller.isAnimationRunning()) {
@@ -124,7 +122,7 @@ public enum AnimationHandler {
     public void onPumpShotgunFire(GunFireEvent.Post event) {
         if (!event.isClient()) return;
         if(Minecraft.getInstance().player == null) return;
-        if(!event.getPlayer().getUniqueID().equals(Minecraft.getInstance().player.getUniqueID())) return;
+        if(!event.getPlayer().getUUID().equals(Minecraft.getInstance().player.getUUID())) return;
         GunAnimationController controller = GunAnimationController.fromItem(event.getStack().getItem());
         if (controller instanceof PumpShotgunAnimationController) {
             controller.runAnimation(GunAnimationController.AnimationLabel.PUMP);
@@ -135,7 +133,7 @@ public enum AnimationHandler {
     public void onBoltActionRifleFire(GunFireEvent.Post event){
         if (!event.isClient()) return;
         if(Minecraft.getInstance().player == null) return;
-        if(!event.getPlayer().getUniqueID().equals(Minecraft.getInstance().player.getUniqueID())) return;
+        if(!event.getPlayer().getUUID().equals(Minecraft.getInstance().player.getUUID())) return;
         GunAnimationController controller = GunAnimationController.fromItem(event.getStack().getItem());
         if (controller instanceof BoltActionAnimationController) {
             controller.runAnimation(GunAnimationController.AnimationLabel.PULL_BOLT);
@@ -145,10 +143,10 @@ public enum AnimationHandler {
     static
     {
     	final Runnable callback = () -> {
-    		final PlayerEntity player = Minecraft.getInstance().player;
+    		final Player player = Minecraft.getInstance().player;
     		if( player == null ) return;
     		
-    		final ItemStack stack = player.inventory.getCurrentItem();
+    		final ItemStack stack = player.getInventory().getSelected();
     		final GunAnimationController controller
     			= GunAnimationController.fromItem( stack.getItem() );
     		if( controller != null && !controller.isAnimationRunning() )
@@ -180,9 +178,9 @@ public enum AnimationHandler {
 
     @SubscribeEvent
     public void onRenderHand(RenderHandEvent event){
-        ClientPlayerEntity player = Minecraft.getInstance().player;
+        LocalPlayer player = Minecraft.getInstance().player;
         if(player == null) return;
-        ItemStack itemStack = player.inventory.getCurrentItem();
+        ItemStack itemStack = player.getInventory().getSelected();
         GunAnimationController controller = GunAnimationController.fromItem(itemStack.getItem());
         if(controller == null) return;
         if(controller.isAnimationRunning()){
@@ -208,12 +206,12 @@ public enum AnimationHandler {
         if(controller == null) return;
         if(controller instanceof PumpShotgunAnimationController ) {
             if(controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_NORMAL_END) != null) {
-                if(SyncedPlayerData.instance().get(Minecraft.getInstance().player, ModSyncedDataKeys.STOP_ANIMA))
+                if( ModSyncedDataKeys.STOP_ANIMA.getValue(Minecraft.getInstance().player))
                     controller.stopAnimation();
                 //controller.runAnimation(GunAnimationController.AnimationLabel.RELOAD_NORMAL_END);
             }
         }else{
-            if(SyncedPlayerData.instance().get(Minecraft.getInstance().player, ModSyncedDataKeys.STOP_ANIMA)) {
+            if( ModSyncedDataKeys.STOP_ANIMA.getValue(Minecraft.getInstance().player)) {
                 controller.stopAnimation();
                 controller.runAnimation(GunAnimationController.AnimationLabel.STATIC);
                 controller.stopAnimation();
@@ -224,7 +222,7 @@ public enum AnimationHandler {
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event){
         if(Minecraft.getInstance().player == null) return;
-        ItemStack stack = Minecraft.getInstance().player.getHeldItemMainhand();
+        ItemStack stack = Minecraft.getInstance().player.getMainHandItem();
         GunAnimationController controller = GunAnimationController.fromItem(stack.getItem());
         if (controller instanceof PumpShotgunAnimationController) {
             if(controller.getPreviousAnimation() != null && controller.getPreviousAnimation().equals(controller.getAnimationFromLabel(GunAnimationController.AnimationLabel.RELOAD_LOOP)) && !ReloadHandler.get().isReloading()){

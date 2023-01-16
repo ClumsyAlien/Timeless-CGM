@@ -2,10 +2,12 @@ package com.tac.guns.item;
 
 import com.tac.guns.item.attachment.ISideRail;
 import com.tac.guns.item.attachment.impl.SideRail;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * A basic under barrel attachment item implementation with color support

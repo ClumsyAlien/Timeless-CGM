@@ -1,18 +1,19 @@
 package com.tac.guns.network.message;
 
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.common.network.ServerPlayHandler;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class MessageCraft implements IMessage
+public class MessageCraft extends PlayMessage<MessageCraft>
 {
     private ResourceLocation id;
     private BlockPos pos;
@@ -26,28 +27,27 @@ public class MessageCraft implements IMessage
     }
 
     @Override
-    public void encode(PacketBuffer buffer)
+    public void encode(MessageCraft messageCraft, FriendlyByteBuf buffer)
     {
-        buffer.writeResourceLocation(this.id);
-        buffer.writeBlockPos(this.pos);
+        buffer.writeResourceLocation(messageCraft.id);
+        buffer.writeBlockPos(messageCraft.pos);
     }
 
     @Override
-    public void decode(PacketBuffer buffer)
+    public MessageCraft decode(FriendlyByteBuf buffer)
     {
-        this.id = buffer.readResourceLocation();
-        this.pos = buffer.readBlockPos();
+        return new MessageCraft(buffer.readResourceLocation(), buffer.readBlockPos());
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageCraft messageCraft, Supplier<NetworkEvent.Context> supplier)
     {
         supplier.get().enqueueWork(() ->
         {
-            ServerPlayerEntity player = supplier.get().getSender();
+            ServerPlayer player = supplier.get().getSender();
             if(player != null)
             {
-                ServerPlayHandler.handleCraft(player, this.id, this.pos);
+                ServerPlayHandler.handleCraft(player, messageCraft.id, messageCraft.pos);
             }
         });
         supplier.get().setPacketHandled(true);

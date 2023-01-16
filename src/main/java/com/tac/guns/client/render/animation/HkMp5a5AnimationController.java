@@ -6,9 +6,11 @@ import com.tac.guns.client.render.animation.module.AnimationSoundMeta;
 import com.tac.guns.client.render.animation.module.Animations;
 import com.tac.guns.client.render.animation.module.GunAnimationController;
 import com.tac.guns.init.ModItems;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.io.IOException;
+
+import com.tac.guns.client.render.animation.module.GunAnimationController.AnimationLabel;
 
 public class HkMp5a5AnimationController extends GunAnimationController {
     public static int INDEX_BODY = 2;

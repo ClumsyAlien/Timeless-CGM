@@ -1,31 +1,32 @@
 package com.tac.guns.crafting;
 
 import com.google.common.collect.ImmutableList;
+import com.tac.guns.crafting.ModRecipeType;
+import com.tac.guns.crafting.WorkbenchIngredient;
 import com.tac.guns.init.ModRecipeSerializers;
 import com.tac.guns.tileentity.WorkbenchTileEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import com.tac.guns.util.InventoryUtil;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 
 /**
- * Author: Forked from MrCrayfish, continued by Timeless devs
+ * Author: MrCrayfish
  */
-public class WorkbenchRecipe implements IRecipe<WorkbenchTileEntity>
+public class WorkbenchRecipe implements Recipe<WorkbenchTileEntity>
 {
     private final ResourceLocation id;
     private final ItemStack item;
-    private final ImmutableList<ItemStack> materials;
-    private final String group;
+    private final ImmutableList<WorkbenchIngredient> materials;
 
-    public WorkbenchRecipe(ResourceLocation id, ItemStack item, ImmutableList<ItemStack> materials, String group)
+    public WorkbenchRecipe(ResourceLocation id, ItemStack item, ImmutableList<WorkbenchIngredient> materials)
     {
         this.id = id;
         this.item = item;
         this.materials = materials;
-        this.group = group;
     }
 
     public ItemStack getItem()
@@ -33,31 +34,31 @@ public class WorkbenchRecipe implements IRecipe<WorkbenchTileEntity>
         return this.item.copy();
     }
 
-    public ImmutableList<ItemStack> getMaterials()
+    public ImmutableList<WorkbenchIngredient> getMaterials()
     {
         return this.materials;
     }
 
     @Override
-    public boolean matches(WorkbenchTileEntity inv, World worldIn)
+    public boolean matches(WorkbenchTileEntity inv, Level worldIn)
     {
         return false;
     }
 
     @Override
-    public ItemStack getCraftingResult(WorkbenchTileEntity inv)
+    public ItemStack assemble(WorkbenchTileEntity inv)
     {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public boolean canFit(int width, int height)
+    public boolean canCraftInDimensions(int width, int height)
     {
         return true;
     }
 
     @Override
-    public ItemStack getRecipeOutput()
+    public ItemStack getResultItem()
     {
         return this.item.copy();
     }
@@ -69,20 +70,34 @@ public class WorkbenchRecipe implements IRecipe<WorkbenchTileEntity>
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer()
+    public RecipeSerializer<?> getSerializer()
     {
         return ModRecipeSerializers.WORKBENCH.get();
     }
 
     @Override
-    public IRecipeType<?> getType()
+    public net.minecraft.world.item.crafting.RecipeType<?> getType()
     {
-        return com.tac.guns.crafting.RecipeType.WORKBENCH;
+        return ModRecipeType.WORKBENCH;
     }
 
-    @Override
-    public String getGroup()
+    public boolean hasMaterials(Player player)
     {
-        return group;
+        for(WorkbenchIngredient ingredient : this.getMaterials())
+        {
+            if(!InventoryUtil.hasWorkstationIngredient(player, ingredient))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void consumeMaterials(Player player)
+    {
+        for(WorkbenchIngredient ingredient : this.getMaterials())
+        {
+            InventoryUtil.removeWorkstationIngredient(player, ingredient);
+        }
     }
 }

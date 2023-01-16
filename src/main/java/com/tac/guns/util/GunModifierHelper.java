@@ -4,8 +4,8 @@ import com.tac.guns.common.Gun;
 import com.tac.guns.interfaces.IGunModifier;
 import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
 import com.tac.guns.item.attachment.IAttachment;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.util.Mth;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
@@ -146,7 +146,7 @@ public class GunModifierHelper
         {
             volume = modifier.modifyFireSoundVolume(volume);
         }
-        return MathHelper.clamp(volume, 0.0F, 16.0F);
+        return Mth.clamp(volume, 0.0F, 16.0F);
     }
 
     public static double getMuzzleFlashSize(ItemStack weapon, double size)
@@ -175,13 +175,13 @@ public class GunModifierHelper
             IGunModifier[] modifiers = getModifiers(weapon, IAttachment.Type.values()[i]);
             for(IGunModifier modifier : modifiers)
             {
-                kickReduction *= MathHelper.clamp(modifier.kickModifier(), 0.0F, 1.0F);
+                kickReduction *= Mth.clamp(modifier.kickModifier(), 0.0F, 1.0F);
             }
         }
         IGunModifier[] modifiers = getModifiers(weapon);
         for(IGunModifier modifier : modifiers)
         {
-            kickReduction *= MathHelper.clamp(modifier.kickModifier(), 0.0F, 1.0F);
+            kickReduction *= Mth.clamp(modifier.kickModifier(), 0.0F, 1.0F);
         }
         return 1.0F - kickReduction;
     }
@@ -194,13 +194,13 @@ public class GunModifierHelper
             IGunModifier[] modifiers = getModifiers(weapon, IAttachment.Type.values()[i]);
             for(IGunModifier modifier : modifiers)
             {
-                recoilReduction *= MathHelper.clamp(modifier.recoilModifier(), 0.0F, 1.0F);
+                recoilReduction *= Mth.clamp(modifier.recoilModifier(), 0.0F, 1.0F);
             }
         }
         IGunModifier[] modifiers = getModifiers(weapon);
         for(IGunModifier modifier : modifiers)
         {
-            recoilReduction *= MathHelper.clamp(modifier.recoilModifier(), 0.0F, 1.0F);
+            recoilReduction *= Mth.clamp(modifier.recoilModifier(), 0.0F, 1.0F);
         }
         return 1.0F - recoilReduction;
     }
@@ -213,13 +213,13 @@ public class GunModifierHelper
             IGunModifier[] modifiers = getModifiers(weapon, IAttachment.Type.values()[i]);
             for(IGunModifier modifier : modifiers)
             {
-                reduction *= MathHelper.clamp(modifier.horizontalRecoilModifier(), 0.0F, 1.0F);
+                reduction *= Mth.clamp(modifier.horizontalRecoilModifier(), 0.0F, 1.0F);
             }
         }
         IGunModifier[] modifiers = getModifiers(weapon);
         for(IGunModifier modifier : modifiers)
         {
-            reduction *= MathHelper.clamp(modifier.horizontalRecoilModifier(), 0.0F, 1.0F);
+            reduction *= Mth.clamp(modifier.horizontalRecoilModifier(), 0.0F, 1.0F);
         }
         return 1.0F - reduction;
     }
@@ -272,7 +272,7 @@ public class GunModifierHelper
                 minRadius = newRadius;
             }
         }
-        return MathHelper.clamp(minRadius, 0.0, Double.MAX_VALUE);
+        return Mth.clamp(minRadius, 0.0, Double.MAX_VALUE);
     }
 
     public static float getAdditionalDamage(ItemStack weapon)
@@ -379,7 +379,7 @@ public class GunModifierHelper
         {
             speed = modifier.modifyAimDownSightSpeed(speed);
         }
-        return MathHelper.clamp(speed, 0.01, Double.MAX_VALUE);
+        return Mth.clamp(speed, 0.01, Double.MAX_VALUE);
     }
 
     public static int getModifiedRate(ItemStack weapon, int rate)
@@ -397,7 +397,7 @@ public class GunModifierHelper
         {
             rate = modifier.modifyFireRate(rate);
         }
-        return MathHelper.clamp(rate, 0, Integer.MAX_VALUE);
+        return Mth.clamp(rate, 0, Integer.MAX_VALUE);
     }
 
     public static float getCriticalChance(ItemStack weapon)
@@ -417,7 +417,7 @@ public class GunModifierHelper
             chance += modifier.criticalChance();
         }
         chance += GunEnchantmentHelper.getPuncturingChance(weapon);
-        return MathHelper.clamp(chance, 0F, 1F);
+        return Mth.clamp(chance, 0F, 1F);
     }
 
     public static float getAdditionalWeaponWeight(ItemStack weapon)

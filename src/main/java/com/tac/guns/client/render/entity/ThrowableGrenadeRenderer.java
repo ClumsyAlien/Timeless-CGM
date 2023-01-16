@@ -1,17 +1,18 @@
 package com.tac.guns.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.tac.guns.entity.ThrowableGrenadeEntity;
 import com.tac.guns.entity.ThrowableStunGrenadeEntity;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.entity.Pose;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.math.Vector3f;
 
 import javax.annotation.Nullable;
 
@@ -20,45 +21,45 @@ import javax.annotation.Nullable;
  */
 public class ThrowableGrenadeRenderer extends EntityRenderer<ThrowableGrenadeEntity>
 {
-    public ThrowableGrenadeRenderer(EntityRendererManager renderManager)
-    {
-        super(renderManager);
+
+    public ThrowableGrenadeRenderer(EntityRendererProvider.Context context) {
+        super(context);
     }
 
     @Nullable
     @Override
-    public ResourceLocation getEntityTexture(ThrowableGrenadeEntity entity)
+    public ResourceLocation getTextureLocation(ThrowableGrenadeEntity entity)
     {
         return null;
     }
 
     @Override
-    public void render(ThrowableGrenadeEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int light)
+    public void render(ThrowableGrenadeEntity entity, float entityYaw, float partialTicks, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int light)
     {
-        matrixStack.push();
+        matrixStack.pushPose();
 
         /* Makes the grenade face in the direction of travel */
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(entityYaw));
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(180F));
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(entityYaw));
 
         /* Offsets to the center of the grenade before applying rotation */
         float rotation = entity.prevRotation + (entity.rotation - entity.prevRotation) * partialTicks;
         matrixStack.translate(0, 0.15, 0);
-        matrixStack.rotate(Vector3f.XP.rotationDegrees(-rotation));
+        matrixStack.mulPose(Vector3f.XP.rotationDegrees(-rotation));
         matrixStack.translate(0, -0.15, 0);
 
         if(entity instanceof ThrowableStunGrenadeEntity)
         {
-            matrixStack.translate(0, entity.getSize(Pose.STANDING).height / 2, 0);
-            matrixStack.rotate(Vector3f.ZP.rotationDegrees(-90F));
-            matrixStack.translate(0, -entity.getSize(Pose.STANDING).height / 2, 0);
+            matrixStack.translate(0, entity.getDimensions(Pose.STANDING).height / 2, 0);
+            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-90F));
+            matrixStack.translate(0, -entity.getDimensions(Pose.STANDING).height / 2, 0);
         }
 
         /* */
         matrixStack.translate(0.0, 0.5, 0.0);
 
-        Minecraft.getInstance().getItemRenderer().renderItem(entity.getItem(), ItemCameraTransforms.TransformType.NONE, light, OverlayTexture.NO_OVERLAY, matrixStack, renderTypeBuffer);
+        Minecraft.getInstance().getItemRenderer().renderStatic(entity.getItem(), ItemTransforms.TransformType.NONE, light, OverlayTexture.NO_OVERLAY, matrixStack, renderTypeBuffer, entity.getId());
 
-        matrixStack.pop();
+        matrixStack.popPose();
     }
 }

@@ -32,6 +32,8 @@ import de.javagl.jgltf.model.gl.ShaderModel;
 import de.javagl.jgltf.model.impl.AbstractNamedModelElement;
 import de.javagl.jgltf.model.io.Buffers;
 
+import de.javagl.jgltf.model.gl.ShaderModel.ShaderType;
+
 /**
  * Implementation of a {@link ShaderModel}
  */

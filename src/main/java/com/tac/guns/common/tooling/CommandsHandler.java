@@ -1,20 +1,6 @@
 package com.tac.guns.common.tooling;
 
-import com.tac.guns.client.handler.command.data.ScopeData;
-import com.tac.guns.client.render.gun.IOverrideModel;
-import com.tac.guns.client.render.gun.ModelOverrides;
-import com.tac.guns.common.Gun;
-import com.tac.guns.init.ModItems;
-import com.tac.guns.item.TransitionalTypes.TimelessGunItem;
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.RegistryObject;
-
-import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.Locale;
-import java.util.Objects;
-
-import static com.tac.guns.GunMod.LOGGER;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs

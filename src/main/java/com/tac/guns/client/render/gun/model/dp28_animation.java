@@ -1,6 +1,6 @@
 package com.tac.guns.client.render.gun.model;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.tac.guns.Config;
 import com.tac.guns.client.SpecialModels;
 import com.tac.guns.client.render.animation.Dp28AnimationController;
@@ -11,12 +11,12 @@ import com.tac.guns.client.render.gun.ModelOverrides;
 import com.tac.guns.client.util.RenderUtil;
 import com.tac.guns.common.Gun;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.CooldownTracker;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemCooldowns;
+import com.mojang.math.Vector3f;
 
 /*
  * Because the revolver has a rotating chamber, we need to render it in a
@@ -29,31 +29,31 @@ import net.minecraft.util.math.vector.Vector3f;
 public class dp28_animation implements IOverrideModel {
 
     @Override
-    public void render(float v, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrices, IRenderTypeBuffer renderBuffer, int light, int overlay)
+    public void render(float v, ItemTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, PoseStack matrices, MultiBufferSource renderBuffer, int light, int overlay)
     {
-        if(ModelOverrides.hasModel(stack) && transformType.equals(ItemCameraTransforms.TransformType.GUI) && Config.CLIENT.quality.reducedGuiWeaponQuality.get())
+        if(ModelOverrides.hasModel(stack) && transformType.equals(ItemTransforms.TransformType.GUI) && Config.CLIENT.quality.reducedGuiWeaponQuality.get())
         {
-            matrices.push();
-            matrices.rotate(Vector3f.XP.rotationDegrees(-60.0F));
-            matrices.rotate(Vector3f.YP.rotationDegrees(225.0F));
-            matrices.rotate(Vector3f.ZP.rotationDegrees(-90.0F));
+            matrices.pushPose();
+            matrices.mulPose(Vector3f.XP.rotationDegrees(-60.0F));
+            matrices.mulPose(Vector3f.YP.rotationDegrees(225.0F));
+            matrices.mulPose(Vector3f.ZP.rotationDegrees(-90.0F));
             matrices.translate(0.9,0,0);
             matrices.scale(1.5F,1.5F,1.5F);
             RenderUtil.renderModel(stack, stack, matrices, renderBuffer, light, overlay);
-            matrices.pop();
+            matrices.popPose();
             return;
         }
         Dp28AnimationController controller = Dp28AnimationController.getInstance();
-        matrices.push();
+        matrices.pushPose();
         {
             controller.applySpecialModelTransform(SpecialModels.DP_28.getModel(), Dp28AnimationController.INDEX_BODY,transformType,matrices);
             RenderUtil.renderModel(SpecialModels.DP_28.getModel(), stack, matrices, renderBuffer, light, overlay);
             //Always push
-            matrices.push();
+            matrices.pushPose();
 
             //We're getting the cooldown tracker for the item - items like the sword, ender pearl, and chorus fruit all have this too.
-            CooldownTracker tracker = Minecraft.getInstance().player.getCooldownTracker();
-            float cooldownOg = tracker.getCooldown(stack.getItem(), Minecraft.getInstance().getRenderPartialTicks());
+            ItemCooldowns tracker = Minecraft.getInstance().player.getCooldowns();
+            float cooldownOg = tracker.getCooldownPercent(stack.getItem(), Minecraft.getInstance().getFrameTime());
 
 
             if(Gun.hasAmmo(stack))
@@ -76,16 +76,16 @@ public class dp28_animation implements IOverrideModel {
             RenderUtil.renderModel(SpecialModels.DP_28_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay);
 
             //Always pop
-            matrices.pop();
+            matrices.popPose();
         }
-        matrices.pop();
+        matrices.popPose();
 
-        matrices.push();
+        matrices.pushPose();
         {
             controller.applySpecialModelTransform(SpecialModels.DP_28.getModel(), Dp28AnimationController.INDEX_MAGAZINE,transformType,matrices);
             RenderUtil.renderModel(SpecialModels.DP_28_MAG.getModel(), stack, matrices, renderBuffer, light, overlay);
         }
-        matrices.pop();
+        matrices.popPose();
 
         PlayerHandAnimation.render(controller,transformType,matrices,renderBuffer,light);
     }

@@ -1,6 +1,6 @@
 package com.tac.guns.client.render.animation.module;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.javagl.jgltf.model.GltfAnimations;
 import de.javagl.jgltf.model.NodeModel;
 import de.javagl.jgltf.model.animation.Animation;
@@ -11,14 +11,14 @@ import de.javagl.jgltf.model.io.GltfAssetReader;
 import de.javagl.jgltf.model.io.v2.GltfAssetV2;
 import de.javagl.jgltf.model.v2.GltfModelV2;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.model.ItemTransformVec3f;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.resources.IResource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.block.model.ItemTransform;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.math.Matrix4f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -33,7 +33,7 @@ import java.util.Stack;
 public class Animations {
     private static final Stack<NodeModel> nodeModelStack = new Stack<>();
     private static final Stack<NodeModel> initialModelStack = new Stack<>();
-    private static final MatrixStack extraMatrixStack = new MatrixStack();
+    private static final PoseStack extraMatrixStack = new PoseStack();
     private static NodeModel bind;
     private static NodeModel initial;
     private static final Map<String, GltfModelV2> gltfModelV2Map = new HashMap<>();
@@ -47,7 +47,7 @@ public class Animations {
     }
 
     public static GltfModelV2 load(ResourceLocation resourceLocation) throws IOException {
-        IResource resource = Minecraft.getInstance().getResourceManager().getResource(resourceLocation);
+        Resource resource = Minecraft.getInstance().getResourceManager().getResource(resourceLocation);
         InputStream inputStream = resource.getInputStream();
         GltfAssetReader reader = new GltfAssetReader();
         GltfAsset asset = reader.readWithoutReferences(inputStream);
@@ -79,7 +79,7 @@ public class Animations {
     }
 
     public static void specifyInitialModel(AnimationMeta animationMeta, AnimationMeta initialMeta) throws IOException {
-        IResource initialResource = Minecraft.getInstance().getResourceManager().getResource(initialMeta.getResourceLocation());
+        Resource initialResource = Minecraft.getInstance().getResourceManager().getResource(initialMeta.getResourceLocation());
         InputStream inputStream = initialResource.getInputStream();
         GltfAssetReader reader = new GltfAssetReader();
         GltfAsset asset = reader.readWithoutReferences(inputStream);
@@ -186,26 +186,26 @@ public class Animations {
         return animationManagerMap.get(resourceLocation.toString());
     }
 
-    public static MatrixStack getExtraMatrixStack() { return extraMatrixStack; }
+    public static PoseStack getExtraMatrixStack() { return extraMatrixStack; }
 
-    public static void applyExtraTransform(MatrixStack matrixStack){
-        matrixStack.getLast().getMatrix().mul(extraMatrixStack.getLast().getMatrix());
-        matrixStack.getLast().getNormal().mul(extraMatrixStack.getLast().getNormal());
+    public static void applyExtraTransform(PoseStack matrixStack){
+        matrixStack.last().pose().multiply(extraMatrixStack.last().pose());
+        matrixStack.last().normal().mul(extraMatrixStack.last().normal());
     }
 
-    public static void applyAnimationTransform(ItemStack itemStack, ItemCameraTransforms.TransformType transformType, LivingEntity entity, MatrixStack matrixStack){
+    public static void applyAnimationTransform(ItemStack itemStack, ItemTransforms.TransformType transformType, LivingEntity entity, PoseStack matrixStack){
         if(itemStack != null && entity != null) {
-            IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(itemStack, entity.world, entity);
+            BakedModel model = Minecraft.getInstance().getItemRenderer().getModel(itemStack, entity.level, entity, entity.getId());
             applyAnimationTransform(model, transformType, matrixStack);
         }
     }
 
-    public static void applyAnimationTransform(IBakedModel model, ItemCameraTransforms.TransformType transformType, MatrixStack matrixStack){
+    public static void applyAnimationTransform(BakedModel model, ItemTransforms.TransformType transformType, PoseStack matrixStack){
         if(Animations.peekNodeModel() != null && Animations.peekInitialModel() != null) {
-            ItemTransformVec3f modelTransformVec3f = (model == null ? null : model.getItemCameraTransforms().getTransform(transformType) );
+            ItemTransform modelTransformVec3f = (model == null ? null : model.getTransforms().getTransform(transformType) );
             if(modelTransformVec3f != null) {
-                matrixStack.translate(modelTransformVec3f.translation.getX(), modelTransformVec3f.translation.getY(), modelTransformVec3f.translation.getZ());
-                matrixStack.scale(modelTransformVec3f.scale.getX(),modelTransformVec3f.scale.getY(),modelTransformVec3f.scale.getZ());
+                matrixStack.translate(modelTransformVec3f.translation.x(), modelTransformVec3f.translation.y(), modelTransformVec3f.translation.z());
+                matrixStack.scale(modelTransformVec3f.scale.x(),modelTransformVec3f.scale.y(),modelTransformVec3f.scale.z());
                 matrixStack.translate(-0.5,-0.5,-0.5);
             }
             Matrix4f animationTransition = new Matrix4f(Animations.peekNodeModel().computeGlobalTransform(null));
@@ -213,12 +213,12 @@ public class Animations {
             animationTransition.transpose();
             initialTransition.transpose();
             initialTransition.invert();
-            matrixStack.getLast().getMatrix().mul(animationTransition);
-            matrixStack.getLast().getMatrix().mul(initialTransition);
+            matrixStack.last().pose().multiply(animationTransition);
+            matrixStack.last().pose().multiply(initialTransition);
             if(modelTransformVec3f !=null) {
                 matrixStack.translate(0.5, 0.5, 0.5);
-                matrixStack.scale(1/modelTransformVec3f.scale.getX(),1/modelTransformVec3f.scale.getY(),1/modelTransformVec3f.scale.getZ());
-                matrixStack.translate(-modelTransformVec3f.translation.getX(), -modelTransformVec3f.translation.getY(), -modelTransformVec3f.translation.getZ());
+                matrixStack.scale(1/modelTransformVec3f.scale.x(),1/modelTransformVec3f.scale.y(),1/modelTransformVec3f.scale.z());
+                matrixStack.translate(-modelTransformVec3f.translation.x(), -modelTransformVec3f.translation.y(), -modelTransformVec3f.translation.z());
             }
         }
         applyExtraTransform(matrixStack);

@@ -8,13 +8,11 @@ import com.tac.guns.item.GunItem;
 import com.tac.guns.item.IWeaponColorable;
 import com.tac.guns.item.ScopeItem;
 import com.tac.guns.item.attachment.IAttachment;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.DyeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundCategory;
-
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.ItemStack;
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
@@ -22,10 +20,10 @@ public class WeaponColorSegmentSlot extends Slot
 {
     private ColorBenchContainer container;
     private ItemStack weapon;
-    private PlayerEntity player;
+    private Player player;
 
     // Segment handling with these slots will be based on index
-    public WeaponColorSegmentSlot(ColorBenchContainer container, IInventory weaponInventory, ItemStack weapon, PlayerEntity player, int index, int x, int y)
+    public WeaponColorSegmentSlot(ColorBenchContainer container, Container weaponInventory, ItemStack weapon, Player player, int index, int x, int y)
     {
         super(weaponInventory, index, x, y);
         this.container = container;
@@ -34,7 +32,7 @@ public class WeaponColorSegmentSlot extends Slot
     }
 
     @Override
-    public boolean isEnabled()
+    public boolean isActive()
     {
         if(this.weapon.getItem() instanceof GunItem)
             return true;
@@ -43,7 +41,7 @@ public class WeaponColorSegmentSlot extends Slot
     }
 
     @Override
-    public boolean isItemValid(ItemStack stack)
+    public boolean mayPlace(ItemStack stack)
     {
         if(this.weapon.getItem() instanceof GunItem)
             return stack.getItem() instanceof DyeItem;
@@ -60,7 +58,7 @@ public class WeaponColorSegmentSlot extends Slot
         }
     }*/
     @Override
-    public int getSlotStackLimit()
+    public int getMaxStackSize()
     {
         return 1;
     }

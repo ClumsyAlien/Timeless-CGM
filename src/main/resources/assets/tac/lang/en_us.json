@@ -396,5 +396,12 @@
     "tac.button.aim": "Aim Down Sight",
     "tac.button.reload": "Reload / Unload",
     "tac.button.attachments": "Modify Attachments",
-    "tac.button.steadyAim": "Steady Aim"
+    "tac.button.steadyAim": "Steady Aim",
+    "container.tac.color_bench": "",
+    "container.tac.inspection": "",
+    "Cannot apply enchants anymore": "",
+    "container.tac.upgradeBench": "",
+    "tac.empt": "",
+    "gui.cgm.workbench.show_remaining": "",
+    "gui.cgm.workbench.assemble": ""
 }

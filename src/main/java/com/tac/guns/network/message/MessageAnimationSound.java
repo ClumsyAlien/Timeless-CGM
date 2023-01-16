@@ -1,14 +1,15 @@
 package com.tac.guns.network.message;
 
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.client.network.ClientPlayHandler;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public class MessageAnimationSound implements IMessage{
+public class MessageAnimationSound extends PlayMessage<MessageAnimationSound> {
     private ResourceLocation animationResource;
     private ResourceLocation soundResource;
     private boolean play;
@@ -28,26 +29,23 @@ public class MessageAnimationSound implements IMessage{
     }
 
     @Override
-    public void encode(PacketBuffer buffer) {
-        buffer.writeResourceLocation(animationResource);
-        buffer.writeResourceLocation(soundResource);
-        buffer.writeBoolean(play);
-        buffer.writeUniqueId(fromWho);
+    public void encode(MessageAnimationSound messageAnimationSound, FriendlyByteBuf buffer) {
+        buffer.writeResourceLocation(messageAnimationSound.animationResource);
+        buffer.writeResourceLocation(messageAnimationSound.soundResource);
+        buffer.writeBoolean(messageAnimationSound.play);
+        buffer.writeUUID(messageAnimationSound.fromWho);
     }
 
     @Override
-    public void decode(PacketBuffer buffer) {
-        animationResource = buffer.readResourceLocation();
-        soundResource = buffer.readResourceLocation();
-        play = buffer.readBoolean();
-        fromWho = buffer.readUniqueId();
+    public MessageAnimationSound decode(FriendlyByteBuf buffer) {
+        return new MessageAnimationSound(buffer.readResourceLocation(), buffer.readResourceLocation(), buffer.readBoolean(), buffer.readUUID());
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier) {
+    public void handle(MessageAnimationSound messageAnimationSound, Supplier<NetworkEvent.Context> supplier) {
         supplier.get().enqueueWork(() ->
         {
-            ClientPlayHandler.handleMessageAnimationSound(fromWho, animationResource, soundResource, play);
+            ClientPlayHandler.handleMessageAnimationSound(messageAnimationSound.fromWho, messageAnimationSound.animationResource, messageAnimationSound.soundResource, messageAnimationSound.play);
         });
         supplier.get().setPacketHandled(true);
     }

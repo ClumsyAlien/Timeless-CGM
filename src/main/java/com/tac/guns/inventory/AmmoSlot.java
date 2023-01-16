@@ -1,7 +1,7 @@
 package com.tac.guns.inventory;
 
 import com.tac.guns.item.IAmmo;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -12,7 +12,7 @@ public class AmmoSlot extends SlotItemHandler {
     }
 
     @Override
-    public boolean isItemValid(ItemStack stack) {
+    public boolean mayPlace(ItemStack stack) {
         return stack.getItem() instanceof IAmmo;
     }
 }

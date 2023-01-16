@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[32,)"
+loaderVersion="[39,)"
 license="GPL3"
 
 [[mods]]
@@ -21,18 +21,6 @@ description='''
 [[dependencies.tac]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.3,1.17)"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.tac]]
-    modId="obfuscate"
-    mandatory=true
-    versionRange="[0.6.0,)"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.tac]]
-    modId="chiselsandbits"
-    mandatory=false
-    versionRange="[1.0.63,)"
+    versionRange="[1.18.2,1.19)"
     ordering="NONE"
     side="BOTH"

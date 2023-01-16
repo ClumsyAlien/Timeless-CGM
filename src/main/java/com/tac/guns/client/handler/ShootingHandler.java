@@ -1,11 +1,10 @@
 package com.tac.guns.client.handler;
 
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import com.tac.guns.init.ModSyncedDataKeys;
 import com.tac.guns.network.message.MessageEmptyMag;
 import com.tac.guns.network.message.MessageUpdateMoveInacc;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
 
@@ -23,9 +22,9 @@ import com.tac.guns.util.GunEnchantmentHelper;
 import com.tac.guns.util.GunModifierHelper;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.CooldownTracker;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -81,13 +80,13 @@ public class  ShootingHandler
     private boolean isInGame()
     {
         Minecraft mc = Minecraft.getInstance();
-        if(mc.loadingGui != null)
+        if(mc.getOverlay() != null)
             return false;
-        if(mc.currentScreen != null)
+        if(mc.screen != null)
             return false;
-        if(!mc.mouseHelper.isMouseGrabbed())
+        if(!mc.mouseHandler.isMouseGrabbed())
             return false;
-        return mc.isGameFocused();
+        return mc.isWindowActive();
     }
 
     @SubscribeEvent
@@ -100,11 +99,11 @@ public class  ShootingHandler
             return;
 
         Minecraft mc = Minecraft.getInstance();
-        PlayerEntity player = mc.player;
+        Player player = mc.player;
         if(player == null)
             return;
 
-        ItemStack heldItem = player.getHeldItemMainhand();
+        ItemStack heldItem = player.getMainHandItem();
         if(heldItem.getItem() instanceof GunItem)
         {
             int button = event.getButton();
@@ -125,7 +124,7 @@ public class  ShootingHandler
                     fire(player, heldItem);
 
                 if(!(heldItem.getTag().getInt("AmmoCount") > 0)) {
-                    player.sendStatusMessage(new TranslationTextComponent("info.tac.out_of_ammo").mergeStyle(TextFormatting.UNDERLINE).mergeStyle(TextFormatting.BOLD).mergeStyle(TextFormatting.RED), true);
+                    player.displayClientMessage(new TranslatableComponent("info.tac.out_of_ammo").withStyle(ChatFormatting.UNDERLINE).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.RED), true);
                     PacketHandler.getPlayChannel().sendToServer(new MessageEmptyMag());
                 }
             }
@@ -142,17 +141,17 @@ public class  ShootingHandler
             return;
 
         Minecraft mc = Minecraft.getInstance();
-        PlayerEntity player = mc.player;
+        Player player = mc.player;
         if(player != null)
         {
-            ItemStack heldItem = player.getHeldItemMainhand();
+            ItemStack heldItem = player.getMainHandItem();
             if(heldItem.getItem() instanceof GunItem && (Gun.hasAmmo(heldItem) || player.isCreative()))
             {
                 float dist =
-                        (Math.abs(player.moveForward)/2.5f+
-                                Math.abs(player.moveStrafing)/1.25f)+
-                                (player.getMotion().y > 0 ? 0.5f:0);
-                if(SyncedPlayerData.instance().get(player, ModSyncedDataKeys.MOVING) != dist || dist != 0)
+                        (Math.abs(player.zza)/2.5f+
+                                Math.abs(player.xxa)/1.25f)+
+                                (player.getDeltaMovement().y > 0 ? 0.5f:0);
+                if(ModSyncedDataKeys.MOVING.getValue(player) != dist || dist != 0)
                     PacketHandler.getPlayChannel().sendToServer(new MessageUpdateMoveInacc(dist));
                 else
                     PacketHandler.getPlayChannel().sendToServer(new MessageUpdateMoveInacc(0));
@@ -196,7 +195,7 @@ public class  ShootingHandler
         if (!isInGame())
             return;
         Minecraft mc = Minecraft.getInstance();
-        PlayerEntity player = mc.player;
+        Player player = mc.player;
         if (player != null)
             if(this.burstCooldown > 0)
                 this.burstCooldown -= 1;
@@ -209,10 +208,10 @@ public class  ShootingHandler
         if(!isInGame())
             return;
         Minecraft mc = Minecraft.getInstance();
-        PlayerEntity player = mc.player;
+        Player player = mc.player;
         if(player != null)
         {
-            ItemStack heldItem = player.getHeldItemMainhand();
+            ItemStack heldItem = player.getMainHandItem();
 //            player.sendStatusMessage(new TranslationTextComponent(this.burstCooldown+"| | |"+this.burstTracker+"| | |"+heldItem.getTag().getInt("CurrentFireMode")), true);
             if(heldItem.getItem() instanceof TimelessGunItem)
             {
@@ -226,11 +225,11 @@ public class  ShootingHandler
                             this.burstTracker++;
                         this.shootErr = false;
                     }
-                    CooldownTracker tracker = player.getCooldownTracker();
+                    ItemCooldowns tracker = player.getCooldowns();
                     if(this.burstTracker > 0)
                     {
                         //player.sendMessage(new TranslationTextComponent("Bursting"), UUID.randomUUID());
-                        if(!tracker.hasCooldown(heldItem.getItem())) {
+                        if(!tracker.isOnCooldown(heldItem.getItem())) {
                             fire(player, heldItem);
                             this.burstTracker--;
                         }
@@ -266,14 +265,14 @@ public class  ShootingHandler
                                 this.burstTracker--;
                             this.shootErr = false;
                         }
-                        CooldownTracker tracker = player.getCooldownTracker();
+                        ItemCooldowns tracker = player.getCooldowns();
                         if (this.burstTracker < gun.getGeneral().getBurstCount()-1) {
-                            if (!tracker.hasCooldown(heldItem.getItem())) {
+                            if (!tracker.isOnCooldown(heldItem.getItem())) {
                                 fire(player, heldItem);
                                 this.burstTracker++;
                             }
                         } else if (heldItem.getTag().getInt("AmmoCount") > 0 && this.burstTracker > 0) {
-                            if (!tracker.hasCooldown(heldItem.getItem())) {
+                            if (!tracker.isOnCooldown(heldItem.getItem())) {
                                 this.burstTracker = 0;
                                 this.clickUp = true;
                                 this.burstCooldown = gun.getGeneral().getBurstRate();
@@ -296,7 +295,7 @@ public class  ShootingHandler
         }
     }
 
-    public void fire(PlayerEntity player, ItemStack heldItem)
+    public void fire(Player player, ItemStack heldItem)
     {
         if(!(heldItem.getItem() instanceof GunItem))
             return;
@@ -312,9 +311,9 @@ public class  ShootingHandler
             this.shooting = false;
             return;
         }
-        CooldownTracker tracker = player.getCooldownTracker();
+        ItemCooldowns tracker = player.getCooldowns();
 
-        if(!tracker.hasCooldown(heldItem.getItem()))
+        if(!tracker.isOnCooldown(heldItem.getItem()))
         {
             GunItem gunItem = (GunItem) heldItem.getItem();
             Gun modifiedGun = gunItem.getModifiedGun(heldItem);
@@ -324,8 +323,8 @@ public class  ShootingHandler
 
             int rate = GunEnchantmentHelper.getRate(heldItem, modifiedGun);
             rate = GunModifierHelper.getModifiedRate(heldItem, rate);
-            tracker.setCooldown(heldItem.getItem(), rate);
-            PacketHandler.getPlayChannel().sendToServer(new MessageShoot(player.getYaw(1), player.getPitch(1)));
+            tracker.addCooldown(heldItem.getItem(), rate);
+            PacketHandler.getPlayChannel().sendToServer(new MessageShoot(player.getViewYRot(1), player.getViewXRot(1)));
 
             MinecraftForge.EVENT_BUS.post(new GunFireEvent.Post(player, heldItem));
         }

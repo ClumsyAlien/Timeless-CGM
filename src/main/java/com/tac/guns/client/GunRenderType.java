@@ -3,10 +3,10 @@ package com.tac.guns.client;
 import com.tac.guns.Reference;
 import com.tac.guns.client.handler.GunRenderingHandler;
 import com.tac.guns.client.render.ScreenTextureState;
-import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 
@@ -15,15 +15,15 @@ import static org.lwjgl.opengl.GL11.GL_QUADS;
  */
 public final class GunRenderType extends RenderType
 {
-    private static final RenderType BULLET_TRAIL = RenderType.makeType(Reference.MOD_ID + ":projectile_trail", DefaultVertexFormats.POSITION_COLOR, GL_QUADS, 256, true, true, RenderType.State.getBuilder().cull(CULL_DISABLED).alpha(DEFAULT_ALPHA).transparency(TRANSLUCENT_TRANSPARENCY).build(false));
-    private static final RenderType SCREEN = RenderType.makeType(Reference.MOD_ID + ":screen_texture", DefaultVertexFormats.ENTITY, GL_QUADS, 1024, true, false, RenderType.State.getBuilder().texturing(ScreenTextureState.instance()).lightmap(LIGHTMAP_ENABLED).overlay(OVERLAY_ENABLED).cull(RenderState.CULL_ENABLED).build(false)); //256
-    private static final RenderType MUZZLE_FLASH = RenderType.makeType(Reference.MOD_ID + ":muzzle_flash", DefaultVertexFormats.POSITION_COLOR_TEX_LIGHTMAP, GL_QUADS, 256, true, false, RenderType.State.getBuilder().texture(new RenderState.TextureState(GunRenderingHandler.MUZZLE_FLASH_TEXTURE, false, false)).transparency(TRANSLUCENT_TRANSPARENCY).alpha(DEFAULT_ALPHA).cull(CULL_DISABLED).build(true));
-    private static final RenderType MUZZLE_SMOKE = RenderType.makeType(Reference.MOD_ID + ":muzzle_smoke", DefaultVertexFormats.POSITION_COLOR_TEX, GL_QUADS, 256, true, false, RenderType.State.getBuilder().texture(new RenderState.TextureState(GunRenderingHandler.MUZZLE_SMOKE_TEXTURE, false, false)).transparency(TRANSLUCENT_TRANSPARENCY).alpha(DEFAULT_ALPHA).cull(CULL_DISABLED).build(true));
+    private static final RenderType BULLET_TRAIL = RenderType.create(Reference.MOD_ID + ":projectile_trail", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER).setCullState(NO_CULL).setTransparencyState(TRANSLUCENT_TRANSPARENCY).createCompositeState(false));
+    private static final RenderType SCREEN = RenderType.create(Reference.MOD_ID + ":screen_texture", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1024, true, false, RenderType.CompositeState.builder().setShaderState(RenderStateShard.NEW_ENTITY_SHADER).setTexturingState(ScreenTextureState.instance()).setLightmapState(LIGHTMAP).setOverlayState(OVERLAY).setCullState(RenderStateShard.CULL).createCompositeState(false)); //256
+    private static final RenderType MUZZLE_FLASH = RenderType.create(Reference.MOD_ID + ":muzzle_flash", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, 256, true, false, RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER).setTextureState(new RenderStateShard.TextureStateShard(GunRenderingHandler.MUZZLE_FLASH_TEXTURE, false, false)).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(NO_CULL).createCompositeState(true));
+    private static final RenderType MUZZLE_SMOKE = RenderType.create(Reference.MOD_ID + ":muzzle_smoke", DefaultVertexFormat.POSITION_COLOR_TEX, VertexFormat.Mode.QUADS, 256, true, false, RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(GunRenderingHandler.MUZZLE_SMOKE_TEXTURE, false, false)).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(NO_CULL).createCompositeState(true));
 
-    private GunRenderType(String nameIn, VertexFormat formatIn, int drawModeIn, int bufferSizeIn, boolean useDelegateIn, boolean needsSortingIn, Runnable setupTaskIn, Runnable clearTaskIn)
-    {
-        super(nameIn, formatIn, drawModeIn, bufferSizeIn, useDelegateIn, needsSortingIn, setupTaskIn, clearTaskIn);
+    public GunRenderType(String pName, VertexFormat pFormat, VertexFormat.Mode pMode, int pBufferSize, boolean pAffectsCrumbling, boolean pSortOnUpload, Runnable pSetupState, Runnable pClearState) {
+        super(pName, pFormat, pMode, pBufferSize, pAffectsCrumbling, pSortOnUpload, pSetupState, pClearState);
     }
+
 
     public static RenderType getBulletTrail()
     {

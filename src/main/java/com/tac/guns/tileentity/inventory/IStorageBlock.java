@@ -1,21 +1,21 @@
 package com.tac.guns.tileentity.inventory;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.NonNullList;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public interface IStorageBlock extends IInventory, INamedContainerProvider
+public interface IStorageBlock extends Container, MenuProvider
 {
     NonNullList<ItemStack> getInventory();
 
     @Override
-    default int getSizeInventory()
+    default int getContainerSize()
     {
         return this.getInventory().size();
     }
@@ -34,24 +34,24 @@ public interface IStorageBlock extends IInventory, INamedContainerProvider
     }
 
     @Override
-    default ItemStack getStackInSlot(int index)
+    default ItemStack getItem(int index)
     {
         return index >= 0 && index < this.getInventory().size() ? this.getInventory().get(index) : ItemStack.EMPTY;
     }
 
     @Override
-    default ItemStack decrStackSize(int index, int count)
+    default ItemStack removeItem(int index, int count)
     {
-        ItemStack stack = ItemStackHelper.getAndSplit(this.getInventory(), index, count);
+        ItemStack stack = ContainerHelper.removeItem(this.getInventory(), index, count);
         if (!stack.isEmpty())
         {
-            this.markDirty();
+            this.setChanged();
         }
         return stack;
     }
 
     @Override
-    default ItemStack removeStackFromSlot(int index)
+    default ItemStack removeItemNoUpdate(int index)
     {
         ItemStack stack = this.getInventory().get(index);
         if (stack.isEmpty())
@@ -66,42 +66,42 @@ public interface IStorageBlock extends IInventory, INamedContainerProvider
     }
 
     @Override
-    default void setInventorySlotContents(int index, ItemStack stack)
+    default void setItem(int index, ItemStack stack)
     {
         this.getInventory().set(index, stack);
-        if(!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit())
+        if(!stack.isEmpty() && stack.getCount() > this.getMaxStackSize())
         {
-            stack.setCount(this.getInventoryStackLimit());
+            stack.setCount(this.getMaxStackSize());
         }
-        this.markDirty();
+        this.setChanged();
     }
 
     @Override
-    default int getInventoryStackLimit()
+    default int getMaxStackSize()
     {
         return 64;
     }
 
     @Override
-    default boolean isUsableByPlayer(PlayerEntity player)
+    default boolean stillValid(Player player)
     {
         return false;
     }
 
     @Override
-    default void openInventory(PlayerEntity player) {}
+    default void startOpen(Player player) {}
 
     @Override
-    default void closeInventory(PlayerEntity player) {}
+    default void stopOpen(Player player) {}
 
     @Override
-    default boolean isItemValidForSlot(int index, ItemStack stack)
+    default boolean canPlaceItem(int index, ItemStack stack)
     {
         return true;
     }
 
     @Override
-    default void clear()
+    default void clearContent()
     {
         this.getInventory().clear();
     }

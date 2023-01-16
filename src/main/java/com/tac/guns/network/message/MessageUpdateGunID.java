@@ -1,10 +1,11 @@
 package com.tac.guns.network.message;
 
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.common.NetworkGunManager;
 import com.tac.guns.common.network.ServerPlayHandler;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 import org.apache.commons.lang3.Validate;
 
 import java.util.function.Supplier;
@@ -12,31 +13,36 @@ import java.util.function.Supplier;
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class MessageUpdateGunID implements IMessage
+public class MessageUpdateGunID extends PlayMessage<MessageUpdateGunID>
 {
     private boolean regenerate;
-    public MessageUpdateGunID(boolean regenerate) {this.regenerate = regenerate;}
-    public MessageUpdateGunID(){this.regenerate=false;}
+    public MessageUpdateGunID(boolean regenerate) {
+        this.regenerate = regenerate;
+    }
+    public MessageUpdateGunID() {
+        this.regenerate=false;
+    }
 
     @Override
-    public void encode(PacketBuffer buffer)
-    {}
+    public void encode(MessageUpdateGunID messageUpdateGunID, FriendlyByteBuf buffer) {}
 
     @Override
-    public void decode(PacketBuffer buffer) {}
+    public MessageUpdateGunID decode(FriendlyByteBuf buffer) {
+        return new MessageUpdateGunID();
+    }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageUpdateGunID messageUpdateGunID, Supplier<NetworkEvent.Context> supplier)
     {
         supplier.get().enqueueWork(() ->
         {
-            ServerPlayerEntity player = supplier.get().getSender();
+            ServerPlayer player = supplier.get().getSender();
             if(player != null && !player.isSpectator())
             {
                 try
                 {
                     Validate.notNull(NetworkGunManager.get());
-                    ServerPlayHandler.handleGunID(player, regenerate);
+                    ServerPlayHandler.handleGunID(player,messageUpdateGunID.regenerate);
                 }
                 catch (Exception e)
                 {

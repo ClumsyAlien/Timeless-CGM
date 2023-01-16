@@ -1,14 +1,14 @@
 package com.tac.guns.common;
 
 import com.tac.guns.annotation.Ignored;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class CustomGun implements INBTSerializable<CompoundNBT>
+public class CustomGun implements INBTSerializable<CompoundTag>
 {
     @Ignored
     public ItemStack model;
@@ -25,18 +25,18 @@ public class CustomGun implements INBTSerializable<CompoundNBT>
     }
 
     @Override
-    public CompoundNBT serializeNBT()
+    public CompoundTag serializeNBT()
     {
-        CompoundNBT compound = new CompoundNBT();
-        compound.put("Model", this.model.write(new CompoundNBT()));
+        CompoundTag compound = new CompoundTag();
+        compound.put("Model", this.model.save(new CompoundTag()));
         compound.put("Gun", this.gun.serializeNBT());
         return compound;
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT compound)
+    public void deserializeNBT(CompoundTag compound)
     {
-        this.model = ItemStack.read(compound.getCompound("Model"));
+        this.model = ItemStack.of(compound.getCompound("Model"));
         this.gun = Gun.create(compound.getCompound("Gun"));
     }
 }

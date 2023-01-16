@@ -4,9 +4,9 @@ import com.tac.guns.common.Gun;
 import com.tac.guns.common.ProjectileManager;
 import com.tac.guns.entity.ProjectileEntity;
 import com.tac.guns.item.GunItem;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 /**
  * This class allows weapons to fire custom projectiles instead of the default implementation. The
@@ -27,5 +27,5 @@ public interface IProjectileFactory
      * @param modifiedGun the properties of the gun
      * @return a projectile entity
      */
-    ProjectileEntity create(World worldIn, LivingEntity entity, ItemStack weapon, GunItem item, Gun modifiedGun);
+    ProjectileEntity create(Level worldIn, LivingEntity entity, ItemStack weapon, GunItem item, Gun modifiedGun);
 }

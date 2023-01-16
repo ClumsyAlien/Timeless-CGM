@@ -1,17 +1,17 @@
 package com.tac.guns.network.message;
 
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.common.network.ServerPlayHandler;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class MessageLightChange implements IMessage
+public class MessageLightChange extends PlayMessage<MessageLightChange>
 {
     private int[] range;
 
@@ -23,23 +23,23 @@ public class MessageLightChange implements IMessage
     }
 
     @Override
-    public void encode(PacketBuffer buffer)
+    public void encode(MessageLightChange messageLightChange, FriendlyByteBuf buffer)
     {
-        buffer.writeVarIntArray(this.range);
+        buffer.writeVarIntArray(messageLightChange.range);
     }
 
     @Override
-    public void decode(PacketBuffer buffer)
+    public MessageLightChange decode(FriendlyByteBuf buffer)
     {
-        this.range = buffer.readVarIntArray();
+        return new MessageLightChange(buffer.readVarIntArray());
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageLightChange messageLightChange, Supplier<NetworkEvent.Context> supplier)
     {
         supplier.get().enqueueWork(() ->
         {
-            ServerPlayerEntity player = supplier.get().getSender();
+            ServerPlayer player = supplier.get().getSender();
             if(player != null)
             {
                 ServerPlayHandler.handleFlashLight(player, this.range);

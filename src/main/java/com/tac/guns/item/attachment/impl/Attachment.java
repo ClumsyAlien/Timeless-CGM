@@ -3,10 +3,10 @@ package com.tac.guns.item.attachment.impl;
 import com.tac.guns.Reference;
 import com.tac.guns.interfaces.IGunModifier;
 import com.tac.guns.item.attachment.IAttachment;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -25,7 +25,7 @@ import java.util.List;
 public abstract class Attachment
 {
     private final IGunModifier[] modifiers;
-    private List<ITextComponent> perks = null;
+    private List<Component> perks = null;
 
     Attachment(IGunModifier... modifiers)
     {
@@ -37,7 +37,7 @@ public abstract class Attachment
         return this.modifiers;
     }
 
-    void setPerks(List<ITextComponent> perks)
+    void setPerks(List<Component> perks)
     {
         if(this.perks == null)
         {
@@ -45,7 +45,7 @@ public abstract class Attachment
         }
     }
 
-    List<ITextComponent> getPerks()
+    List<Component> getPerks()
     {
         return this.perks;
     }
@@ -59,17 +59,17 @@ public abstract class Attachment
         if(stack.getItem() instanceof IAttachment<?>)
         {
             IAttachment<?> attachment = (IAttachment<?>) stack.getItem();
-            List<ITextComponent> perks = attachment.getProperties().getPerks();
+            List<Component> perks = attachment.getProperties().getPerks();
 
             if (perks != null && perks.size() > 0) {
-                event.getToolTip().add(new TranslationTextComponent("perk.tac.title").mergeStyle(TextFormatting.GOLD, TextFormatting.BOLD));
+                event.getToolTip().add(new TranslatableComponent("perk.tac.title").withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD));
                 event.getToolTip().addAll(perks);
                 return;
             }
 
             IGunModifier[] modifiers = attachment.getProperties().getModifiers();
-            List<ITextComponent> positivePerks = new ArrayList<>();
-            List<ITextComponent> negativePerks = new ArrayList<>();
+            List<Component> positivePerks = new ArrayList<>();
+            List<Component> negativePerks = new ArrayList<>();
 
             /* Test for fire sound volume *//*
             float inputSound = 1.0F;
@@ -87,7 +87,7 @@ public abstract class Attachment
             /* Test for silenced */
             for (IGunModifier modifier : modifiers) {
                 if (modifier.silencedFire()) {
-                    addPerk(positivePerks, "perk.tac.silenced.positive", new TranslationTextComponent("+Silenced").mergeStyle(TextFormatting.GREEN));
+                    addPerk(positivePerks, "perk.tac.silenced.positive", new TranslatableComponent("+Silenced").withStyle(ChatFormatting.GREEN));
                     break;
                 }
             }
@@ -99,9 +99,9 @@ public abstract class Attachment
                 outputRadius = modifier.modifyFireSoundRadius(outputRadius);
             }
             if (outputRadius > inputRadius) {
-                addPerk(negativePerks, "perk.tac.sound_radius.negative", new TranslationTextComponent("+" + Math.round(outputRadius) + " Sound Radius").mergeStyle(TextFormatting.RED));
+                addPerk(negativePerks, "perk.tac.sound_radius.negative", new TranslatableComponent("+" + Math.round(outputRadius) + " Sound Radius").withStyle(ChatFormatting.RED));
             } else if (outputRadius < inputRadius) {
-                addPerk(positivePerks, "perk.tac.sound_radius.positive", new TranslationTextComponent("-" + Math.round(outputRadius) + " Sound Radius").mergeStyle(TextFormatting.GREEN));
+                addPerk(positivePerks, "perk.tac.sound_radius.positive", new TranslatableComponent("-" + Math.round(outputRadius) + " Sound Radius").withStyle(ChatFormatting.GREEN));
             }
 
             /* Test for additional damage */
@@ -110,9 +110,9 @@ public abstract class Attachment
                 additionalDamage += modifier.additionalDamage();
             }
             if (additionalDamage > 0.0F) {
-                addPerk(positivePerks, "perk.tac.additional_damage.positive", ItemStack.DECIMALFORMAT.format(additionalDamage / 2.0));
+                addPerk(positivePerks, "perk.tac.additional_damage.positive", ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(additionalDamage / 2.0));
             } else if (additionalDamage < 0.0F) {
-                addPerk(negativePerks, "perk.tac.additional_damage.negative", ItemStack.DECIMALFORMAT.format(additionalDamage / 2.0));
+                addPerk(negativePerks, "perk.tac.additional_damage.negative", ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(additionalDamage / 2.0));
             }
 
             /* Test for additional headshot damage */
@@ -121,9 +121,9 @@ public abstract class Attachment
                 additionalHeadshotDamage += modifier.additionalHeadshotDamage();
             }
             if (additionalHeadshotDamage > 0.0F) {
-                addPerk(positivePerks, "perk.tac.additional_damage.positive", ItemStack.DECIMALFORMAT.format(additionalHeadshotDamage / 2.0));
+                addPerk(positivePerks, "perk.tac.additional_damage.positive", ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(additionalHeadshotDamage / 2.0));
             } else if (additionalHeadshotDamage < 0.0F) {
-                addPerk(negativePerks, "perk.tac.additional_damage.negative", ItemStack.DECIMALFORMAT.format(additionalHeadshotDamage / 2.0));
+                addPerk(negativePerks, "perk.tac.additional_damage.negative", ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(additionalHeadshotDamage / 2.0));
             }
 
             /* Test for modified damage */
@@ -133,9 +133,9 @@ public abstract class Attachment
                 outputDamage = modifier.modifyProjectileDamage(outputDamage);
             }
             if (outputDamage > inputDamage) {
-                addPerk(positivePerks, "perk.tac.modified_damage.positive", new TranslationTextComponent("+" + String.valueOf(outputDamage) + " Damage").mergeStyle(TextFormatting.GREEN));
+                addPerk(positivePerks, "perk.tac.modified_damage.positive", new TranslatableComponent("+" + String.valueOf(outputDamage) + " Damage").withStyle(ChatFormatting.GREEN));
             } else if (outputDamage < inputDamage) {
-                addPerk(positivePerks, "perk.tac.modified_damage.negative", new TranslationTextComponent("-" + String.valueOf(outputDamage) + " Damage").mergeStyle(TextFormatting.RED));
+                addPerk(positivePerks, "perk.tac.modified_damage.negative", new TranslatableComponent("-" + String.valueOf(outputDamage) + " Damage").withStyle(ChatFormatting.RED));
             }
 
             /* Test for modified damage */
@@ -145,9 +145,9 @@ public abstract class Attachment
                 outputSpeed = modifier.modifyProjectileSpeed(outputSpeed);
             }
             if (outputSpeed > inputSpeed) {
-                addPerk(positivePerks, "perk.tac.projectile_speed.positive", new TranslationTextComponent("+" + Math.round((10.0F - outputSpeed) * 10) + "% Bullet Speed").mergeStyle(TextFormatting.GREEN));
+                addPerk(positivePerks, "perk.tac.projectile_speed.positive", new TranslatableComponent("+" + Math.round((10.0F - outputSpeed) * 10) + "% Bullet Speed").withStyle(ChatFormatting.GREEN));
             } else if (outputSpeed < inputSpeed) {
-                addPerk(negativePerks, "perk.tac.projectile_speed.negative", new TranslationTextComponent("-" + Math.round((10.0F - outputSpeed) * 10) + "% Bullet Speed").mergeStyle(TextFormatting.RED));
+                addPerk(negativePerks, "perk.tac.projectile_speed.negative", new TranslatableComponent("-" + Math.round((10.0F - outputSpeed) * 10) + "% Bullet Speed").withStyle(ChatFormatting.RED));
             }
 
             /* Test for modified projectile spread */
@@ -157,9 +157,9 @@ public abstract class Attachment
                 outputSpread = modifier.modifyProjectileSpread(outputSpread);
             }
             if (outputSpread > inputSpread) {
-                addPerk(negativePerks, "perk.tac.projectile_spread.negative", new TranslationTextComponent("" + String.valueOf(Math.round((10.0F - outputSpread) * 10f)) + "% Accuracy").mergeStyle(TextFormatting.RED));
+                addPerk(negativePerks, "perk.tac.projectile_spread.negative", new TranslatableComponent("" + String.valueOf(Math.round((10.0F - outputSpread) * 10f)) + "% Accuracy").withStyle(ChatFormatting.RED));
             } else if (outputSpread < inputSpread) {
-                addPerk(positivePerks, "perk.tac.projectile_spread.positive", new TranslationTextComponent("+" + String.valueOf(Math.round((10.0F - outputSpread) * 10f)) + "% Accuracy").mergeStyle(TextFormatting.GREEN));
+                addPerk(positivePerks, "perk.tac.projectile_spread.positive", new TranslatableComponent("+" + String.valueOf(Math.round((10.0F - outputSpread) * 10f)) + "% Accuracy").withStyle(ChatFormatting.GREEN));
             }
 
             /* Test for modified projectile life */
@@ -169,9 +169,9 @@ public abstract class Attachment
                 outputLife = modifier.modifyProjectileLife(outputLife);
             }
             if (outputLife > inputLife) {
-                addPerk(positivePerks, "perk.tac.projectile_life.positive", new TranslationTextComponent("+" + String.valueOf(outputLife) + " Bullet Life").mergeStyle(TextFormatting.GREEN));
+                addPerk(positivePerks, "perk.tac.projectile_life.positive", new TranslatableComponent("+" + String.valueOf(outputLife) + " Bullet Life").withStyle(ChatFormatting.GREEN));
             } else if (outputLife < inputLife) {
-                addPerk(negativePerks, "perk.tac.projectile_life.negative", new TranslationTextComponent("-" + String.valueOf(outputLife) + " Bullet Life").mergeStyle(TextFormatting.RED));
+                addPerk(negativePerks, "perk.tac.projectile_life.negative", new TranslatableComponent("-" + String.valueOf(outputLife) + " Bullet Life").withStyle(ChatFormatting.RED));
             }
 
             /* Test for modified recoil */
@@ -181,9 +181,9 @@ public abstract class Attachment
                 outputRecoil *= modifier.recoilModifier();
             }
             if (outputRecoil > inputRecoil) {
-                addPerk(negativePerks, "perk.tac.recoil.negative", new TranslationTextComponent("+" + String.valueOf(Math.round((10.0F - outputRecoil) * -10f)) + "% Vertical Recoil").mergeStyle(TextFormatting.RED));
+                addPerk(negativePerks, "perk.tac.recoil.negative", new TranslatableComponent("+" + String.valueOf(Math.round((10.0F - outputRecoil) * -10f)) + "% Vertical Recoil").withStyle(ChatFormatting.RED));
             } else if (outputRecoil < inputRecoil) {
-                addPerk(positivePerks, "perk.tac.recoil.positive", new TranslationTextComponent("-" + String.valueOf(Math.round((10.0F - outputRecoil) * 10f)) + "% Vertical Recoil").mergeStyle(TextFormatting.GREEN));
+                addPerk(positivePerks, "perk.tac.recoil.positive", new TranslatableComponent("-" + String.valueOf(Math.round((10.0F - outputRecoil) * 10f)) + "% Vertical Recoil").withStyle(ChatFormatting.GREEN));
             }
 
             float inputHRecoil = 10.0F;
@@ -192,9 +192,9 @@ public abstract class Attachment
                 outputHRecoil *= modifier.horizontalRecoilModifier();
             }
             if (outputHRecoil > inputHRecoil) {
-                addPerk(negativePerks, "perk.tac.recoil.negative", new TranslationTextComponent("+" + String.valueOf(Math.round((10.0F - outputHRecoil) * -10f)) + "% Horizontal Recoil").mergeStyle(TextFormatting.RED));
+                addPerk(negativePerks, "perk.tac.recoil.negative", new TranslatableComponent("+" + String.valueOf(Math.round((10.0F - outputHRecoil) * -10f)) + "% Horizontal Recoil").withStyle(ChatFormatting.RED));
             } else if (outputHRecoil < inputHRecoil) {
-                addPerk(positivePerks, "perk.tac.recoil.positive", new TranslationTextComponent("-" + String.valueOf(Math.round((10.0F - outputHRecoil) * 10f)) + "% Horizontal Recoil").mergeStyle(TextFormatting.GREEN));
+                addPerk(positivePerks, "perk.tac.recoil.positive", new TranslatableComponent("-" + String.valueOf(Math.round((10.0F - outputHRecoil) * 10f)) + "% Horizontal Recoil").withStyle(ChatFormatting.GREEN));
             }
 
             /* Test for aim down sight speed */
@@ -204,9 +204,9 @@ public abstract class Attachment
                 outputAdsSpeed = modifier.modifyAimDownSightSpeed(outputAdsSpeed);
             }
             if (outputAdsSpeed > inputAdsSpeed) {
-                addPerk(positivePerks, "perk.tac.ads_speed.positive", new TranslationTextComponent("+" + -Math.round((10.0 - outputAdsSpeed) * 10) + "% ADS Speed").mergeStyle(TextFormatting.GREEN));
+                addPerk(positivePerks, "perk.tac.ads_speed.positive", new TranslatableComponent("+" + -Math.round((10.0 - outputAdsSpeed) * 10) + "% ADS Speed").withStyle(ChatFormatting.GREEN));
             } else if (outputAdsSpeed < inputAdsSpeed) {
-                addPerk(negativePerks, "perk.tac.ads_speed.negative", new TranslationTextComponent("-" + Math.round((10.0 - outputAdsSpeed) * 10) + "% ADS Speed").mergeStyle(TextFormatting.RED));
+                addPerk(negativePerks, "perk.tac.ads_speed.negative", new TranslatableComponent("-" + Math.round((10.0 - outputAdsSpeed) * 10) + "% ADS Speed").withStyle(ChatFormatting.RED));
             }
 
             /* Test for fire rate */
@@ -224,16 +224,16 @@ public abstract class Attachment
             positivePerks.addAll(negativePerks);
             attachment.getProperties().setPerks(positivePerks);
             if (positivePerks.size() > 0) {
-                event.getToolTip().add(new TranslationTextComponent("perk.tac.title").mergeStyle(TextFormatting.GRAY, TextFormatting.BOLD));
+                event.getToolTip().add(new TranslatableComponent("perk.tac.title").withStyle(ChatFormatting.GRAY, ChatFormatting.BOLD));
                 event.getToolTip().addAll(positivePerks);
             }
 
         }
     }
 
-    private static void addPerk(List<ITextComponent> components, String id, Object... params)
+    private static void addPerk(List<Component> components, String id, Object... params)
     {
         //TextFormatting format,   components.add(new TranslationTextComponent("perk.tac.entry.negative", new TranslationTextComponent(id, params).mergeStyle(format)));
-        components.add(new TranslationTextComponent("perk.tac.entry.negative", new TranslationTextComponent(id, params).mergeStyle(TextFormatting.AQUA)));
+        components.add(new TranslatableComponent("perk.tac.entry.negative", new TranslatableComponent(id, params).withStyle(ChatFormatting.AQUA)));
     }
 }

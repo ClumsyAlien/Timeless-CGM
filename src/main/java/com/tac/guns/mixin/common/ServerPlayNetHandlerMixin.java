@@ -1,25 +1,23 @@
 package com.tac.guns.mixin.common;
 
-import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
-import com.tac.guns.init.ModSyncedDataKeys;
 import com.tac.guns.network.CommonStateBox;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.play.ServerPlayNetHandler;
-import net.minecraft.network.play.client.CPlayerDiggingPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ServerPlayNetHandler.class)
+@Mixin(ServerGamePacketListenerImpl.class)
 public class ServerPlayNetHandlerMixin {
     @Shadow
-    public ServerPlayerEntity player;
+    public ServerPlayer player;
 
-    @Inject(at = @At("HEAD"), method = "processPlayerDigging")
-    public void applyDraw(CPlayerDiggingPacket packetIn, CallbackInfo ci){
-        CPlayerDiggingPacket.Action action = packetIn.getAction();
+    @Inject(at = @At("HEAD"), method = "handlePlayerAction")
+    public void applyDraw(ServerboundPlayerActionPacket packetIn, CallbackInfo ci){
+        ServerboundPlayerActionPacket.Action action = packetIn.getAction();
         if(action.name().equals("SWAP_ITEM_WITH_OFFHAND") && !player.isSpectator()){
             CommonStateBox.isSwapped = true;
         }

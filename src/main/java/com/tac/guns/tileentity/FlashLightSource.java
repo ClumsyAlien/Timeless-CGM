@@ -1,26 +1,29 @@
 package com.tac.guns.tileentity;
 
-import com.tac.guns.init.ModBlocks;
 import com.tac.guns.init.ModTileEntities;
-import net.minecraft.block.Blocks;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class FlashLightSource extends TileEntity implements ITickableTileEntity
+public class FlashLightSource extends BlockEntity
 {
-    public FlashLightSource()
-    {
-        super(ModTileEntities.LIGHT_SOURCE.get());
+
+    public FlashLightSource(BlockPos pPos, BlockState pBlockState) {
+        super(ModTileEntities.LIGHT_SOURCE.get(), pPos, pBlockState);
     }
 
     public static int ticks;
-    @Override
-    public void tick() {
-        this.ticks++;
-        if (this.ticks > 4) {
-            this.world.setBlockState(this.getPos(), Blocks.AIR.getDefaultState(), 3);
-            this.world.removeTileEntity(this.getPos());
+    public static <T extends BlockEntity> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
+        ticks++;
+        if (ticks > 4) {
+            blockEntity.getLevel().setBlock(blockEntity.getBlockPos(), Blocks.AIR.defaultBlockState(), 3);
+            blockEntity.getLevel().removeBlockEntity(blockEntity.getBlockPos());
         }
     }
+
+
 }

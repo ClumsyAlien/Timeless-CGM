@@ -2,7 +2,7 @@
   "required": true,
   "package": "com.tac.guns.mixin",
   "minVersion": "0.8",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_17",
   "refmap": "tac.refmap.json",
   "mixins": [
     "common.LivingEntityMixin",
@@ -11,9 +11,15 @@
     "common.SittingPhaseMixin"
   ],
   "client": [
-    "client.FirstPersonRendererMixin",
     "client.GameRendererMixin",
+    "client.ItemEntityRendererMixin",
+    "client.ItemFrameRendererMixin",
+    "client.ItemInHandLayerMixin",
+    "client.ItemInHandRendererMixin",
+    "client.ItemRendererMixin",
+    "client.LivingRendererMixin",
     "client.MouseHelperMixin",
+    "client.PlayerModelMixin",
     "client.WorldRendererMixin"
   ],
   "injectors": {

@@ -6,31 +6,14 @@ package com.tac.guns.extra_events;
  */
 
 
-import com.tac.guns.Config;
 import com.tac.guns.Reference;
-import com.tac.guns.common.Gun;
-import com.tac.guns.event.GunFireEvent;
 import com.tac.guns.event.LevelUpEvent;
-import com.tac.guns.init.ModSounds;
-import com.tac.guns.item.GunItem;
-import com.tac.guns.item.TransitionalTypes.MBPGunItem;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.Sound;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.KeybindTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.commons.lang3.ArrayUtils;
-
-import java.util.Locale;
 
 
 /**
@@ -51,8 +34,8 @@ public class LevelingEvent {
     @SubscribeEvent
     public void onPartialLevel(LevelUpEvent.Post event)
     {
-        PlayerEntity player = event.getPlayer();
-        event.getPlayer().getEntityWorld().playSound(player, player.getPosition(), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.experience_orb.pickup")), SoundCategory.PLAYERS,4.0F, 1.0F);
+        Player player = event.getPlayer();
+        event.getPlayer().getCommandSenderWorld().playSound(player, player.blockPosition(), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.experience_orb.pickup")), SoundSource.PLAYERS,4.0F, 1.0F);
     }
 
 }

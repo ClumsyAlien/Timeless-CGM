@@ -1,15 +1,16 @@
 package com.tac.guns.network.message;
 
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.client.network.ClientPlayHandler;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class MessageProjectileHitEntity implements IMessage
+public class MessageProjectileHitEntity extends PlayMessage<MessageProjectileHitEntity>
 {
     private double x;
     private double y;
@@ -29,29 +30,31 @@ public class MessageProjectileHitEntity implements IMessage
     }
 
     @Override
-    public void encode(PacketBuffer buffer)
+    public void encode(MessageProjectileHitEntity messageProjectileHitEntity, FriendlyByteBuf buffer)
     {
-        buffer.writeDouble(this.x);
-        buffer.writeDouble(this.y);
-        buffer.writeDouble(this.z);
-        buffer.writeByte(this.type);
-        buffer.writeBoolean(this.player);
+        buffer.writeDouble(messageProjectileHitEntity.x);
+        buffer.writeDouble(messageProjectileHitEntity.y);
+        buffer.writeDouble(messageProjectileHitEntity.z);
+        buffer.writeByte(messageProjectileHitEntity.type);
+        buffer.writeBoolean(messageProjectileHitEntity.player);
     }
 
     @Override
-    public void decode(PacketBuffer buffer)
+    public MessageProjectileHitEntity decode(FriendlyByteBuf buffer)
     {
-        this.x = buffer.readDouble();
-        this.y = buffer.readDouble();
-        this.z = buffer.readDouble();
-        this.type = buffer.readByte();
-        this.player = buffer.readBoolean();
+        return new MessageProjectileHitEntity(
+                buffer.readDouble(),
+                buffer.readDouble(),
+                buffer.readDouble(),
+                buffer.readByte(),
+                buffer.readBoolean()
+        );
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageProjectileHitEntity messageProjectileHitEntity, Supplier<NetworkEvent.Context> supplier)
     {
-        supplier.get().enqueueWork(() -> ClientPlayHandler.handleProjectileHitEntity(this));
+        supplier.get().enqueueWork(() -> ClientPlayHandler.handleProjectileHitEntity(messageProjectileHitEntity));
         supplier.get().setPacketHandled(true);
     }
 

@@ -1,19 +1,19 @@
 package com.tac.guns.network.message;
 
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.client.network.ClientPlayHandler;
 import com.tac.guns.common.network.ServerPlayHandler;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.BlockPos;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 /**
  * Author: Forked from MrCrayfish, continued by Timeless devs
  */
-public class MessageSaveItemUpgradeBench implements IMessage
+public class MessageSaveItemUpgradeBench extends PlayMessage<MessageSaveItemUpgradeBench>
 {
     private BlockPos pos;
 
@@ -25,25 +25,25 @@ public class MessageSaveItemUpgradeBench implements IMessage
     }
 
     @Override
-    public void encode(PacketBuffer buffer) {
-        buffer.writeBlockPos(this.pos);
+    public void encode(MessageSaveItemUpgradeBench messageSaveItemUpgradeBench, FriendlyByteBuf buffer) {
+        buffer.writeBlockPos(messageSaveItemUpgradeBench.pos);
     }
 
     @Override
-    public void decode(PacketBuffer buffer) {
-        this.pos = buffer.readBlockPos();
+    public MessageSaveItemUpgradeBench decode(FriendlyByteBuf buffer) {
+        return new MessageSaveItemUpgradeBench(buffer.readBlockPos());
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageSaveItemUpgradeBench messageSaveItemUpgradeBench, Supplier<NetworkEvent.Context> supplier)
     {
 
         supplier.get().enqueueWork(() ->
         {
-            ServerPlayerEntity player = supplier.get().getSender();
+            ServerPlayer player = supplier.get().getSender();
             if(player != null)
             {
-                supplier.get().enqueueWork(() -> ServerPlayHandler.handleUpgradeBenchItem(this, player));
+                supplier.get().enqueueWork(() -> ServerPlayHandler.handleUpgradeBenchItem(messageSaveItemUpgradeBench, player));
             }
         });
         supplier.get().setPacketHandled(true);

@@ -1,10 +1,11 @@
 package com.tac.guns.network.message;
 
 
+import com.mrcrayfish.framework.api.network.PlayMessage;
 import com.tac.guns.common.network.ServerPlayHandler;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -14,20 +15,22 @@ import java.util.function.Supplier;
  */
 
 
-public class MessageEmptyMag implements IMessage
+public class MessageEmptyMag extends PlayMessage<MessageEmptyMag>
 {
     @Override
-    public void encode(PacketBuffer buffer) {}
+    public void encode(MessageEmptyMag messageEmptyMag, FriendlyByteBuf buffer) {}
 
     @Override
-    public void decode(PacketBuffer buffer) {}
+    public MessageEmptyMag decode(FriendlyByteBuf buffer) {
+        return new MessageEmptyMag();
+    }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> supplier)
+    public void handle(MessageEmptyMag messageEmptyMag, Supplier<NetworkEvent.Context> supplier)
     {
         supplier.get().enqueueWork(() ->
         {
-            ServerPlayerEntity player = supplier.get().getSender();
+            ServerPlayer player = supplier.get().getSender();
             if(player != null && !player.isSpectator())
             {
                 ServerPlayHandler.EmptyMag(player);
