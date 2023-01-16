@@ -55,7 +55,7 @@ public class SoundHandler
     private void initReflection()
     {
         // Relection Error, will make crash log report, currently instanceToChannel is never detected
-        this.playingSounds = ObfuscationReflectionHelper.findField(SoundEngine.class, "instanceToChannel");
+        this.playingSounds = ObfuscationReflectionHelper.findField(SoundEngine.class, "f_120226_");
     }
 
     @SubscribeEvent
