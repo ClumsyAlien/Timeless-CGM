@@ -14,7 +14,7 @@
   "button.categories.tac": "永恒枪械工坊",
   "container.tac.attachments": "配件管理",
   "container.tac.attachments.window_help": "点按以旋转和拖移",
-  "container.tac.workbench": " 握持",
+  "container.tac.workbench": "枪械工作台",
   "curios.identifier.armor_rig": "TAC 防弹衣",
   "death.attack.tac.bullet.annihilated": "%1$s 被 %2$s 打的血肉横飞",
   "death.attack.tac.bullet.decimated": "%1$s 被 %2$s 物理消灭",
