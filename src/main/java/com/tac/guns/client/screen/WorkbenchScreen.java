@@ -533,6 +533,7 @@ public class WorkbenchScreen extends ContainerScreen<WorkbenchContainer>
             this.ingredient = ingredient;
             this.matchingstacks = ingredient.getMatchingStacks();
             this.stack = this.matchingstacks[0];
+            this.stack.setCount(count);
             this.count = count;
         }
 
@@ -543,13 +544,14 @@ public class WorkbenchScreen extends ContainerScreen<WorkbenchContainer>
 
         public void update()
         {
-            if(++this.tickcount%20==0){
+            if(++this.tickcount%30==0){
                 this.tickcount=0;
                 this.index+=1;
                 if(this.index==this.matchingstacks.length){
                     this.index=0;
                 }
                 this.stack = this.matchingstacks[this.index];
+                this.stack.setCount(this.count);
             }
 
             if(this.ingredient!=null)
