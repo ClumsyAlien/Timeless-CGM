@@ -196,7 +196,7 @@ public class RenderUtil
     /*
     * for ISTER rendering on special models. (EG; Geckolib Item Renderer)
      */
-    public static void renderModel(ItemStackTileEntityRenderer renderer, ItemCameraTransforms.TransformType transformType, ItemStack stack, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay)
+    public static void renderISTER(ItemStackTileEntityRenderer renderer, ItemCameraTransforms.TransformType transformType, ItemStack stack, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay)
     {
         if(!stack.isEmpty())
         {
