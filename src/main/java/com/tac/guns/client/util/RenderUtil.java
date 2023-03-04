@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
+import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.*;
@@ -188,6 +189,20 @@ public class RenderUtil
                 stack.getItem().getItemStackTileEntityRenderer().func_239207_a_(stack, transformType, matrixStack, buffer, light, overlay);
             }
 
+            matrixStack.pop();
+        }
+    }
+
+    /*
+    * for ISTER rendering on special models. (EG; Geckolib Item Renderer)
+     */
+    public static void renderModel(ItemStackTileEntityRenderer renderer, ItemCameraTransforms.TransformType transformType, ItemStack stack, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay)
+    {
+        if(!stack.isEmpty())
+        {
+            matrixStack.push();
+            matrixStack.translate(-0.5D, -0.5D, -0.5D);
+            renderer.func_239207_a_(stack, transformType, matrixStack, buffer, light, overlay);
             matrixStack.pop();
         }
     }
