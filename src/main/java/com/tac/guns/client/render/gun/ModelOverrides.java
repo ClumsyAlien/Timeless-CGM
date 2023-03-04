@@ -121,7 +121,8 @@ public class ModelOverrides
         }
     }
 
-    private static class ISTERModelOverride implements IOverrideModel{
+    public static class ISTERModelOverride implements IOverrideModel{
+
         @Override
         public void render(float partialTicks, ItemCameraTransforms.TransformType transformType, ItemStack stack, ItemStack parent, LivingEntity entity, MatrixStack matrixStack, IRenderTypeBuffer buffer, int light, int overlay) {
             RenderUtil.renderISTER(ModelOverrides.getISTERRenderer(stack), transformType, stack, matrixStack, buffer, light, overlay);
