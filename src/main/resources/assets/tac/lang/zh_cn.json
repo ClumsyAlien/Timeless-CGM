@@ -427,6 +427,7 @@
 
     "info.tac.current_level": "好感度等级",
     "info.tac.out_of_ammo": "装填弹药!",
+    "info.tac.mag_error": "卸载弹药!",
 
     "tac.options.screenFormat": "TAC GUI设置",
 

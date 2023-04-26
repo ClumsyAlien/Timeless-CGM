@@ -445,6 +445,7 @@
 
     "info.tac.current_level": "Current level",
     "info.tac.out_of_ammo": "RELOAD!",
+    "info.tac.mag_error": "UNLOAD!",
 
     "tac.options.screenFormat": "TAC GUI SETTINGS",
 

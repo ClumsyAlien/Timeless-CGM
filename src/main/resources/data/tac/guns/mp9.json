@@ -31,7 +31,7 @@
   "projectile": {
     "item": "tac:9mm_round",
     "visible": false,
-    "damage": 6.5,
+    "damage": 5.5,
     "armorIgnore": 0.7,
     "critical": 0.0,
     "criticalDamage": 0.625,

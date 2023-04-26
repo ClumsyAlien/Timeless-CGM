@@ -30,7 +30,7 @@
   "projectile": {
     "item": "tac:10_gauge_round",
     "visible": false,
-    "damage": 44,
+    "damage": 36,
     "armorIgnore": 0.5,
     "critical": 0.0,
     "criticalDamage": 0.75,
