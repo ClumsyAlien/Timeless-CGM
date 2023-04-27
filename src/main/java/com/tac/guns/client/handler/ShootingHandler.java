@@ -250,8 +250,7 @@ public class  ShootingHandler
         	shootTickGapLeft -= shootTickGapLeft > 0F ? 1F : 0F;
         	
             ItemStack heldItem = player.getHeldItemMainhand();
-            if (magError(player, heldItem)) return;
-            if(heldItem.getItem() instanceof GunItem && (Gun.hasAmmo(heldItem) || player.isCreative()))
+            if((heldItem.getItem() instanceof GunItem && (Gun.hasAmmo(heldItem) || player.isCreative())) && !magError(player, heldItem))
             {
                 final float dist = Math.abs( player.moveForward ) / 2.5F
                 	+ Math.abs( player.moveStrafing ) / 1.25F
