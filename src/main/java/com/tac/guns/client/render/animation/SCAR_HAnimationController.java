@@ -26,7 +26,7 @@ public class SCAR_HAnimationController extends GunAnimationController{
     public static final AnimationMeta RELOAD_EMPTY = new AnimationMeta(new ResourceLocation("tac","animations/scar_h_reload_empty.gltf"));
     public static final AnimationMeta DRAW = new AnimationMeta(new ResourceLocation("tac","animations/scar_h_draw.gltf"));
     public static final AnimationMeta INSPECT = new AnimationMeta(new ResourceLocation("tac","animations/scar_h_inspect.gltf"));
-    public static final AnimationMeta INSPECT_EMPTY = new AnimationMeta(new ResourceLocation("tac","animations/scar_h_empty.gltf"));
+    public static final AnimationMeta INSPECT_EMPTY = new AnimationMeta(new ResourceLocation("tac","animations/scar_h_inspect_empty.gltf"));
     public static final AnimationMeta STATIC = new AnimationMeta(new ResourceLocation("tac","animations/scar_h_static.gltf"));
     private static final SCAR_HAnimationController instance = new SCAR_HAnimationController();
 

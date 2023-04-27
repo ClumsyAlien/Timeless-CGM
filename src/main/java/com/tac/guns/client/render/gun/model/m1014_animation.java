@@ -56,6 +56,9 @@ public class m1014_animation implements IOverrideModel {
                         matrices.translate(0, 0, 0.2725f * (-4.5 * Math.pow(0.5 - 0.5, 2) + 1.0));
                     }
                 }
+                if (controller.isAnimationRunning(GunAnimationController.AnimationLabel.INSPECT_EMPTY)) {
+                    matrices.translate(0, 0, -0.2725f * (-4.5 * Math.pow(0.5 - 0.5, 2) + 1.0));
+                }
             }
             RenderUtil.renderModel(SpecialModels.M1014_BOLT.getModel(), stack, matrices, renderBuffer, light, overlay); // BOLT
         }
