@@ -58,7 +58,8 @@ public class PlayerModelMixin<T extends LivingEntity> extends HumanoidModel<T>
 
         PlayerModel model = (PlayerModel) (Object) this;
         this.resetRotationAngles();
-        this.resetVisibilities();
+        // Why do you need to reset visibilities? It will break compatibility with Umapyoi mod. --Syameimaru Zheng
+        // this.resetVisibilities();
         if(MinecraftForge.EVENT_BUS.post(new PlayerModelEvent.SetupAngles.Pre((Player) entityIn, model, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, Minecraft.getInstance().getDeltaFrameTime())))
         {
             this.setupRotationAngles();
@@ -150,13 +151,14 @@ public class PlayerModelMixin<T extends LivingEntity> extends HumanoidModel<T>
         part.z = 0.0F;
     }
 
-    private void resetVisibilities()
-    {
-        this.head.visible = true;
-        this.body.visible = true;
-        this.rightArm.visible = true;
-        this.leftArm.visible = true;
-        this.rightLeg.visible = true;
-        this.leftLeg.visible = true;
-    }
+    // Deprecate this code as it is now useless. -- Syameimaru Zheng
+    // private void resetVisibilities()
+    // {
+    //     this.head.visible = true;
+    //     this.body.visible = true;
+    //     this.rightArm.visible = true;
+    //     this.leftArm.visible = true;
+    //     this.rightLeg.visible = true;
+    //     this.leftLeg.visible = true;
+    // }
 }
