@@ -95,10 +95,9 @@ public class AttachmentSlot extends Slot
         {
             GunItem item = (GunItem) this.weapon.getItem();
             Gun modifiedGun = item.getModifiedGun(this.weapon);
-            if (!modifiedGun.canAttachType(((IAttachment) stack.getItem()).getType()))
-                return false;
-
             if(stack.getItem() instanceof IAttachment) {
+                if (!modifiedGun.canAttachType(((IAttachment) stack.getItem()).getType()))
+                    return false;
                 if (((IAttachment) stack.getItem()).getType() == this.type && modifiedGun.canAttachType(this.type))
                     return true;
                 else if (this.weapon.getItem() instanceof TimelessPistolGunItem && this.type == IAttachment.Type.PISTOL_SCOPE) {
