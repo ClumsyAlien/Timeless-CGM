@@ -1,5 +1,21 @@
 {
     "block.tac.workbench": "작업대",
+    "item.tac.module_item": "모듈 아이템",
+    "item.tac.basic_laser": "기본 표적지시기",
+    "item.tac.ir_laser": "적외선 표적지시기",
+    "item.tac.small_extended_mag": "소형 확장 탄창",
+    "item.tac.medium_extended_mag": "중형 확장 탄창",
+    "item.tac.large_extended_mag": "대형 확장 탄창",
+    "item.tac.uncommon_material": "§a평범하지 않은 재료",
+    "item.tac.rare_material": "§9희귀한 재료",
+    "item.tac.epic_material": "§5대단한 재료",
+    "item.tac.legendary_material": "§6전설적인 재료",
+    "item.tac.indigestion_tablet": "Indigestion Tablet",
+    "item.tac.legendary_certificate": "§6전설적인 인증서",
+    "item.tac.ultimate_certificate": "§c궁극의 인증서",
+    "item.tac.ultimate_material": "§c궁극의 재료",
+    "item.tac.module_unit_item": "§b모듈 유닛",
+    "item.tac.timeless_50": "Timeless .50Gi",
     "item.tac.m1911": "M1911",
     "item.tac.m1894": "M1894",
     "item.tac.m1851": "M1851",
@@ -64,10 +80,11 @@
     "item.tac.rpg7": "RPG 7",
     "item.tac.rpk": "RPK",
     "item.tac.fn_fal": "FN FAL",
-    "item.tac.de_lisle": "De Lisle Carbine",
+    "item.tac.de_lisle": "드 라일 카빈",
     "item.tac.m1_garand": "M1 개런드",
     "item.tac.sig_mcx_spear": "SIG MCX 스피어",
     "item.tac.mp9": "B&T Mp9",
+    "item.tac.udp_9": "UDP 9",
     "item.tac.sks": "SKS",
     "item.tac.sks_tactical": "SKS 택티컬",
     "item.tac.m1014": "베넬리 M1014",
@@ -82,10 +99,14 @@
     "item.tac.m16a4": "M16A4",
     "item.tac.scar_h": "SCAR H",
     "item.tac.scar_l": "SCAR L",
+    "item.tac.scar_mk20": "SCAR MK20",
     "item.tac.mk47": "MK47 MUTANT",
     "item.tac.tti_g34": "TTI G34",
     "item.tac.mk18_mod1": "MK18 MOD1",
+    "item.tac.spr15": "SPR 5.56",
+    "item.tac.uzi": "UZI",
 
+    "item.tac.46x30": "4.6mm AP Bullet",
     "item.tac.round45": ".45 ACP 탄약",
     "item.tac.magnumround": ".357 매그넘 탄약",
     "item.tac.win_30-30": ".30 라이플 탄약",
@@ -152,6 +173,7 @@
     "subtitle.tac.remington_700s": "소음기가 끼워진 레밍턴 M700이 발사됨",
     "subtitle.tac.m870": "M870이 발사됨",
     "subtitle.tac.mp9s": "MP9이 발사됨",
+    "subtitle.tac.udp_9_fire_s": "Pew Pew!",
     "subtitle.tac.p226s": "소음기가 끼워진 P226이 발사됨",
     "subtitle.tac.saiga": "Saiga가 발사됨",
     "subtitle.tac.sig552": "SIG 552이 발사됨",
@@ -185,6 +207,8 @@
     "item.tac.mini_dot": "트리지콘 RMR",
     "item.tac.lpvo_1_6": "볼텍스 LPVO",
     "item.tac.aimpoint_t1": "에임포인트 T1",
+    "item.tac.sro_dot": "트리지콘 SRO",
+    "item.tac.aimpoint_t2": "에임포인트 T2",
     "item.tac.8x_scope": "일반 8x 조준경",
     "item.tac.acog_4x_scope": "ACOG 4x",
     "item.tac.elcan_14x": "ELCAN SpecterDR 1x-4x",
@@ -198,6 +222,8 @@
     "item.tac.weighted_stock": "중형 개머리판",
     "item.tac.light_grip": "경량 손잡이",
     "item.tac.specialised_grip": "특수 손잡이",
+
+
 
     "item.tac.pistol_silencer": "권총 소음기",
 
@@ -224,11 +250,11 @@
     "info.tac.damage": "피해량: %s",
     "info.tac.ignore_ammo": "무한 탄약",
     "info.tac.ammo": "탄약: %s",
-
     "info.tac.ammo_type": "탄종: %s",
 
     "info.tac.oldRifleScope": "해당 조준경 슬롯에는 %s만 사용 가능합니다.",
     "info.tac.pistolScope": "해당 조준경 슬롯에는 %s만 사용 가능합니다.",
+    "info.tac.irLaserEquip": "사이드레일 슬롯이 %s 을(를) 지원합니다.",
     "info.tac.pistolBarrel": "해당 총열 슬롯에는 %s만 사용 가능합니다.",
 
     "info.tac.oldScope_type": "구형 망원스코프",
@@ -243,10 +269,69 @@
     "info.tac.firemode_semi": "<점사>, %s 를 눌러 조정간 변경",
     "info.tac.firemode_auto": "<자동>, %s 를 눌러 조정간 변경",
 
+    "info.tac.armorPen": "%s 만큼의 피해가 마인크래프트 방어력을 무시합니다",
+    "info.tac.headDamageModifier": "%s 추가 헤드샷 피해",
+
     "info.tac.attachment_help": "%s 를 눌러 부착물 변경",
+
+    "info.tac.more_info_gunitem": "[%s] 을(를) 눌러 추가정보 표시",
+
     "info.tac.tac_armor_repair1": "게임상에서 ",
     "info.tac.tac_armor_repair2": "을(를) 누르고 있으면 보호구를 수리합니다.",
     "info.tac.current_armor_amount": "현재 방탄복 내구도: ",
+
+
+    "perk.tac.title": "효과:",
+    "perk.tac.entry.positive": "+ %s",
+    "perk.tac.entry.negative": "- %s",
+    "perk.tac.fire_volume.positive": "%s",
+    "perk.tac.fire_volume.negative": "%s",
+    "perk.tac.silenced.positive": "%s",
+    "perk.tac.sound_radius.positive": "%s",
+    "perk.tac.sound_radius.negative": "%s",
+    "perk.tac.modified_damage.positive": "%s",
+    "perk.tac.modified_damage.negative": "%s",
+    "perk.tac.projectile_speed.positive": "%s",
+    "perk.tac.projectile_speed.negative": "%s",
+    "perk.tac.projectile_spread.positive": "%s",
+    "perk.tac.projectile_spread.negative": "%s",
+    "perk.tac.projectile_life.positive": "%s",
+    "perk.tac.projectile_life.negative": "%s",
+    "perk.tac.recoil.positive": "%s",
+    "perk.tac.recoil.negative": "%s",
+    "perk.tac.ads_speed.positive": "%s",
+    "perk.tac.ads_speed.negative": "%s",
+    "perk.tac.rate.positive": "%s",
+    "perk.tac.rate.negative": "%s",
+
+    "perk.tac.silencedv2": "+ 소음기 장착",
+    "perk.tac.sound_radiusv2": "격발음 범위 범위 %s",
+    "perk.tac.additional_damage.positivev2": "추가 피해 §r(§l+%s ♥§r)",
+    "perk.tac.additional_damage.negativev2": "피해 감소 §r(§l-%s ♥§r)",
+    "perk.tac.additional_damage.positiveh": "+헤드샷 피해 §r(§l+%s ♥§r)",
+    "perk.tac.additional_damage.negativeh": "-헤드샷 피해 §r(§l-%s ♥§r)",
+    "perk.tac.modified_damage.positivev2": "+피해 §r(§l+%s ♥§r)",
+    "perk.tac.modified_damage.negativev2": "-피해 §r(§l-%s ♥§r)",
+    "perk.tac.projectile_speed.positivev2": "+탄속 %s",
+    "perk.tac.projectile_speed.negativev2": "-탄속 %s",
+    "perk.tac.projectile_spread.positivev2": "+정확도 %s",
+    "perk.tac.projectile_spread.negativev2": "-정확도 %s",
+    "perk.tac.projectile_spread_first.positivev2": "+초탄 정확도 %s",
+    "perk.tac.projectile_spread_first.negativev2": "-초탄 정확도 %s",
+    "perk.tac.projectile_spread_hip.positivev2": "+지향사격 정확도 %s",
+    "perk.tac.projectile_spread_hip.negativev2": "-지향사격 정확도 %s",
+    "perk.tac.projectile_life.positivev2": "+사거리 %s",
+    "perk.tac.projectile_life.negativev2": "-사거리 %s",
+    "perk.tac.recoil.positivev2": "+수직 반동 %s",
+    "perk.tac.recoil.negativev2": "-수직 반동 %s",
+    "perk.tac.recoilh.positivev2": "+수평 반동 %s",
+    "perk.tac.recoilh.negativev2": "-수평 반동 %s",
+    "perk.tac.ads_speed.positivev2": "-정조준 속도 %s",
+    "perk.tac.ads_speed.negativev2": "+정조준 속도 %s",
+
+
+    "updateCheck.tac": "TaC 신버전이 나왔습니다! %s \n %s",
+
 
     "key.categories.tac": "타임리스 앤 클래식",
 
@@ -257,6 +342,7 @@
     "key.tac.reload": "재장전",
     "key.tac.unload": "탄창 제거",
     "key.tac.attachments": "부착물 변경",
+    "key.tac.moreInfoHold": "총기 세부정보 표시",
 
     "key.tac.fireSelect": "조정간 변경",
     "key.tac.inspect": "무기 확인",
@@ -288,6 +374,8 @@
     "tac.options.crosshair.format": "십자선: %s",
     "tac.options.weaponsVolume.format": "사격음 음량: %s",
     "tac.options.toggleAim": "정조준 유지",
+
+    "tac.options.showFirstPersonBulletTrails": "1인칭 불렛 트레일 표시",
 
     "tac.crosshair.arrow": "화살표",
     "tac.crosshair.better_default": "기본 개선",
@@ -328,7 +416,6 @@
     "enchantment.tac.trigger_finger": "연사",
     "enchantment.tac.lightweight": "경량화",
     "enchantment.tac.collateral": "관통",
-    "enchantment.tac.over_capacity": "과용량",
     "enchantment.tac.reclaimed": "회수",
     "enchantment.tac.accelerator": "가속",
     "enchantment.tac.puncturing": "저지",
@@ -341,38 +428,12 @@
     "enchantment.tac.trigger_finger.desc": "화기의 발사 속도를 증가시킵니다",
     "enchantment.tac.lightweight.desc": "화기의 무게를 줄여 정조준시 시점 이동 속도를 증가시킵니다",
     "enchantment.tac.collateral.desc": "총알이 여러 엔티티를 관통할 수 있게 됩니다",
-    "enchantment.tac.over_capacity.desc": "화기의 탄창 크기를 증가시킵니다",
     "enchantment.tac.reclaimed.desc": "화기를 발사할 때 일정 확률로 총알을 소모하지 않습니다",
     "enchantment.tac.accelerator.desc": "총알의 속도와 피해를 증가시킵니다",
     "enchantment.tac.puncturing.desc": "확률적으로 총알에 치명타를 부여합니다",
     "enchantment.tac.fire_starter.desc": "총알의 착탄 지점에 불을 붙입니다",
     "enchantment.tac.rifling.desc": "마법 부여 레벨당 정확도가 약간씩 상승합니다",
     "enchantment.tac.buffered.desc": "반동이 약간 줄어듭니다",
-
-    "perk.tac.title": "효과:",
-    "perk.tac.entry.positive": "+ %s",
-    "perk.tac.entry.negative": "- %s",
-    "perk.tac.fire_volume.positive": "%s",
-    "perk.tac.fire_volume.negative": "%s",
-    "perk.tac.silenced.positive": "%s",
-    "perk.tac.sound_radius.positive": "%s",
-    "perk.tac.sound_radius.negative": "%s",
-    "perk.tac.additional_damage.positive": "추가 데미지 §r(§l+%s ♥§r)",
-    "perk.tac.additional_damage.negative": "데미지 감소 §r(§l-%s ♥§r)",
-    "perk.tac.modified_damage.positive": "%s",
-    "perk.tac.modified_damage.negative": "%s",
-    "perk.tac.projectile_speed.positive": "%s",
-    "perk.tac.projectile_speed.negative": "%s",
-    "perk.tac.projectile_spread.positive": "%s",
-    "perk.tac.projectile_spread.negative": "%s",
-    "perk.tac.projectile_life.positive": "%s",
-    "perk.tac.projectile_life.negative": "%s",
-    "perk.tac.recoil.positive": "%s",
-    "perk.tac.recoil.negative": "%s",
-    "perk.tac.ads_speed.positive": "%s",
-    "perk.tac.ads_speed.negative": "%s",
-    "perk.tac.rate.positive": "%s",
-    "perk.tac.rate.negative": "%s",
 
     "perk.tac.vol": "% 발",
 
@@ -398,6 +459,7 @@
 
     "info.tac.current_level": "현재 레벨",
     "info.tac.out_of_ammo": "탄약이 떨어졌습니다!",
+    "info.tac.mag_error": "격발 불량 발생!",
 
     "tac.options.screenFormat": "TAC GUI 설정",
 
@@ -413,5 +475,9 @@
     "tac.button.steadyAim": "조준 안정화",
 
     "curios.identifier.armor_rig": "타임리스 앤 클래식 보호구",
-    "key.tac.aim_sights": "토글식 정조준"
+    "enchantment.tac.over_capacity": "과용량",
+    "enchantment.tac.over_capacity.desc": "화기의 탄창 크기를 증가시킵니다",
+    "key.tac.aim_sights": "토글식 정조준",
+    "perk.tac.additional_damage.negative": "데미지 감소 §r(§l-%s ♥§r)",
+    "perk.tac.additional_damage.positive": "추가 데미지 §r(§l+%s ♥§r)"
 }
